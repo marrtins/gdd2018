@@ -15,3 +15,21 @@ D:\backup\UTN\Gestion de datos\TP Hotel Frba 1.0 - 1C 2018\Aplicacion Desktop\Fr
 D:\backup\UTN\Gestion de datos\TP Hotel Frba 1.0 - 1C 2018\Aplicacion Desktop\FrbaHotel\obj\Debug\FrbaHotel.csproj.CoreCompileInputs.cache
 D:\backup\UTN\Gestion de datos\TP Hotel Frba 1.0 - 1C 2018\Aplicacion Desktop\FrbaHotel\obj\Debug\FrbaHotel.exe
 D:\backup\UTN\Gestion de datos\TP Hotel Frba 1.0 - 1C 2018\Aplicacion Desktop\FrbaHotel\obj\Debug\FrbaHotel.pdb
+C:\dev\gdd2018\FrbaHotel\obj\Debug\Interop.ActiveBarLibrary.dll
+C:\dev\gdd2018\FrbaHotel\obj\Debug\AxInterop.ActiveBarLibrary.dll
+C:\dev\gdd2018\FrbaHotel\obj\Debug\FrbaHotel.csproj.ResolveComReference.cache
+C:\dev\gdd2018\FrbaHotel\obj\Debug\FrbaHotel.AbmCliente.altaCliente.resources
+C:\dev\gdd2018\FrbaHotel\obj\Debug\FrbaHotel.AbmCliente.Cliente.resources
+C:\dev\gdd2018\FrbaHotel\obj\Debug\FrbaHotel.Form1.resources
+C:\dev\gdd2018\FrbaHotel\obj\Debug\FrbaHotel.Properties.Resources.resources
+C:\dev\gdd2018\FrbaHotel\obj\Debug\FrbaHotel.RegistrarEstadia.Form1.resources
+C:\dev\gdd2018\FrbaHotel\obj\Debug\FrbaHotel.csproj.GenerateResource.cache
+C:\dev\gdd2018\FrbaHotel\obj\Debug\FrbaHotel.csproj.CoreCompileInputs.cache
+C:\dev\gdd2018\FrbaHotel\bin\Debug\FrbaHotel.exe.config
+C:\dev\gdd2018\FrbaHotel\bin\Debug\FrbaHotel.exe
+C:\dev\gdd2018\FrbaHotel\bin\Debug\FrbaHotel.pdb
+C:\dev\gdd2018\FrbaHotel\bin\Debug\Interop.ActiveBarLibrary.dll
+C:\dev\gdd2018\FrbaHotel\bin\Debug\AxInterop.ActiveBarLibrary.dll
+C:\dev\gdd2018\FrbaHotel\obj\Debug\FrbaHotel.exe
+C:\dev\gdd2018\FrbaHotel\obj\Debug\FrbaHotel.pdb
+C:\dev\gdd2018\FrbaHotel\obj\Debug\FrbaHotel.csprojResolveAssemblyReference.cache
