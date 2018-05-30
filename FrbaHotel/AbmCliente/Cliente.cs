@@ -20,9 +20,30 @@ namespace FrbaHotel.AbmCliente
 
         private void Cliente_Load(object sender, EventArgs e)
         {
-            AltaCliente ac = new AltaCliente();
-            ac.ShowDialog();
+            
         }
 
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            SeleccionCliente sc = new SeleccionCliente();
+            sc.ShowDialog();
+            ModificarCliente mc = new ModificarCliente();
+            mc.ShowDialog();
+            
+        }
+
+        private void btnBorrar_Click(object sender, EventArgs e)
+        {
+            BorrarCliente bc = new BorrarCliente();
+            bc.ShowDialog();
+            
+        }
+
+        private void btnCrearCliente_Click(object sender, EventArgs e)
+        {
+            AltaCliente ac = new AltaCliente();
+            ac.ShowDialog();
+            
+        }
     }
 }

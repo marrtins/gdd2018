@@ -46,8 +46,12 @@
             this.txtCalle = new System.Windows.Forms.TextBox();
             this.txtLocalidad = new System.Windows.Forms.TextBox();
             this.txtPais = new System.Windows.Forms.TextBox();
-            this.dtFNac = new System.Windows.Forms.MonthCalendar();
             this.lblFNac = new System.Windows.Forms.Label();
+            this.btnCliente = new System.Windows.Forms.Button();
+            this.lblNacionalidad = new System.Windows.Forms.Label();
+            this.txtNacionalidad = new System.Windows.Forms.TextBox();
+            this.dtFNac = new System.Windows.Forms.DateTimePicker();
+            this.btnLimpiar = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblNombre
@@ -98,6 +102,7 @@
             this.cboTipo.Name = "cboTipo";
             this.cboTipo.Size = new System.Drawing.Size(92, 21);
             this.cboTipo.TabIndex = 5;
+            this.cboTipo.Text = "Seleccionar";
             // 
             // lblNroId
             // 
@@ -195,28 +200,69 @@
             this.txtPais.Size = new System.Drawing.Size(149, 20);
             this.txtPais.TabIndex = 17;
             // 
-            // dtFNac
-            // 
-            this.dtFNac.Location = new System.Drawing.Point(352, 103);
-            this.dtFNac.Name = "dtFNac";
-            this.dtFNac.TabIndex = 18;
-            // 
             // lblFNac
             // 
             this.lblFNac.AutoSize = true;
-            this.lblFNac.Location = new System.Drawing.Point(349, 83);
+            this.lblFNac.Location = new System.Drawing.Point(306, 81);
             this.lblFNac.Name = "lblFNac";
             this.lblFNac.Size = new System.Drawing.Size(108, 13);
             this.lblFNac.TabIndex = 19;
             this.lblFNac.Text = "Fecha de Nacimiento";
             // 
-            // altaCliente
+            // btnCliente
+            // 
+            this.btnCliente.Location = new System.Drawing.Point(401, 356);
+            this.btnCliente.Name = "btnCliente";
+            this.btnCliente.Size = new System.Drawing.Size(120, 53);
+            this.btnCliente.TabIndex = 20;
+            this.btnCliente.Text = "Crear Cliente";
+            this.btnCliente.UseVisualStyleBackColor = true;
+            this.btnCliente.Click += new System.EventHandler(this.btnCliente_Click);
+            // 
+            // lblNacionalidad
+            // 
+            this.lblNacionalidad.AutoSize = true;
+            this.lblNacionalidad.Location = new System.Drawing.Point(60, 349);
+            this.lblNacionalidad.Name = "lblNacionalidad";
+            this.lblNacionalidad.Size = new System.Drawing.Size(69, 13);
+            this.lblNacionalidad.TabIndex = 21;
+            this.lblNacionalidad.Text = "Nacionalidad";
+            // 
+            // txtNacionalidad
+            // 
+            this.txtNacionalidad.Location = new System.Drawing.Point(138, 347);
+            this.txtNacionalidad.Name = "txtNacionalidad";
+            this.txtNacionalidad.Size = new System.Drawing.Size(127, 20);
+            this.txtNacionalidad.TabIndex = 22;
+            // 
+            // dtFNac
+            // 
+            this.dtFNac.Location = new System.Drawing.Point(309, 97);
+            this.dtFNac.Name = "dtFNac";
+            this.dtFNac.Size = new System.Drawing.Size(200, 20);
+            this.dtFNac.TabIndex = 23;
+            // 
+            // btnLimpiar
+            // 
+            this.btnLimpiar.Location = new System.Drawing.Point(116, 384);
+            this.btnLimpiar.Name = "btnLimpiar";
+            this.btnLimpiar.Size = new System.Drawing.Size(149, 25);
+            this.btnLimpiar.TabIndex = 24;
+            this.btnLimpiar.Text = "Limpiar";
+            this.btnLimpiar.UseVisualStyleBackColor = true;
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
+            // 
+            // AltaCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(575, 438);
-            this.Controls.Add(this.lblFNac);
+            this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.dtFNac);
+            this.Controls.Add(this.txtNacionalidad);
+            this.Controls.Add(this.lblNacionalidad);
+            this.Controls.Add(this.btnCliente);
+            this.Controls.Add(this.lblFNac);
             this.Controls.Add(this.txtPais);
             this.Controls.Add(this.txtLocalidad);
             this.Controls.Add(this.txtCalle);
@@ -235,9 +281,8 @@
             this.Controls.Add(this.lblApellido);
             this.Controls.Add(this.txtNombre);
             this.Controls.Add(this.lblNombre);
-            this.Name = "altaCliente";
+            this.Name = "AltaCliente";
             this.Text = "Alta de Cliente";
-            this.Load += new System.EventHandler(this.Form2_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -263,7 +308,11 @@
         private System.Windows.Forms.TextBox txtCalle;
         private System.Windows.Forms.TextBox txtLocalidad;
         private System.Windows.Forms.TextBox txtPais;
-        private System.Windows.Forms.MonthCalendar dtFNac;
         private System.Windows.Forms.Label lblFNac;
+        private System.Windows.Forms.Button btnCliente;
+        private System.Windows.Forms.Label lblNacionalidad;
+        private System.Windows.Forms.TextBox txtNacionalidad;
+        private System.Windows.Forms.DateTimePicker dtFNac;
+        private System.Windows.Forms.Button btnLimpiar;
     }
 }

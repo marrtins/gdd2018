@@ -1,5 +1,4 @@
-﻿using FrbaHotel.AbmCliente;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,20 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FrbaHotel
+namespace FrbaHotel.AbmCliente
 {
-    public partial class Form1 : Form
+    public partial class BorrarCliente : Form
     {
-        public Form1()
+        public BorrarCliente()
         {
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnBuscar_Click(object sender, EventArgs e)
         {
-            Cliente cli = new Cliente();
-            cli.ShowDialog();
-            this.Hide();
+
         }
     }
 }

@@ -44,6 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbmCliente\BorrarCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmCliente\BorrarCliente.Designer.cs">
+      <DependentUpon>BorrarCliente.cs</DependentUpon>
+    </Compile>
     <Compile Include="AbmCliente\Cliente.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -55,6 +61,18 @@
     </Compile>
     <Compile Include="AbmCliente\AltaCliente.Designer.cs">
       <DependentUpon>AltaCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmCliente\ModificarCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmCliente\ModificarCliente.Designer.cs">
+      <DependentUpon>ModificarCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmCliente\SeleccionCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmCliente\SeleccionCliente.Designer.cs">
+      <DependentUpon>SeleccionCliente.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmHabitacion\Form1.cs">
       <SubType>Form</SubType>
@@ -121,8 +139,17 @@
     <EmbeddedResource Include="AbmCliente\AltaCliente.resx">
       <DependentUpon>AltaCliente.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AbmCliente\BorrarCliente.resx">
+      <DependentUpon>BorrarCliente.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AbmCliente\Cliente.resx">
       <DependentUpon>Cliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmCliente\ModificarCliente.resx">
+      <DependentUpon>ModificarCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmCliente\SeleccionCliente.resx">
+      <DependentUpon>SeleccionCliente.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
