@@ -1,0 +1,34 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [MMEL].[DireccionPais]
+AS SELECT d.idDireccion,d.Depto,d.Ciudad,d.calle,d.nroCalle,d.Piso, p.idPais, p.Nombre as NombrePais
+FROM MMEL.Direccion d 
+JOIN MMEL.Pais p on p.idPais = d.idPais;
+GO
+
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [MMEL].[listarHoteles]  
+    @Nombre nvarchar(50),   
+    @CantidadEstrellas int,
+    @Ciudad nvarchar(150),
+    @Pais nvarchar(50)   
+AS   
+
+    SET NOCOUNT ON;  
+
+    SELECT * 
+    FROM MMEL.Hotel ho
+    JOIN MMEL.DireccionPais dir on ho.idDireccion = dir.idDireccion
+    WHERE (@Nombre is not null and Nombre = @Nombre)
+            and (@CantidadEstrellas is not null and ho.CantidadEstrellas = @CantidadEstrellas)
+            and (@Ciudad is not null and dir.Ciudad = @Ciudad)
+            and (@Pais is not null and dir.NombrePais = @Pais)
+
+
+GO
