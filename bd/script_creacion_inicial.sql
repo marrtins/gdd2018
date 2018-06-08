@@ -29,6 +29,8 @@ IF OBJECT_ID('MMEL.CancelacionReserva', 'U') IS NOT NULL
 
 IF OBJECT_ID('MMEL.Item', 'U') IS NOT NULL 
 	drop table MMEL.Item
+IF OBJECT_ID('MMEL.ItemFactura', 'U') IS NOT NULL 
+	drop table MMEL.ItemFactura
 
 IF OBJECT_ID('MMEL.Consumible', 'U') IS NOT NULL	
 	drop table MMEL.Consumible
@@ -94,8 +96,8 @@ Create Table [MMEL].[Direccion](
 	calle nvarchar(150),
 	nroCalle int , --AGREGAR EN DER! --VERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRr
 	idPais int references MMEL.Pais(idPais),
-	Piso smallint,
-	Depto char(2),
+	--Piso smallint,
+	--Depto char(2),
 	Ciudad nvarchar(150), ---AGREGAR EN EL DER
 	constraint  PK_idDireccion PRIMARY KEY(idDireccion)
 	)
@@ -108,17 +110,24 @@ create Table [MMEL].[Persona](
 	NroDocumento int ,
 	Mail varchar(200) ,
 	Telefono varchar(20) ,
-	idDireccion int references  MMEL.Direccion(idDireccion),
+	--idDireccion int references  MMEL.Direccion(idDireccion), --volar esto
 	FechaDeNacimiento datetime ,
 	Nacionalidad varchar(50) ,
+	-----------------cambios------------------------
+	dirCalle nvarchar(150),
+	dirNroCalle int , --AGREGAR EN DER! --VERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRr
+	dirIdPais int references MMEL.Pais(idPais), --agregar en der 
+	dirPiso smallint,--agregar en der
+	dirDepto char(2),---agergar ender
+	dirLocalidad nvarchar(150), ---AGREGAR EN EL DER
 	constraint PK_idPersona primary key(idPersona)
 	)
 
 create table [MMEL].[Usuarios](
 	idUsuario int identity(1,1) not null,
-	Contraseña varchar(75) not null,
+	Contraseña varchar(75),
 	idPersona int references MMEL.Persona(idPersona),
-	Activo char(1) not null,
+	Activo char(1),
 	constraint PK_idUsuario primary key(idUsuario)
 	)
 Create Table [MMEL].[Hotel](
@@ -199,44 +208,46 @@ Create Table [MMEL].[Habitacion](
 
 Create Table [MMEL].[Huesped](
 	idHuesped int identity(1,1) not null,
-	Habilitado char(1) not null,
-	Reservo char(1) not null,
+	Habilitado char(1) ,
+	Reservo char(1) ,
+	idUsuario int references MMEL.Usuarios(idUsuario), ----------REVISAR ESTOOOOOOOOO!! 
 	constraint PK_idHuesped primary key(idHuesped)
 	)
 Create Table [MMEL].[Reserva](
 	idReserva int identity(1,1) not null,
-	idRol int references MMEL.Rol(idRol),
-	FechaDeReserva datetime not null,
-	FechaDesde datetime not null,
-	FechaHasta datetime not null,
+	--idRol int references MMEL.Rol(idRol),--cambiar esto, tiene q ir el id de quien realizo la reserva
+	idUsuarioQueProcesoReserva int references MMEL.Usuarios(idUsuario), --agregar al der 
+	FechaDeReserva datetime ,
+	FechaDesde datetime ,
+	FechaHasta datetime ,
 	idHabitacion int references MMEL.Habitacion(idHabitacion),
 	idRegimen int references MMEL.Regimen(idRegimen),
 	idHuesped int references MMEL.Huesped(idHuesped),
-	EstadoReserva char(1) not null,
-	CodigoReserva int not null,
+	EstadoReserva char(1) ,
+	CodigoReserva int ,
 	constraint PK_idReserva primary key(idReserva)
 	)
 Create Table [MMEL].[Estadia](
 	idEstadia int identity(1,1) not null,
 	idReserva int references MMEL.Reserva(idReserva),
-	FechaCheckIN datetime not null,
-	FechaCheckOUT datetime not null,
+	FechaCheckIN datetime ,
+	FechaCheckOUT datetime ,
 	idRecepcionistaCheckIN int references MMEL.Usuarios(idUsuario), 
 	idRecepcionistaCheckOUT int references MMEL.Usuarios(idUsuario), --revisar estos 2 si son fk a usuario y en ese caso cambiar el nombre en el der
 	constraint PK_idEstadia primary key(idEstadia)
 	)
 Create Table [MMEL].[Consumible](
 	idConsumible int identity(1,1) not null,
-	Costo int not null,
-	idEstadia int references MMEL.Estadia(idEstadia),
-	idHabitacion int references MMEL.Habitacion(idHabitacion),
-	Nombre varchar(75) not null,
+	Costo int ,
+	--idEstadia int references MMEL.Estadia(idEstadia), --esto no deberia ir aca
+	--idHabitacion int references MMEL.Habitacion(idHabitacion), --esto tmp deberia ir aca 
+	Nombre varchar(75) ,
 	CodigoConsumible int,
 	constraint PK_idConsumible primary key(idConsumible)
 	)
 Create Table [MMEL].[ConsumiblePorEstadia](
 	idCPE int identity(1,1) not null, --cambiar nombre en der
-	idReserva int references MMEL.Reserva(idReserva),
+	idEstadia int references MMEL.Reserva(idReserva), --cambiar en der
 	idConsumible int references MMEL.Consumible(idConsumible),
 	constraint PK_idCPE primary key(idCPE)
 	)
@@ -250,20 +261,33 @@ Create Table [MMEL].[Facturacion](
 	idFactura int identity(1,1) not null,
 	idFormaDePago int references MMEL.FormaDePago(idFormaDePago), --cambiar nombre en el der
 	idEstadia int references MMEL.Estadia(idEstadia),
-	MontoTotal int not null,
-	ItemFacturaCantidad smallint, ---------revisar estoooooooooooooooooo!!!!!!!!!!! 
-	ItemFacturaMonto decimal(4,0),
-	NroFactura int not null, --REVISARRRRRRRRRRRRRR agregado al der 
-	FacturaFecha smalldatetime not null,
+	MontoTotal int ,--en la maestra fact total es un nro q nada q ver, cambio montoTotal x fact total para evitar confusiones
+	FactTotal int,
+	MontoFinal int,
+	NroFactura int , --REVISARRRRRRRRRRRRRR agregado al der 
+	FacturaFecha smalldatetime ,
 	constraint PK_idFactura primary key(idFactura)
 	)
-Create Table [MMEL].[Item](
+/*Create Table [MMEL].[Item](
 	idItem int identity(1,1) not null,
 	idFactura int references MMEL.Facturacion(idFactura), --revisar esto en el der dice (nullable)
 	idEstadia int references MMEL.Estadia(idEstadia),
 	idConsumible int references MMEL.Consumible(idconsumible),
 	detalle varchar(75) not null,
+	ItemFacturaCantidad smallint, ---------revisar estoooooooooooooooooo!!!!!!!!!!! 
+	ItemFacturaMonto decimal(4,0), 
 	constraint PK_idItem primary key(idItem)
+	)*/
+
+Create table [MMEL].[ItemFactura](
+	idItemFactura int identity(1,1) not null,
+	idFactura int references MMEL.Facturacion(idFactura), --revisar esto en el der dice (nullable)
+	idEstadia int references MMEL.Estadia(idEstadia),
+	itemDescripcion nvarchar(200),
+	idConsumible int references MMEL.Consumible(idconsumible),
+	itemFacturaCantidad smallint, --esto en la maestra es el precio del item ..
+	itemFacturaMonto int, --esto en la maestra es 1.00 para todos..
+	constraint PK_idItem primary key(idItemFactura)
 	)
 Create Table [MMEL].[CancelacionReserva](
 	idReservaCancelacion int identity(1,1) not null,
