@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FrbaHotel.AbmHotel.Model;
+using Rubberduck.Winforms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -12,14 +14,22 @@ using System.Windows.Forms;
 
 namespace FrbaHotel.AbmHotel
 {
-    public partial class Insertar : Form
+    public partial class Insertar : ModelBoundForm
     {
         private int idUsuario;
 
         public Insertar(int idUsuario)
+            : base(new Hotel(0))
         {
             InitializeComponent();
             this.idUsuario = idUsuario;
+
+            telefonoInput.DataBindings.Add(new TextBinding(this.Model, "Telefono"));
+            Register(ErrorLabel.For(telefonoInput, Alignment.Bottom,2));
+
+            mailInput.DataBindings.Add(new TextBinding(this.Model, "Mail"));
+            Register(ErrorLabel.For(mailInput, Alignment.Bottom, 2));
+
         }
 
         private void button3_Click(object sender, EventArgs e)
