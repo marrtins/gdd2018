@@ -20,8 +20,15 @@ namespace FrbaHotel
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Cliente cli = new Cliente();
-            cli.ShowDialog();
+            Cliente abm = new Cliente();
+            abm.ShowDialog();
+            this.Hide();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            AbmHotel.Listado abm = new AbmHotel.Listado();
+            abm.ShowDialog();
             this.Hide();
         }
     }

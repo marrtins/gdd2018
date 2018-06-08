@@ -16,5 +16,12 @@ namespace FrbaHotel.AbmHotel
 
             hotelesRepository.Refresh();
         }
+
+        private void button3_Click(object sender, System.EventArgs e)
+        {
+            Insertar ins = new Insertar(1);
+            ins.ShowDialog();
+            this.Hide();
+        }
     }
 }
