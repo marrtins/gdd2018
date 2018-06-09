@@ -8,26 +8,87 @@ namespace FrbaHotel.AbmHotel.Model
         public static string Requerido = "El campo es requerido";
     }
 
-    public class Hotel : DBObject, INotifyPropertyChanged
+    public class Hotel : INotifyPropertyChanged
     {
         private string _telefono;
         private string _mail;
         private string _ciudad;
+        private bool _inhabilitado;
 
-        public Hotel(int id)
-            : base(id)
+        int idHotel;
+        string nombre;
+
+        [CustomRequired]
+        public string Nombre
         {
+            get
+            {
+                return nombre;
+            }
+
+            set
+            {
+                nombre = value;
+                InvokePropertyChanged("");
+            }
         }
 
-        public Hotel(int id, string mail, Direccion direccion, string telefono, int cantidadEstrellas, string ciudad)
-: base(id)
+        int idPais;
+         //Refactor pendiente: hay que separar la entidad de su buildeada con un builder. Ahi vamos a pder usar mas objetos y cosas mas lindas
+        string nombrePais;
+
+        string calle;
+
+        [CustomRequired]
+        public string Calle
         {
-            Id = id;
+            get
+            {
+                return calle;
+            }
+
+            set
+            {
+                calle = value;
+                InvokePropertyChanged("");
+            }
+        }
+        string nroCalle;
+
+        [CustomRequired]
+        [RegularExpression("^[0-9]+$", ErrorMessage = "El campo solo puede contener numeros.")]
+        public string NroCalle
+        {
+            get
+            {
+                return nroCalle;
+            }
+
+            set
+            {
+                nroCalle = value;
+                InvokePropertyChanged("");
+            }
+        }
+
+        public Hotel(int id, string nombre, string mail, string telefono, int cantidadEstrellas, string ciudad, int idPais, string nombrePais, string calle, string nroCalle)
+        {
+            NroCalle = nroCalle;
+            Calle = calle;
+            Calle = calle;
+            IdPais = idPais;
+            NombrePais = nombrePais;
+            Nombre = nombre;
+            idHotel = id;
             Mail = mail;
-            Direccion = direccion;
             Telefono = telefono;
             CantidadEstrellas = cantidadEstrellas;
             Ciudad = ciudad;
+            
+        }
+
+        public Hotel()
+        {
         }
 
         [CustomRequired]
@@ -40,7 +101,6 @@ namespace FrbaHotel.AbmHotel.Model
                 InvokePropertyChanged("");
             }
         }
-        public Direccion Direccion { get; set; }
 
         [CustomRequired]
         [RegularExpression("^[0-9]+$", ErrorMessage = "El campo solo puede contener numeros.")]
@@ -56,13 +116,36 @@ namespace FrbaHotel.AbmHotel.Model
         public int CantidadEstrellas { get; set; }
 
 
-
+        [CustomRequired]
         public string Ciudad
         {
             get => _ciudad; set
             {
                 _ciudad = value;
                 InvokePropertyChanged("");
+            }
+        }
+
+        public int IdHotel { get => idHotel; set => idHotel = value; }
+        public int IdPais { get => idPais; set => idPais = value; }
+        public string NombrePais { get => nombrePais; set => nombrePais = value; }
+
+
+
+        public bool Inhabilitado
+        {
+            get => _inhabilitado; set
+            {
+                _inhabilitado = value;
+                InvokePropertyChanged("");
+            }
+        }
+
+        public string Habilitado
+        {
+            get
+            {
+                return !Inhabilitado;
             }
         }
 
