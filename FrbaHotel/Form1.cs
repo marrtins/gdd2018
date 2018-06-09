@@ -31,5 +31,12 @@ namespace FrbaHotel
             abm.ShowDialog();
             this.Hide();
         }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            Login.Login l = new Login.Login();
+            l.ShowDialog();
+            this.Hide();
+        }
     }
 }
