@@ -38,6 +38,8 @@ namespace FrbaHotel.Login
         {
             if (!this.ValidateChildren())
                 return;
+
+            Log();
         }
 
         private void Log()
