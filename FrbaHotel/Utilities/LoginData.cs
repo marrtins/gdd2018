@@ -9,5 +9,6 @@ namespace FrbaHotel.Utilities
     public static class LoginData
     {
         public static int IdUsuario { get; set; }
+        public static Rol Rol { get; set; }
     }
 }

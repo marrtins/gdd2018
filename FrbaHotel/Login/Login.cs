@@ -39,10 +39,36 @@ namespace FrbaHotel.Login
             if (!this.ValidateChildren())
                 return;
 
-            Log();
+            bool success = Log();         
+
+            if (success)
+            {
+                var roles = Roles.GetAllFor(LoginData.IdUsuario);
+                bool masDeUnRol = roles.Count > 1;
+
+                if (masDeUnRol)
+                    SeleccionarRol();
+                else
+                    LoginData.Rol = roles.First();
+
+                this.Hide();
+
+                Form1 form = new Form1();
+
+                form.Show();
+            }
         }
 
-        private void Log()
+        private void SeleccionarRol()
+        {
+            var rolSelec = new SeleccionRol();
+
+            rolSelec.ShowDialog();
+
+            this.Close();
+        }
+
+        private bool Log()
         {
             var usuarioLogin = (UsuarioLogin)this.Model;
             var connection = ConfigurationManager.ConnectionStrings["GD1C2018ConnectionString"].ConnectionString;
@@ -59,26 +85,41 @@ namespace FrbaHotel.Login
                     con.Open();
                     var dr = cmd.ExecuteReader();
 
+                    var txtError = "";
+                    var id = 0;
+
                     if (dr.HasRows)
+                    {
                         dr.Read();
 
-                    var id = (int)dr["id"]; //si id = -1 es login fallido
+                        id = (int)dr["id"]; //si id = -1 es login fallido
 
-                    var txtError = id == -1 ? "Contraseña incorrecta" :
-                                   id == -2 ? "El usuario ha sido bloqueado" :
-                                   id == -3 ? "Usuario Inhabilitado" : "";
+                        txtError = id == -1 ? "Contraseña incorrecta" :
+                                    id == -2 ? "El usuario ha sido bloqueado" :
+                                    id == -3 ? "Usuario Inhabilitado" : "";
+
+                    }
+                    else //El reader no retorno nada, no hay datos
+                        txtError = "Usuario inexistente";
 
                     this.loginErrorLbl.Text = txtError;
 
-                    if (id < 0)
-                        this.loginErrorLbl.Show();
-                    else
+                    if (id <= 0)
                     {
-                        this.loginErrorLbl.Hide();
-                        LoginData.IdUsuario = id;
+                        this.loginErrorLbl.Show();
+                        return false;
                     }
+
+                    this.loginErrorLbl.Hide();
+                    LoginData.IdUsuario = id;
+                    return true;
                 }
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
