@@ -88,7 +88,7 @@ namespace FrbaHotel.AbmHotel
             if (e.ColumnIndex == this.hotelesGridView.Columns["SeleccionarCol"].DisplayIndex)
             {
                 AbrirModificar(targetHotel);
-            } else if (e.ColumnIndex == this.hotelesGridView.Columns["BajaCol"].DisplayIndex)
+            } else if (e.ColumnIndex == this.hotelesGridView.Columns["HabilitarCol"].DisplayIndex)
             {
                 ToggleHabilitar(targetHotel, (bool)this.hotelesGridView[e.ColumnIndex,e.RowIndex].Value);
             }
