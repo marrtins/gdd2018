@@ -34,6 +34,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.loginLbl = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // usuarioInput
@@ -52,7 +53,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(199, 92);
+            this.button1.Location = new System.Drawing.Point(199, 105);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 1;
@@ -62,7 +63,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(12, 92);
+            this.button2.Location = new System.Drawing.Point(12, 105);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 1;
@@ -87,11 +88,22 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "Contraseña";
             // 
+            // loginLbl
+            // 
+            this.loginLbl.AutoSize = true;
+            this.loginLbl.ForeColor = System.Drawing.Color.Red;
+            this.loginLbl.Location = new System.Drawing.Point(95, 82);
+            this.loginLbl.Name = "loginLbl";
+            this.loginLbl.Size = new System.Drawing.Size(63, 13);
+            this.loginLbl.TabIndex = 3;
+            this.loginLbl.Text = "Login fallido";
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(291, 127);
+            this.ClientSize = new System.Drawing.Size(291, 140);
+            this.Controls.Add(this.loginLbl);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button2);
@@ -113,5 +125,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label loginLbl;
     }
 }
