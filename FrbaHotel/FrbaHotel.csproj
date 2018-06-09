@@ -159,6 +159,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilities\DataReaderExtensions.cs" />
+    <Compile Include="Utilities\LoginData.cs" />
     <Compile Include="Utilities\Pais.cs" />
     <Compile Include="Utilities\Paises.cs" />
     <Compile Include="Utilities\TConverter.cs" />

@@ -29,7 +29,7 @@ namespace FrbaHotel.AbmHotel
         {
             InitializeComponent();
             this.idUsuario = idUsuario;
-            //this.paises = Paises.GetAll();
+            this.paises = Paises.GetAll();
 
             RegistrarInputs();
 
@@ -41,7 +41,7 @@ namespace FrbaHotel.AbmHotel
         {
             InitializeComponent();
             this.idUsuario = idUsuario;
-            //this.paises = Paises.GetAll();
+            this.paises = Paises.GetAll();
 
             RegistrarInputs();
 
@@ -73,8 +73,8 @@ namespace FrbaHotel.AbmHotel
             cantidadEstrellasInput.DataBindings.Add(new Binding("Value", this.Model, "CantidadEstrellas"));
 
             paisCombo.DataSource = paises;
-            //(this.Model as Hotel).IdPais = 1;
-            //paisCombo.DataBindings.Add(new Binding("Value", this.Model, "IdPais"));
+            (this.Model as Hotel).IdPais = 1;
+            paisCombo.DataBindings.Add(new Binding("Value", this.Model, "IdPais"));
         }
 
         private void button3_Click(object sender, EventArgs e)

@@ -34,7 +34,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.loginLbl = new System.Windows.Forms.Label();
+            this.loginErrorLbl = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // usuarioInput
@@ -49,7 +49,7 @@
             this.contraseniaInput.Location = new System.Drawing.Point(98, 49);
             this.contraseniaInput.Name = "contraseniaInput";
             this.contraseniaInput.Size = new System.Drawing.Size(176, 20);
-            this.contraseniaInput.TabIndex = 0;
+            this.contraseniaInput.TabIndex = 1;
             // 
             // button1
             // 
@@ -88,22 +88,23 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "Contraseña";
             // 
-            // loginLbl
+            // loginErrorLbl
             // 
-            this.loginLbl.AutoSize = true;
-            this.loginLbl.ForeColor = System.Drawing.Color.Red;
-            this.loginLbl.Location = new System.Drawing.Point(95, 82);
-            this.loginLbl.Name = "loginLbl";
-            this.loginLbl.Size = new System.Drawing.Size(63, 13);
-            this.loginLbl.TabIndex = 3;
-            this.loginLbl.Text = "Login fallido";
+            this.loginErrorLbl.AutoSize = true;
+            this.loginErrorLbl.ForeColor = System.Drawing.Color.Red;
+            this.loginErrorLbl.Location = new System.Drawing.Point(95, 82);
+            this.loginErrorLbl.Name = "loginErrorLbl";
+            this.loginErrorLbl.Size = new System.Drawing.Size(63, 13);
+            this.loginErrorLbl.TabIndex = 3;
+            this.loginErrorLbl.Text = "Login fallido";
+            this.loginErrorLbl.Visible = false;
             // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(291, 140);
-            this.Controls.Add(this.loginLbl);
+            this.Controls.Add(this.loginErrorLbl);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button2);
@@ -125,6 +126,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label loginLbl;
+        private System.Windows.Forms.Label loginErrorLbl;
     }
 }

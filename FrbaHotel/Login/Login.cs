@@ -59,12 +59,24 @@ namespace FrbaHotel.Login
                     con.Open();
                     var dr = cmd.ExecuteReader();
 
-                    var id = dr.MapToSingle<int>(); //si id = -1 es login fallido
+                    if (dr.HasRows)
+                        dr.Read();
 
-                    if (id == -1)
-                        this.loginLbl.Show();
+                    var id = (int)dr["id"]; //si id = -1 es login fallido
+
+                    var txtError = id == -1 ? "Contraseña incorrecta" :
+                                   id == -2 ? "El usuario ha sido bloqueado" :
+                                   id == -3 ? "Usuario Inhabilitado" : "";
+
+                    this.loginErrorLbl.Text = txtError;
+
+                    if (id < 0)
+                        this.loginErrorLbl.Show();
                     else
-                        this.loginLbl.Hide();
+                    {
+                        this.loginErrorLbl.Hide();
+                        LoginData.IdUsuario = id;
+                    }
                 }
             }
         }
