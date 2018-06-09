@@ -129,7 +129,7 @@ namespace FrbaHotel.AbmHotel.Model
         public int IdHotel { get => idHotel; set => idHotel = value; }
         public int IdPais { get => idPais; set => idPais = value; }
         public string NombrePais { get => nombrePais; set => nombrePais = value; }
-
+        private int idDireccion;
 
 
         public bool Inhabilitado
@@ -141,11 +141,19 @@ namespace FrbaHotel.AbmHotel.Model
             }
         }
 
-        public string Habilitado
+        public bool Habilitado
         {
             get
             {
                 return !Inhabilitado;
+            }
+        }
+
+        public int IdDireccion
+        {
+            get => idDireccion; set
+            {
+                idDireccion = value;
             }
         }
 

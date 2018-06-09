@@ -85,13 +85,11 @@
     <Compile Include="AbmHabitacion\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="AbmHotel\Filter.cs" />
-    <Compile Include="AbmHotel\HotelesDataSource.cs" />
-    <Compile Include="AbmHotel\Insertar.cs">
+    <Compile Include="AbmHotel\InsertarModificar.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AbmHotel\Insertar.Designer.cs">
-      <DependentUpon>Insertar.cs</DependentUpon>
+    <Compile Include="AbmHotel\InsertarModificar.Designer.cs">
+      <DependentUpon>InsertarModificar.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmHotel\Listado.cs">
       <SubType>Form</SubType>
@@ -99,11 +97,9 @@
     <Compile Include="AbmHotel\Listado.Designer.cs">
       <DependentUpon>Listado.cs</DependentUpon>
     </Compile>
-    <Compile Include="AbmHotel\Model\CustomRequiredAttribute.cs" />
-    <Compile Include="AbmHotel\Model\DBObject.cs" />
-    <Compile Include="AbmHotel\Model\Direccion.cs" />
+    <Compile Include="Utilities\CustomRequiredAttribute.cs" />
     <Compile Include="AbmHotel\Model\Hotel.cs" />
-    <Compile Include="AbmHotel\Model\Pais.cs" />
+    <Compile Include="AbmHotel\Model\HotelFiltros.cs" />
     <Compile Include="AbmRegimen\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -160,6 +156,10 @@
     <Compile Include="RegistrarEstadia\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\DataReaderExtensions.cs" />
+    <Compile Include="Utilities\Pais.cs" />
+    <Compile Include="Utilities\Paises.cs" />
+    <Compile Include="Utilities\TConverter.cs" />
     <EmbeddedResource Include="AbmCliente\AltaCliente.resx">
       <DependentUpon>AltaCliente.cs</DependentUpon>
     </EmbeddedResource>
@@ -175,8 +175,8 @@
     <EmbeddedResource Include="AbmCliente\SeleccionCliente.resx">
       <DependentUpon>SeleccionCliente.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AbmHotel\Insertar.resx">
-      <DependentUpon>Insertar.cs</DependentUpon>
+    <EmbeddedResource Include="AbmHotel\InsertarModificar.resx">
+      <DependentUpon>InsertarModificar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmHotel\Listado.resx">
       <DependentUpon>Listado.cs</DependentUpon>

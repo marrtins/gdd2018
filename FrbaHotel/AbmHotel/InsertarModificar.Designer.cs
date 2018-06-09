@@ -160,11 +160,13 @@
             // 
             // paisCombo
             // 
+            this.paisCombo.DisplayMember = "Nombre";
             this.paisCombo.FormattingEnabled = true;
             this.paisCombo.Location = new System.Drawing.Point(312, 97);
             this.paisCombo.Name = "paisCombo";
             this.paisCombo.Size = new System.Drawing.Size(170, 21);
             this.paisCombo.TabIndex = 20;
+            this.paisCombo.ValueMember = "Id";
             // 
             // label8
             // 

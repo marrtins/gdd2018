@@ -12,7 +12,6 @@ namespace FrbaHotel.AbmHotel
 {
     public partial class Listado : ModelBoundForm
     {
-        HotelesRepository hotelesRepository = new HotelesRepository();
         BindingList<Hotel> hoteles = new BindingList<Hotel>();
 
         public Listado()
@@ -88,10 +87,42 @@ namespace FrbaHotel.AbmHotel
 
             if (e.ColumnIndex == this.hotelesGridView.Columns["SeleccionarCol"].DisplayIndex)
             {
-                int j = 1;
+                AbrirModificar(targetHotel);
             } else if (e.ColumnIndex == this.hotelesGridView.Columns["BajaCol"].DisplayIndex)
             {
+                ToggleHabilitar(targetHotel, (bool)this.hotelesGridView[e.ColumnIndex,e.RowIndex].Value);
+            }
+        }
 
+        private void AbrirModificar(Hotel hotel)
+        {
+            InsertarModificar ins = new InsertarModificar(1,hotel);
+            this.Hide();
+
+            ins.ShowDialog();
+
+            this.Show();
+
+            if (ins.Result == DialogResult.OK)
+                RefreshData();
+        }
+
+        private void ToggleHabilitar(Hotel hotel, bool habilitado)
+        {
+            var connection = ConfigurationManager.ConnectionStrings["GD1C2018ConnectionString"].ConnectionString;
+
+            using (SqlConnection con = new SqlConnection(connection))
+            {
+                using (SqlCommand cmd = new SqlCommand("MMEL.HotelHabilitar", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@idHotel", SqlDbType.Int).Value = hotel.IdHotel;
+                    cmd.Parameters.AddWithValue("@habilitado", SqlDbType.Bit).Value = habilitado;
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
     }
