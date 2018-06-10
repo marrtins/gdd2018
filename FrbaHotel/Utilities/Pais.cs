@@ -2,12 +2,12 @@
 {
     public class Pais
     {
-        public int Id { get; set; }
+        public int idPais { get; set; }
         public string Nombre { get; set; }
 
         public Pais(int id, string nombre)
         {
-            Id = id;
+            idPais = id;
             Nombre = nombre;
         }
 

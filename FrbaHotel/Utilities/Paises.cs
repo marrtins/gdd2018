@@ -11,7 +11,7 @@ namespace FrbaHotel.Utilities
 {
     public static class Paises
     {
-        public static List<Pais> GetAll()
+        public static List<Pais> GetOne(int? id)
         {
             var connection = ConfigurationManager.ConnectionStrings["GD1C2018ConnectionString"].ConnectionString;
 
@@ -20,6 +20,9 @@ namespace FrbaHotel.Utilities
                 using (SqlCommand cmd = new SqlCommand("MMEL.PaisListar", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@idPais", SqlDbType.NVarChar).Value = id ?? Convert.DBNull;
+
                     con.Open();
                     var dr = cmd.ExecuteReader();
 
@@ -27,6 +30,12 @@ namespace FrbaHotel.Utilities
                 }
             }
         }
+
+        public static List<Pais> GetAll()
+        {
+            return GetOne(null);
+        }
+
 
     }
 }

@@ -96,7 +96,7 @@ namespace FrbaHotel.AbmHotel
 
         private void AbrirModificar(Hotel hotel)
         {
-            InsertarModificar ins = new InsertarModificar(1,hotel);
+            InsertarModificar ins = new InsertarModificar(1,ObjectCloner.DeepCopy(hotel));
             this.Hide();
 
             ins.ShowDialog();

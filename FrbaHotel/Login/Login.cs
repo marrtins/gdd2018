@@ -23,6 +23,11 @@ namespace FrbaHotel.Login
             InitializeComponent();
 
             RegistrarInputs();
+
+            var usLog = (UsuarioLogin)this.Model;
+
+            usLog.Nombre = ConfigurationManager.AppSettings["defaultUserName"];
+            usLog.Contrasenia = ConfigurationManager.AppSettings["defaultPassword"];
         }
 
         private void RegistrarInputs()
@@ -119,7 +124,7 @@ namespace FrbaHotel.Login
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            this.Close();
         }
     }
 }

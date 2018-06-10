@@ -1,5 +1,7 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 
 namespace FrbaHotel.AbmHotel.Model
 {
@@ -8,6 +10,7 @@ namespace FrbaHotel.AbmHotel.Model
         public static string Requerido = "El campo es requerido";
     }
 
+    [Serializable]
     public class Hotel : INotifyPropertyChanged
     {
         private string _telefono;
