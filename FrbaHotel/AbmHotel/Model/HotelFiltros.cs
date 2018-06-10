@@ -35,6 +35,7 @@ namespace FrbaHotel.AbmHotel.Model
                 InvokePropertyChanged("");
             }
         }
+        public int? idPais { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.filtrosGroup = new System.Windows.Forms.GroupBox();
             this.paisCombo = new System.Windows.Forms.ComboBox();
             this.cantidadEstrellasInput = new System.Windows.Forms.NumericUpDown();
             this.nombreInput = new System.Windows.Forms.TextBox();
@@ -37,10 +37,9 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.limpiarBtn = new System.Windows.Forms.Button();
             this.buscarBtn = new System.Windows.Forms.Button();
             this.hotelesGridView = new System.Windows.Forms.DataGridView();
-            this.button3 = new System.Windows.Forms.Button();
             this.NombreCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CantidadEstrellasCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MailCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -49,38 +48,42 @@
             this.CiudadCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CalleCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NumeroCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HabilitadoCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SeleccionarCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HabilitarCol = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.groupBox2.SuspendLayout();
+            this.button3 = new System.Windows.Forms.Button();
+            this.filtrosGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cantidadEstrellasInput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hotelesGridView)).BeginInit();
             this.SuspendLayout();
             // 
-            // groupBox2
+            // filtrosGroup
             // 
-            this.groupBox2.Controls.Add(this.paisCombo);
-            this.groupBox2.Controls.Add(this.cantidadEstrellasInput);
-            this.groupBox2.Controls.Add(this.nombreInput);
-            this.groupBox2.Controls.Add(this.ciudadInput);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox2.Location = new System.Drawing.Point(0, 0);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(665, 73);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Filtros de búsqueda";
+            this.filtrosGroup.Controls.Add(this.paisCombo);
+            this.filtrosGroup.Controls.Add(this.cantidadEstrellasInput);
+            this.filtrosGroup.Controls.Add(this.nombreInput);
+            this.filtrosGroup.Controls.Add(this.ciudadInput);
+            this.filtrosGroup.Controls.Add(this.label3);
+            this.filtrosGroup.Controls.Add(this.label6);
+            this.filtrosGroup.Controls.Add(this.label5);
+            this.filtrosGroup.Controls.Add(this.label4);
+            this.filtrosGroup.Dock = System.Windows.Forms.DockStyle.Top;
+            this.filtrosGroup.Location = new System.Drawing.Point(0, 0);
+            this.filtrosGroup.Name = "filtrosGroup";
+            this.filtrosGroup.Size = new System.Drawing.Size(977, 73);
+            this.filtrosGroup.TabIndex = 1;
+            this.filtrosGroup.TabStop = false;
+            this.filtrosGroup.Text = "Filtros de búsqueda";
             // 
             // paisCombo
             // 
+            this.paisCombo.DisplayMember = "Nombre";
+            this.paisCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.paisCombo.FormattingEnabled = true;
             this.paisCombo.Location = new System.Drawing.Point(301, 39);
             this.paisCombo.Name = "paisCombo";
             this.paisCombo.Size = new System.Drawing.Size(149, 21);
             this.paisCombo.TabIndex = 3;
+            this.paisCombo.ValueMember = "idPais";
             // 
             // cantidadEstrellasInput
             // 
@@ -149,18 +152,19 @@
             this.label4.TabIndex = 0;
             this.label4.Text = "Nombre";
             // 
-            // button1
+            // limpiarBtn
             // 
-            this.button1.Location = new System.Drawing.Point(9, 79);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(85, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Limpiar";
-            this.button1.UseVisualStyleBackColor = true;
+            this.limpiarBtn.Location = new System.Drawing.Point(9, 79);
+            this.limpiarBtn.Name = "limpiarBtn";
+            this.limpiarBtn.Size = new System.Drawing.Size(85, 23);
+            this.limpiarBtn.TabIndex = 2;
+            this.limpiarBtn.Text = "Limpiar";
+            this.limpiarBtn.UseVisualStyleBackColor = true;
+            this.limpiarBtn.Click += new System.EventHandler(this.limpiarBtn_Click);
             // 
             // buscarBtn
             // 
-            this.buscarBtn.Location = new System.Drawing.Point(568, 79);
+            this.buscarBtn.Location = new System.Drawing.Point(880, 79);
             this.buscarBtn.Name = "buscarBtn";
             this.buscarBtn.Size = new System.Drawing.Size(85, 23);
             this.buscarBtn.TabIndex = 2;
@@ -170,6 +174,10 @@
             // 
             // hotelesGridView
             // 
+            this.hotelesGridView.AllowUserToAddRows = false;
+            this.hotelesGridView.AllowUserToDeleteRows = false;
+            this.hotelesGridView.AllowUserToOrderColumns = true;
+            this.hotelesGridView.AllowUserToResizeRows = false;
             this.hotelesGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.hotelesGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.NombreCol,
@@ -180,17 +188,88 @@
             this.CiudadCol,
             this.CalleCol,
             this.NumeroCol,
-            this.SeleccionarCol,
-            this.HabilitarCol});
+            this.HabilitadoCol,
+            this.SeleccionarCol});
             this.hotelesGridView.Location = new System.Drawing.Point(9, 109);
             this.hotelesGridView.Name = "hotelesGridView";
-            this.hotelesGridView.Size = new System.Drawing.Size(644, 290);
+            this.hotelesGridView.ReadOnly = true;
+            this.hotelesGridView.RowHeadersWidth = 40;
+            this.hotelesGridView.Size = new System.Drawing.Size(956, 290);
             this.hotelesGridView.TabIndex = 3;
             this.hotelesGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.hotelesGridView_CellClick);
             // 
+            // NombreCol
+            // 
+            this.NombreCol.DataPropertyName = "Nombre";
+            this.NombreCol.HeaderText = "Nombre";
+            this.NombreCol.Name = "NombreCol";
+            this.NombreCol.ReadOnly = true;
+            // 
+            // CantidadEstrellasCol
+            // 
+            this.CantidadEstrellasCol.DataPropertyName = "CantidadEstrellas";
+            this.CantidadEstrellasCol.HeaderText = "Cantidad Estrellas";
+            this.CantidadEstrellasCol.Name = "CantidadEstrellasCol";
+            this.CantidadEstrellasCol.ReadOnly = true;
+            // 
+            // MailCol
+            // 
+            this.MailCol.DataPropertyName = "Mail";
+            this.MailCol.HeaderText = "Mail";
+            this.MailCol.Name = "MailCol";
+            this.MailCol.ReadOnly = true;
+            // 
+            // TelefonoCol
+            // 
+            this.TelefonoCol.DataPropertyName = "Telefono";
+            this.TelefonoCol.HeaderText = "Telefono";
+            this.TelefonoCol.Name = "TelefonoCol";
+            this.TelefonoCol.ReadOnly = true;
+            // 
+            // PaisCol
+            // 
+            this.PaisCol.DataPropertyName = "NombrePais";
+            this.PaisCol.HeaderText = "Pais";
+            this.PaisCol.Name = "PaisCol";
+            this.PaisCol.ReadOnly = true;
+            // 
+            // CiudadCol
+            // 
+            this.CiudadCol.DataPropertyName = "Ciudad";
+            this.CiudadCol.HeaderText = "Ciudad";
+            this.CiudadCol.Name = "CiudadCol";
+            this.CiudadCol.ReadOnly = true;
+            // 
+            // CalleCol
+            // 
+            this.CalleCol.DataPropertyName = "Calle";
+            this.CalleCol.HeaderText = "Calle";
+            this.CalleCol.Name = "CalleCol";
+            this.CalleCol.ReadOnly = true;
+            // 
+            // NumeroCol
+            // 
+            this.NumeroCol.DataPropertyName = "NroCalle";
+            this.NumeroCol.HeaderText = "Numero";
+            this.NumeroCol.Name = "NumeroCol";
+            this.NumeroCol.ReadOnly = true;
+            // 
+            // HabilitadoCol
+            // 
+            this.HabilitadoCol.DataPropertyName = "HabilitadoTexto";
+            this.HabilitadoCol.HeaderText = "Habilitado";
+            this.HabilitadoCol.Name = "HabilitadoCol";
+            this.HabilitadoCol.ReadOnly = true;
+            // 
+            // SeleccionarCol
+            // 
+            this.SeleccionarCol.HeaderText = "Seleccionar";
+            this.SeleccionarCol.Name = "SeleccionarCol";
+            this.SeleccionarCol.ReadOnly = true;
+            // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(487, 79);
+            this.button3.Location = new System.Drawing.Point(799, 79);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 4;
@@ -198,78 +277,20 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // NombreCol
-            // 
-            this.NombreCol.DataPropertyName = "Nombre";
-            this.NombreCol.HeaderText = "Nombre";
-            this.NombreCol.Name = "NombreCol";
-            // 
-            // CantidadEstrellasCol
-            // 
-            this.CantidadEstrellasCol.DataPropertyName = "CantidadEstrellas";
-            this.CantidadEstrellasCol.HeaderText = "Cantidad Estrellas";
-            this.CantidadEstrellasCol.Name = "CantidadEstrellasCol";
-            // 
-            // MailCol
-            // 
-            this.MailCol.DataPropertyName = "Mail";
-            this.MailCol.HeaderText = "Mail";
-            this.MailCol.Name = "MailCol";
-            // 
-            // TelefonoCol
-            // 
-            this.TelefonoCol.DataPropertyName = "Telefono";
-            this.TelefonoCol.HeaderText = "Telefono";
-            this.TelefonoCol.Name = "TelefonoCol";
-            // 
-            // PaisCol
-            // 
-            this.PaisCol.DataPropertyName = "NombrePais";
-            this.PaisCol.HeaderText = "Pais";
-            this.PaisCol.Name = "PaisCol";
-            // 
-            // CiudadCol
-            // 
-            this.CiudadCol.DataPropertyName = "Ciudad";
-            this.CiudadCol.HeaderText = "Ciudad";
-            this.CiudadCol.Name = "CiudadCol";
-            // 
-            // CalleCol
-            // 
-            this.CalleCol.DataPropertyName = "Calle";
-            this.CalleCol.HeaderText = "Calle";
-            this.CalleCol.Name = "CalleCol";
-            // 
-            // NumeroCol
-            // 
-            this.NumeroCol.DataPropertyName = "NroCalle";
-            this.NumeroCol.HeaderText = "Numero";
-            this.NumeroCol.Name = "NumeroCol";
-            // 
-            // SeleccionarCol
-            // 
-            this.SeleccionarCol.HeaderText = "Seleccionar";
-            this.SeleccionarCol.Name = "SeleccionarCol";
-            // 
-            // HabilitarCol
-            // 
-            this.HabilitarCol.HeaderText = "Habilitado";
-            this.HabilitarCol.Name = "HabilitarCol";
-            // 
             // Listado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(665, 411);
+            this.ClientSize = new System.Drawing.Size(977, 406);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.hotelesGridView);
             this.Controls.Add(this.buscarBtn);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.limpiarBtn);
+            this.Controls.Add(this.filtrosGroup);
             this.Name = "Listado";
             this.Text = "Listado";
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.filtrosGroup.ResumeLayout(false);
+            this.filtrosGroup.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cantidadEstrellasInput)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.hotelesGridView)).EndInit();
             this.ResumeLayout(false);
@@ -278,7 +299,7 @@
 
         #endregion
 
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox filtrosGroup;
         private System.Windows.Forms.TextBox nombreInput;
         private System.Windows.Forms.TextBox ciudadInput;
         private System.Windows.Forms.Label label6;
@@ -287,7 +308,7 @@
         private System.Windows.Forms.NumericUpDown cantidadEstrellasInput;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox paisCombo;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button limpiarBtn;
         private System.Windows.Forms.Button buscarBtn;
         private System.Windows.Forms.DataGridView hotelesGridView;
         private System.Windows.Forms.Button button3;
@@ -299,7 +320,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn CiudadCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn CalleCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn NumeroCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HabilitadoCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn SeleccionarCol;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn HabilitarCol;
     }
 }

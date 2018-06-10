@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.btnAceptar = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.limpiarBtn = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.cantidadEstrellasInput = new System.Windows.Forms.NumericUpDown();
             this.telefonoInput = new System.Windows.Forms.TextBox();
@@ -47,12 +47,14 @@
             this.ciudadInput = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.habilitadoCheck = new System.Windows.Forms.CheckBox();
+            this.label9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.cantidadEstrellasInput)).BeginInit();
             this.SuspendLayout();
             // 
             // btnAceptar
             // 
-            this.btnAceptar.Location = new System.Drawing.Point(407, 206);
+            this.btnAceptar.Location = new System.Drawing.Point(407, 220);
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(75, 23);
             this.btnAceptar.TabIndex = 2;
@@ -60,18 +62,19 @@
             this.btnAceptar.UseVisualStyleBackColor = true;
             this.btnAceptar.Click += new System.EventHandler(this.btnAceptar_Click);
             // 
-            // button2
+            // limpiarBtn
             // 
-            this.button2.Location = new System.Drawing.Point(326, 206);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "Limpiar";
-            this.button2.UseVisualStyleBackColor = true;
+            this.limpiarBtn.Location = new System.Drawing.Point(322, 220);
+            this.limpiarBtn.Name = "limpiarBtn";
+            this.limpiarBtn.Size = new System.Drawing.Size(75, 23);
+            this.limpiarBtn.TabIndex = 2;
+            this.limpiarBtn.Text = "Limpiar";
+            this.limpiarBtn.UseVisualStyleBackColor = true;
+            this.limpiarBtn.Click += new System.EventHandler(this.limpiarBtn_Click);
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(12, 206);
+            this.button3.Location = new System.Drawing.Point(12, 220);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 2;
@@ -110,16 +113,16 @@
             // 
             // mailInput
             // 
-            this.mailInput.Location = new System.Drawing.Point(70, 55);
+            this.mailInput.Location = new System.Drawing.Point(80, 55);
             this.mailInput.Name = "mailInput";
-            this.mailInput.Size = new System.Drawing.Size(168, 20);
+            this.mailInput.Size = new System.Drawing.Size(158, 20);
             this.mailInput.TabIndex = 9;
             // 
             // nombreInput
             // 
-            this.nombreInput.Location = new System.Drawing.Point(70, 12);
+            this.nombreInput.Location = new System.Drawing.Point(80, 12);
             this.nombreInput.Name = "nombreInput";
-            this.nombreInput.Size = new System.Drawing.Size(168, 20);
+            this.nombreInput.Size = new System.Drawing.Size(158, 20);
             this.nombreInput.TabIndex = 10;
             // 
             // label4
@@ -161,6 +164,7 @@
             // paisCombo
             // 
             this.paisCombo.DisplayMember = "Nombre";
+            this.paisCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.paisCombo.FormattingEnabled = true;
             this.paisCombo.Location = new System.Drawing.Point(312, 97);
             this.paisCombo.Name = "paisCombo";
@@ -195,16 +199,16 @@
             // 
             // calleInput
             // 
-            this.calleInput.Location = new System.Drawing.Point(70, 146);
+            this.calleInput.Location = new System.Drawing.Point(80, 146);
             this.calleInput.Name = "calleInput";
-            this.calleInput.Size = new System.Drawing.Size(168, 20);
+            this.calleInput.Size = new System.Drawing.Size(158, 20);
             this.calleInput.TabIndex = 15;
             // 
             // ciudadInput
             // 
-            this.ciudadInput.Location = new System.Drawing.Point(70, 97);
+            this.ciudadInput.Location = new System.Drawing.Point(80, 97);
             this.ciudadInput.Name = "ciudadInput";
-            this.ciudadInput.Size = new System.Drawing.Size(168, 20);
+            this.ciudadInput.Size = new System.Drawing.Size(158, 20);
             this.ciudadInput.TabIndex = 16;
             // 
             // label5
@@ -225,17 +229,39 @@
             this.label6.TabIndex = 14;
             this.label6.Text = "Ciudad";
             // 
+            // habilitadoCheck
+            // 
+            this.habilitadoCheck.AutoSize = true;
+            this.habilitadoCheck.Checked = true;
+            this.habilitadoCheck.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.habilitadoCheck.Location = new System.Drawing.Point(80, 185);
+            this.habilitadoCheck.Name = "habilitadoCheck";
+            this.habilitadoCheck.Size = new System.Drawing.Size(15, 14);
+            this.habilitadoCheck.TabIndex = 21;
+            this.habilitadoCheck.UseVisualStyleBackColor = true;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(20, 185);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(54, 13);
+            this.label9.TabIndex = 13;
+            this.label9.Text = "Habilitado";
+            // 
             // InsertarModificar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(494, 241);
+            this.ClientSize = new System.Drawing.Size(494, 255);
+            this.Controls.Add(this.habilitadoCheck);
             this.Controls.Add(this.paisCombo);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.nroInput);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.calleInput);
             this.Controls.Add(this.ciudadInput);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.cantidadEstrellasInput);
@@ -247,7 +273,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.limpiarBtn);
             this.Controls.Add(this.btnAceptar);
             this.Name = "InsertarModificar";
             this.Text = "Insertar";
@@ -259,7 +285,7 @@
 
         #endregion
         private System.Windows.Forms.Button btnAceptar;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button limpiarBtn;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.NumericUpDown cantidadEstrellasInput;
         private System.Windows.Forms.TextBox telefonoInput;
@@ -277,5 +303,7 @@
         private System.Windows.Forms.TextBox ciudadInput;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.CheckBox habilitadoCheck;
+        private System.Windows.Forms.Label label9;
     }
 }

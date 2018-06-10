@@ -36,6 +36,15 @@ namespace FrbaHotel.Utilities
             return GetOne(null);
         }
 
+        public static List<Pais> GetAllWithDefault()
+        {
+            var paises = GetOne(null);
+
+            // default
+            paises.Insert(0, new Pais(0, "Todos"));
+
+            return paises;
+        }
 
     }
 }

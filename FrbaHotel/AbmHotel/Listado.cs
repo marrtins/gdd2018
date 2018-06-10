@@ -33,6 +33,11 @@ namespace FrbaHotel.AbmHotel
             ciudadInput.DataBindings.Add(new TextBinding(this.Model, "Ciudad"));
 
             cantidadEstrellasInput.DataBindings.Add(new Binding("Value", this.Model, "CantidadEstrellas"));
+
+            var paises = Paises.GetAllWithDefault();
+              
+            paisCombo.DataSource = paises;
+            paisCombo.SelectedIndex = 0;
         }
 
         private void button3_Click(object sender, System.EventArgs e)
@@ -52,6 +57,7 @@ namespace FrbaHotel.AbmHotel
         {
             var filtros = (HotelFiltros)this.Model;
             var connection = ConfigurationManager.ConnectionStrings["GD1C2018ConnectionString"].ConnectionString;
+            filtros.idPais = (paisCombo.SelectedItem as Pais).idPais;
 
             using (SqlConnection con = new SqlConnection(connection))
             {
@@ -60,7 +66,7 @@ namespace FrbaHotel.AbmHotel
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Nombre", SqlDbType.NVarChar).Value = filtros.Nombre ?? Convert.DBNull;
                     cmd.Parameters.AddWithValue("@Ciudad", SqlDbType.NVarChar).Value = filtros.Ciudad ?? Convert.DBNull;
-                    cmd.Parameters.AddWithValue("@Pais", SqlDbType.NVarChar).Value = Convert.DBNull; // filtros.Pais != null ? filtros.Pais.Nombre : Convert.DBNull;
+                    cmd.Parameters.AddWithValue("@idPais", SqlDbType.Int).Value = filtros.idPais; // filtros.Pais != null ? filtros.Pais.Nombre : Convert.DBNull;
                     cmd.Parameters.AddWithValue("@CantidadEstrellas", SqlDbType.Int).Value = filtros.CantidadEstrellas != 0 ? filtros.CantidadEstrellas : Convert.DBNull;
 
                     con.Open();
@@ -83,15 +89,15 @@ namespace FrbaHotel.AbmHotel
 
         private void hotelesGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex == -1) //toco los headers
+                return;
+
             var targetHotel = this.hotelesGridView.Rows[e.RowIndex].DataBoundItem as Hotel;
 
             if (e.ColumnIndex == this.hotelesGridView.Columns["SeleccionarCol"].DisplayIndex)
             {
                 AbrirModificar(targetHotel);
-            } else if (e.ColumnIndex == this.hotelesGridView.Columns["HabilitarCol"].DisplayIndex)
-            {
-                ToggleHabilitar(targetHotel, (bool)this.hotelesGridView[e.ColumnIndex,e.RowIndex].Value);
-            }
+            } 
         }
 
         private void AbrirModificar(Hotel hotel)
@@ -107,23 +113,9 @@ namespace FrbaHotel.AbmHotel
                 RefreshData();
         }
 
-        private void ToggleHabilitar(Hotel hotel, bool habilitado)
+        private void limpiarBtn_Click(object sender, EventArgs e)
         {
-            var connection = ConfigurationManager.ConnectionStrings["GD1C2018ConnectionString"].ConnectionString;
-
-            using (SqlConnection con = new SqlConnection(connection))
-            {
-                using (SqlCommand cmd = new SqlCommand("MMEL.HotelHabilitar", con))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@idHotel", SqlDbType.Int).Value = hotel.IdHotel;
-                    cmd.Parameters.AddWithValue("@habilitado", SqlDbType.Bit).Value = habilitado;
-
-                    con.Open();
-                    cmd.ExecuteNonQuery();
-                }
-            }
+            ControlResetter.ResetAllControls(this.filtrosGroup);
         }
     }
 }

@@ -110,6 +110,7 @@
     <Compile Include="Login\SeleccionRol.Designer.cs">
       <DependentUpon>SeleccionRol.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\ControlResetter.cs" />
     <Compile Include="Utilities\CustomRequiredAttribute.cs" />
     <Compile Include="AbmHotel\Model\Hotel.cs" />
     <Compile Include="AbmHotel\Model\HotelFiltros.cs" />

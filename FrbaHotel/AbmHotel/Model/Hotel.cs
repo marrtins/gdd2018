@@ -144,11 +144,11 @@ namespace FrbaHotel.AbmHotel.Model
             }
         }
 
-        public bool Habilitado
+        public string HabilitadoTexto
         {
             get
             {
-                return !Inhabilitado;
+                return Inhabilitado ? "NH" : "H";
             }
         }
 

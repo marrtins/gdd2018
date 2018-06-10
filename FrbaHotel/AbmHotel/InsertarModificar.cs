@@ -32,9 +32,19 @@ namespace FrbaHotel.AbmHotel
             this.paises = Paises.GetAll();
             this.Text = "Insertar";
 
+
+            CargarDefaults(this.Model as Hotel);
+
             RegistrarInputs();
 
             accion = Insertar;
+        }
+
+        private void CargarDefaults(Hotel hotel) //normalmente esto iria en el constructor, pero puede traer problemas con otras cosas
+        {
+            hotel.CantidadEstrellas = 1; //si fuera cero romperia
+            hotel.Inhabilitado = false; //por defecto esta habilitado;
+            hotel.IdPais = 1;
         }
 
         public InsertarModificar(int idUsuario, Hotel hotel)
@@ -71,11 +81,13 @@ namespace FrbaHotel.AbmHotel
             nroInput.DataBindings.Add(new TextBinding(this.Model, "NroCalle"));
             Register(ErrorLabel.For(nroInput, Alignment.Bottom, 2));
 
-            (this.Model as Hotel).CantidadEstrellas = 1; //si fuera cero romperia
+        
             cantidadEstrellasInput.DataBindings.Add(new Binding("Value", this.Model, "CantidadEstrellas"));
 
             paisCombo.DataSource = paises;        
             paisCombo.SelectedItem = paises.First(p => p.idPais == (this.Model as Hotel).IdPais);
+
+            habilitadoCheck.Checked = !(this.Model as Hotel).Inhabilitado;
 
         }
 
@@ -92,6 +104,8 @@ namespace FrbaHotel.AbmHotel
                 return;
 
             var hotel = (Hotel)this.Model;
+            hotel.IdPais = (paisCombo.SelectedItem as Pais).idPais;
+            hotel.Inhabilitado = !habilitadoCheck.Checked;
 
             accion(hotel);
 
@@ -112,12 +126,14 @@ namespace FrbaHotel.AbmHotel
                     cmd.Parameters.AddWithValue("@Mail", SqlDbType.VarChar).Value = hotel.Mail;
                     cmd.Parameters.AddWithValue("@calle", SqlDbType.VarChar).Value = hotel.Calle;
                     cmd.Parameters.AddWithValue("@nrocalle", SqlDbType.Int).Value = hotel.NroCalle;
-                    cmd.Parameters.AddWithValue("@idPais", SqlDbType.Int).Value = 1;
+                    cmd.Parameters.AddWithValue("@idPais", SqlDbType.Int).Value = hotel.IdPais;
                     cmd.Parameters.AddWithValue("@ciudad", SqlDbType.VarChar).Value = hotel.Ciudad;
                     cmd.Parameters.AddWithValue("@Telefono", SqlDbType.VarChar).Value = hotel.Telefono;
                     cmd.Parameters.AddWithValue("@CantidadEstrellas", SqlDbType.Int).Value = hotel.CantidadEstrellas;
                     cmd.Parameters.AddWithValue("@Nombre", SqlDbType.VarChar).Value = hotel.Nombre;
-                    cmd.Parameters.AddWithValue("@idAdmin", SqlDbType.Int).Value = 2;
+                    cmd.Parameters.AddWithValue("@idAdmin", SqlDbType.Int).Value = LoginData.IdUsuario;
+                    cmd.Parameters.AddWithValue("@Inhabilitado", SqlDbType.VarChar).Value = hotel.Inhabilitado;
+
 
                     con.Open();
                     var dr = cmd.ExecuteReader();
@@ -133,19 +149,22 @@ namespace FrbaHotel.AbmHotel
 
             using (SqlConnection con = new SqlConnection(connection))
             {
-                using (SqlCommand cmd = new SqlCommand("MMEL.HotelModificar", con))
+                using (SqlCommand cmd = new SqlCommand("MMEL.HotelUpdate", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
+                    cmd.Parameters.AddWithValue("@idHotel", SqlDbType.Int).Value = hotel.IdHotel;
                     cmd.Parameters.AddWithValue("@Mail", SqlDbType.VarChar).Value = hotel.Mail;
                     cmd.Parameters.AddWithValue("@idDireccion", SqlDbType.Int).Value = hotel.IdDireccion;
                     cmd.Parameters.AddWithValue("@calle", SqlDbType.VarChar).Value = hotel.Calle;
                     cmd.Parameters.AddWithValue("@nrocalle", SqlDbType.Int).Value = hotel.NroCalle;
-                    cmd.Parameters.AddWithValue("@idPais", SqlDbType.Int).Value = 1;
+                    cmd.Parameters.AddWithValue("@idPais", SqlDbType.Int).Value = hotel.IdPais;
                     cmd.Parameters.AddWithValue("@ciudad", SqlDbType.VarChar).Value = hotel.Ciudad;
                     cmd.Parameters.AddWithValue("@Telefono", SqlDbType.VarChar).Value = hotel.Telefono;
                     cmd.Parameters.AddWithValue("@CantidadEstrellas", SqlDbType.Int).Value = hotel.CantidadEstrellas;
                     cmd.Parameters.AddWithValue("@Nombre", SqlDbType.VarChar).Value = hotel.Nombre;
+                    cmd.Parameters.AddWithValue("@Inhabilitado", SqlDbType.VarChar).Value = hotel.Inhabilitado;
+
 
                     con.Open();
                     var dr = cmd.ExecuteReader();
@@ -153,6 +172,13 @@ namespace FrbaHotel.AbmHotel
                     //TODO con ese reader hay que almacenar el ID
                 }
             }
+        }
+
+        private void limpiarBtn_Click(object sender, EventArgs e)
+        {
+            ControlResetter.ResetAllControls(this);
+
+            this.habilitadoCheck.Checked = true;
         }
     }
 }
