@@ -79,11 +79,35 @@
     <Compile Include="AbmCliente\SeleccionCliente.Designer.cs">
       <DependentUpon>SeleccionCliente.cs</DependentUpon>
     </Compile>
-    <Compile Include="AbmHabitacion\Form1.cs">
+    <Compile Include="AbmHabitacion\AltaHabitacion.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AbmHabitacion\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="AbmHabitacion\AltaHabitacion.designer.cs">
+      <DependentUpon>AltaHabitacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmHabitacion\BajaHabitacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmHabitacion\BajaHabitacion.designer.cs">
+      <DependentUpon>BajaHabitacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmHabitacion\InicioHabitacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmHabitacion\InicioHabitacion.designer.cs">
+      <DependentUpon>InicioHabitacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmHabitacion\ModificarHabitacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmHabitacion\ModificarHabitacion.designer.cs">
+      <DependentUpon>ModificarHabitacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmHabitacion\VentanaHabitacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmHabitacion\VentanaHabitacion.designer.cs">
+      <DependentUpon>VentanaHabitacion.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmHotel\InsertarModificar.cs">
       <SubType>Form</SubType>
@@ -96,6 +120,21 @@
     </Compile>
     <Compile Include="AbmHotel\Listado.Designer.cs">
       <DependentUpon>Listado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmUsuario\AltaUsuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmUsuario\BorrarUsuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmUsuario\ModificarUsuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmUsuario\SeleccionUsuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmUsuario\Usuario.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Login\Login.cs">
       <SubType>Form</SubType>
@@ -187,11 +226,32 @@
     <EmbeddedResource Include="AbmCliente\SeleccionCliente.resx">
       <DependentUpon>SeleccionCliente.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AbmHabitacion\InicioHabitacion.resx">
+      <DependentUpon>InicioHabitacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmHabitacion\VentanaHabitacion.resx">
+      <DependentUpon>VentanaHabitacion.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AbmHotel\InsertarModificar.resx">
       <DependentUpon>InsertarModificar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmHotel\Listado.resx">
       <DependentUpon>Listado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmUsuario\AltaUsuario.resx">
+      <DependentUpon>AltaUsuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmUsuario\BorrarUsuario.resx">
+      <DependentUpon>BorrarUsuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmUsuario\ModificarUsuario.resx">
+      <DependentUpon>ModificarUsuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmUsuario\SeleccionUsuario.resx">
+      <DependentUpon>SeleccionUsuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmUsuario\Usuario.resx">
+      <DependentUpon>Usuario.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -255,6 +315,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
