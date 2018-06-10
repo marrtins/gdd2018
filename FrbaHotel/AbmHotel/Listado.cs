@@ -34,15 +34,14 @@ namespace FrbaHotel.AbmHotel
 
             cantidadEstrellasInput.DataBindings.Add(new Binding("Value", this.Model, "CantidadEstrellas"));
 
-            var paises = Paises.GetAllWithDefault();
-              
-            paisCombo.DataSource = paises;
-            paisCombo.SelectedIndex = 0;
+            paisCombo.DataSource = Paises.GetAllWithDefault();
+
+            paisCombo.DataBindings.Add(new Binding("SelectedValue", this.Model, "idPais"));
         }
 
         private void button3_Click(object sender, System.EventArgs e)
         {
-            InsertarModificar ins = new InsertarModificar(1);
+            InsertarModificar ins = new InsertarModificar(LoginData.IdUsuario);
             this.Hide();
 
             ins.ShowDialog();
@@ -57,7 +56,6 @@ namespace FrbaHotel.AbmHotel
         {
             var filtros = (HotelFiltros)this.Model;
             var connection = ConfigurationManager.ConnectionStrings["GD1C2018ConnectionString"].ConnectionString;
-            filtros.idPais = (paisCombo.SelectedItem as Pais).idPais;
 
             using (SqlConnection con = new SqlConnection(connection))
             {

@@ -1,4 +1,5 @@
 ﻿using FrbaHotel.AbmCliente;
+using FrbaHotel.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,17 +26,17 @@ namespace FrbaHotel
             this.Hide();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            //permisos
+            this.abmHotelBtn.Visible = LoginData.EsAdmin;
+        }
+
+        private void abmHotelBtn_Click(object sender, EventArgs e)
         {
             AbmHotel.Listado abm = new AbmHotel.Listado();
             abm.ShowDialog();
-            this.Hide();
-        }
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            Login.Login l = new Login.Login();
-            l.ShowDialog();
             this.Hide();
         }
     }

@@ -170,7 +170,7 @@
             this.paisCombo.Name = "paisCombo";
             this.paisCombo.Size = new System.Drawing.Size(170, 21);
             this.paisCombo.TabIndex = 20;
-            this.paisCombo.ValueMember = "Id";
+            this.paisCombo.ValueMember = "idPais";
             // 
             // label8
             // 

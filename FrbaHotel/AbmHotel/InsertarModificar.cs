@@ -32,7 +32,6 @@ namespace FrbaHotel.AbmHotel
             this.paises = Paises.GetAll();
             this.Text = "Insertar";
 
-
             CargarDefaults(this.Model as Hotel);
 
             RegistrarInputs();
@@ -62,7 +61,6 @@ namespace FrbaHotel.AbmHotel
 
         private void RegistrarInputs()
         {
-
             nombreInput.DataBindings.Add(new TextBinding(this.Model, "Nombre"));
             Register(ErrorLabel.For(nombreInput, Alignment.Bottom, 2));
 
@@ -81,14 +79,12 @@ namespace FrbaHotel.AbmHotel
             nroInput.DataBindings.Add(new TextBinding(this.Model, "NroCalle"));
             Register(ErrorLabel.For(nroInput, Alignment.Bottom, 2));
 
-        
             cantidadEstrellasInput.DataBindings.Add(new Binding("Value", this.Model, "CantidadEstrellas"));
 
-            paisCombo.DataSource = paises;        
-            paisCombo.SelectedItem = paises.First(p => p.idPais == (this.Model as Hotel).IdPais);
+            paisCombo.DataSource = paises;
+            paisCombo.DataBindings.Add(new Binding("SelectedValue", this.Model, "IdPais"));
 
             habilitadoCheck.Checked = !(this.Model as Hotel).Inhabilitado;
-
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -104,7 +100,6 @@ namespace FrbaHotel.AbmHotel
                 return;
 
             var hotel = (Hotel)this.Model;
-            hotel.IdPais = (paisCombo.SelectedItem as Pais).idPais;
             hotel.Inhabilitado = !habilitadoCheck.Checked;
 
             accion(hotel);
