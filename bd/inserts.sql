@@ -57,21 +57,8 @@ insert into MMEL.Direccion(calle,nroCalle,idPais,Ciudad)
 select distinct Hotel_Calle,Hotel_Nro_Calle,1,Hotel_Ciudad from gd_esquema.Maestra
 go
 
-alter function MMEL.getidDireccion(@calle nvarchar(150) ,@nroCalle int ,@ciudad varchar(150))
-returns int
-as
-begin
-return (select idDireccion from MMEL.Direccion where @calle=calle and @nroCalle=nroCalle and @ciudad = ciudad)
-end
-go
 
-/*insert into MMEL.Hotel (idDireccion,CantidadEstrellas,RecargaEstrellas) --hayq  ver si la fecha de creacion la pasamos gcomo getdate o direco null
-select distinct 
-	MMEL.getidDireccion(Hotel_Calle,Hotel_Nro_Calle,Hotel_Ciudad) as idDireccion,
-	Hotel_CantEstrella,
-	Hotel_Recarga_Estrella
-	from gd_esquema.Maestra
-*/
+
 insert into mmel.Hotel(idDireccion,CantidadEstrellas,RecargaEstrellas)
 select 
 	distinct di.idDireccion,ot.Hotel_CantEstrella,ot.Hotel_Recarga_Estrella
@@ -90,27 +77,9 @@ select
 
 
 go
-alter function MMEL.getidHotel(@calle nvarchar(150) ,@nroCalle int ,@ciudad varchar(150))
-returns int
-as
-begin
-return (select h.idHotel from MMEL.Hotel h,MMEL.Direccion d where h.idDireccion=d.idDireccion and @calle=d.calle and @nroCalle=d.nroCalle and @ciudad = d.ciudad )
-end
-go
-
-go
-alter function MMEL.getidTipoHabitacion(@descripcion nvarchar(200))
-returns int
-as
-begin
-return (select idTipoHabitacion from MMEL.TipoHabitacion where @descripcion=Descripcion)
-end
-go
 
 
-/*insert into mmel.Habitacion(NumeroHabitacion,Piso,idHotel,VistaAlExterior,idTipoHabitacion)
-select distinct Habitacion_Numero,Habitacion_Piso,mmel.getidHotel(Hotel_Calle,Hotel_Nro_Calle,Hotel_Ciudad),Habitacion_Frente,mmel.getidTipoHabitacion(Habitacion_Tipo_Descripcion) from gd_esquema.Maestra
-*/
+
 insert into mmel.Habitacion(NumeroHabitacion,Piso,idHotel,VistaAlExterior,idTipoHabitacion)
 select distinct ot.Habitacion_Numero,ot.Habitacion_Piso,ho.idHotel,ot.Habitacion_Frente,th.idTipoHabitacion 
 from gd_esquema.Maestra ot 
@@ -120,11 +89,6 @@ inner join mmel.TipoHabitacion th on th.Descripcion=ot.Habitacion_Tipo_Descripci
 
 
 
-/*insert into mmel.Regimen(Precio,Habilitado,Descripcion,idHotel)
-select distinct ot.Regimen_Precio,'S',ot.Regimen_Descripcion,ho.idHotel from gd_esquema.Maestra ot  --revisar si entran todas habilitadas
-inner join mmel.Direccion di on ot.Hotel_Calle=di.calle and ot.Hotel_Nro_Calle=di.nroCalle
-inner join mmel.Hotel ho on di.idDireccion=ho.idDireccion
-*/
 
 --iria esta versio ya q no hay q agregar idhotel creeria
 insert into mmel.Regimen(Precio,Habilitado,Descripcion)
@@ -134,9 +98,9 @@ select distinct ot.Regimen_Precio,'S',upper(ot.Regimen_Descripcion) from gd_esqu
 
 
 
-insert into mmel.Persona(Nombre,Apellido,TipoDocumento,NroDocumento,Mail,FechaDeNacimiento,Nacionalidad,dirCalle,dirNroCalle,dirIdPais,dirPiso,dirDepto) --ver si nacionalidad va como un string o la tabla id pais(esa es d las direcciones)
+insert into mmel.Persona(Nombre,Apellido,TipoDocumento,NroDocumento,Mail,FechaDeNacimiento,idNacionalidad,dirCalle,dirNroCalle,dirIdPais,dirPiso,dirDepto) --ver si nacionalidad va como un string o la tabla id pais(esa es d las direcciones)
 select distinct upper(ot.Cliente_Nombre),upper(ot.Cliente_Apellido),'PASAPORTE',ot.Cliente_Pasaporte_Nro,ot.Cliente_Mail,
-				ot.Cliente_Fecha_Nac,ot.Cliente_Nacionalidad,ot.Cliente_Dom_Calle,ot.Cliente_Nro_Calle,1,ot.Cliente_Piso,ot.Cliente_Depto
+				ot.Cliente_Fecha_Nac,1,ot.Cliente_Dom_Calle,ot.Cliente_Nro_Calle,1,ot.Cliente_Piso,ot.Cliente_Depto
  from gd_esquema.Maestra ot
 
  --ver si estan todos habilitados o que.. supongo q aca una funcion/sp determinara si estan habilitados en base a q sus datos esten todos ok
@@ -148,20 +112,16 @@ select distinct upper(ot.Cliente_Nombre),upper(ot.Cliente_Apellido),'PASAPORTE',
 insert into mmel.UsuariosPorRoles(idRol,idUsuario)
 select distinct 3,pe.idPersona from mmel.Rol ro, mmel.Persona pe
 
- insert into mmel.Huesped(idUsuario)
+ /*insert into mmel.Huesped(idUsuario)
  select distinct us.idUsuario 
  from mmel.Persona pe 
  join mmel.Usuarios us on pe.idPersona=us.idPersona
  join mmel.UsuariosPorRoles upr on us.idUsuario=upr.idUsuario
  join mmel.Rol ro on upr.idRol=ro.idRol
+ */
+ insert into mmel.Huesped(idPersona)
+ select distinct idPersona from mmel.Persona 
 
-
- /*Create Table [MMEL].[RegimenesPorHotel](
-	idRPH int identity(1,1) not null, --cambiar nombre en der
-	idRegimen int references MMEL.Regimen(idRegimen),
-	idHotel int references MMEL.Hotel(idHotel),
-	constraint PK_idRPH primary key(idRPH)
-	)*/
 
 ---esta se podria agregar a manopla... todos los hoteles tienen todos los regimenes..
  insert into mmel.RegimenesPorHotel(idRegimen,idHotel)
@@ -183,7 +143,7 @@ inner join mmel.Regimen re on re.Descripcion=ot.Regimen_Descripcion
 inner join mmel.Persona pe on pe.Apellido=ot.Cliente_Apellido and pe.NroDocumento=ot.Cliente_Pasaporte_Nro  
 inner join mmel.Usuarios us on us.idPersona=pe.idPersona
 inner join mmel.Habitacion ha on ot.Habitacion_Numero=ha.NumeroHabitacion and ho.idHotel=ha.idHotel
-inner join mmel.Huesped hu on hu.idUsuario = us.idUsuario
+inner join mmel.Huesped hu on hu.idPersona = us.idPersona
 
 
 
@@ -227,11 +187,60 @@ select fa.idFactura,fa.idEstadia,'VALOR CONSUMIBLE',co.idConsumible,ot.Item_Fact
  inner join mmel.ConsumiblePorEstadia cpe on cpe.idEstadia = es.idEstadia
  inner join mmel.Consumible co on co.idConsumible=cpe.idConsumible
  where ot.Consumible_Codigo is not null and ot.Factura_Fecha is not null 
+ go
 
 
-/*
-insert into mmel.Facturacion(FacturaFecha,idEstadia,MontoTotal,NroFactura)
-select distinct ot.Factura_Fecha,es.idEstadia,ot.Factura_Total,ot.Factura_Nro from gd_esquema.Maestra ot 
-inner join mmel.Reserva re on re.CodigoReserva = ot.Reserva_Codigo
-inner join mmel.Estadia es on es.idReserva=re.idReserva
-*/
+alter procedure mmel.AgregarCliente (@nombre varchar(50),@apellido varchar(50),@tipoDocumento varchar(15),@nroDocumento nvarchar(25),@mail varchar(200),@telefono varchar(20),
+	@fechaDeNacimiento datetime,@nacionalidad varchar(50),@dirCalle nvarchar(150),@dirNroCalle int ,@pais varchar(150),@dirPiso smallint,@dirDepto char(2),@dirLocalidad nvarchar(150),
+	@habilitado char(1),@telefono varchar(20),@idNuevo int output,@codigoRet int output)
+as
+begin
+	
+	declare @idDirPais int
+	declare @idNacionalidad int
+	declare @aux int
+	set @idDirPais=1
+	set @idNacionalidad=1
+
+	--chequeo si ya existe el cliente. 
+	set @aux= mmel.existeCliente(@tipoDocumento,@nroDocumento,@mail)
+	if(@aux=1)
+	begin
+		set @idNuevo = -1
+		set @codigoRet =1 --ya existe el tipoynro de doc en la bdd
+	end
+	else if(@aux=2)
+	begin
+		set @idNuevo = -1
+		set @codigoRet =2 --ya existe el mail en la bdd
+	end
+	else if(@aux=0)
+	begin
+		insert into mmel.Persona(Telefono,Nombre,Apellido,TipoDocumento,NroDocumento,Mail,FechaDeNacimiento,idNacionalidad,dirCalle,dirNroCalle,dirIdPais,dirPiso,dirDepto,dirLocalidad)
+		values (@telefono,upper(@nombre),upper(@apellido),upper(@tipoDocumento),@nroDocumento,upper(@mail),@fechaDeNacimiento,@idNacionalidad,@dirCalle,@dirNroCalle,@idDirPais,@dirPiso,
+				@dirDepto,@dirLocalidad)
+		set @idNuevo=SCOPE_IDENTITY()
+		insert into mmel.Usuarios(idPersona) values(@idNuevo)
+		insert into MMEL.UsuariosPorRoles(idUsuario,idRol)
+			select idUsuario,3 from Usuarios where idPersona = @idNuevo
+		insert into mmel.Huesped(idPersona,Habilitado) values(@idNuevo,@habilitado)
+		set @codigoRet = 0 --se creo ok el cliente
+		
+	end
+end
+	
+go
+alter function mmel.existeCliente(@tipodoc varchar(15),@nrodoc int,@mail varchar(200))
+returns int
+as
+begin
+	
+	if exists (SELECT TOP 1 * FROM mmel.Persona WHERE NroDocumento=@nrodoc and TipoDocumento = @tipodoc)
+	begin return 1 end --existe el nro y tipodoc en la bdd
+	if exists(SELECT TOP 1 * FROM mmel.Persona WHERE Mail=@mail)
+	begin return 2 end --existe el mail en la bdd
+	return 0 --no existe
+end
+go
+
+

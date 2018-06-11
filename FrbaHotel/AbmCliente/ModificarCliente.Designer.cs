@@ -56,6 +56,12 @@
             this.btnNo = new System.Windows.Forms.RadioButton();
             this.btnSi = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtNro = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtPiso = new System.Windows.Forms.TextBox();
+            this.txtdpto = new System.Windows.Forms.Label();
+            this.txtDepto2 = new System.Windows.Forms.TextBox();
             this.groupClienteNoHabilitado.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -298,11 +304,65 @@
             this.label1.TabIndex = 25;
             this.label1.Text = "Cliente no habilitado.\r\n ¿Desea habilitarlo?";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(340, 292);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(24, 13);
+            this.label2.TabIndex = 25;
+            this.label2.Text = "Nro";
+            // 
+            // txtNro
+            // 
+            this.txtNro.Location = new System.Drawing.Point(370, 289);
+            this.txtNro.Name = "txtNro";
+            this.txtNro.Size = new System.Drawing.Size(55, 20);
+            this.txtNro.TabIndex = 26;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(340, 341);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(27, 13);
+            this.label3.TabIndex = 27;
+            this.label3.Text = "Piso";
+            // 
+            // txtPiso
+            // 
+            this.txtPiso.Location = new System.Drawing.Point(373, 338);
+            this.txtPiso.Name = "txtPiso";
+            this.txtPiso.Size = new System.Drawing.Size(100, 20);
+            this.txtPiso.TabIndex = 28;
+            // 
+            // txtdpto
+            // 
+            this.txtdpto.AutoSize = true;
+            this.txtdpto.Location = new System.Drawing.Point(509, 288);
+            this.txtdpto.Name = "txtdpto";
+            this.txtdpto.Size = new System.Drawing.Size(36, 13);
+            this.txtdpto.TabIndex = 29;
+            this.txtdpto.Text = "Depto";
+            // 
+            // txtDepto2
+            // 
+            this.txtDepto2.Location = new System.Drawing.Point(551, 288);
+            this.txtDepto2.Name = "txtDepto2";
+            this.txtDepto2.Size = new System.Drawing.Size(100, 20);
+            this.txtDepto2.TabIndex = 30;
+            // 
             // ModificarCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.txtDepto2);
+            this.Controls.Add(this.txtdpto);
+            this.Controls.Add(this.txtPiso);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.txtNro);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.groupClienteNoHabilitado);
             this.Controls.Add(this.Limpiar);
             this.Controls.Add(this.btnGuardar);
@@ -368,5 +428,11 @@
         private System.Windows.Forms.RadioButton btnNo;
         private System.Windows.Forms.RadioButton btnSi;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtNro;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtPiso;
+        private System.Windows.Forms.Label txtdpto;
+        private System.Windows.Forms.TextBox txtDepto2;
     }
 }

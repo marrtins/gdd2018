@@ -107,12 +107,12 @@ create Table [MMEL].[Persona](
 	Nombre varchar(50) ,
 	Apellido varchar(50) ,
 	TipoDocumento varchar(15) , --duda aca
-	NroDocumento int ,
+	NroDocumento varchar(25) ,
 	Mail varchar(200) ,
 	Telefono varchar(20) ,
 	--idDireccion int references  MMEL.Direccion(idDireccion), --volar esto
 	FechaDeNacimiento datetime ,
-	Nacionalidad varchar(50) ,
+	idNacionalidad int references MMEL.Pais(idPais), --cambio aca, antes era un varchar ahora el idPais
 	-----------------cambios------------------------
 	dirCalle nvarchar(150),
 	dirNroCalle int , --AGREGAR EN DER! --VERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRr
@@ -210,7 +210,8 @@ Create Table [MMEL].[Huesped](
 	idHuesped int identity(1,1) not null,
 	Habilitado char(1) ,
 	Reservo char(1) ,
-	idUsuario int references MMEL.Usuarios(idUsuario), ----------REVISAR ESTOOOOOOOOO!! 
+	--idUsuario int references MMEL.Usuarios(idUsuario), ----------REVISAR ESTOOOOOOOOO!! 
+	idPersona int references MMEL.Persona(idPersona),
 	constraint PK_idHuesped primary key(idHuesped)
 	)
 Create Table [MMEL].[Reserva](
@@ -268,16 +269,7 @@ Create Table [MMEL].[Facturacion](
 	FacturaFecha smalldatetime ,
 	constraint PK_idFactura primary key(idFactura)
 	)
-/*Create Table [MMEL].[Item](
-	idItem int identity(1,1) not null,
-	idFactura int references MMEL.Facturacion(idFactura), --revisar esto en el der dice (nullable)
-	idEstadia int references MMEL.Estadia(idEstadia),
-	idConsumible int references MMEL.Consumible(idconsumible),
-	detalle varchar(75) not null,
-	ItemFacturaCantidad smallint, ---------revisar estoooooooooooooooooo!!!!!!!!!!! 
-	ItemFacturaMonto decimal(4,0), 
-	constraint PK_idItem primary key(idItem)
-	)*/
+
 
 Create table [MMEL].[ItemFactura](
 	idItemFactura int identity(1,1) not null,
