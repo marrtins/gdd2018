@@ -88,18 +88,18 @@ inner join mmel.Hotel ho on d.idDireccion=ho.idDireccion
 inner join mmel.TipoHabitacion th on th.Descripcion=ot.Habitacion_Tipo_Descripcion
 
 
-
+	
 
 --iria esta versio ya q no hay q agregar idhotel creeria
 insert into mmel.Regimen(Precio,Habilitado,Descripcion)
 select distinct ot.Regimen_Precio,'S',upper(ot.Regimen_Descripcion) from gd_esquema.Maestra ot  --revisar si entran todas habilitadas
 
 
+insert into MMEL.TipoDocumento(Detalle) values('PASAPORTE')
 
 
-
-insert into mmel.Persona(Nombre,Apellido,TipoDocumento,NroDocumento,Mail,FechaDeNacimiento,idNacionalidad,dirCalle,dirNroCalle,dirIdPais,dirPiso,dirDepto) --ver si nacionalidad va como un string o la tabla id pais(esa es d las direcciones)
-select distinct upper(ot.Cliente_Nombre),upper(ot.Cliente_Apellido),'PASAPORTE',ot.Cliente_Pasaporte_Nro,ot.Cliente_Mail,
+insert into mmel.Persona(Nombre,Apellido,idTipoDocumento,NroDocumento,Mail,FechaDeNacimiento,idNacionalidad,dirCalle,dirNroCalle,dirIdPais,dirPiso,dirDepto) --ver si nacionalidad va como un string o la tabla id pais(esa es d las direcciones)
+select distinct upper(ot.Cliente_Nombre),upper(ot.Cliente_Apellido),1,ot.Cliente_Pasaporte_Nro,ot.Cliente_Mail,
 				ot.Cliente_Fecha_Nac,1,ot.Cliente_Dom_Calle,ot.Cliente_Nro_Calle,1,ot.Cliente_Piso,ot.Cliente_Depto
  from gd_esquema.Maestra ot
 
@@ -189,18 +189,23 @@ select fa.idFactura,fa.idEstadia,'VALOR CONSUMIBLE',co.idConsumible,ot.Item_Fact
  where ot.Consumible_Codigo is not null and ot.Factura_Fecha is not null 
  go
 
+IF object_id('mmel.AgregarCliente') IS NULL
+    EXEC ('create procedure mmel.AgregarCliente as select 1')
+GO
 
 alter procedure mmel.AgregarCliente (@nombre varchar(50),@apellido varchar(50),@tipoDocumento varchar(15),@nroDocumento nvarchar(25),@mail varchar(200),@telefono varchar(20),
 	@fechaDeNacimiento datetime,@nacionalidad varchar(50),@dirCalle nvarchar(150),@dirNroCalle int ,@pais varchar(150),@dirPiso smallint,@dirDepto char(2),@dirLocalidad nvarchar(150),
-	@habilitado char(1),@telefono varchar(20),@idNuevo int output,@codigoRet int output)
+	@habilitado char(1),@idNuevo int output,@codigoRet int output)
 as
 begin
 	
 	declare @idDirPais int
 	declare @idNacionalidad int
 	declare @aux int
+	declare @idTipoDoc int
 	set @idDirPais=1
 	set @idNacionalidad=1
+	set @idTipoDoc = 1
 
 	--chequeo si ya existe el cliente. 
 	set @aux= mmel.existeCliente(@tipoDocumento,@nroDocumento,@mail)
@@ -216,8 +221,8 @@ begin
 	end
 	else if(@aux=0)
 	begin
-		insert into mmel.Persona(Telefono,Nombre,Apellido,TipoDocumento,NroDocumento,Mail,FechaDeNacimiento,idNacionalidad,dirCalle,dirNroCalle,dirIdPais,dirPiso,dirDepto,dirLocalidad)
-		values (@telefono,upper(@nombre),upper(@apellido),upper(@tipoDocumento),@nroDocumento,upper(@mail),@fechaDeNacimiento,@idNacionalidad,@dirCalle,@dirNroCalle,@idDirPais,@dirPiso,
+		insert into mmel.Persona(Telefono,Nombre,Apellido,idTipoDocumento,NroDocumento,Mail,FechaDeNacimiento,idNacionalidad,dirCalle,dirNroCalle,dirIdPais,dirPiso,dirDepto,dirLocalidad)
+		values (@telefono,upper(@nombre),upper(@apellido),@idTipoDoc,@nroDocumento,upper(@mail),@fechaDeNacimiento,@idNacionalidad,@dirCalle,@dirNroCalle,@idDirPais,@dirPiso,
 				@dirDepto,@dirLocalidad)
 		set @idNuevo=SCOPE_IDENTITY()
 		insert into mmel.Usuarios(idPersona) values(@idNuevo)
@@ -230,12 +235,17 @@ begin
 end
 	
 go
+
+IF object_id('mmel.existeCliente') IS NULL
+    EXEC ('create function mmel.existeCliente as select 1')
+GO
+
 alter function mmel.existeCliente(@tipodoc varchar(15),@nrodoc int,@mail varchar(200))
 returns int
 as
 begin
 	
-	if exists (SELECT TOP 1 * FROM mmel.Persona WHERE NroDocumento=@nrodoc and TipoDocumento = @tipodoc)
+	if exists (SELECT TOP 1 * FROM mmel.Persona, mmel.TipoDocumento ti WHERE NroDocumento=@nrodoc and ti.Detalle = @tipodoc)
 	begin return 1 end --existe el nro y tipodoc en la bdd
 	if exists(SELECT TOP 1 * FROM mmel.Persona WHERE Mail=@mail)
 	begin return 2 end --existe el mail en la bdd

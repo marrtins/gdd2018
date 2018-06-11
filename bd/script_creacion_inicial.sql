@@ -56,6 +56,9 @@ IF OBJECT_ID('MMEL.Rol', 'U') IS NOT NULL
 IF OBJECT_ID('MMEL.Usuarios', 'U') IS NOT NULL 
 	drop table MMEL.Usuarios
 
+IF OBJECT_ID('MMEL.TipoDocumento', 'U') IS NOT NULL 
+	drop table MMEL.TipoDocumento
+
 IF OBJECT_ID('MMEL.Persona', 'U') IS NOT NULL 
 	drop table MMEL.Persona
 
@@ -102,11 +105,18 @@ Create Table [MMEL].[Direccion](
 	constraint  PK_idDireccion PRIMARY KEY(idDireccion)
 	)
 
+	create Table [MMEL].[TipoDocumento](
+		idTipoDocumento int identity(1,1) not null,
+		detalle varchar(30),
+		constraint PK_idTipoDocumento primary key(idTipoDocumento)
+	)
+
 create Table [MMEL].[Persona](
 	idPersona int identity(1,1) not null,
 	Nombre varchar(50) ,
 	Apellido varchar(50) ,
-	TipoDocumento varchar(15) , --duda aca
+	--TipoDocumento varchar(15) , --duda aca
+	idTipoDocumento references MMEL.TipoDocumento(idTipoDocumcento),
 	NroDocumento varchar(25) ,
 	Mail varchar(200) ,
 	Telefono varchar(20) ,
