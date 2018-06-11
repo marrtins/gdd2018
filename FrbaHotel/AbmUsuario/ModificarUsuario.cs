@@ -39,9 +39,42 @@ namespace FrbaHotel.AbmUsuario
         private Button btnGuardar;
         private Label lblUsername;
     
-        public ModificarUsuario()
+        public ModificarUsuario(string username, string password, string nombre, string apellido, string tipodoc, string nrodoc, string mail,string telefono, DateTime fechanac, string nacionalidad, string dircalle, int dirnrocalle, string pais, int dirpiso, string dirdepto, string dirloc, string habilitado)
         {
+            this.username = username;
+            this.password = password;
+            this.nombre = nombre;
+            this.apellido = apellido;
+            this.tipodoc = tipodoc;
+            this.nrodoc = nrodoc;
+            this.mail = mail;
+            this.fechanac = fechanac;
+            this.nacionalidad = nacionalidad;
+            this.dircalle = dircalle;
+            this.dirnrocalle = dirnrocalle;
+            this.pais = pais;
+            this.dirpiso = dirpiso;
+            this.dirdepto = dirdepto;
+            this.dirloc = dirloc;
+            this.habilitado = habilitado;
             InitializeComponent();
+
+            txtUsername.Text = username;
+            mtxtPassword.Text = password;
+            txtNombre.Text = nombre;
+            txtApellido.Text = apellido;
+            cboTipoId.Text = tipodoc;
+            txtNroID.Text = nrodoc;
+            txtEmail.Text = mail;
+            txtTel.Text = telefono;
+            dtFN.Value = fechanac;
+            txtNacionalidad.Text = nacionalidad;
+            txtCalle.Text = dircalle;
+            txtNro.Text = dirnrocalle.ToString();
+            txtPais.Text = pais;
+            txtPiso.Text = dirpiso.ToString();
+            txtDepto2.Text = dirdepto;
+            txtLocalidad.Text = dirloc;
         }
 
         private void label1_Click(object sender, EventArgs e)
