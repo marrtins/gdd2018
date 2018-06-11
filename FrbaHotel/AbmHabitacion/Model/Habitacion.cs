@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using FrbaHotel.Utilities;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace FrbaHotel.AbmHabitacion.Model
 {
@@ -22,7 +28,7 @@ namespace FrbaHotel.AbmHabitacion.Model
         }
     }
     [Serializable]
-    class Habitacion
+    class Habitacion : INotifyPropertyChanged
     {
         private int idHabitacion; //PK 
 
@@ -33,7 +39,7 @@ namespace FrbaHotel.AbmHabitacion.Model
         private char vistaAlExterior;
         private string descripcion;
         private char habilitado;
-
+       
 
         [CustomRequired]
         public int IdHabitacion
@@ -63,6 +69,20 @@ namespace FrbaHotel.AbmHabitacion.Model
             set
             {
                 idHotel = value;
+                InvokePropertyChanged("");
+            }
+        }
+        string nombre;
+        public string Nombre
+        {
+            get
+            {
+                return nombre;
+            }
+
+            set
+            {
+                nombre = value;
                 InvokePropertyChanged("");
             }
         }

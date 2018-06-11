@@ -53,6 +53,7 @@
             this.tipoHabitacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.descripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.habilitado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button4 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -193,7 +194,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(587, 123);
+            this.button2.Location = new System.Drawing.Point(496, 123);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(85, 29);
             this.button2.TabIndex = 2;
@@ -209,7 +210,6 @@
             this.button3.TabIndex = 3;
             this.button3.Text = "Limpiar";
             this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // dataGridView1
             // 
@@ -262,11 +262,21 @@
             this.habilitado.HeaderText = "Habilitado";
             this.habilitado.Name = "habilitado";
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(587, 124);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(85, 29);
+            this.button4.TabIndex = 5;
+            this.button4.Text = "Baja";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
             // InicioHabitacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(774, 450);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -274,7 +284,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
             this.Name = "InicioHabitacion";
-            this.Text = "AltaHabitacion";
+            this.Text = "Listado de Habitaciones";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -309,5 +319,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn tipoHabitacion;
         private System.Windows.Forms.DataGridViewTextBoxColumn descripcion;
         private System.Windows.Forms.DataGridViewTextBoxColumn habilitado;
+        private System.Windows.Forms.Button button4;
     }
 }
