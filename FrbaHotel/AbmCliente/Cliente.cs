@@ -25,7 +25,8 @@ namespace FrbaHotel.AbmCliente
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            SeleccionCliente sc = new SeleccionCliente();
+
+            SeleccionCliente sc = new SeleccionCliente(1);
             sc.ShowDialog();
             
             
@@ -33,9 +34,9 @@ namespace FrbaHotel.AbmCliente
 
         private void btnBorrar_Click(object sender, EventArgs e)
         {
-            BorrarCliente bc = new BorrarCliente();
-            bc.ShowDialog();
-            
+            SeleccionCliente sc = new SeleccionCliente(2);
+            sc.ShowDialog();
+
         }
 
         private void btnCrearCliente_Click(object sender, EventArgs e)

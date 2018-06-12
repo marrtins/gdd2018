@@ -67,11 +67,24 @@
     <Compile Include="AbmCliente\AltaCliente.Designer.cs">
       <DependentUpon>AltaCliente.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmCliente\DatosCliente.cs" />
+    <Compile Include="AbmCliente\MailErroneo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmCliente\MailErroneo.Designer.cs">
+      <DependentUpon>MailErroneo.cs</DependentUpon>
+    </Compile>
     <Compile Include="AbmCliente\ModificarCliente.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="AbmCliente\ModificarCliente.Designer.cs">
       <DependentUpon>ModificarCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmCliente\PasaporteErroneo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmCliente\PasaporteErroneo.Designer.cs">
+      <DependentUpon>PasaporteErroneo.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmCliente\SeleccionCliente.cs">
       <SubType>Form</SubType>
@@ -190,8 +203,14 @@
     <EmbeddedResource Include="AbmCliente\Cliente.resx">
       <DependentUpon>Cliente.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AbmCliente\MailErroneo.resx">
+      <DependentUpon>MailErroneo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AbmCliente\ModificarCliente.resx">
       <DependentUpon>ModificarCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmCliente\PasaporteErroneo.resx">
+      <DependentUpon>PasaporteErroneo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmCliente\SeleccionCliente.resx">
       <DependentUpon>SeleccionCliente.cs</DependentUpon>

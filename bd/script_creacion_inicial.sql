@@ -56,11 +56,12 @@ IF OBJECT_ID('MMEL.Rol', 'U') IS NOT NULL
 IF OBJECT_ID('MMEL.Usuarios', 'U') IS NOT NULL 
 	drop table MMEL.Usuarios
 
-IF OBJECT_ID('MMEL.TipoDocumento', 'U') IS NOT NULL 
-	drop table MMEL.TipoDocumento
+
 
 IF OBJECT_ID('MMEL.Persona', 'U') IS NOT NULL 
 	drop table MMEL.Persona
+IF OBJECT_ID('MMEL.TipoDocumento', 'U') IS NOT NULL 
+	drop table MMEL.TipoDocumento
 
 IF OBJECT_ID('MMEL.Regimen', 'U') IS NOT NULL 
 	drop table MMEL.Regimen
@@ -116,7 +117,7 @@ create Table [MMEL].[Persona](
 	Nombre varchar(50) ,
 	Apellido varchar(50) ,
 	--TipoDocumento varchar(15) , --duda aca
-	idTipoDocumento references MMEL.TipoDocumento(idTipoDocumcento),
+	idTipoDocumento int references MMEL.TipoDocumento(idTipoDocumento),
 	NroDocumento varchar(25) ,
 	Mail varchar(200) ,
 	Telefono varchar(20) ,
@@ -130,6 +131,7 @@ create Table [MMEL].[Persona](
 	dirPiso smallint,--agregar en der
 	dirDepto char(2),---agergar ender
 	dirLocalidad nvarchar(150), ---AGREGAR EN EL DER
+	
 	constraint PK_idPersona primary key(idPersona)
 	)
 
@@ -306,7 +308,6 @@ Create Table [MMEL].[FacturacionPorEstadia](
 	idFacturacion int references MMEL.Facturacion(idFactura),
 	constraint PK_idFPE primary key(idFPE)
 	)
-
 
 
 

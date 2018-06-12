@@ -251,6 +251,7 @@
             this.btnGuardar.TabIndex = 22;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = true;
+            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // Limpiar
             // 
@@ -258,8 +259,9 @@
             this.Limpiar.Name = "Limpiar";
             this.Limpiar.Size = new System.Drawing.Size(138, 39);
             this.Limpiar.TabIndex = 23;
-            this.Limpiar.Text = "Limpiar";
+            this.Limpiar.Text = "Deshacer Cambios";
             this.Limpiar.UseVisualStyleBackColor = true;
+            this.Limpiar.Click += new System.EventHandler(this.Limpiar_Click);
             // 
             // groupClienteNoHabilitado
             // 
