@@ -29,6 +29,7 @@ namespace FrbaHotel.AbmHabitacion
 
             this.dataGridView1.DataSource = habitaciones;
 
+    
            
         }
 
@@ -47,9 +48,6 @@ namespace FrbaHotel.AbmHabitacion
         }
         private void RefreshData()
         {
-            var variable = (HabitacionFiltros)this.Model;
-          
-            var filtros = (Habitacion)this.Model;
             var connection = ConfigurationManager.ConnectionStrings["GD1C2018ConnectionString"].ConnectionString;
 
             using (SqlConnection con = new SqlConnection(connection))
@@ -60,10 +58,10 @@ namespace FrbaHotel.AbmHabitacion
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@IdTipoHabitacion", SqlDbType.Int).Value = tipoHabInput.Text;
                     cmd.Parameters.AddWithValue("@NumeroHabitacion", SqlDbType.Int).Value = numHabInput.Text;
-                    cmd.Parameters.AddWithValue("@IdHotel", SqlDbType.Int).Value = hotelInput.Text; // filtros.Pais != null ? filtros.Pais.Nombre : Convert.DBNull;
+                    cmd.Parameters.AddWithValue("@IdHotel", SqlDbType.Int).Value = hotelInput.Text; 
                     cmd.Parameters.AddWithValue("@Piso", SqlDbType.Int).Value = pisoInput.Text;
                     cmd.Parameters.AddWithValue("@VistaAlExterior", SqlDbType.Char).Value = vistaExtInput.Text;
-                    cmd.Parameters.AddWithValue("@Habilitado", SqlDbType.Char).Value = habilitadoInput.Text ;
+                
                     con.Open();
                     var dr = cmd.ExecuteReader();
 
@@ -73,6 +71,7 @@ namespace FrbaHotel.AbmHabitacion
 
                     if (listaHabitaciones != null)
                         listaHabitaciones.ForEach(lh => habitaciones.Add(lh)); // lo hago asi para que no se pierda el binding
+                   
                 }
             }
         }
@@ -80,6 +79,25 @@ namespace FrbaHotel.AbmHabitacion
         private void button1_Click(object sender, EventArgs e)
         {
             RefreshData();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            ControlResetter.ResetAllControls(this);
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+           BajaHabitacion baja = new BajaHabitacion();
+            this.Hide();
+
+            baja.ShowDialog();
+
+            this.Show();
+
+            if (baja.Result == DialogResult.OK)
+                RefreshData();
         }
     }
 }

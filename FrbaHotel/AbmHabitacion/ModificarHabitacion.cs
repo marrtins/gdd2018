@@ -7,6 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Rubberduck.Winforms;
+using FrbaHotel.AbmHabitacion.Model;
+using System.Data.SqlClient;
+using FrbaHotel.Utilities;
+using FrbaHotel.AbmHotel.Model;
+using System.Configuration;
 
 namespace FrbaHotel.AbmHabitacion
 {
@@ -15,6 +21,11 @@ namespace FrbaHotel.AbmHabitacion
         public ModificarHabitacion()
         {
             InitializeComponent();
+        }
+
+        private void limpiarBtn_Click(object sender, EventArgs e)
+        {
+            ControlResetter.ResetAllControls(this);
         }
     }
 }

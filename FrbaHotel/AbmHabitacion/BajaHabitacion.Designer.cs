@@ -32,7 +32,7 @@
             this.borrarBtn = new System.Windows.Forms.Button();
             this.numHabInput = new System.Windows.Forms.TextBox();
             this.habilitadoInput = new System.Windows.Forms.CheckBox();
-            this.visExtInput = new System.Windows.Forms.ComboBox();
+            this.vistaExtInput = new System.Windows.Forms.ComboBox();
             this.pisoInput = new System.Windows.Forms.ComboBox();
             this.hotelInput = new System.Windows.Forms.ComboBox();
             this.tipoHabInput = new System.Windows.Forms.ComboBox();
@@ -52,6 +52,7 @@
             this.limpiarBtn.TabIndex = 32;
             this.limpiarBtn.Text = "Limpiar";
             this.limpiarBtn.UseVisualStyleBackColor = true;
+            this.limpiarBtn.Click += new System.EventHandler(this.limpiarBtn_Click);
             // 
             // borrarBtn
             // 
@@ -61,6 +62,7 @@
             this.borrarBtn.TabIndex = 31;
             this.borrarBtn.Text = "Borrar";
             this.borrarBtn.UseVisualStyleBackColor = true;
+            this.borrarBtn.Click += new System.EventHandler(this.borrarBtn_Click);
             // 
             // numHabInput
             // 
@@ -78,13 +80,13 @@
             this.habilitadoInput.TabIndex = 29;
             this.habilitadoInput.UseVisualStyleBackColor = true;
             // 
-            // visExtInput
+            // vistaExtInput
             // 
-            this.visExtInput.FormattingEnabled = true;
-            this.visExtInput.Location = new System.Drawing.Point(127, 131);
-            this.visExtInput.Name = "visExtInput";
-            this.visExtInput.Size = new System.Drawing.Size(121, 21);
-            this.visExtInput.TabIndex = 28;
+            this.vistaExtInput.FormattingEnabled = true;
+            this.vistaExtInput.Location = new System.Drawing.Point(127, 131);
+            this.vistaExtInput.Name = "vistaExtInput";
+            this.vistaExtInput.Size = new System.Drawing.Size(121, 21);
+            this.vistaExtInput.TabIndex = 28;
             // 
             // pisoInput
             // 
@@ -173,7 +175,7 @@
             this.Controls.Add(this.borrarBtn);
             this.Controls.Add(this.numHabInput);
             this.Controls.Add(this.habilitadoInput);
-            this.Controls.Add(this.visExtInput);
+            this.Controls.Add(this.vistaExtInput);
             this.Controls.Add(this.pisoInput);
             this.Controls.Add(this.hotelInput);
             this.Controls.Add(this.tipoHabInput);
@@ -196,7 +198,7 @@
         private System.Windows.Forms.Button borrarBtn;
         private System.Windows.Forms.TextBox numHabInput;
         private System.Windows.Forms.CheckBox habilitadoInput;
-        private System.Windows.Forms.ComboBox visExtInput;
+        private System.Windows.Forms.ComboBox vistaExtInput;
         private System.Windows.Forms.ComboBox pisoInput;
         private System.Windows.Forms.ComboBox hotelInput;
         private System.Windows.Forms.ComboBox tipoHabInput;
