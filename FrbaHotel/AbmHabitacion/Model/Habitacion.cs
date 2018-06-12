@@ -72,20 +72,7 @@ namespace FrbaHotel.AbmHabitacion.Model
                 InvokePropertyChanged("");
             }
         }
-        string nombre;
-        public string Nombre
-        {
-            get
-            {
-                return nombre;
-            }
-
-            set
-            {
-                nombre = value;
-                InvokePropertyChanged("");
-            }
-        }
+     
         public int IdTipoHabitacion
         {
             get => idTipoHabitacion;

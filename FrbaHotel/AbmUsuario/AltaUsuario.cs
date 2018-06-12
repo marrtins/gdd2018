@@ -35,17 +35,92 @@ namespace FrbaHotel.AbmUsuario
         private TextBox txtLocalidad;
         private TextBox txtTel;
         private ComboBox cboTipoId;
+        private Button btnCrearUsuario;
+        private Button btnCancelar;
+        private TextBox txtNroCalle;
+        private Label label4;
+        private TextBox txtDepto;
+        private Label lblDpto;
+        private TextBox txtPiso;
+        private Label label2;
+        private ComboBox cboPaisDir;
+        private Label lblPais;
         private MaskedTextBox mtxtPassword;
     
         public AltaUsuario()
         {
             InitializeComponent();
+            cboRol.Items.Add("Administrador");
+            cboRol.Items.Add("Recepcionista");
+
+            cboTipoId.Items.Add("DNI");
+            cboTipoId.Items.Add("Pasaporte");
             
         }
 
         private void btnCrear_Click(object sender, EventArgs e)
         {
+            string strCo = ConfigurationManager.AppSettings["stringConexion"];
+            SqlConnection con = new SqlConnection(strCo);
             
+            SqlCommand cmd;
+            cmd = new SqlCommand("MMEL.AgregarUsuario",con);
+            
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@username", SqlDbType.VarChar, 50).Value = txtUsername.Text;
+            cmd.Parameters.Add("@password", SqlDbType.VarChar, 50).Value = mtxtPassword.Text;
+             cmd.Parameters.Add("rolasignado", SqlDbType.VarChar, 15).Value = cboRol;
+            cmd.Parameters.Add("@nombre", SqlDbType.VarChar, 50).Value = txtNombre.Text;
+            cmd.Parameters.Add("@apellido", SqlDbType.VarChar, 50).Value = txtApellido.Text;
+            cmd.Parameters.Add("@tipoDocumento", SqlDbType.VarChar, 15).Value = cboTipoId.Text;
+            cmd.Parameters.Add("@nroDocumento", SqlDbType.VarChar,25).Value = txtNroId.Text;
+            cmd.Parameters.Add("@fechaDeNacimiento", SqlDbType.Date).Value = dtfn2.Value;
+            cmd.Parameters.Add("@telefono", SqlDbType.VarChar, 20).Value = txtTel.Text;
+            cmd.Parameters.Add("@mail", SqlDbType.VarChar, 200).Value = txtEmail.Text;
+            cmd.Parameters.Add("@nacionalidad", SqlDbType.VarChar, 50).Value = cboNacionalidad.Text;
+            cmd.Parameters.Add("@pais", SqlDbType.VarChar,150).Value = cboPaisDir.Text;
+            cmd.Parameters.Add("@dirCalle", SqlDbType.VarChar, 150).Value = txtCalle.Text;
+            cmd.Parameters.Add("@dirNroCalle", SqlDbType.Int).Value = txtNroCalle.Text;
+            cmd.Parameters.Add("@dirLocalidad", SqlDbType.NVarChar, 150).Value = txtLocalidad.Text;
+            cmd.Parameters.Add("@dirDepto", SqlDbType.Char,2).Value = txtDepto.Text;
+            cmd.Parameters.Add("@dirPiso", SqlDbType.SmallInt).Value = Int16.Parse(txtPiso.Text);
+            
+            cmd.Parameters.Add("@idNuevo", SqlDbType.Int).Direction = ParameterDirection.Output;
+            cmd.Parameters.Add("@codigoRet", SqlDbType.Int).Direction = ParameterDirection.Output; // 0 -> Ok. / 1 -> Tipo y Nro. de documento existen. / 2 -> Email existe.
+
+            if (chkAct.Checked)
+            {
+                cmd.Parameters.Add("@activo", SqlDbType.Char, 1).Value = 'S';
+            }
+            else
+            {
+                cmd.Parameters.Add("@activo", SqlDbType.Char, 1).Value = 'N';
+
+            }
+
+           if (cmd.Connection.State == ConnectionState.Closed)
+            {
+                cmd.Connection.Open();
+            }
+            cmd.ExecuteNonQuery();
+
+            int codigoRet = int.Parse(cmd.Parameters["@codigoRet"].Value.ToString());
+            int idNuevo= int.Parse(cmd.Parameters["@idNuevo"].Value.ToString());
+            if (codigoRet == 0) {
+
+                MessageBox.Show(string.Format("Usuario creado. id {0}", idNuevo), "OK", MessageBoxButtons.OK);
+
+            }
+            else if (codigoRet == 1) {
+
+                MessageBox.Show("Usuario no creado. El tipo y número de identificacion ya existe", "X", MessageBoxButtons.OK);
+
+            }
+            else if (codigoRet == 2) {
+
+                MessageBox.Show("Usuario no creado. El mail ya existe", "X", MessageBoxButtons.OK);
+
+            }   
         }
 
         private void InitializeComponent()
@@ -74,6 +149,16 @@ namespace FrbaHotel.AbmUsuario
             this.txtLocalidad = new System.Windows.Forms.TextBox();
             this.txtTel = new System.Windows.Forms.TextBox();
             this.cboTipoId = new System.Windows.Forms.ComboBox();
+            this.btnCrearUsuario = new System.Windows.Forms.Button();
+            this.btnCancelar = new System.Windows.Forms.Button();
+            this.txtNroCalle = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtDepto = new System.Windows.Forms.TextBox();
+            this.lblDpto = new System.Windows.Forms.Label();
+            this.txtPiso = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cboPaisDir = new System.Windows.Forms.ComboBox();
+            this.lblPais = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblUsername
@@ -194,7 +279,7 @@ namespace FrbaHotel.AbmUsuario
             // 
             this.lblCalle.AutoSize = true;
             this.lblCalle.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lblCalle.Location = new System.Drawing.Point(35, 330);
+            this.lblCalle.Location = new System.Drawing.Point(435, 60);
             this.lblCalle.Name = "lblCalle";
             this.lblCalle.Size = new System.Drawing.Size(39, 17);
             this.lblCalle.TabIndex = 12;
@@ -204,7 +289,7 @@ namespace FrbaHotel.AbmUsuario
             // 
             this.lblLocalidad.AutoSize = true;
             this.lblLocalidad.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lblLocalidad.Location = new System.Drawing.Point(35, 360);
+            this.lblLocalidad.Location = new System.Drawing.Point(435, 120);
             this.lblLocalidad.Name = "lblLocalidad";
             this.lblLocalidad.Size = new System.Drawing.Size(69, 17);
             this.lblLocalidad.TabIndex = 13;
@@ -255,14 +340,14 @@ namespace FrbaHotel.AbmUsuario
             // 
             // txtCalle
             // 
-            this.txtCalle.Location = new System.Drawing.Point(205, 330);
+            this.txtCalle.Location = new System.Drawing.Point(550, 60);
             this.txtCalle.Name = "txtCalle";
             this.txtCalle.Size = new System.Drawing.Size(100, 20);
             this.txtCalle.TabIndex = 20;
             // 
             // txtLocalidad
             // 
-            this.txtLocalidad.Location = new System.Drawing.Point(205, 360);
+            this.txtLocalidad.Location = new System.Drawing.Point(550, 120);
             this.txtLocalidad.Name = "txtLocalidad";
             this.txtLocalidad.Size = new System.Drawing.Size(100, 20);
             this.txtLocalidad.TabIndex = 21;
@@ -282,9 +367,109 @@ namespace FrbaHotel.AbmUsuario
             this.cboTipoId.Size = new System.Drawing.Size(121, 21);
             this.cboTipoId.TabIndex = 23;
             // 
+            // btnCrearUsuario
+            // 
+            this.btnCrearUsuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.btnCrearUsuario.Location = new System.Drawing.Point(450, 400);
+            this.btnCrearUsuario.Name = "btnCrearUsuario";
+            this.btnCrearUsuario.Size = new System.Drawing.Size(150, 50);
+            this.btnCrearUsuario.TabIndex = 24;
+            this.btnCrearUsuario.Text = "Crear";
+            this.btnCrearUsuario.UseVisualStyleBackColor = true;
+            this.btnCrearUsuario.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // btnCancelar
+            // 
+            this.btnCancelar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.btnCancelar.Location = new System.Drawing.Point(175, 400);
+            this.btnCancelar.Name = "btnCancelar";
+            this.btnCancelar.Size = new System.Drawing.Size(150, 50);
+            this.btnCancelar.TabIndex = 25;
+            this.btnCancelar.Text = "Cancelar";
+            this.btnCancelar.UseVisualStyleBackColor = true;
+            // 
+            // txtNroCalle
+            // 
+            this.txtNroCalle.Location = new System.Drawing.Point(550, 90);
+            this.txtNroCalle.Name = "txtNroCalle";
+            this.txtNroCalle.Size = new System.Drawing.Size(100, 20);
+            this.txtNroCalle.TabIndex = 43;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label4.Location = new System.Drawing.Point(435, 90);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(31, 17);
+            this.label4.TabIndex = 42;
+            this.label4.Text = "Nro";
+            // 
+            // txtDepto
+            // 
+            this.txtDepto.Location = new System.Drawing.Point(554, 154);
+            this.txtDepto.Name = "txtDepto";
+            this.txtDepto.Size = new System.Drawing.Size(29, 20);
+            this.txtDepto.TabIndex = 41;
+            // 
+            // lblDpto
+            // 
+            this.lblDpto.AutoSize = true;
+            this.lblDpto.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.lblDpto.Location = new System.Drawing.Point(435, 150);
+            this.lblDpto.Name = "lblDpto";
+            this.lblDpto.Size = new System.Drawing.Size(98, 17);
+            this.lblDpto.TabIndex = 40;
+            this.lblDpto.Text = "Departamento";
+            // 
+            // txtPiso
+            // 
+            this.txtPiso.Location = new System.Drawing.Point(554, 184);
+            this.txtPiso.Name = "txtPiso";
+            this.txtPiso.Size = new System.Drawing.Size(29, 20);
+            this.txtPiso.TabIndex = 39;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label2.Location = new System.Drawing.Point(435, 180);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(35, 17);
+            this.label2.TabIndex = 38;
+            this.label2.Text = "Piso";
+            // 
+            // cboPaisDir
+            // 
+            this.cboPaisDir.FormattingEnabled = true;
+            this.cboPaisDir.Location = new System.Drawing.Point(550, 30);
+            this.cboPaisDir.Name = "cboPaisDir";
+            this.cboPaisDir.Size = new System.Drawing.Size(150, 21);
+            this.cboPaisDir.TabIndex = 37;
+            // 
+            // lblPais
+            // 
+            this.lblPais.AutoSize = true;
+            this.lblPais.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.lblPais.Location = new System.Drawing.Point(435, 30);
+            this.lblPais.Name = "lblPais";
+            this.lblPais.Size = new System.Drawing.Size(35, 17);
+            this.lblPais.TabIndex = 34;
+            this.lblPais.Text = "Pais";
+            // 
             // AltaUsuario
             // 
-            this.ClientSize = new System.Drawing.Size(434, 411);
+            this.ClientSize = new System.Drawing.Size(734, 486);
+            this.Controls.Add(this.txtNroCalle);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.txtDepto);
+            this.Controls.Add(this.lblDpto);
+            this.Controls.Add(this.txtPiso);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.cboPaisDir);
+            this.Controls.Add(this.lblPais);
+            this.Controls.Add(this.btnCancelar);
+            this.Controls.Add(this.btnCrearUsuario);
             this.Controls.Add(this.cboTipoId);
             this.Controls.Add(this.txtTel);
             this.Controls.Add(this.txtLocalidad);
@@ -318,6 +503,11 @@ namespace FrbaHotel.AbmUsuario
         }
 
         private void AltaUsuario_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
         {
 
         }
