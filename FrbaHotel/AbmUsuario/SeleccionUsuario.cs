@@ -26,7 +26,7 @@ namespace FrbaHotel.AbmUsuario
         private Label lblApellido;
         private TextBox txtNombre;
         private ComboBox comboBox2;
-        private Label label1;
+        private Label lblUsername;
         private Label lblNombre;
     
         public SeleccionUsuario()
@@ -38,6 +38,8 @@ namespace FrbaHotel.AbmUsuario
         {
             this.dgCustomer = new System.Windows.Forms.DataGridView();
             this.gboFiltros = new System.Windows.Forms.GroupBox();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.lblUsername = new System.Windows.Forms.Label();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.txtEmail = new System.Windows.Forms.TextBox();
@@ -50,8 +52,6 @@ namespace FrbaHotel.AbmUsuario
             this.lblApellido = new System.Windows.Forms.Label();
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.lblNombre = new System.Windows.Forms.Label();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgCustomer)).BeginInit();
             this.gboFiltros.SuspendLayout();
             this.SuspendLayout();
@@ -67,7 +67,7 @@ namespace FrbaHotel.AbmUsuario
             // gboFiltros
             // 
             this.gboFiltros.Controls.Add(this.comboBox2);
-            this.gboFiltros.Controls.Add(this.label1);
+            this.gboFiltros.Controls.Add(this.lblUsername);
             this.gboFiltros.Controls.Add(this.btnLimpiar);
             this.gboFiltros.Controls.Add(this.btnBuscar);
             this.gboFiltros.Controls.Add(this.txtEmail);
@@ -88,6 +88,24 @@ namespace FrbaHotel.AbmUsuario
             this.gboFiltros.TabStop = false;
             this.gboFiltros.Text = "Filtros de búsqueda";
             this.gboFiltros.Enter += new System.EventHandler(this.gboFiltros_Enter);
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Location = new System.Drawing.Point(420, 90);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(125, 24);
+            this.comboBox2.TabIndex = 13;
+            this.comboBox2.Text = "Seleccionar";
+            // 
+            // lblUsername
+            // 
+            this.lblUsername.AutoSize = true;
+            this.lblUsername.Location = new System.Drawing.Point(270, 90);
+            this.lblUsername.Name = "lblUsername";
+            this.lblUsername.Size = new System.Drawing.Size(92, 17);
+            this.lblUsername.TabIndex = 12;
+            this.lblUsername.Text = "Rol Asignado";
             // 
             // btnLimpiar
             // 
@@ -190,24 +208,6 @@ namespace FrbaHotel.AbmUsuario
             this.lblNombre.Size = new System.Drawing.Size(58, 17);
             this.lblNombre.TabIndex = 0;
             this.lblNombre.Text = "Nombre";
-            // 
-            // comboBox2
-            // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(420, 90);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(125, 24);
-            this.comboBox2.TabIndex = 13;
-            this.comboBox2.Text = "Seleccionar";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(270, 90);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(92, 17);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "Rol Asignado";
             // 
             // SeleccionUsuario
             // 

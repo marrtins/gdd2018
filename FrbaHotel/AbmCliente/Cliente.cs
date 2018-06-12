@@ -27,8 +27,7 @@ namespace FrbaHotel.AbmCliente
         {
             SeleccionCliente sc = new SeleccionCliente();
             sc.ShowDialog();
-            ModificarCliente mc = new ModificarCliente();
-            mc.ShowDialog();
+            
             
         }
 

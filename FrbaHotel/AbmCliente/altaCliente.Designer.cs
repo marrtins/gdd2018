@@ -45,9 +45,19 @@
             this.lblPais = new System.Windows.Forms.Label();
             this.txtCalle = new System.Windows.Forms.TextBox();
             this.txtLocalidad = new System.Windows.Forms.TextBox();
-            this.txtPais = new System.Windows.Forms.TextBox();
-            this.dtFNac = new System.Windows.Forms.MonthCalendar();
             this.lblFNac = new System.Windows.Forms.Label();
+            this.btnCrear = new System.Windows.Forms.Button();
+            this.dtfn2 = new System.Windows.Forms.DateTimePicker();
+            this.cboNacionalidad = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cboPaisDir = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtPiso = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtDepto = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtNroCalle = new System.Windows.Forms.TextBox();
+            this.chkHab = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // lblNombre
@@ -188,19 +198,6 @@
             this.txtLocalidad.Size = new System.Drawing.Size(149, 20);
             this.txtLocalidad.TabIndex = 16;
             // 
-            // txtPais
-            // 
-            this.txtPais.Location = new System.Drawing.Point(116, 307);
-            this.txtPais.Name = "txtPais";
-            this.txtPais.Size = new System.Drawing.Size(149, 20);
-            this.txtPais.TabIndex = 17;
-            // 
-            // dtFNac
-            // 
-            this.dtFNac.Location = new System.Drawing.Point(352, 103);
-            this.dtFNac.Name = "dtFNac";
-            this.dtFNac.TabIndex = 18;
-            // 
             // lblFNac
             // 
             this.lblFNac.AutoSize = true;
@@ -210,14 +207,124 @@
             this.lblFNac.TabIndex = 19;
             this.lblFNac.Text = "Fecha de Nacimiento";
             // 
+            // btnCrear
+            // 
+            this.btnCrear.Location = new System.Drawing.Point(393, 333);
+            this.btnCrear.Name = "btnCrear";
+            this.btnCrear.Size = new System.Drawing.Size(137, 50);
+            this.btnCrear.TabIndex = 20;
+            this.btnCrear.Text = "Crear Cliente";
+            this.btnCrear.UseVisualStyleBackColor = true;
+            this.btnCrear.Click += new System.EventHandler(this.btnCrear_Click_1);
+            // 
+            // dtfn2
+            // 
+            this.dtfn2.Location = new System.Drawing.Point(352, 106);
+            this.dtfn2.Name = "dtfn2";
+            this.dtfn2.Size = new System.Drawing.Size(200, 20);
+            this.dtfn2.TabIndex = 21;
+            // 
+            // cboNacionalidad
+            // 
+            this.cboNacionalidad.FormattingEnabled = true;
+            this.cboNacionalidad.Location = new System.Drawing.Point(406, 155);
+            this.cboNacionalidad.Name = "cboNacionalidad";
+            this.cboNacionalidad.Size = new System.Drawing.Size(132, 21);
+            this.cboNacionalidad.TabIndex = 22;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(331, 158);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(69, 13);
+            this.label1.TabIndex = 23;
+            this.label1.Text = "Nacionalidad";
+            // 
+            // cboPaisDir
+            // 
+            this.cboPaisDir.FormattingEnabled = true;
+            this.cboPaisDir.Location = new System.Drawing.Point(115, 315);
+            this.cboPaisDir.Name = "cboPaisDir";
+            this.cboPaisDir.Size = new System.Drawing.Size(150, 21);
+            this.cboPaisDir.TabIndex = 24;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(309, 256);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(27, 13);
+            this.label2.TabIndex = 25;
+            this.label2.Text = "Piso";
+            // 
+            // txtPiso
+            // 
+            this.txtPiso.Location = new System.Drawing.Point(342, 252);
+            this.txtPiso.Name = "txtPiso";
+            this.txtPiso.Size = new System.Drawing.Size(29, 20);
+            this.txtPiso.TabIndex = 26;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(312, 284);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(30, 13);
+            this.label3.TabIndex = 27;
+            this.label3.Text = "Dpto";
+            // 
+            // txtDepto
+            // 
+            this.txtDepto.Location = new System.Drawing.Point(342, 281);
+            this.txtDepto.Name = "txtDepto";
+            this.txtDepto.Size = new System.Drawing.Size(29, 20);
+            this.txtDepto.TabIndex = 28;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(413, 248);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(24, 13);
+            this.label4.TabIndex = 29;
+            this.label4.Text = "Nro";
+            // 
+            // txtNroCalle
+            // 
+            this.txtNroCalle.Location = new System.Drawing.Point(438, 245);
+            this.txtNroCalle.Name = "txtNroCalle";
+            this.txtNroCalle.Size = new System.Drawing.Size(100, 20);
+            this.txtNroCalle.TabIndex = 30;
+            // 
+            // chkHab
+            // 
+            this.chkHab.AutoSize = true;
+            this.chkHab.Location = new System.Drawing.Point(74, 366);
+            this.chkHab.Name = "chkHab";
+            this.chkHab.Size = new System.Drawing.Size(64, 17);
+            this.chkHab.TabIndex = 31;
+            this.chkHab.Text = "Habilitar";
+            this.chkHab.UseVisualStyleBackColor = true;
+            // 
             // AltaCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(575, 438);
+            this.Controls.Add(this.chkHab);
+            this.Controls.Add(this.txtNroCalle);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.txtDepto);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.txtPiso);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.cboPaisDir);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.cboNacionalidad);
+            this.Controls.Add(this.dtfn2);
+            this.Controls.Add(this.btnCrear);
             this.Controls.Add(this.lblFNac);
-            this.Controls.Add(this.dtFNac);
-            this.Controls.Add(this.txtPais);
             this.Controls.Add(this.txtLocalidad);
             this.Controls.Add(this.txtCalle);
             this.Controls.Add(this.lblPais);
@@ -235,9 +342,9 @@
             this.Controls.Add(this.lblApellido);
             this.Controls.Add(this.txtNombre);
             this.Controls.Add(this.lblNombre);
-            this.Name = "altaCliente";
+            this.Name = "AltaCliente";
             this.Text = "Alta de Cliente";
-            //this.Load += new System.EventHandler(this.AltaCliente_Load);
+            this.Load += new System.EventHandler(this.AltaCliente_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -262,8 +369,18 @@
         private System.Windows.Forms.Label lblPais;
         private System.Windows.Forms.TextBox txtCalle;
         private System.Windows.Forms.TextBox txtLocalidad;
-        private System.Windows.Forms.TextBox txtPais;
-        private System.Windows.Forms.MonthCalendar dtFNac;
         private System.Windows.Forms.Label lblFNac;
+        private System.Windows.Forms.Button btnCrear;
+        private System.Windows.Forms.DateTimePicker dtfn2;
+        private System.Windows.Forms.ComboBox cboNacionalidad;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox cboPaisDir;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtPiso;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtDepto;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtNroCalle;
+        private System.Windows.Forms.CheckBox chkHab;
     }
 }

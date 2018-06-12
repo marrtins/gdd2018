@@ -79,36 +79,6 @@
     <Compile Include="AbmCliente\SeleccionCliente.Designer.cs">
       <DependentUpon>SeleccionCliente.cs</DependentUpon>
     </Compile>
-    <Compile Include="AbmHabitacion\AltaHabitacion.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AbmHabitacion\AltaHabitacion.designer.cs">
-      <DependentUpon>AltaHabitacion.cs</DependentUpon>
-    </Compile>
-    <Compile Include="AbmHabitacion\BajaHabitacion.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AbmHabitacion\BajaHabitacion.designer.cs">
-      <DependentUpon>BajaHabitacion.cs</DependentUpon>
-    </Compile>
-    <Compile Include="AbmHabitacion\InicioHabitacion.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AbmHabitacion\InicioHabitacion.designer.cs">
-      <DependentUpon>InicioHabitacion.cs</DependentUpon>
-    </Compile>
-    <Compile Include="AbmHabitacion\ModificarHabitacion.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AbmHabitacion\ModificarHabitacion.designer.cs">
-      <DependentUpon>ModificarHabitacion.cs</DependentUpon>
-    </Compile>
-    <Compile Include="AbmHabitacion\VentanaHabitacion.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AbmHabitacion\VentanaHabitacion.designer.cs">
-      <DependentUpon>VentanaHabitacion.cs</DependentUpon>
-    </Compile>
     <Compile Include="AbmHotel\InsertarModificar.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -226,12 +196,6 @@
     <EmbeddedResource Include="AbmCliente\SeleccionCliente.resx">
       <DependentUpon>SeleccionCliente.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AbmHabitacion\InicioHabitacion.resx">
-      <DependentUpon>InicioHabitacion.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AbmHabitacion\VentanaHabitacion.resx">
-      <DependentUpon>VentanaHabitacion.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="AbmHotel\InsertarModificar.resx">
       <DependentUpon>InsertarModificar.cs</DependentUpon>
     </EmbeddedResource>
@@ -285,7 +249,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="ActiveBarLibrary">

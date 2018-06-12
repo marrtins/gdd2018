@@ -10,13 +10,13 @@ using System.Windows.Forms;
 
 namespace FrbaHotel.AbmUsuario
 {
-    public partial class Usuario : Form
+    public partial class OpcionesUsuario : Form
     {
         private Button btnCrearUsuario;
         private Button btnModificarUsuario;
         private Button btnBorrarUsuario;
     
-        public Usuario()
+        public OpcionesUsuario()
         {
             InitializeComponent();
         }
@@ -30,9 +30,6 @@ namespace FrbaHotel.AbmUsuario
         {
             SeleccionUsuario su = new SeleccionUsuario();
             su.ShowDialog();
-            ModificarUsuario mu = new ModificarUsuario();
-            mu.ShowDialog();
-            
         }
 
         private void btnBorrarUsuario_Click(object sender, EventArgs e)
