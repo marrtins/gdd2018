@@ -14,16 +14,12 @@ namespace FrbaHotel.AbmCliente
 {
     public partial class SeleccionCliente : Form
     {
-<<<<<<< HEAD
         private int modo;
 
-=======
->>>>>>> 10d5fadbf24039a2f4f6439817ea3b95d7c5671a
         public SeleccionCliente()
         {
             
 
-<<<<<<< HEAD
             
 
         }
@@ -34,8 +30,6 @@ namespace FrbaHotel.AbmCliente
 
 
 
-=======
->>>>>>> 10d5fadbf24039a2f4f6439817ea3b95d7c5671a
             InitializeComponent();
             DataGridViewButtonColumn bcol = new DataGridViewButtonColumn();
             bcol.HeaderText = "Accion";
@@ -52,15 +46,7 @@ namespace FrbaHotel.AbmCliente
         private void btnBuscar_Click(object sender, EventArgs e)
         {
                 
-<<<<<<< HEAD
             string consultaBusqueda = String.Format("select distinct pe.Nombre,pe.Apellido,td.Detalle \"Tipo Identificacion\",pe.NroDocumento \"Nro de Identificacion\",pe.Mail,pe.Telefono, pe.FechaDeNacimiento \"Fecha de Nacimiento\",pa.Nombre Nacionalidad, pe.dirCalle \"Calle\",pe.dirNroCalle Numero, pe.dirPiso Piso, pe.dirDepto Dpto,pe.dirLocalidad Localidad, pa2.Nombre \"Pais del Domicilio\",hu.Habilitado,pe.idPersona from mmel.Persona pe, mmel.huesped,mmel.Pais pa, mmel.Pais pa2,mmel.Huesped hu, mmel.TipoDocumento td where pa.idPais = pe.idNacionalidad and pa2.idPais = dirIdPais and pe.idPersona = hu.idPersona and td.idTipoDocumento = pe.idTipoDocumento");
-=======
-            string consultaBusqueda = String.Format("select distinct us.Username, pe.Nombre,pe.Apellido,pe.TipoDocumento \"Tipo Identificacion\",pe.NroDocumento \"Nro de Identificacion\",pe.Mail,pe.Telefono, pe.FechaDeNacimiento \"Fecha de Nacimiento\", pa.Nombre Nacionalidad, pe.dirCalle \"Calle\",pe.dirNroCalle Numero, pe.dirPiso Piso, pe.dirDepto Dpto, pe.dirLocalidad Localidad,pa2.Nombre \"Pais del Domicilio\",hu.Habilitado  from mmel.Persona pe, mmel.huesped,mmel.Pais pa, mmel.Pais pa2,mmel.Huesped  hu where pa.idPais = pe.idNacionalidad and pa2.idPais = dirIdPais and pe.idPersona=hu.idPersona, mmel.Usuario us where us.idPersona = pe.idPersona");
-            if (txtUsername.Text != "")
-            {
-                    consultaBusqueda = String.Format("{0} and us.Username like '%{1}%'", consultaBusqueda,txtUsername.Text.ToUpper());
-            }
->>>>>>> 10d5fadbf24039a2f4f6439817ea3b95d7c5671a
             if (txtNombre.Text != "")
             {
                     consultaBusqueda = String.Format("{0} and pe.Nombre like '%{1}%'", consultaBusqueda,txtNombre.Text.ToUpper());
@@ -107,17 +93,10 @@ namespace FrbaHotel.AbmCliente
 
                 /*string nombre,string apellido,string tipodoc,string nrodoc,string mail,string telefono,
             DateTime fechanac,string nacionalidad,string dircalle,int dirnrocalle,string pais,int dirpiso,
-<<<<<<< HEAD
             string dirdepto,string dirlocalidad, string habilitado
             */
                 DataGridViewRow row = this.dgCustomer.Rows[e.RowIndex];
                 int idPersona = Int32.Parse(row.Cells["idPersona"].Value.ToString());
-=======
-            string dirdepto,string dirlocalidad, string activo
-            */
-                DataGridViewRow row = this.dgCustomer.Rows[e.RowIndex];
-                string username = row.Cells["Username"].Value.ToString();
->>>>>>> 10d5fadbf24039a2f4f6439817ea3b95d7c5671a
                 string nombre = row.Cells["Nombre"].Value.ToString();
                 string apellido = row.Cells["Apellido"].Value.ToString();
                 string tipodoc = row.Cells["Tipo Identificacion"].Value.ToString();
@@ -132,7 +111,7 @@ namespace FrbaHotel.AbmCliente
                 int dirpiso = Int32.Parse(row.Cells["Piso"].Value.ToString());
                 string dirdepto = row.Cells["Dpto"].Value.ToString();
                 string dirloc = row.Cells["Localidad"].Value.ToString();
-                string activo = row.Cells["Activo"].Value.ToString();
+                string habilitado = row.Cells["Habilitado"].Value.ToString();
 
 
                 DatosCliente dc = new DatosCliente(idPersona, nombre, apellido, tipodoc, nrodoc, mail, telefono, fechanac,
@@ -156,13 +135,10 @@ namespace FrbaHotel.AbmCliente
             }
         }
 
-<<<<<<< HEAD
         private void SeleccionCliente_Load(object sender, EventArgs e)
         {
 
         }
-=======
->>>>>>> 10d5fadbf24039a2f4f6439817ea3b95d7c5671a
     }
     
 }
