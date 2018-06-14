@@ -41,23 +41,32 @@ namespace FrbaHotel.AbmHabitacion
                 {
 
                     cmd.CommandType = CommandType.StoredProcedure;
+
                     cmd.Parameters.AddWithValue("@IdTipoHabitacion", SqlDbType.Int).Value = tipoHabInput.Text;
                     cmd.Parameters.AddWithValue("@NumeroHabitacion", SqlDbType.Int).Value = numHabInput.Text;
                     cmd.Parameters.AddWithValue("@IdHotel", SqlDbType.Int).Value = hotelInput.Text;
                     cmd.Parameters.AddWithValue("@Piso", SqlDbType.Int).Value = pisoInput.Text;
                     cmd.Parameters.AddWithValue("@VistaAlExterior", SqlDbType.Char).Value = vistaExtInput.Text;
-
-                    if (habilitadoInput.Checked)
-                    {
-                        cmd.Parameters.Add("@Habilitado", SqlDbType.Char, 1).Value = 'S';
-                    }
-                    else
-                    {
-                        cmd.Parameters.Add("@Habilitado", SqlDbType.Char, 1).Value = 'N';
-                    }
+                    cmd.Parameters.Add("@MESSAGE", SqlDbType.Int).Direction = ParameterDirection.Output;
                     con.Open();
                     var dr = cmd.ExecuteReader();
-
+                    if (dr != null)
+                    {
+                        int MENSAJE = Convert.ToInt32(cmd.Parameters["@MESSAGE"].Value);
+                        if(MENSAJE == 0)
+                        {
+                            MessageBox.Show("La habitacion no se puede dar de baja porque tiene reserva");
+                            this.Hide();
+                        }
+                        else
+                        {
+                            MessageBox.Show("La habitacion se dio de baja con exito");
+                            this.Hide();
+                        }
+                    }
+                    else {
+                        this.Hide();
+                }
 
 
                 }

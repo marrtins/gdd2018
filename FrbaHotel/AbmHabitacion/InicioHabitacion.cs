@@ -16,6 +16,7 @@ using System.Configuration;
 
 
 
+
 namespace FrbaHotel.AbmHabitacion
 {
     public partial class InicioHabitacion : ModelBoundForm
@@ -33,7 +34,6 @@ namespace FrbaHotel.AbmHabitacion
            
         }
 
- 
         private void button2_Click(object sender, EventArgs e)
         {
             AltaHabitacion alta = new AltaHabitacion();
@@ -54,30 +54,27 @@ namespace FrbaHotel.AbmHabitacion
             {
                 using (SqlCommand cmd = new SqlCommand("MMEL.HabitacionesListar", con))
                 {
-
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@IdTipoHabitacion", SqlDbType.Int).Value = tipoHabInput.Text;
-                    cmd.Parameters.AddWithValue("@NumeroHabitacion", SqlDbType.Int).Value = numHabInput.Text;
-                    cmd.Parameters.AddWithValue("@IdHotel", SqlDbType.Int).Value = hotelInput.Text; 
-                    cmd.Parameters.AddWithValue("@Piso", SqlDbType.Int).Value = pisoInput.Text;
-                    cmd.Parameters.AddWithValue("@VistaAlExterior", SqlDbType.Char).Value = vistaExtInput.Text;
-                
-                    con.Open();
-                    var dr = cmd.ExecuteReader();
-
-                    var listaHabitaciones = dr.MapToList<Habitacion>();
-
-                    habitaciones.Clear();
-
-                    if (listaHabitaciones != null)
-                        listaHabitaciones.ForEach(lh => habitaciones.Add(lh)); // lo hago asi para que no se pierda el binding
+                    var tipoHab = (tipoHabInput.Text.Trim() == "")?"null":tipoHabInput.Text;
+                    var numHab = (numHabInput.Text.Trim() == "") ? "null" : numHabInput.Text;
+                    var hotel = (hotelInput.Text.Trim() == "") ? "null" : hotelInput.Text;
+                    var piso = (pisoInput.Text.Trim() == "") ? "null" : pisoInput.Text;
+                    var vista = (vistaExtInput.Text.Trim() == "") ? "null" : vistaExtInput.Text;
                    
+                    var query = String.Format("exec [MMEL].[HabitacionesListar] {0} , {1} , {2} , {3} ,  {4}  ", tipoHab, numHab, hotel, piso, vista);
+                    MessageBox.Show("Ejecutando query:" +query);
+                    SqlDataAdapter dataAdapter = new SqlDataAdapter(query, connection);
+                    DataTable table = new DataTable();
+                    table.Locale = System.Globalization.CultureInfo.InvariantCulture;
+                    dataAdapter.Fill(table);
+                   this.dataGridView1.DataSource = table;
+
                 }
             }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+
             RefreshData();
         }
 

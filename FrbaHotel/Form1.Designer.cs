@@ -30,6 +30,7 @@
         {
             this.btnCliente = new System.Windows.Forms.Button();
             this.abmHotelBtn = new System.Windows.Forms.Button();
+            this.rolButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCliente
@@ -52,11 +53,22 @@
             this.abmHotelBtn.UseVisualStyleBackColor = true;
             this.abmHotelBtn.Click += new System.EventHandler(this.abmHotelBtn_Click);
             // 
+            // rolButton
+            // 
+            this.rolButton.Location = new System.Drawing.Point(45, 122);
+            this.rolButton.Name = "rolButton";
+            this.rolButton.Size = new System.Drawing.Size(131, 57);
+            this.rolButton.TabIndex = 2;
+            this.rolButton.Text = "ABM Rol";
+            this.rolButton.UseVisualStyleBackColor = true;
+            this.rolButton.Click += new System.EventHandler(this.rolButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(240, 136);
+            this.ClientSize = new System.Drawing.Size(240, 210);
+            this.Controls.Add(this.rolButton);
             this.Controls.Add(this.abmHotelBtn);
             this.Controls.Add(this.btnCliente);
             this.Name = "Form1";
@@ -70,6 +82,7 @@
 
         private System.Windows.Forms.Button btnCliente;
         private System.Windows.Forms.Button abmHotelBtn;
+        private System.Windows.Forms.Button rolButton;
     }
 }
 

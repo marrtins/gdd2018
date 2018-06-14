@@ -39,5 +39,12 @@ namespace FrbaHotel
             abm.ShowDialog();
             this.Hide();
         }
+
+        private void rolButton_Click(object sender, EventArgs e)
+        {
+            AbmRol.Listado abm = new AbmRol.Listado();
+            abm.ShowDialog();
+            this.Hide();
+        }
     }
 }

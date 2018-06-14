@@ -24,10 +24,7 @@ namespace FrbaHotel.Login
 
             RegistrarInputs();
 
-            var usLog = (UsuarioLogin)this.Model;
 
-            usLog.Nombre = ConfigurationManager.AppSettings["defaultUserName"];
-            usLog.Contrasenia = ConfigurationManager.AppSettings["defaultPassword"];
         }
 
         private void RegistrarInputs()
@@ -49,10 +46,12 @@ namespace FrbaHotel.Login
             if (success)
             {
                 var roles = Roles.GetAllFor(LoginData.IdUsuario);
-                bool masDeUnRol = roles.Count > 1;
+                var hoteles = HotelesLogin.GetAllFor(LoginData.IdUsuario);
 
-                if (masDeUnRol)
-                    SeleccionarRol();
+                bool debeAbrirSeleccionar = roles.Count > 1 || hoteles.Count > 1;
+
+                if (debeAbrirSeleccionar)
+                    Seleccionar();
                 else
                     LoginData.Rol = roles.First();
 
@@ -64,13 +63,11 @@ namespace FrbaHotel.Login
             }
         }
 
-        private void SeleccionarRol()
+        private void Seleccionar()
         {
-            var rolSelec = new SeleccionRol();
+            var rolSelec = new Seleccion();
 
             rolSelec.ShowDialog();
-
-            this.Close();
         }
 
         private bool Log()
@@ -125,6 +122,19 @@ namespace FrbaHotel.Login
         private void button2_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void Login_Shown(object sender, EventArgs e)
+        {
+            var usLog = (UsuarioLogin)this.Model;
+
+            usLog.Nombre = ConfigurationManager.AppSettings["defaultUserName"];
+            usLog.Contrasenia = ConfigurationManager.AppSettings["defaultPassword"];
+
+            var autoLogin = ConfigurationManager.AppSettings["autoLogin"] != null ? Boolean.Parse(ConfigurationManager.AppSettings["autoLogin"]) : false;
+
+            if (autoLogin)
+                button1_Click(null, null);
         }
     }
 }
