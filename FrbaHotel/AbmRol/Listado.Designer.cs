@@ -32,12 +32,14 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.rolesGridView = new System.Windows.Forms.DataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.listView1 = new System.Windows.Forms.ListView();
             this.NombreCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ActivoCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.funcionalidadesGrid = new System.Windows.Forms.DataGridView();
+            this.FuncNombreCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rolesGridView)).BeginInit();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.funcionalidadesGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // button3
@@ -77,7 +79,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.listView1);
+            this.groupBox2.Controls.Add(this.funcionalidadesGrid);
             this.groupBox2.Location = new System.Drawing.Point(404, 41);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(281, 334);
@@ -85,25 +87,39 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Funcionalidades de rol";
             // 
-            // listView1
-            // 
-            this.listView1.Location = new System.Drawing.Point(7, 20);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(264, 308);
-            this.listView1.TabIndex = 0;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            // 
             // NombreCol
             // 
             this.NombreCol.DataPropertyName = "Nombre";
             this.NombreCol.HeaderText = "Nombre";
             this.NombreCol.Name = "NombreCol";
+            this.NombreCol.ReadOnly = true;
             // 
             // ActivoCol
             // 
             this.ActivoCol.DataPropertyName = "Activo";
             this.ActivoCol.HeaderText = "Activo";
             this.ActivoCol.Name = "ActivoCol";
+            this.ActivoCol.ReadOnly = true;
+            // 
+            // funcionalidadesGrid
+            // 
+            this.funcionalidadesGrid.AllowUserToAddRows = false;
+            this.funcionalidadesGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.funcionalidadesGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.funcionalidadesGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.FuncNombreCol});
+            this.funcionalidadesGrid.Location = new System.Drawing.Point(7, 20);
+            this.funcionalidadesGrid.Name = "funcionalidadesGrid";
+            this.funcionalidadesGrid.ReadOnly = true;
+            this.funcionalidadesGrid.Size = new System.Drawing.Size(240, 308);
+            this.funcionalidadesGrid.TabIndex = 0;
+            // 
+            // FuncNombreCol
+            // 
+            this.FuncNombreCol.DataPropertyName = "Descripcion";
+            this.FuncNombreCol.HeaderText = "Descripcion";
+            this.FuncNombreCol.Name = "FuncNombreCol";
+            this.FuncNombreCol.ReadOnly = true;
             // 
             // Listado
             // 
@@ -118,6 +134,7 @@
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.rolesGridView)).EndInit();
             this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.funcionalidadesGrid)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -128,8 +145,9 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DataGridView rolesGridView;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.DataGridViewTextBoxColumn NombreCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn ActivoCol;
+        private System.Windows.Forms.DataGridView funcionalidadesGrid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FuncNombreCol;
     }
 }

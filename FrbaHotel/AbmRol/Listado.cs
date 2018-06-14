@@ -17,7 +17,7 @@ namespace FrbaHotel.AbmRol
     public partial class Listado : Form
     {
         BindingList<Rol> roles = new BindingList<Rol>();
-        BindingList<Funcionalidad> funcionalidades;
+        BindingList<Funcionalidad> funcionalidades = new BindingList<Funcionalidad>();
 
 
         public Listado()
@@ -25,10 +25,14 @@ namespace FrbaHotel.AbmRol
             InitializeComponent();
 
             this.rolesGridView.AutoGenerateColumns = false;
+            this.funcionalidadesGrid.AutoGenerateColumns = false;
 
             this.rolesGridView.DataSource = roles;
+            this.funcionalidadesGrid.DataSource = funcionalidades;
 
             RefreshRolesData();
+
+            this.rolesGridView.MultiSelect = false;
         }
 
         private void RefreshRolesData()
@@ -61,7 +65,7 @@ namespace FrbaHotel.AbmRol
 
             using (SqlConnection con = new SqlConnection(connection))
             {
-                using (SqlCommand cmd = new SqlCommand("MMEL.FuncionalidadesListar", con))
+                using (SqlCommand cmd = new SqlCommand("MMEL.FuncionalidadesDeRol", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@idRol", SqlDbType.Int).Value = idRol;
@@ -82,14 +86,14 @@ namespace FrbaHotel.AbmRol
         {
             var selectedItem = this.rolesGridView.Rows[e.RowIndex].DataBoundItem as Rol;
 
-            RefreshFuncionalidadesData(selectedItem.Id);
+            RefreshFuncionalidadesData(selectedItem.idRol);
         }
 
         private void rolesGridView_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             var selectedItem = this.rolesGridView.Rows[e.RowIndex].DataBoundItem as Rol;
 
-            RefreshFuncionalidadesData(selectedItem.Id);
+            RefreshFuncionalidadesData(selectedItem.idRol);
         }
     }
 }

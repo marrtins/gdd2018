@@ -41,7 +41,7 @@ namespace FrbaHotel.Login
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            LoginData.Rol = roles.First(r => r.Id == (int)this.rolesCombo.SelectedValue);
+            LoginData.Rol = (Rol)this.rolesCombo.SelectedValue;
             LoginData.Hotel = hoteles.First(r => r.IdHotel == (int)this.hotelesCombo.SelectedValue);
 
             this.Close();
