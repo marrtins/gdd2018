@@ -49,10 +49,12 @@ namespace FrbaHotel.Login
             if (success)
             {
                 var roles = Roles.GetAllFor(LoginData.IdUsuario);
-                bool masDeUnRol = roles.Count > 1;
+                var hoteles = HotelesLogin.GetAllFor(LoginData.IdUsuario);
 
-                if (masDeUnRol)
-                    SeleccionarRol();
+                bool debeAbrirSeleccionar = roles.Count > 1 || hoteles.Count > 1;
+
+                if (debeAbrirSeleccionar)
+                    Seleccionar();
                 else
                     LoginData.Rol = roles.First();
 
@@ -64,13 +66,11 @@ namespace FrbaHotel.Login
             }
         }
 
-        private void SeleccionarRol()
+        private void Seleccionar()
         {
-            var rolSelec = new SeleccionRol();
+            var rolSelec = new Seleccion();
 
             rolSelec.ShowDialog();
-
-            this.Close();
         }
 
         private bool Log()

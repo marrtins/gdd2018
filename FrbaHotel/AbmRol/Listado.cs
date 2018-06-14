@@ -16,13 +16,19 @@ namespace FrbaHotel.AbmRol
 {
     public partial class Listado : Form
     {
-        BindingList<Rol> roles;
+        BindingList<Rol> roles = new BindingList<Rol>();
         BindingList<Funcionalidad> funcionalidades;
 
 
         public Listado()
         {
             InitializeComponent();
+
+            this.rolesGridView.AutoGenerateColumns = false;
+
+            this.rolesGridView.DataSource = roles;
+
+            RefreshRolesData();
         }
 
         private void RefreshRolesData()
@@ -72,10 +78,16 @@ namespace FrbaHotel.AbmRol
                 }
             }
         }
-
-        private void dataGridView2_RowEnter(object sender, DataGridViewCellEventArgs e)
+        private void rolesGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            var selectedItem = this.dataGridView2.Rows[e.RowIndex].DataBoundItem as Rol;
+            var selectedItem = this.rolesGridView.Rows[e.RowIndex].DataBoundItem as Rol;
+
+            RefreshFuncionalidadesData(selectedItem.Id);
+        }
+
+        private void rolesGridView_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            var selectedItem = this.rolesGridView.Rows[e.RowIndex].DataBoundItem as Rol;
 
             RefreshFuncionalidadesData(selectedItem.Id);
         }

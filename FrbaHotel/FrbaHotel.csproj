@@ -104,33 +104,27 @@
     <Compile Include="AbmHotel\Listado.Designer.cs">
       <DependentUpon>Listado.cs</DependentUpon>
     </Compile>
-    <Compile Include="AbmUsuario\AltaUsuario.cs">
+    <Compile Include="AbmRol\Listado.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AbmUsuario\BorrarUsuario.cs">
-      <SubType>Form</SubType>
+    <Compile Include="AbmRol\Listado.Designer.cs">
+      <DependentUpon>Listado.cs</DependentUpon>
     </Compile>
-    <Compile Include="AbmUsuario\ModificarUsuario.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AbmUsuario\SeleccionUsuario.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AbmUsuario\Usuario.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="AbmRol\Model\Funcionalidad.cs" />
     <Compile Include="Login\Login.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Login\Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
+    <Compile Include="Login\Model\HotelesLogin.cs" />
+    <Compile Include="Login\Model\HotelLogin.cs" />
     <Compile Include="Login\Model\UsuarioLogin.cs" />
-    <Compile Include="Login\SeleccionRol.cs">
+    <Compile Include="Login\Seleccion.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Login\SeleccionRol.Designer.cs">
-      <DependentUpon>SeleccionRol.cs</DependentUpon>
+    <Compile Include="Login\Seleccion.Designer.cs">
+      <DependentUpon>Seleccion.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilities\ControlResetter.cs" />
     <Compile Include="Utilities\CustomRequiredAttribute.cs" />
@@ -140,12 +134,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="AbmRegimen\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="AbmRol\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AbmRol\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="CancelarReserva\Form1.cs">
@@ -221,20 +209,8 @@
     <EmbeddedResource Include="AbmHotel\Listado.resx">
       <DependentUpon>Listado.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AbmUsuario\AltaUsuario.resx">
-      <DependentUpon>AltaUsuario.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AbmUsuario\BorrarUsuario.resx">
-      <DependentUpon>BorrarUsuario.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AbmUsuario\ModificarUsuario.resx">
-      <DependentUpon>ModificarUsuario.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AbmUsuario\SeleccionUsuario.resx">
-      <DependentUpon>SeleccionUsuario.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AbmUsuario\Usuario.resx">
-      <DependentUpon>Usuario.cs</DependentUpon>
+    <EmbeddedResource Include="AbmRol\Listado.resx">
+      <DependentUpon>Listado.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -242,8 +218,8 @@
     <EmbeddedResource Include="Login\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Login\SeleccionRol.resx">
-      <DependentUpon>SeleccionRol.cs</DependentUpon>
+    <EmbeddedResource Include="Login\Seleccion.resx">
+      <DependentUpon>Seleccion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -300,7 +276,9 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="AbmUsuario\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
