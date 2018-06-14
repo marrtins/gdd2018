@@ -43,6 +43,7 @@ namespace FrbaHotel.AbmHabitacion
                     cmd.Parameters.AddWithValue("@Piso", SqlDbType.Int).Value = pisoInput.Text;
                     cmd.Parameters.AddWithValue("@VistaAlExterior", SqlDbType.Char).Value = vistaExtInput.Text;
                     cmd.Parameters.AddWithValue("@Descripcion", SqlDbType.Char).Value = descripcionInput.Text;
+                    cmd.Parameters.Add("@MESSAGE", SqlDbType.Int).Direction = ParameterDirection.Output;
                     if (habilitadoInput.Checked)
                     {
                         cmd.Parameters.Add("@Habilitado", SqlDbType.Char, 1).Value = 'S';
@@ -54,8 +55,25 @@ namespace FrbaHotel.AbmHabitacion
                     }
                     con.Open();
                     var dr = cmd.ExecuteReader();
+                    if (dr != null)
+                    {
+                        int MENSAJE = Convert.ToInt32(cmd.Parameters["@MESSAGE"].Value);
+                        if (MENSAJE == 0)
+                        {
+                            MessageBox.Show("La habitacion no se puede dar de alta porque ya existe");
+                            this.Hide();
+                        }
+                        else
+                        {
+                            MessageBox.Show("La habitacion se dio de alta con exito");
+                            this.Hide();
+                        }
+                    }
+                    else
+                    {
+                        this.Hide();
+                    }
 
-             
 
                 }
             }

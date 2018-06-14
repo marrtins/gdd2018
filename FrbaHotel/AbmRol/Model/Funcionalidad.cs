@@ -8,8 +8,7 @@ namespace FrbaHotel.AbmRol.Model
 {
     public class Funcionalidad
     {
-        public int Id { get; set; }
-        public int Descripcion { get; set; }
-        
+        public int idFuncionalidad { get; set; }
+        public string Descripcion { get; set; }
     }
 }
