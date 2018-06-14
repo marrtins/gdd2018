@@ -103,6 +103,8 @@ select distinct upper(ot.Cliente_Nombre),upper(ot.Cliente_Apellido),1,ot.Cliente
 				ot.Cliente_Fecha_Nac,1,ot.Cliente_Dom_Calle,ot.Cliente_Nro_Calle,1,ot.Cliente_Piso,ot.Cliente_Depto
  from gd_esquema.Maestra ot
 
+ 
+
  --ver si estan todos habilitados o que.. supongo q aca una funcion/sp determinara si estan habilitados en base a q sus datos esten todos ok
  --aca estoy agregando la condicion de usuario a todos los clientes q acabo de agregar ( x ahora son los unicos q estan en la tabla persona, x eso agrego todo directo)
  insert into mmel.Usuarios(idPersona)
@@ -252,5 +254,87 @@ begin
 	return 0 --no existe
 end
 go
+
+
+IF object_id('mmel.clienteErroneo') IS NULL
+    EXEC ('create function mmel.clienteErroneo as select 1')
+GO
+alter function mmel.clienteErroneo(@idPersona int)
+returns int
+as
+begin
+	
+	if exists (SELECT distinct  * FROM mmel.Persona p1 inner join mmel.Persona p2 on p1.idPersona =@idPersona and  p1.idPersona <>p2.idPersona and p1.Mail=p2.Mail)
+	begin  return 1 end --hay un conflicto con mail duplicado --> dejo uno con ese mail y el otro borro el mail pero no el usuario.
+	if exists(SELECT distinct  * FROM mmel.Persona p1 inner join mmel.Persona p2 on p1.idPersona =@idPersona and p1.idPersona <>p2.idPersona and p1.NroDocumento=p2.NroDocumento and p1.idTipoDocumento=p2.idTipoDocumento)
+	begin return 2 end --existe el mismo nro de id para cliente c distinto mail. --> unificar todo al mismo mail y elegir nueva direccioncalle y demas
+	
+	return 0
+end
+go
+
+alter procedure mmel.esErroneo(@idPersona int,@codigoRet int output)
+as
+begin
+	if exists (SELECT distinct  * FROM mmel.Persona p1 inner join mmel.Persona p2 on p1.idPersona =@idPersona and  p1.idPersona <>p2.idPersona and p1.Mail=p2.Mail)
+	begin  set @codigoRet = 1 end --hay un conflicto con mail duplicado --> dejo uno con ese mail y el otro borro el mail pero no el usuario.
+	else if exists(SELECT distinct  * FROM mmel.Persona p1 inner join mmel.Persona p2 on p1.idPersona =@idPersona and p1.idPersona <>p2.idPersona and p1.NroDocumento=p2.NroDocumento and p1.idTipoDocumento=p2.idTipoDocumento)
+	begin set @codigoRet = 2 end --existe el mismo nro de id para cliente c distinto mail. --> unificar todo al mismo mail y elegir nueva direccioncalle y demas
+	else begin set @codigoRet = 0 end
+end
+
+alter procedure mmel.removerEmail(@idPersona int)
+as
+begin
+	update mmel.Persona
+	set Mail=null where idPersona=@idPersona
+end
+
+
+create procedure mmel.removerPasaporte(@idPersona int)
+as
+begin
+	update mmel.Persona
+	set NroDocumento=null where idPersona=@idPersona
+end
+
+
+
+IF object_id('mmel.modificarCliente') IS NULL
+    EXEC ('create procedure mmel.modificarCliente as select 1')
+GO
+alter procedure mmel.modificarCliente(@idPersona int,@nombre varchar(50),@apellido varchar(50),@tipoDocumento varchar(15),@nroDocumento nvarchar(25),@mail varchar(200),@telefono varchar(20),
+	@fechaDeNacimiento datetime,@nacionalidad varchar(50),@dirCalle nvarchar(150),@dirNroCalle int ,@pais varchar(150),@dirPiso smallint,@dirDepto char(2),@dirLocalidad nvarchar(150),
+	@habilitado char(1),@codigoRet int output)
+as
+begin
+	
+	declare @idDirPais int
+	declare @idNacionalidad int
+	declare @aux int
+	declare @idTipoDoc int
+	set @idDirPais=1
+	set @idNacionalidad=1
+	set @idTipoDoc = 1
+
+	set @aux= mmel.existeCliente(@tipoDocumento,@nroDocumento,@mail)
+	if(@aux=1)
+	begin
+		set @codigoRet =1 --el mail esta duplicado 
+	end
+	else if(@aux=2)
+	begin
+		set @codigoRet =2 --el pasap esta duplicado 
+	end
+	else if(@aux=0)
+	begin
+		update mmel.Persona
+		set Nombre=@nombre , Apellido=@apellido,idTipoDocumento=@idTipoDoc,NroDocumento=@nroDocumento,Mail=@mail,Telefono=@telefono,FechaDeNacimiento=@fechaDeNacimiento,idNacionalidad=@idNacionalidad,
+			dirCalle=@dirCalle, dirNroCalle = @dirNroCalle,dirIdPais = @idDirPais, dirPiso = @dirPiso,dirDepto = @dirDepto,dirLocalidad=@dirLocalidad--,Habilitado = @habilitado
+	set @codigoRet  = 0
+	end
+end
+
+
 
 

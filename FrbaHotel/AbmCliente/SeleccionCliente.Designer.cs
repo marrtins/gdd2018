@@ -201,6 +201,7 @@ namespace FrbaHotel.AbmCliente
             this.Controls.Add(this.groupBox1);
             this.Name = "SeleccionCliente";
             this.Text = "SeleccionCliente";
+            this.Load += new System.EventHandler(this.SeleccionCliente_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgCustomer)).EndInit();

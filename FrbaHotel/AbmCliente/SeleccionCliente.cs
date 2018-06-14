@@ -14,28 +14,39 @@ namespace FrbaHotel.AbmCliente
 {
     public partial class SeleccionCliente : Form
     {
+        private int modo;
+
         public SeleccionCliente()
         {
             
 
+            
+
+        }
+
+        public SeleccionCliente(int v)
+        {
+            this.modo = v; // valor  = 1 -> modificar ; valor = 2 -> BOrrar
+
+
+
             InitializeComponent();
             DataGridViewButtonColumn bcol = new DataGridViewButtonColumn();
-            bcol.HeaderText = "Button Column ";
-            bcol.Text = "Click Me";
+            bcol.HeaderText = "Accion";
+
+            if (modo == 1) { bcol.Text = "Modificar "; }
+            else { bcol.Text = "Borrar o Inhabilitar"; }            
             bcol.Name = "btnClickMe";
             bcol.UseColumnTextForButtonValue = true;
             dgCustomer.Columns.Add(bcol);
+
 
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
                 
-            string consultaBusqueda = String.Format("select distinct us.Username, pe.Nombre,pe.Apellido,pe.TipoDocumento \"Tipo Identificacion\",pe.NroDocumento \"Nro de Identificacion\",pe.Mail,pe.Telefono, pe.FechaDeNacimiento \"Fecha de Nacimiento\", pa.Nombre Nacionalidad, pe.dirCalle \"Calle\",pe.dirNroCalle Numero, pe.dirPiso Piso, pe.dirDepto Dpto, pe.dirLocalidad Localidad,pa2.Nombre \"Pais del Domicilio\",hu.Habilitado  from mmel.Persona pe, mmel.huesped,mmel.Pais pa, mmel.Pais pa2,mmel.Huesped  hu where pa.idPais = pe.idNacionalidad and pa2.idPais = dirIdPais and pe.idPersona=hu.idPersona, mmel.Usuario us where us.idPersona = pe.idPersona");
-            if (txtUsername.Text != "")
-            {
-                    consultaBusqueda = String.Format("{0} and us.Username like '%{1}%'", consultaBusqueda,txtUsername.Text.ToUpper());
-            }
+            string consultaBusqueda = String.Format("select distinct pe.Nombre,pe.Apellido,td.Detalle \"Tipo Identificacion\",pe.NroDocumento \"Nro de Identificacion\",pe.Mail,pe.Telefono, pe.FechaDeNacimiento \"Fecha de Nacimiento\",pa.Nombre Nacionalidad, pe.dirCalle \"Calle\",pe.dirNroCalle Numero, pe.dirPiso Piso, pe.dirDepto Dpto,pe.dirLocalidad Localidad, pa2.Nombre \"Pais del Domicilio\",hu.Habilitado,pe.idPersona from mmel.Persona pe, mmel.huesped,mmel.Pais pa, mmel.Pais pa2,mmel.Huesped hu, mmel.TipoDocumento td where pa.idPais = pe.idNacionalidad and pa2.idPais = dirIdPais and pe.idPersona = hu.idPersona and td.idTipoDocumento = pe.idTipoDocumento");
             if (txtNombre.Text != "")
             {
                     consultaBusqueda = String.Format("{0} and pe.Nombre like '%{1}%'", consultaBusqueda,txtNombre.Text.ToUpper());
@@ -82,10 +93,10 @@ namespace FrbaHotel.AbmCliente
 
                 /*string nombre,string apellido,string tipodoc,string nrodoc,string mail,string telefono,
             DateTime fechanac,string nacionalidad,string dircalle,int dirnrocalle,string pais,int dirpiso,
-            string dirdepto,string dirlocalidad, string activo
+            string dirdepto,string dirlocalidad, string habilitado
             */
                 DataGridViewRow row = this.dgCustomer.Rows[e.RowIndex];
-                string username = row.Cells["Username"].Value.ToString();
+                int idPersona = Int32.Parse(row.Cells["idPersona"].Value.ToString());
                 string nombre = row.Cells["Nombre"].Value.ToString();
                 string apellido = row.Cells["Apellido"].Value.ToString();
                 string tipodoc = row.Cells["Tipo Identificacion"].Value.ToString();
@@ -100,23 +111,34 @@ namespace FrbaHotel.AbmCliente
                 int dirpiso = Int32.Parse(row.Cells["Piso"].Value.ToString());
                 string dirdepto = row.Cells["Dpto"].Value.ToString();
                 string dirloc = row.Cells["Localidad"].Value.ToString();
-                string activo = row.Cells["Activo"].Value.ToString();
+                string habilitado = row.Cells["Habilitado"].Value.ToString();
 
 
-
-
-                ModificarCliente mc = new ModificarCliente(nombre, apellido, tipodoc, nrodoc, mail,telefono, fechanac,
+                DatosCliente dc = new DatosCliente(idPersona, nombre, apellido, tipodoc, nrodoc, mail, telefono, fechanac,
                     nacionalidad, dircalle, dirnrocalle, pais,
                     dirpiso, dirdepto,
                     dirloc, habilitado);
-                mc.Show();
 
+                if (modo == 1)
+                {
+                    ModificarCliente mc = new ModificarCliente(dc);
+                    mc.Show();
+                }
+                else
+                {
+                    BorrarCliente bc = new BorrarCliente(dc);
+                    bc.Show();
+                }
 
                 
                 //StateMents you Want to execute to Get Data 
             }
         }
 
+        private void SeleccionCliente_Load(object sender, EventArgs e)
+        {
+
+        }
     }
     
 }

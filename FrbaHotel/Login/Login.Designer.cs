@@ -114,6 +114,7 @@
             this.Controls.Add(this.usuarioInput);
             this.Name = "Login";
             this.Text = "Login";
+            this.Shown += new System.EventHandler(this.Login_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
 
