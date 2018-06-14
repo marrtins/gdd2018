@@ -40,7 +40,7 @@ namespace FrbaHotel.AbmCliente
             this.lblEmail = new System.Windows.Forms.Label();
             this.txtNroId = new System.Windows.Forms.TextBox();
             this.lblNro = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.cboTipoId = new System.Windows.Forms.ComboBox();
             this.lblTipo = new System.Windows.Forms.Label();
             this.txtApellido = new System.Windows.Forms.TextBox();
             this.lblApellido = new System.Windows.Forms.Label();
@@ -48,6 +48,7 @@ namespace FrbaHotel.AbmCliente
             this.lblNombre = new System.Windows.Forms.Label();
             this.dgCustomer = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgCustomer)).BeginInit();
             this.SuspendLayout();
@@ -60,7 +61,7 @@ namespace FrbaHotel.AbmCliente
             this.groupBox1.Controls.Add(this.lblEmail);
             this.groupBox1.Controls.Add(this.txtNroId);
             this.groupBox1.Controls.Add(this.lblNro);
-            this.groupBox1.Controls.Add(this.comboBox1);
+            this.groupBox1.Controls.Add(this.cboTipoId);
             this.groupBox1.Controls.Add(this.lblTipo);
             this.groupBox1.Controls.Add(this.txtApellido);
             this.groupBox1.Controls.Add(this.lblApellido);
@@ -81,6 +82,7 @@ namespace FrbaHotel.AbmCliente
             this.btnLimpiar.TabIndex = 11;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.UseVisualStyleBackColor = true;
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
             // btnBuscar
             // 
@@ -124,14 +126,14 @@ namespace FrbaHotel.AbmCliente
             this.lblNro.TabIndex = 6;
             this.lblNro.Text = "Nro de Identificación";
             // 
-            // comboBox1
+            // cboTipoId
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(362, 26);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(104, 21);
-            this.comboBox1.TabIndex = 5;
-            this.comboBox1.Text = "Seleccionar";
+            this.cboTipoId.FormattingEnabled = true;
+            this.cboTipoId.Location = new System.Drawing.Point(362, 26);
+            this.cboTipoId.Name = "cboTipoId";
+            this.cboTipoId.Size = new System.Drawing.Size(104, 21);
+            this.cboTipoId.TabIndex = 5;
+            this.cboTipoId.Text = "Seleccionar";
             // 
             // lblTipo
             // 
@@ -191,11 +193,22 @@ namespace FrbaHotel.AbmCliente
             this.label1.Size = new System.Drawing.Size(0, 13);
             this.label1.TabIndex = 2;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(71, 420);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(95, 26);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "Volver";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // SeleccionCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dgCustomer);
             this.Controls.Add(this.groupBox1);
@@ -219,7 +232,7 @@ namespace FrbaHotel.AbmCliente
         private System.Windows.Forms.Label lblEmail;
         private System.Windows.Forms.TextBox txtNroId;
         private System.Windows.Forms.Label lblNro;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cboTipoId;
         private System.Windows.Forms.Label lblTipo;
         private System.Windows.Forms.TextBox txtApellido;
         private System.Windows.Forms.Label lblApellido;
@@ -229,5 +242,6 @@ namespace FrbaHotel.AbmCliente
         private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.Label label1;
+        private Button button1;
     }
 }

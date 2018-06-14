@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -42,6 +44,7 @@ namespace FrbaHotel.AbmCliente
             else if (aux == 0)
             {
                 //todo ok 
+                this.Show();
                 llenarCampos();
             }
 
@@ -50,10 +53,19 @@ namespace FrbaHotel.AbmCliente
 
         private void llenarCampos()
         {
+
+
+            lblMail.Text = "";
+
+
             lblNombre.Text = datos.nombre;
+            lblApellido.Text = datos.apellido;
             lblTipoDoc.Text = datos.tipodoc.ToString();
             lblNroDoc.Text = datos.nrodoc;
             lblMail.Text = datos.mail;
+
+
+
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)
@@ -62,6 +74,37 @@ namespace FrbaHotel.AbmCliente
         }
 
         private void dgCustomer_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string strCo = ConfigurationManager.AppSettings["stringConexion"];
+            SqlConnection con = new SqlConnection(strCo);
+
+            SqlCommand cmd;
+            cmd = new SqlCommand("MMEL.borrarCliente", con);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@idCliente", SqlDbType.Int).Value = datos.idPersona;
+
+            if (cmd.Connection.State == ConnectionState.Closed)
+            {
+                cmd.Connection.Open();
+            }
+            cmd.ExecuteNonQuery();
+
+            MessageBox.Show("Cliente Eliminado", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            this.Hide();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+        }
+
+        private void BorrarCliente_Load(object sender, EventArgs e)
         {
 
         }

@@ -116,10 +116,12 @@ namespace FrbaHotel.AbmCliente
             if (modo == 1)
             {
                 ModificarCliente mc = new ModificarCliente(datos);
+                mc.Show();
             }
             else if (modo == 2)
             {
                 BorrarCliente bc = new BorrarCliente(datos);
+                bc.Show();
             }
         }
 

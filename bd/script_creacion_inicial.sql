@@ -230,6 +230,7 @@ Create Table [MMEL].[Reserva](
 	idReserva int identity(1,1) not null,
 	--idRol int references MMEL.Rol(idRol),--cambiar esto, tiene q ir el id de quien realizo la reserva
 	idUsuarioQueProcesoReserva int references MMEL.Usuarios(idUsuario), --agregar al der 
+	idHotel int references MMEL.Hotel(idHotel),
 	FechaDeReserva datetime ,
 	FechaDesde datetime ,
 	FechaHasta datetime ,
@@ -239,6 +240,12 @@ Create Table [MMEL].[Reserva](
 	EstadoReserva char(1) ,
 	CodigoReserva int ,
 	constraint PK_idReserva primary key(idReserva)
+	)
+	Create Table [MMEL].[ReservaPorHabitacion](
+	idRPH int identity(1,1) not null,
+	idReserva int references MMEL.Reserva(idReserva),
+	idHabitacion int references MMEL.Habitacion(idHabitacion),
+	constraint PK_idHabitacion primary key(idHabitacion)
 	)
 Create Table [MMEL].[Estadia](
 	idEstadia int identity(1,1) not null,

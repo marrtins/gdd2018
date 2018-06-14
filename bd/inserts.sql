@@ -121,8 +121,8 @@ select distinct 3,pe.idPersona from mmel.Rol ro, mmel.Persona pe
  join mmel.UsuariosPorRoles upr on us.idUsuario=upr.idUsuario
  join mmel.Rol ro on upr.idRol=ro.idRol
  */
- insert into mmel.Huesped(idPersona)
- select distinct idPersona from mmel.Persona 
+ insert into mmel.Huesped(idPersona,Habilitado)
+ select distinct idPersona,'S' from mmel.Persona 
 
 
 ---esta se podria agregar a manopla... todos los hoteles tienen todos los regimenes..
@@ -135,8 +135,8 @@ select distinct 3,pe.idPersona from mmel.Rol ro, mmel.Persona pe
 
 
 --revisar el usuario q realizo estas reservas ..
-insert into mmel.Reserva(FechaDesde,FechaHasta,idHabitacion,idRegimen,idHuesped,CodigoReserva) 
-select distinct ot.Reserva_Fecha_Inicio,ot.Reserva_Cant_Noches+ot.Reserva_Fecha_Inicio,ha.idHabitacion,re.idRegimen,hu.idHuesped,ot.Reserva_Codigo		
+insert into mmel.Reserva(FechaDesde,FechaHasta,idHabitacion,idRegimen,idHuesped,CodigoReserva,idHotel) 
+select distinct ot.Reserva_Fecha_Inicio,ot.Reserva_Cant_Noches+ot.Reserva_Fecha_Inicio,ha.idHabitacion,re.idRegimen,hu.idHuesped,ot.Reserva_Codigo,ho.idHotel		
 from gd_esquema.Maestra ot
 inner join mmel.Direccion di on ot.Hotel_Calle=di.calle and ot.Hotel_Nro_Calle=di.nroCalle
 inner join mmel.Hotel ho on di.idDireccion=ho.idDireccion
@@ -146,11 +146,11 @@ inner join mmel.Persona pe on pe.Apellido=ot.Cliente_Apellido and pe.NroDocument
 inner join mmel.Usuarios us on us.idPersona=pe.idPersona
 inner join mmel.Habitacion ha on ot.Habitacion_Numero=ha.NumeroHabitacion and ho.idHotel=ha.idHotel
 inner join mmel.Huesped hu on hu.idPersona = us.idPersona
+/*
 
-
-
-
-
+insert into mmel.ReservaPorHabitacion(idReserva,idHabitacion)
+select distinct re.idReserva,ha.idHabitacion from
+*/
 
 
 --hay campos en q fehca inicio y cant noches son nulos , no los pongo pero revisar...
@@ -282,16 +282,16 @@ begin
 	begin set @codigoRet = 2 end --existe el mismo nro de id para cliente c distinto mail. --> unificar todo al mismo mail y elegir nueva direccioncalle y demas
 	else begin set @codigoRet = 0 end
 end
-
+go
 alter procedure mmel.removerEmail(@idPersona int)
 as
 begin
 	update mmel.Persona
 	set Mail=null where idPersona=@idPersona
 end
+go
 
-
-create procedure mmel.removerPasaporte(@idPersona int)
+alter procedure mmel.removerPasaporte(@idPersona int)
 as
 begin
 	update mmel.Persona
@@ -317,7 +317,7 @@ begin
 	set @idNacionalidad=1
 	set @idTipoDoc = 1
 
-	set @aux= mmel.existeCliente(@tipoDocumento,@nroDocumento,@mail)
+	set @aux= mmel.existeClienteModif(@tipoDocumento,@nroDocumento,@mail,@idPersona)
 	if(@aux=1)
 	begin
 		set @codigoRet =1 --el mail esta duplicado 
@@ -330,11 +330,37 @@ begin
 	begin
 		update mmel.Persona
 		set Nombre=@nombre , Apellido=@apellido,idTipoDocumento=@idTipoDoc,NroDocumento=@nroDocumento,Mail=@mail,Telefono=@telefono,FechaDeNacimiento=@fechaDeNacimiento,idNacionalidad=@idNacionalidad,
-			dirCalle=@dirCalle, dirNroCalle = @dirNroCalle,dirIdPais = @idDirPais, dirPiso = @dirPiso,dirDepto = @dirDepto,dirLocalidad=@dirLocalidad--,Habilitado = @habilitado
+			dirCalle=@dirCalle, dirNroCalle = @dirNroCalle,dirIdPais = @idDirPais, dirPiso = @dirPiso,dirDepto = @dirDepto,dirLocalidad=@dirLocalidad where idPersona=@idPersona--,Habilitado = @habilitado
+		update mmel.Huesped
+			set  Habilitado=@habilitado where idPersona=@idPersona
 	set @codigoRet  = 0
 	end
 end
 
 
+go
+
+create function mmel.existeClienteModif(@tipodoc varchar(15),@nrodoc int,@mail varchar(200),@idp int)
+returns int
+as
+begin
+	
+	if exists (SELECT TOP 1 * FROM mmel.Persona, mmel.TipoDocumento ti WHERE NroDocumento=@nrodoc and ti.Detalle = @tipodoc and idPersona<>@idp)
+	begin return 1 end --existe el nro y tipodoc en la bdd
+	if exists(SELECT TOP 1 * FROM mmel.Persona WHERE Mail=@mail and idPersona<>@idp ) 
+	begin return 2 end --existe el mail en la bdd
+	return 0 --no existe
+end
+go
+
+
+
+alter procedure mmel.borrarCliente(@idCliente int)
+as
+begin
+
+update mmel.Huesped
+set Habilitado ='N' where idPersona=@idCliente
+end
 
 

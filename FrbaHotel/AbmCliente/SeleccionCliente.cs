@@ -35,10 +35,13 @@ namespace FrbaHotel.AbmCliente
             bcol.HeaderText = "Accion";
 
             if (modo == 1) { bcol.Text = "Modificar "; }
-            else { bcol.Text = "Borrar o Inhabilitar"; }            
+            else { bcol.Text = "Inhabilitar"; }            
             bcol.Name = "btnClickMe";
             bcol.UseColumnTextForButtonValue = true;
             dgCustomer.Columns.Add(bcol);
+            cboTipoId.Items.Add("Seleccionar");
+            cargarTipoID();
+            
 
 
         }
@@ -46,7 +49,8 @@ namespace FrbaHotel.AbmCliente
         private void btnBuscar_Click(object sender, EventArgs e)
         {
                 
-            string consultaBusqueda = String.Format("select distinct pe.Nombre,pe.Apellido,td.Detalle \"Tipo Identificacion\",pe.NroDocumento \"Nro de Identificacion\",pe.Mail,pe.Telefono, pe.FechaDeNacimiento \"Fecha de Nacimiento\",pa.Nombre Nacionalidad, pe.dirCalle \"Calle\",pe.dirNroCalle Numero, pe.dirPiso Piso, pe.dirDepto Dpto,pe.dirLocalidad Localidad, pa2.Nombre \"Pais del Domicilio\",hu.Habilitado,pe.idPersona from mmel.Persona pe, mmel.huesped,mmel.Pais pa, mmel.Pais pa2,mmel.Huesped hu, mmel.TipoDocumento td where pa.idPais = pe.idNacionalidad and pa2.idPais = dirIdPais and pe.idPersona = hu.idPersona and td.idTipoDocumento = pe.idTipoDocumento");
+            string consultaBusqueda = String.Format("select distinct pe.Nombre,pe.Apellido,td.Detalle \"Tipo Identificacion\",pe.NroDocumento \"Nro de Identificacion\",pe.Mail,pe.Telefono, pe.FechaDeNacimiento \"Fecha de Nacimiento\",pa.Nombre Nacionalidad, pe.dirCalle \"Calle\",pe.dirNroCalle Numero, pe.dirPiso Piso, pe.dirDepto Dpto,pe.dirLocalidad Localidad, pa2.Nombre \"Pais del Domicilio\",hu.Habilitado,pe.idPersona from mmel.Persona pe, mmel.huesped,mmel.Pais pa, mmel.Pais pa2,mmel.Huesped hu, mmel.TipoDocumento td where pa.idPais = pe.idNacionalidad and pa2.idPais = dirIdPais and pe.idPersona = hu.idPersona and td.idTipoDocumento = pe.idTipoDocumento ");
+            if (modo == 2) consultaBusqueda = consultaBusqueda + " and hu.Habilitado = 'S'";
             if (txtNombre.Text != "")
             {
                     consultaBusqueda = String.Format("{0} and pe.Nombre like '%{1}%'", consultaBusqueda,txtNombre.Text.ToUpper());
@@ -101,7 +105,7 @@ namespace FrbaHotel.AbmCliente
                 string apellido = row.Cells["Apellido"].Value.ToString();
                 string tipodoc = row.Cells["Tipo Identificacion"].Value.ToString();
                 string nrodoc = row.Cells["Nro de Identificacion"].Value.ToString();
-                string mail = row.Cells["Email"].Value.ToString();
+                string mail = row.Cells["Mail"].Value.ToString();
                 string telefono = row.Cells["Telefono"].Value.ToString();
                 DateTime fechanac = DateTime.Parse(row.Cells["Fecha de Nacimiento"].Value.ToString());
                 string nacionalidad = row.Cells["Nacionalidad"].Value.ToString();
@@ -122,12 +126,12 @@ namespace FrbaHotel.AbmCliente
                 if (modo == 1)
                 {
                     ModificarCliente mc = new ModificarCliente(dc);
-                    mc.Show();
+                  //  mc.Show();
                 }
                 else
                 {
                     BorrarCliente bc = new BorrarCliente(dc);
-                    bc.Show();
+                    //bc.Show();
                 }
 
                 
@@ -138,6 +142,68 @@ namespace FrbaHotel.AbmCliente
         private void SeleccionCliente_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void cargarTipoID()
+        {
+
+
+            string consultaBusqueda = String.Format("select distinct * from mmel.TipoDocumento ");
+            string strCo = ConfigurationManager.AppSettings["stringConexion"];
+            SqlConnection con = new SqlConnection(strCo);
+            SqlCommand cmd = new SqlCommand(consultaBusqueda, con);
+            con.Open();
+            if (cmd.Connection.State == ConnectionState.Closed)
+            {
+                cmd.Connection.Open();
+            }
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                string tipo = (reader["detalle"].ToString());
+                cboTipoId.Items.Add(tipo);
+
+            }
+            reader.Close();
+            con.Close();
+            
+
+
+
+        }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            Action<Control.ControlCollection> func = null;
+
+            func = (controls) =>
+            {
+                foreach (Control control in controls)
+                    if (control is TextBox)
+                        (control as TextBox).Clear();
+                    else
+                        func(control.Controls);
+            };
+
+            func(Controls);
+
+            func = (controls) =>
+            {
+                foreach (Control control in controls)
+                    if (control is ComboBox)
+                        (control as ComboBox).Text = "Seleccionar";
+                    else
+                        func(control.Controls);
+            };
+
+            func(Controls);
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
         }
     }
     

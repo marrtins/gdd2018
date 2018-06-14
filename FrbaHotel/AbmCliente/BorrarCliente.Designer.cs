@@ -40,7 +40,7 @@
             // lblNombre
             // 
             this.lblNombre.AutoSize = true;
-            this.lblNombre.Location = new System.Drawing.Point(163, 101);
+            this.lblNombre.Location = new System.Drawing.Point(158, 101);
             this.lblNombre.Name = "lblNombre";
             this.lblNombre.Size = new System.Drawing.Size(35, 13);
             this.lblNombre.TabIndex = 0;
@@ -58,7 +58,7 @@
             // lblTipoDoc
             // 
             this.lblTipoDoc.AutoSize = true;
-            this.lblTipoDoc.Location = new System.Drawing.Point(164, 172);
+            this.lblTipoDoc.Location = new System.Drawing.Point(158, 172);
             this.lblTipoDoc.Name = "lblTipoDoc";
             this.lblTipoDoc.Size = new System.Drawing.Size(35, 13);
             this.lblTipoDoc.TabIndex = 2;
@@ -67,7 +67,7 @@
             // lblNroDoc
             // 
             this.lblNroDoc.AutoSize = true;
-            this.lblNroDoc.Location = new System.Drawing.Point(169, 200);
+            this.lblNroDoc.Location = new System.Drawing.Point(158, 200);
             this.lblNroDoc.Name = "lblNroDoc";
             this.lblNroDoc.Size = new System.Drawing.Size(35, 13);
             this.lblNroDoc.TabIndex = 3;
@@ -76,7 +76,7 @@
             // lblMail
             // 
             this.lblMail.AutoSize = true;
-            this.lblMail.Location = new System.Drawing.Point(173, 231);
+            this.lblMail.Location = new System.Drawing.Point(158, 231);
             this.lblMail.Name = "lblMail";
             this.lblMail.Size = new System.Drawing.Size(35, 13);
             this.lblMail.TabIndex = 4;
@@ -84,27 +84,29 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(201, 303);
+            this.button1.Location = new System.Drawing.Point(243, 280);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(95, 45);
             this.button1.TabIndex = 5;
             this.button1.Text = "Inhabilitar Usuario";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(399, 303);
+            this.button2.Location = new System.Drawing.Point(52, 280);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(87, 44);
+            this.button2.Size = new System.Drawing.Size(89, 42);
             this.button2.TabIndex = 6;
-            this.button2.Text = "Borrar Usuario";
+            this.button2.Text = "Volver";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // BorrarCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(395, 404);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.lblMail);
@@ -114,6 +116,7 @@
             this.Controls.Add(this.lblNombre);
             this.Name = "BorrarCliente";
             this.Text = "BorrarCliente";
+            this.Load += new System.EventHandler(this.BorrarCliente_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
