@@ -104,6 +104,12 @@
     <Compile Include="AbmHotel\Listado.Designer.cs">
       <DependentUpon>Listado.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmRol\InsertarModifica.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmRol\InsertarModifica.Designer.cs">
+      <DependentUpon>InsertarModifica.cs</DependentUpon>
+    </Compile>
     <Compile Include="AbmRol\Listado.cs">
       <SubType>Form</SubType>
     </Compile>
