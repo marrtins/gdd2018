@@ -26,6 +26,9 @@ IF OBJECT_ID('MMEL.Funcionalidades', 'U') IS NOT NULL
 
 IF OBJECT_ID('MMEL.CancelacionReserva', 'U') IS NOT NULL 
 	drop table MMEL.CancelacionReserva
+IF OBJECT_ID('MMEL.ReservaPorHabitacion', 'U') IS NOT NULL 
+	drop table MMEL.ReservaPorHabitacion
+	
 
 IF OBJECT_ID('MMEL.Item', 'U') IS NOT NULL 
 	drop table MMEL.Item
@@ -241,12 +244,14 @@ Create Table [MMEL].[Reserva](
 	CodigoReserva int ,
 	constraint PK_idReserva primary key(idReserva)
 	)
+
 	Create Table [MMEL].[ReservaPorHabitacion](
 	idRPH int identity(1,1) not null,
 	idReserva int references MMEL.Reserva(idReserva),
 	idHabitacion int references MMEL.Habitacion(idHabitacion),
-	constraint PK_idHabitacion primary key(idHabitacion)
+	constraint PK_RPH primary key(idHabitacion)
 	)
+
 Create Table [MMEL].[Estadia](
 	idEstadia int identity(1,1) not null,
 	idReserva int references MMEL.Reserva(idReserva),
