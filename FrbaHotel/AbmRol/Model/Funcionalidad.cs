@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace FrbaHotel.AbmRol.Model
 {
+    [Serializable]
     public class Funcionalidad
     {
         public int idFuncionalidad { get; set; }

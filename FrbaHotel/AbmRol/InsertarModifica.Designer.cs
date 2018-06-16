@@ -29,17 +29,17 @@
         private void InitializeComponent()
         {
             this.nombreInput = new System.Windows.Forms.TextBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.funcionalidadesGrid = new System.Windows.Forms.DataGridView();
+            this.DescripcionCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.funcionalidadesCombo = new System.Windows.Forms.ComboBox();
+            this.quitarBtn = new System.Windows.Forms.Button();
+            this.agregarBtn = new System.Windows.Forms.Button();
             this.activoCheck = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.DescripcionCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.funcionalidadesGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // nombreInput
@@ -49,44 +49,57 @@
             this.nombreInput.Size = new System.Drawing.Size(173, 20);
             this.nombreInput.TabIndex = 0;
             // 
-            // dataGridView1
+            // funcionalidadesGrid
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.funcionalidadesGrid.AllowUserToAddRows = false;
+            this.funcionalidadesGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.funcionalidadesGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.funcionalidadesGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.DescripcionCol});
-            this.dataGridView1.Location = new System.Drawing.Point(96, 56);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(173, 150);
-            this.dataGridView1.TabIndex = 1;
+            this.funcionalidadesGrid.Location = new System.Drawing.Point(96, 56);
+            this.funcionalidadesGrid.Name = "funcionalidadesGrid";
+            this.funcionalidadesGrid.RowHeadersVisible = false;
+            this.funcionalidadesGrid.Size = new System.Drawing.Size(173, 150);
+            this.funcionalidadesGrid.TabIndex = 1;
+            this.funcionalidadesGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.funcionalidadesGrid_CellClick);
             // 
-            // comboBox1
+            // DescripcionCol
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(96, 228);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(173, 21);
-            this.comboBox1.TabIndex = 2;
+            this.DescripcionCol.DataPropertyName = "Descripcion";
+            this.DescripcionCol.HeaderText = "Descripcion";
+            this.DescripcionCol.Name = "DescripcionCol";
             // 
-            // button1
+            // funcionalidadesCombo
             // 
-            this.button1.Location = new System.Drawing.Point(96, 256);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Quitar";
-            this.button1.UseVisualStyleBackColor = true;
+            this.funcionalidadesCombo.DisplayMember = "Descripcion";
+            this.funcionalidadesCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.funcionalidadesCombo.FormattingEnabled = true;
+            this.funcionalidadesCombo.Location = new System.Drawing.Point(96, 228);
+            this.funcionalidadesCombo.Name = "funcionalidadesCombo";
+            this.funcionalidadesCombo.Size = new System.Drawing.Size(173, 21);
+            this.funcionalidadesCombo.TabIndex = 2;
+            this.funcionalidadesCombo.ValueMember = "idFuncionalidad";
+            this.funcionalidadesCombo.SelectedValueChanged += new System.EventHandler(this.funcionalidadesCombo_SelectedValueChanged);
             // 
-            // button2
+            // quitarBtn
             // 
-            this.button2.Location = new System.Drawing.Point(194, 256);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "Agregar";
-            this.button2.UseVisualStyleBackColor = true;
+            this.quitarBtn.Location = new System.Drawing.Point(96, 256);
+            this.quitarBtn.Name = "quitarBtn";
+            this.quitarBtn.Size = new System.Drawing.Size(75, 23);
+            this.quitarBtn.TabIndex = 3;
+            this.quitarBtn.Text = "Quitar";
+            this.quitarBtn.UseVisualStyleBackColor = true;
+            this.quitarBtn.Click += new System.EventHandler(this.quitarBtn_Click);
+            // 
+            // agregarBtn
+            // 
+            this.agregarBtn.Location = new System.Drawing.Point(194, 256);
+            this.agregarBtn.Name = "agregarBtn";
+            this.agregarBtn.Size = new System.Drawing.Size(75, 23);
+            this.agregarBtn.TabIndex = 3;
+            this.agregarBtn.Text = "Agregar";
+            this.agregarBtn.UseVisualStyleBackColor = true;
+            this.agregarBtn.Click += new System.EventHandler(this.agregarBtn_Click);
             // 
             // activoCheck
             // 
@@ -118,12 +131,6 @@
             this.label2.TabIndex = 6;
             this.label2.Text = "Nombre";
             // 
-            // DescripcionCol
-            // 
-            this.DescripcionCol.DataPropertyName = "Descripcion";
-            this.DescripcionCol.HeaderText = "Descripcion";
-            this.DescripcionCol.Name = "DescripcionCol";
-            // 
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(199, 320);
@@ -132,6 +139,7 @@
             this.button3.TabIndex = 7;
             this.button3.Text = "Aceptar";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button4
             // 
@@ -141,6 +149,7 @@
             this.button4.TabIndex = 7;
             this.button4.Text = "Cancelar";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // InsertarModificar
             // 
@@ -152,14 +161,14 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.activoCheck);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.agregarBtn);
+            this.Controls.Add(this.quitarBtn);
+            this.Controls.Add(this.funcionalidadesCombo);
+            this.Controls.Add(this.funcionalidadesGrid);
             this.Controls.Add(this.nombreInput);
             this.Name = "InsertarModificar";
             this.Text = "Insertar";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.funcionalidadesGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -168,10 +177,10 @@
         #endregion
 
         private System.Windows.Forms.TextBox nombreInput;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.DataGridView funcionalidadesGrid;
+        private System.Windows.Forms.ComboBox funcionalidadesCombo;
+        private System.Windows.Forms.Button quitarBtn;
+        private System.Windows.Forms.Button agregarBtn;
         private System.Windows.Forms.CheckBox activoCheck;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;

@@ -89,7 +89,7 @@
     <Compile Include="AbmCliente\SeleccionCliente.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AbmCliente\SeleccionCliente.Designer.cs">
+    <Compile Include="AbmCliente\SeleccionCliente.designer.cs">
       <DependentUpon>SeleccionCliente.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmHotel\InsertarModificar.cs">
@@ -214,6 +214,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AbmHotel\Listado.resx">
       <DependentUpon>Listado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\InsertarModifica.resx">
+      <DependentUpon>InsertarModifica.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmRol\Listado.resx">
       <DependentUpon>Listado.cs</DependentUpon>
