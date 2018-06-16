@@ -1,4 +1,4 @@
-namespace FrbaHotel.AbmUsuario2
+namespace FrbaHotel.AbmUsuario
 {
     partial class AltaModificar
     {
@@ -268,7 +268,7 @@ namespace FrbaHotel.AbmUsuario2
             this.lblTel.Name = "lblTel";
             this.lblTel.Size = new System.Drawing.Size(64, 17);
             this.lblTel.TabIndex = 88;
-            this.lblTel.Text = "Teléfono";
+            this.lblTel.Text = "Telï¿½fono";
             // 
             // lblMail
             // 
@@ -288,7 +288,7 @@ namespace FrbaHotel.AbmUsuario2
             this.lblNId.Name = "lblNId";
             this.lblNId.Size = new System.Drawing.Size(141, 17);
             this.lblNId.TabIndex = 86;
-            this.lblNId.Text = "Nro. de Identificación";
+            this.lblNId.Text = "Nro. de Identificaciï¿½n";
             // 
             // lblTipo
             // 
@@ -298,7 +298,7 @@ namespace FrbaHotel.AbmUsuario2
             this.lblTipo.Name = "lblTipo";
             this.lblTipo.Size = new System.Drawing.Size(142, 17);
             this.lblTipo.TabIndex = 85;
-            this.lblTipo.Text = "Tipo de Identificación";
+            this.lblTipo.Text = "Tipo de Identificaciï¿½n";
             // 
             // lblApellido
             // 

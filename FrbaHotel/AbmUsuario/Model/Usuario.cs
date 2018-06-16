@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
-namespace FrbaHotel.AbmHotel.Model
+namespace FrbaHotel.AbmUsuario.Model
 {
     public static class MensajesValidacion
     {
@@ -11,16 +11,54 @@ namespace FrbaHotel.AbmHotel.Model
     }
 
     [Serializable]
-    public class Hotel : INotifyPropertyChanged
+    public class Usuario : INotifyPropertyChanged
     {
-        private string _telefono;
-        private string _mail;
-        private string _ciudad;
-        private bool _inhabilitado;
+        
+        private int idUsuario; // PK
+        private int idRol;
+        private DateTime fechaNac;
+        private int idTipoDocumento;
+        private string nroDocumento;
+        private string telefono;
+        private string mail;
+        private bool activo;
 
-        int idHotel;
+        // direccion calle nro pais
+
+        string username;
+        [CustomRequired]
+        public string Username
+        {
+            get
+            {
+                return username;
+            }
+
+            set
+            {
+                username = value;
+                InvokePropertyChanged("");
+            }
+        }
+
+        string password;
+        [CustomRequired]
+        public string Password
+        {
+            get
+            {
+                return username;
+            }
+
+            set
+            {
+                username = value;
+                InvokePropertyChanged("");
+            }
+        }
+
+
         string nombre;
-
         [CustomRequired]
         public string Nombre
         {
@@ -36,12 +74,25 @@ namespace FrbaHotel.AbmHotel.Model
             }
         }
 
+        string apellido;
+        [CustomRequired]
+        public string Apellido
+        {
+            get
+            {
+                return apellido;
+            }
+
+            set
+            {
+                apellido = value;
+                InvokePropertyChanged("");
+            }
+        }
+
         int idPais;
-         //Refactor pendiente: hay que separar la entidad de su buildeada con un builder. Ahi vamos a pder usar mas objetos y cosas mas lindas
-        string nombrePais;
 
         string calle;
-
         [CustomRequired]
         public string Calle
         {
@@ -56,8 +107,8 @@ namespace FrbaHotel.AbmHotel.Model
                 InvokePropertyChanged("");
             }
         }
-        string nroCalle;
 
+        string nroCalle;
         [CustomRequired]
         [RegularExpression("^[0-9]+$", ErrorMessage = "El campo solo puede contener numeros.")]
         public string NroCalle
@@ -74,33 +125,59 @@ namespace FrbaHotel.AbmHotel.Model
             }
         }
 
-        public Hotel(int id, string nombre, string mail, string telefono, int cantidadEstrellas, string ciudad, int idPais, string nombrePais, string calle, string nroCalle)
+        string localidad;
+        [CustomRequired]
+        public string Localidad
         {
+            get
+            {
+                return localidad;
+            }
+
+            set
+            {
+                localidad = value;
+                InvokePropertyChanged("");
+            }
+        }
+
+        public Usuario(int id, string username, string password, string nombre, string apellido, int idTipoDocumento, string nroDocumento, DateTime fechaNac, string mail, string telefono, int idPais, string calle, string nroCalle, string localidad, string dpto, string piso)
+        {
+            // Direccion
             NroCalle = nroCalle;
             Calle = calle;
-            Calle = calle;
             IdPais = idPais;
-            NombrePais = nombrePais;
+            Localidad = localidad;
+            Dpto = dpto;
+            Piso = piso;
+
+            // Usuario
+            Username = username;
+            Password = password;
+            IdUsuario = id;
+
+            // Persona
             Nombre = nombre;
-            idHotel = id;
+            Apellido = apellido;
+            IdTipoDocumento = idTipoDocumento;
+            NroDocumento = nroDocumento;
             Mail = mail;
             Telefono = telefono;
-            CantidadEstrellas = cantidadEstrellas;
-            Ciudad = ciudad;
             
         }
 
-        public Hotel()
+        public Usuario()
         {
+
         }
 
         [CustomRequired]
         public string Mail
         {
-            get => _mail;
+            get => mail;
             set
             {
-                _mail = value;
+                mail = value;
                 InvokePropertyChanged("");
             }
         }
@@ -109,59 +186,103 @@ namespace FrbaHotel.AbmHotel.Model
         [RegularExpression("^[0-9]+$", ErrorMessage = "El campo solo puede contener numeros.")]
         public string Telefono
         {
-            get => _telefono;
+            get => telefono;
             set
             {
-                _telefono = value;
+                telefono = value;
                 InvokePropertyChanged("");
             }
         }
-        public int CantidadEstrellas { get; set; }
-
 
         [CustomRequired]
-        public string Ciudad
+        [RegularExpression("^[0-9]+$", ErrorMessage = "El campo solo puede contener numeros.")]
+        public string NroDocumento
         {
-            get => _ciudad; set
+            get => nroDocumento;
+            set
             {
-                _ciudad = value;
+                nroDocumento = value;
                 InvokePropertyChanged("");
             }
         }
 
-        public int IdHotel { get => idHotel; set => idHotel = value; }
-        public int IdPais { get => idPais; set => idPais = value; }
-        public string NombrePais { get => nombrePais; set => nombrePais = value; }
-        private int idDireccion;
-
-
-        public bool Inhabilitado
+        string dpto;
+        [CustomRequired]
+        [RegularExpression("^[0-9]+$", ErrorMessage = "El campo solo puede contener numeros.")]
+        public string Depto
         {
-            get => _inhabilitado; set
+            get => depto;
+            set
             {
-                _inhabilitado = value;
+                depto = value;
                 InvokePropertyChanged("");
             }
         }
 
-        public string HabilitadoTexto
+        string piso;
+        [CustomRequired]
+        [RegularExpression("^[0-9]+$", ErrorMessage = "El campo solo puede contener numeros.")]
+        public string Piso
         {
-            get
+            get => piso;
+            set
             {
-                return Inhabilitado ? "NH" : "H";
+                piso = value;
+                InvokePropertyChanged("");
             }
         }
 
-        public int IdDireccion
+        [CustomRequired]
+        public DateTime FechaNac
         {
-            get => idDireccion; set
+            get => fechaNac;
+            set
             {
-                idDireccion = value;
+                fechaNac = value;
+                InvokePropertyChanged("");
             }
         }
+
+
+
+        public int IdUsuario {
+             get => idUsuario; 
+             set => idUsuario = value; 
+             }
+        public int IdPais { 
+            get => idPais; 
+            set => idPais = value; 
+            }
+        public int IdTipoDocumento { 
+            get => idTipoDocumento; 
+            set => idTipoDocumento = value; 
+            }
+        public int IdRol { 
+            get => idRol; 
+            set => idRol = value; 
+            } 
+
+
+        public char Activo
+        {
+            get => activo; set
+            {
+                activo = value;
+                InvokePropertyChanged("");
+            }
+        }
+
+        public int IdPersona
+        {
+            get => idPersona; set
+            {
+                idPersona = value;
+            }
+        }
+
+
 
         public event PropertyChangedEventHandler PropertyChanged;
-
 
         private void InvokePropertyChanged(string propertyName)
         {

@@ -1,4 +1,4 @@
-﻿using FrbaHotel.Abmusuario2.Model;
+﻿using FrbaHotel.Abmusuario.Model;
 using FrbaHotel.Utilities;
 using Rubberduck.Winforms;
 using System;
@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FrbaHotel.AbmUsuario2
+namespace FrbaHotel.AbmUsuario
 {
     public partial class AltaModificar : ModelBoundForm
     {
@@ -103,7 +103,7 @@ namespace FrbaHotel.AbmUsuario2
             cboTipoDoc.DataSource = tiposDocumento;
             cboTipoDoc.DataBindings.Add(new Binding("SelectedValue", this.Model, "IdTipoDocumento"));
 
-            fechaNacInput.DataBindings.Add(new Binding("SelectedValue", this.Model, "FechaDeNacimiento"))
+            fechaNacInput.DataBindings.Add(new Binding("SelectedValue", this.Model, "FechaDeNacimiento"));
 
             if((this.Model as Usuario).Activo) {
                 activoCheck.Checked = true;
@@ -126,7 +126,7 @@ namespace FrbaHotel.AbmUsuario2
                 return;
 
             var usuario = (Usuario)this.Model;
-            if(activoCheck.Checked;){
+            if(activoCheck.Checked){
                 usuario.Activo = 'S';
             } else {
                 usuario.Activo = 'N';
