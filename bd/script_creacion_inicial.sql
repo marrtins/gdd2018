@@ -2,6 +2,7 @@
 
 Use GD1C2018
 
+
 ------------------ELIMINO LAS TABLAS SI YA EXISTEN PARA VOLVER A CREARLAS -------------- 
 IF OBJECT_ID('MMEL.FacturacionPorEstadia', 'U') IS NOT NULL 
 	DROP TABLE MMEL.FacturacionPorEstadia;
@@ -87,6 +88,10 @@ IF NOT EXISTS ( SELECT  * FROM    sys.schemas  WHERE   name = N'MMEL' )
 go
 
 
+CREATE TYPE [MMEL].[IdList] AS TABLE(
+	[Id] [int] NULL
+)
+
 
 Create Table [MMEL].[Pais](
 	idPais int identity(1,1) not null,
@@ -94,6 +99,13 @@ Create Table [MMEL].[Pais](
 	constraint PK_idPais Primary Key(idPais)
 	)
 
+CREATE TABLE [MMEL].[Constantes](
+	[id] [int] NULL,
+	[AplicadoNombre] [nvarchar](100) NULL,
+	[Descripcion] [nvarchar](100) NULL,
+	[Valor] [nvarchar](100) NULL
+) ON [PRIMARY]
+GO
 
 Create Table [MMEL].[Direccion](
 	idDireccion int identity(1,1) not null,
@@ -135,25 +147,30 @@ create Table [MMEL].[Persona](
 	constraint PK_idPersona primary key(idPersona)
 	)
 
-create table [MMEL].[Usuarios](
-	idUsuario int identity(1,1) not null,
-	Contrase�a varchar(75),
-	idPersona int references MMEL.Persona(idPersona),
-	Activo char(1),
-	constraint PK_idUsuario primary key(idUsuario)
-	)
-Create Table [MMEL].[Hotel](
-	idHotel int identity(1,1) not null,
-	Mail varchar(200),
-	idDireccion int references MMEL.Direccion(idDireccion),
-	Telefono varchar(20) ,
-	CantidadEstrellas int , --CAMBIAR EN DER!!!!! no es cant estadias
-	--Ciudad varchar(50) not null,--sacar de aca, tiene q ir en la tabla direccion
-	--idPais int references MMEL.Pais(idPais), --sacar de aca, tiene q ir en la tabla direccion
-	RecargaEstrellas int , ----AGGREGAR EN DER!!!!!!!!! VER ESTOOOOOOOOOOOOOOOOO
-	FechaDeCreacion smalldatetime , ---AGREGAR EN DER!!!!!!!!! 
-	constraint PK_idHotel primary key(idHotel)
-	)
+CREATE TABLE [MMEL].[Usuarios](
+	[idUsuario] [int] IDENTITY(1,1) NOT NULL,
+	[Contraseña] [varchar](75) NULL,
+	[idPersona] [int] NULL,
+	[Activo] [char](1) NULL,
+	[Username] [nvarchar](200) NULL,
+	[IngresosFallidos] [int] NOT NULL,
+ CONSTRAINT [PK_idUsuario] PRIMARY KEY CLUSTERED 
+
+ALTER TABLE [MMEL].[Usuarios] ADD  CONSTRAINT [DF_Usuarios_IngresosFallidos]  DEFAULT ((0)) FOR [IngresosFallidos]
+GO
+
+CREATE TABLE [MMEL].[Hotel](
+	[idHotel] [int] IDENTITY(1,1) NOT NULL,
+	[Mail] [varchar](200) NULL,
+	[idDireccion] [int] NULL,
+	[Telefono] [varchar](20) NULL,
+	[CantidadEstrellas] [int] NULL,
+	[FechaDeCreacion] [smalldatetime] NULL,
+	[Nombre] [varchar](200) NULL,
+	[Inhabilitado] [bit] NULL,
+ CONSTRAINT [PK_idHotel] PRIMARY KEY CLUSTERED 
+)
+
 Create Table [MMEL].[Regimen](
 	idRegimen int identity(1,1) not null,
 	Precio decimal(10,2) not null,
@@ -471,6 +488,505 @@ SET NOCOUNT ON
 	COMMIT
 GO
 
+/****** Object:  StoredProcedure [MMEL].[DireccionDelete]    Script Date: 16/6/2018 16:56:43 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [MMEL].[DireccionDelete] 
+    @idDireccion int
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
+
+	DELETE
+	FROM   [MMEL].[Direccion]
+	WHERE  [idDireccion] = @idDireccion
+
+	COMMIT
+GO
+/****** Object:  StoredProcedure [MMEL].[DireccionInsert]    Script Date: 16/6/2018 16:56:43 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [MMEL].[DireccionInsert] 
+    @calle nvarchar(150) = NULL,
+    @nroCalle int = NULL,
+    @idPais int = NULL,
+    @Ciudad nvarchar(150) = NULL
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
+	
+	INSERT INTO [MMEL].[Direccion] ([calle], [nroCalle], [idPais], [Ciudad])
+	SELECT @calle, @nroCalle, @idPais, @Ciudad
+	
+	SELECT [idDireccion], [calle], [nroCalle], [idPais], [Ciudad]
+	FROM   [MMEL].[Direccion]
+	WHERE  [idDireccion] = SCOPE_IDENTITY()
+               
+	COMMIT
+GO
+/****** Object:  StoredProcedure [MMEL].[DireccionSelect]    Script Date: 16/6/2018 16:56:43 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [MMEL].[DireccionSelect] 
+    @idDireccion int
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+
+	BEGIN TRAN
+
+	SELECT [idDireccion], [calle], [nroCalle], [idPais], [Ciudad] 
+	FROM   [MMEL].[Direccion] 
+	WHERE  ([idDireccion] = @idDireccion OR @idDireccion IS NULL) 
+
+	COMMIT
+GO
+/****** Object:  StoredProcedure [MMEL].[DireccionUpdate]    Script Date: 16/6/2018 16:56:43 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [MMEL].[DireccionUpdate] 
+    @idDireccion int,
+    @calle nvarchar(150) = NULL,
+    @nroCalle int = NULL,
+    @idPais int = NULL,
+    @Ciudad nvarchar(150) = NULL
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
+
+	UPDATE [MMEL].[Direccion]
+	SET    [calle] = @calle, [nroCalle] = @nroCalle, [idPais] = @idPais, [Ciudad] = @Ciudad
+	WHERE  [idDireccion] = @idDireccion
+	
+	SELECT [idDireccion], [calle], [nroCalle], [idPais], [Ciudad]
+	FROM   [MMEL].[Direccion]
+	WHERE  [idDireccion] = @idDireccion	
+
+	COMMIT
+GO
+/****** Object:  StoredProcedure [MMEL].[FuncionalidadesDeRol]    Script Date: 16/6/2018 16:56:43 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [MMEL].[FuncionalidadesDeRol] 
+	@idRol int
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+
+	BEGIN TRAN
+
+	SELECT f.idFuncionalidad, f.Descripcion
+	FROM   [MMEL].[RolesPorFuncionalidades] rpf
+	JOIN   [Funcionalidades] f on f.idFuncionalidad = rpf.idFuncionalidad
+	WHERE @idRol = rpf.idRol
+
+	COMMIT
+GO
+/****** Object:  StoredProcedure [MMEL].[FuncionalidadesListar]    Script Date: 16/6/2018 16:56:43 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROC [MMEL].[FuncionalidadesListar] 
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+
+	BEGIN TRAN
+
+	SELECT [idFuncionalidad], [Descripcion] 
+	FROM   [MMEL].[Funcionalidades] 
+
+	COMMIT
+GO
+/****** Object:  StoredProcedure [MMEL].[HotelCrear]    Script Date: 16/6/2018 16:56:43 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROC [MMEL].[HotelCrear] 
+    @Mail varchar(200),
+    @calle varchar(200),
+	@nrocalle int,
+	@idPais int,
+	@ciudad varchar(200),
+    @Telefono varchar(20),
+    @CantidadEstrellas int,
+    @Nombre varchar(100),
+	@idAdmin int,
+    @Inhabilitado bit = NULL
+
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
+
+	INSERT INTO [MMEL].[Direccion] ([calle], [nroCalle], [idPais], [Ciudad])
+	SELECT @calle, @nroCalle, @idPais, @Ciudad
+	
+	DECLARE @idDireccion int = SCOPE_IDENTITY();
+
+	DECLARE @rol [varchar](50);
+
+	SELECT @rol = Nombre FROM Rol r JOIN UsuariosPorRoles upr on upr.idRol = r.idRol WHERE upr.idUsuario = @idAdmin 
+	
+	IF @rol != 'administrador'
+		THROW 51000, 'El usuario no es administrador', 1; 
+
+	INSERT INTO [MMEL].[Hotel] ([Mail], [idDireccion], [Telefono], [CantidadEstrellas], [FechaDeCreacion], [Nombre], [Inhabilitado] )
+	SELECT @Mail, @idDireccion, @Telefono, @CantidadEstrellas, GETDATE(), @Nombre, @Inhabilitado
+	
+
+	DECLARE @idHotel int  =  SCOPE_IDENTITY();
+
+	INSERT INTO [MMEL].[HotelesPorUsuarios]
+           ([idUsuario]
+           ,[idHotel])
+     VALUES
+			(@idAdmin,
+			@idHotel)
+
+	SELECT SCOPE_IDENTITY() as Id
+
+               
+	COMMIT
+GO
+/****** Object:  StoredProcedure [MMEL].[HotelDelete]    Script Date: 16/6/2018 16:56:43 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [MMEL].[HotelDelete] 
+    @idHotel int
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
+
+	UPDATE [MMEL].[Hotel]
+	SET    [Hotel].Inhabilitado = 1
+	WHERE  [idHotel] = @idHotel
+
+	COMMIT
+GO
+/****** Object:  StoredProcedure [MMEL].[HotelesDeUsuario]    Script Date: 16/6/2018 16:56:43 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [MMEL].[HotelesDeUsuario] 
+    @idUsuario int
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+
+	BEGIN TRAN
+
+	SELECT h.idHotel, h.Nombre
+	FROM   [MMEL].[HotelesPorUsuarios] hpu
+	JOIN	[MMEL].[Hotel] h ON h.idHotel =  hpu.idHotel
+	WHERE  (@idUsuario = hpu.idUsuario) 
+
+	COMMIT
+GO
+/****** Object:  StoredProcedure [MMEL].[HotelListar]    Script Date: 16/6/2018 16:56:43 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [MMEL].[HotelListar]  
+    @Nombre nvarchar(50),   
+    @CantidadEstrellas int,
+    @Ciudad nvarchar(150),
+    @idPais int
+AS   
+
+    SET NOCOUNT ON;  
+
+    SELECT * 
+    FROM MMEL.Hotel ho
+    LEFT JOIN MMEL.DireccionPais dir on ho.idDireccion = dir.idDireccion
+    WHERE (@Nombre is null or Nombre LIKE '%' + @Nombre + '%')
+            and (@CantidadEstrellas is null or ho.CantidadEstrellas = @CantidadEstrellas)
+            and (@Ciudad is null or dir.Ciudad LIKE '%' + @Ciudad + '%')
+            and (@idPais = 0 or dir.idPais = @idPais)
+
+
+GO
+/****** Object:  StoredProcedure [MMEL].[HotelUpdate]    Script Date: 16/6/2018 16:56:43 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [MMEL].[HotelUpdate] 
+    @idHotel int,
+    @Mail varchar(200) = NULL,
+    @idDireccion int = NULL,
+    @Telefono varchar(20) = NULL,
+	@calle nvarchar(150) = NULL,
+    @nroCalle int = NULL,
+    @idPais int = NULL,
+    @Ciudad nvarchar(150) = NULL,
+    @CantidadEstrellas int = NULL,
+    @Nombre varchar(100) = NULL,
+    @Inhabilitado bit = NULL
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
+
+	UPDATE [MMEL].[Hotel]
+	SET    [Mail] = @Mail, [Telefono] = @Telefono, [CantidadEstrellas] = @CantidadEstrellas, [Nombre] = @Nombre, [Inhabilitado] = @Inhabilitado
+	WHERE  [idHotel] = @idHotel
+	
+	UPDATE [MMEL].[Direccion]
+	SET    [calle] = @calle, [nroCalle] = @nroCalle, [idPais] = @idPais, [Ciudad] = @Ciudad
+	WHERE  [idDireccion] = @idDireccion
+
+	SELECT [idHotel]
+	FROM   [MMEL].[Hotel]
+	WHERE  [idHotel] = @idHotel	
+
+	COMMIT
+GO
+/****** Object:  StoredProcedure [MMEL].[Logear]    Script Date: 16/6/2018 16:56:43 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [MMEL].[Logear]
+	-- Add the parameters for the stored procedure here
+	@usuario nvarchar(200),
+	@contrasenia nvarchar(200)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+	DECLARE @wrongPasswordReturn int = -1
+	DECLARE @blockedReturn int = -2
+	DECLARE @noHabilitadoReturn int = -3
+	DECLARE @rightPassword nvarchar(200)
+	DECLARE @habilitado char(1)
+
+	SELECT @rightPassword = Contraseña, @habilitado = Activo FROM MMEL.Usuarios WHERE Username = @usuario
+
+	IF @habilitado = 'N'
+		SELECT @noHabilitadoReturn AS id
+	ELSE
+		IF @rightPassword != @contrasenia
+			BEGIN 
+		
+				DECLARE @ingresosFallidos int   
+				UPDATE MMEL.Usuarios SET [IngresosFallidos] = [IngresosFallidos] + 1 WHERE Username = @usuario
+				SELECT @ingresosFallidos = [IngresosFallidos] FROM MMEL.Usuarios WHERE Username = @usuario
+
+				IF @ingresosFallidos = 3
+					BEGIN
+						UPDATE MMEL.Usuarios SET [Activo] = 'N' WHERE Username = @usuario -- Deshabilito al usuario
+						SELECT @blockedReturn AS id	
+					END
+				ELSE
+					SELECT @wrongPasswordReturn AS id
+			END
+		ELSE
+			SELECT idUsuario AS id FROM MMEL.Usuarios WHERE Username = @usuario
+END
+GO
+/****** Object:  StoredProcedure [MMEL].[PaisListar]    Script Date: 16/6/2018 16:56:43 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [MMEL].[PaisListar]
+    @idPais int
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+
+	BEGIN TRAN
+
+	SELECT [idPais], [Nombre] 
+	FROM   [MMEL].[Pais] 
+	WHERE  ([idPais] = @idPais OR @idPais IS NULL) 
+
+	COMMIT
+GO
+/****** Object:  StoredProcedure [MMEL].[RolCrear]    Script Date: 16/6/2018 16:56:43 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [MMEL].[RolCrear] 
+    @Nombre varchar(50),
+	@funcionalidades_ids IdList READONLY,
+    @Activo char(1)
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
+	
+	INSERT INTO [MMEL].[Rol] ([Nombre], [Activo])
+	SELECT @Nombre, @Activo
+	
+	DECLARE @idRol int = SCOPE_IDENTITY();
+
+	DECLARE @FuncionalidadId int
+
+	DECLARE CURSOR_FUNCIONALIDADES CURSOR 
+	  LOCAL STATIC READ_ONLY FORWARD_ONLY
+	FOR 
+	SELECT DISTINCT Id 
+	FROM @funcionalidades_ids
+
+	OPEN CURSOR_FUNCIONALIDADES
+	FETCH NEXT FROM CURSOR_FUNCIONALIDADES INTO @FuncionalidadId
+	WHILE @@FETCH_STATUS = 0
+	BEGIN 
+		--Do something with Id here
+		INSERT INTO MMEL.RolesPorFuncionalidades (idRol,idFuncionalidad)
+		VALUES (@idRol,@FuncionalidadId)
+
+		FETCH NEXT FROM CURSOR_FUNCIONALIDADES INTO @FuncionalidadId
+	END
+	CLOSE CURSOR_FUNCIONALIDADES
+	DEALLOCATE CURSOR_FUNCIONALIDADES
+
+	-- Begin Return Select <- do not remove
+	SELECT [idRol], [Nombre], [Activo]
+	FROM   [MMEL].[Rol]
+	WHERE  [idRol] = SCOPE_IDENTITY()
+	-- End Return Select <- do not remove
+               
+	COMMIT
+GO
+/****** Object:  StoredProcedure [MMEL].[RolesDeUsuario]    Script Date: 16/6/2018 16:56:43 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [MMEL].[RolesDeUsuario]
+	-- Add the parameters for the stored procedure here
+	@idUsuario int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT [idUsuario]
+      ,[Username]
+      ,[idRol]
+      ,[Nombre]
+	 FROM [MMEL].[RolesPorUsuario]
+	 WHERE idUsuario = @idUsuario
+END
+GO
+/****** Object:  StoredProcedure [MMEL].[RolesListar]    Script Date: 16/6/2018 16:56:43 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [MMEL].[RolesListar] 
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+
+	BEGIN TRAN
+
+	SELECT [idRol], [Nombre], [Activo] 
+	FROM   [MMEL].[Rol] 
+
+	COMMIT
+GO
+/****** Object:  StoredProcedure [MMEL].[RolModificar]    Script Date: 16/6/2018 16:56:43 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [MMEL].[RolModificar] 
+    @idRol int,
+    @Nombre varchar(50),
+	@funcionalidades_ids IdList READONLY,
+    @Activo char(1)
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
+
+	UPDATE [MMEL].[Rol]
+	SET    [Nombre] = @Nombre, [Activo] = @Activo
+	WHERE  [idRol] = @idRol
+	
+	DELETE FROM MMEL.RolesPorFuncionalidades
+	WHERE idRol = @idRol
+
+	DECLARE @FuncionalidadId int
+
+	DECLARE CURSOR_FUNCIONALIDADES CURSOR 
+	  LOCAL STATIC READ_ONLY FORWARD_ONLY
+	FOR 
+	SELECT DISTINCT Id 
+	FROM @funcionalidades_ids
+
+	OPEN CURSOR_FUNCIONALIDADES
+	FETCH NEXT FROM CURSOR_FUNCIONALIDADES INTO @FuncionalidadId
+	WHILE @@FETCH_STATUS = 0
+	BEGIN 
+		--Do something with Id here
+		INSERT INTO MMEL.RolesPorFuncionalidades (idRol,idFuncionalidad)
+		VALUES (@idRol,@FuncionalidadId)
+
+		FETCH NEXT FROM CURSOR_FUNCIONALIDADES INTO @FuncionalidadId
+	END
+	CLOSE CURSOR_FUNCIONALIDADES
+	DEALLOCATE CURSOR_FUNCIONALIDADES
+
+	-- Begin Return Select <- do not remove
+	SELECT [idRol], [Nombre], [Activo]
+	FROM   [MMEL].[Rol]
+	WHERE  [idRol] = @idRol	
+	-- End Return Select <- do not remove
+
+	COMMIT
+GO
 
 
 
