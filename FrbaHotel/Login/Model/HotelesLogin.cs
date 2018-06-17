@@ -18,7 +18,7 @@ namespace FrbaHotel.Login.Model
 
             using (SqlConnection con = new SqlConnection(connection))
             {
-                using (SqlCommand cmd = new SqlCommand("MMEL.HotelesDeUsuario", con))
+                using (SqlCommand cmd = new SqlCommand("MMEL.HotelesPorUsuarios", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@idUsuario", SqlDbType.Int).Value = userId;

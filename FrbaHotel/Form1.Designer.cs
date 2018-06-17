@@ -31,6 +31,8 @@
             this.btnCliente = new System.Windows.Forms.Button();
             this.abmHotelBtn = new System.Windows.Forms.Button();
             this.rolButton = new System.Windows.Forms.Button();
+            this.buttonHabitacion = new System.Windows.Forms.Button();
+            this.buttonListadoEstadistico = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCliente
@@ -63,11 +65,33 @@
             this.rolButton.UseVisualStyleBackColor = true;
             this.rolButton.Click += new System.EventHandler(this.rolButton_Click);
             // 
+            // buttonHabitacion
+            // 
+            this.buttonHabitacion.Location = new System.Drawing.Point(45, 185);
+            this.buttonHabitacion.Name = "buttonHabitacion";
+            this.buttonHabitacion.Size = new System.Drawing.Size(131, 57);
+            this.buttonHabitacion.TabIndex = 3;
+            this.buttonHabitacion.Text = "ABM Habitacion";
+            this.buttonHabitacion.UseVisualStyleBackColor = true;
+            this.buttonHabitacion.Click += new System.EventHandler(this.buttonHabitacion_Click);
+            // 
+            // buttonListadoEstadistico
+            // 
+            this.buttonListadoEstadistico.Location = new System.Drawing.Point(45, 248);
+            this.buttonListadoEstadistico.Name = "buttonListadoEstadistico";
+            this.buttonListadoEstadistico.Size = new System.Drawing.Size(131, 57);
+            this.buttonListadoEstadistico.TabIndex = 4;
+            this.buttonListadoEstadistico.Text = "Listado Estadistico";
+            this.buttonListadoEstadistico.UseVisualStyleBackColor = true;
+            this.buttonListadoEstadistico.Click += new System.EventHandler(this.buttonListadoEstadistico_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(240, 210);
+            this.ClientSize = new System.Drawing.Size(240, 321);
+            this.Controls.Add(this.buttonListadoEstadistico);
+            this.Controls.Add(this.buttonHabitacion);
             this.Controls.Add(this.rolButton);
             this.Controls.Add(this.abmHotelBtn);
             this.Controls.Add(this.btnCliente);
@@ -83,6 +107,8 @@
         private System.Windows.Forms.Button btnCliente;
         private System.Windows.Forms.Button abmHotelBtn;
         private System.Windows.Forms.Button rolButton;
+        private System.Windows.Forms.Button buttonHabitacion;
+        private System.Windows.Forms.Button buttonListadoEstadistico;
     }
 }
 

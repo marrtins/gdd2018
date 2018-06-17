@@ -1,6 +1,6 @@
 --Migracion de datos
 
-
+use GD1C2018
 --Tabla Rol
 insert into MMEL.Rol values('administrador','S')
 insert into MMEL.Rol values('recepcionista','S')
@@ -190,12 +190,12 @@ select fa.idFactura,fa.idEstadia,'VALOR CONSUMIBLE',co.idConsumible,ot.Item_Fact
  inner join mmel.Consumible co on co.idConsumible=cpe.idConsumible
  where ot.Consumible_Codigo is not null and ot.Factura_Fecha is not null 
  go
-
+ /*
 IF object_id('mmel.AgregarCliente') IS NULL
     EXEC ('create procedure mmel.AgregarCliente as select 1')
 GO
 
-alter procedure mmel.AgregarCliente (@nombre varchar(50),@apellido varchar(50),@tipoDocumento varchar(15),@nroDocumento nvarchar(25),@mail varchar(200),@telefono varchar(20),
+create procedure mmel.AgregarCliente (@nombre varchar(50),@apellido varchar(50),@tipoDocumento varchar(15),@nroDocumento nvarchar(25),@mail varchar(200),@telefono varchar(20),
 	@fechaDeNacimiento datetime,@nacionalidad varchar(50),@dirCalle nvarchar(150),@dirNroCalle int ,@pais varchar(150),@dirPiso smallint,@dirDepto char(2),@dirLocalidad nvarchar(150),
 	@habilitado char(1),@idNuevo int output,@codigoRet int output)
 as
@@ -242,7 +242,7 @@ IF object_id('mmel.existeCliente') IS NULL
     EXEC ('create function mmel.existeCliente as select 1')
 GO
 
-alter function mmel.existeCliente(@tipodoc varchar(15),@nrodoc int,@mail varchar(200))
+create function mmel.existeCliente(@tipodoc varchar(15),@nrodoc int,@mail varchar(200))
 returns int
 as
 begin
@@ -259,7 +259,7 @@ go
 IF object_id('mmel.clienteErroneo') IS NULL
     EXEC ('create function mmel.clienteErroneo as select 1')
 GO
-alter function mmel.clienteErroneo(@idPersona int)
+create function mmel.clienteErroneo(@idPersona int)
 returns int
 as
 begin
@@ -273,7 +273,7 @@ begin
 end
 go
 
-alter procedure mmel.esErroneo(@idPersona int,@codigoRet int output)
+create procedure mmel.esErroneo(@idPersona int,@codigoRet int output)
 as
 begin
 	if exists (SELECT distinct  * FROM mmel.Persona p1 inner join mmel.Persona p2 on p1.idPersona =@idPersona and  p1.idPersona <>p2.idPersona and p1.Mail=p2.Mail)
@@ -283,7 +283,7 @@ begin
 	else begin set @codigoRet = 0 end
 end
 go
-alter procedure mmel.removerEmail(@idPersona int)
+create procedure mmel.removerEmail(@idPersona int)
 as
 begin
 	update mmel.Persona
@@ -291,7 +291,7 @@ begin
 end
 go
 
-alter procedure mmel.removerPasaporte(@idPersona int)
+create procedure mmel.removerPasaporte(@idPersona int)
 as
 begin
 	update mmel.Persona
@@ -303,7 +303,7 @@ end
 IF object_id('mmel.modificarCliente') IS NULL
     EXEC ('create procedure mmel.modificarCliente as select 1')
 GO
-alter procedure mmel.modificarCliente(@idPersona int,@nombre varchar(50),@apellido varchar(50),@tipoDocumento varchar(15),@nroDocumento nvarchar(25),@mail varchar(200),@telefono varchar(20),
+create procedure mmel.modificarCliente(@idPersona int,@nombre varchar(50),@apellido varchar(50),@tipoDocumento varchar(15),@nroDocumento nvarchar(25),@mail varchar(200),@telefono varchar(20),
 	@fechaDeNacimiento datetime,@nacionalidad varchar(50),@dirCalle nvarchar(150),@dirNroCalle int ,@pais varchar(150),@dirPiso smallint,@dirDepto char(2),@dirLocalidad nvarchar(150),
 	@habilitado char(1),@codigoRet int output)
 as
@@ -355,7 +355,7 @@ go
 
 
 
-alter procedure mmel.borrarCliente(@idCliente int)
+create procedure mmel.borrarCliente(@idCliente int)
 as
 begin
 
@@ -364,3 +364,4 @@ set Habilitado ='N' where idPersona=@idCliente
 end
 
 
+*/

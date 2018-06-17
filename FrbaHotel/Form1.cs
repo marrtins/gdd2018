@@ -46,5 +46,20 @@ namespace FrbaHotel
             abm.ShowDialog();
             this.Hide();
         }
+
+        private void buttonHabitacion_Click(object sender, EventArgs e)
+        {
+            AbmHabitacion.InicioHabitacion abm = new AbmHabitacion.InicioHabitacion();
+            abm.ShowDialog();
+            this.Hide();
+        }
+
+        private void buttonListadoEstadistico_Click(object sender, EventArgs e)
+        {
+           
+            ListadoEstadistico.ListadoEstadistico listado = new ListadoEstadistico.ListadoEstadistico();
+            listado.ShowDialog();
+            this.Hide();
+        }
     }
 }

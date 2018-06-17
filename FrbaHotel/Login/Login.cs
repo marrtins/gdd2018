@@ -47,16 +47,17 @@ namespace FrbaHotel.Login
             {
                 var roles = Roles.GetAllFor(LoginData.IdUsuario);
                 var hoteles = HotelesLogin.GetAllFor(LoginData.IdUsuario);
-
+               
                 bool debeAbrirSeleccionar = roles.Count > 1 || hoteles.Count > 1;
 
                 if (debeAbrirSeleccionar)
-                    Seleccionar();
+             
+                        Seleccionar();
                 else
                     LoginData.Rol = roles.First();
 
                 this.Hide();
-
+              
                 Form1 form = new Form1();
 
                 form.Show();
@@ -113,6 +114,7 @@ namespace FrbaHotel.Login
                     }
 
                     this.loginErrorLbl.Hide();
+                   
                     LoginData.IdUsuario = id;
                     return true;
                 }

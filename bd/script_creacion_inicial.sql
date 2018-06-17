@@ -2,7 +2,9 @@
 
 Use GD1C2018
 
-
+IF NOT EXISTS ( SELECT  * FROM    sys.schemas  WHERE   name = N'MMEL' ) 
+		EXEC('CREATE SCHEMA [MMEL] AUTHORIZATION [gdHotel2018]');
+go
 ------------------ELIMINO LAS TABLAS SI YA EXISTEN PARA VOLVER A CREARLAS -------------- 
 IF OBJECT_ID('MMEL.FacturacionPorEstadia', 'U') IS NOT NULL 
 	DROP TABLE MMEL.FacturacionPorEstadia;
@@ -57,10 +59,9 @@ IF OBJECT_ID('MMEL.Rol', 'U') IS NOT NULL
 IF OBJECT_ID('MMEL.Usuarios', 'U') IS NOT NULL 
 	drop table MMEL.Usuarios
 
-
-
 IF OBJECT_ID('MMEL.Persona', 'U') IS NOT NULL 
 	drop table MMEL.Persona
+
 IF OBJECT_ID('MMEL.TipoDocumento', 'U') IS NOT NULL 
 	drop table MMEL.TipoDocumento
 
@@ -83,9 +84,7 @@ IF OBJECT_ID('MMEL.Pais', 'U') IS NOT NULL
 	drop table MMEL.Pais
 
 
-IF NOT EXISTS ( SELECT  * FROM    sys.schemas  WHERE   name = N'MMEL' ) 
-		EXEC('CREATE SCHEMA [MMEL] AUTHORIZATION [gdHotel2018]');
-go
+
 
 
 CREATE TYPE [MMEL].[IdList] AS TABLE(
@@ -154,8 +153,9 @@ CREATE TABLE [MMEL].[Usuarios](
 	[Activo] [char](1) NULL,
 	[Username] [nvarchar](200) NULL,
 	[IngresosFallidos] [int] NOT NULL,
- CONSTRAINT [PK_idUsuario] PRIMARY KEY CLUSTERED 
-
+ CONSTRAINT [PK_idUsuario] PRIMARY  key(idUsuario )
+ )
+GO
 ALTER TABLE [MMEL].[Usuarios] ADD  CONSTRAINT [DF_Usuarios_IngresosFallidos]  DEFAULT ((0)) FOR [IngresosFallidos]
 GO
 
@@ -168,8 +168,8 @@ CREATE TABLE [MMEL].[Hotel](
 	[FechaDeCreacion] [smalldatetime] NULL,
 	[Nombre] [varchar](200) NULL,
 	[Inhabilitado] [bit] NULL,
- CONSTRAINT [PK_idHotel] PRIMARY KEY CLUSTERED 
-)
+ 
+ CONSTRAINT [PK_idHotel] PRIMARY  key(idHotel ))
 
 Create Table [MMEL].[Regimen](
 	idRegimen int identity(1,1) not null,
@@ -988,12 +988,175 @@ AS
 	COMMIT
 GO
 
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'[MMEL].[RolesPorUsuario]'))
+EXEC dbo.sp_executesql @statement = N'
+CREATE VIEW [MMEL].[RolesPorUsuario]
+AS
+SELECT        MMEL.Usuarios.idUsuario, MMEL.Usuarios.Username, MMEL.Rol.idRol, MMEL.Rol.Nombre
+FROM            MMEL.Rol INNER JOIN
+                         MMEL.UsuariosPorRoles ON MMEL.Rol.idRol = MMEL.UsuariosPorRoles.idRol INNER JOIN
+                         MMEL.Usuarios ON MMEL.UsuariosPorRoles.idUsuario = MMEL.Usuarios.idUsuario
+' 
+GO
 
 
+/*
+--Hoteles con mayor cantidad de reservas canceladas
+GO
+CREATE PROCEDURE MMEL.TOP5_1 @Año int,@Trimestre varchar(80)
+as
+begin
+	
+	if '1ºTrimestre (1º de Enero ~ 31 de Marzo)' = @Trimestre
+	begin
+		select top 5 count(cr.FechaDeCancelacion) from mmel.CancelacionReserva cr join mmel.reserva r on cr.idReserva = r.idReserva 
+											 join mmel.Habitacion h on r.idHabitacion = h.idHabitacion
+											 join mmel.Hotel hot on h.idHotel = hot.idHotel
+											 where  year(cr.FechaDeCancelacion)= @Año and (month(cr.FechaDeCancelacion) = 1 OR month(cr.FechaDeCancelacion) = 2 OR month(cr.FechaDeCancelacion)=3)
+	end
+	if '2ºTrimestre (1º de Abril ~ 30 de Junio)' = @Trimestre
+	begin
+	select top 5 count(cr.FechaDeCancelacion) from mmel.CancelacionReserva cr join mmel.reserva r on cr.idReserva = r.idReserva 
+											 join mmel.Habitacion h on r.idHabitacion = h.idHabitacion
+											 join mmel.Hotel hot on h.idHotel = hot.idHotel
+											 where year(cr.FechaDeCancelacion)= @Año and (month(cr.FechaDeCancelacion) = 4 OR month(cr.FechaDeCancelacion) = 5 OR month(cr.FechaDeCancelacion)=6)
+	end
+	if '3ºTrimestre (1º de Julio ~ 30 de Septiembre)' = @Trimestre
+	begin
+	select top 5 count(cr.FechaDeCancelacion) from mmel.CancelacionReserva cr join mmel.reserva r on cr.idReserva = r.idReserva 
+											 join mmel.Habitacion h on r.idHabitacion = h.idHabitacion
+											 join mmel.Hotel hot on h.idHotel = hot.idHotel
+											 where year(cr.FechaDeCancelacion)= @Año and (month(cr.FechaDeCancelacion) = 7 OR month(cr.FechaDeCancelacion) = 8 OR month(cr.FechaDeCancelacion)=9)
+	end	
+	if '4ºTrimestre (1º de Octubre ~ 31 de Diciembre)' = @Trimestre
+ 	begin
+	select top 5 count(cr.FechaDeCancelacion) from mmel.CancelacionReserva cr join mmel.reserva r on cr.idReserva = r.idReserva 
+											 join mmel.Habitacion h on r.idHabitacion = h.idHabitacion
+											 join mmel.Hotel hot on h.idHotel = hot.idHotel
+											 where year(cr.FechaDeCancelacion)= @Año and (month(cr.FechaDeCancelacion) = 10 OR month(cr.FechaDeCancelacion) = 11 OR month(cr.FechaDeCancelacion)=12)
+	end   
+end
 
 
+--Hoteles con mayor cantidad de consumibles facturados
+GO
+CREATE PROCEDURE MMEL.TOP5_2 @Año int,@Trimestre varchar(80)
+as
+begin
+
+if '1ºTrimestre (1º de Enero ~ 31 de Marzo)' = @Trimestre
+	begin
+	select top 5 * from mmel.Facturacion f join mmel.Estadia e on f.idEstadia = e.idEstadia
+										   join mmel.consumiblesporestaida cpr on e.idEstadia = cpr.idEstadia
+									       join mmel.consumible c on cpr.idConsumible = c.idConsumible
+										   where year(f.FacturaFecha) = @Año and (month(f.FacturaFecha) = 1 OR month(f.FacturaFecha) = 2 or month(f.FacturaFecha) = 3)
+	end
+	if '2ºTrimestre (1º de Abril ~ 30 de Junio)' = @Trimestre
+	begin
+	select top 5 * from mmel.Facturacion f join mmel.Estadia e on f.idEstadia = e.idEstadia
+										   join mmel.consumiblesporestaida cpr on e.idEstadia = cpr.idEstadia
+									       join mmel.consumible c on cpr.idConsumible = c.idConsumible
+										   where year(f.FacturaFecha) = @Año and (month(f.FacturaFecha) = 4 OR month(f.FacturaFecha) = 5 or month(f.FacturaFecha) = 6)
+	end
+	if '3ºTrimestre (1º de Julio ~ 30 de Septiembre)' = @Trimestre
+	begin
+	select top 5 * from mmel.Facturacion f join mmel.Estadia e on f.idEstadia = e.idEstadia
+										   join mmel.consumiblesporestaida cpr on e.idEstadia = cpr.idEstadia
+									       join mmel.consumible c on cpr.idConsumible = c.idConsumible
+										   where year(f.FacturaFecha) = @Año and (month(f.FacturaFecha) = 7 OR month(f.FacturaFecha) = 8 or month(f.FacturaFecha) = 9)
+	end	
+	if '4ºTrimestre (1º de Octubre ~ 31 de Diciembre)' = @Trimestre
+ 	begin
+	select top 5 * from mmel.Facturacion f join mmel.Estadia e on f.idEstadia = e.idEstadia
+										   join mmel.consumiblesporestaida cpr on e.idEstadia = cpr.idEstadia
+									       join mmel.consumible c on cpr.idConsumible = c.idConsumible
+										   where year(f.FacturaFecha) = @Año and (month(f.FacturaFecha) = 10 OR month(f.FacturaFecha) = 11 or month(f.FacturaFecha) = 12)
+	end   
+
+end
 
 
+--Hoteles con mayor cantidad de dias fuera de servicio
+GO
+CREATE PROCEDURE MMEL.TOP5_3 @Año int,@Trimestre varchar(80)
+as
+begin
+
+
+if '1ºTrimestre (1º de Enero ~ 31 de Marzo)' = @Trimestre
+	begin
+
+	end
+	if '2ºTrimestre (1º de Abril ~ 30 de Junio)' = @Trimestre
+	begin
+	
+	end
+	if '3ºTrimestre (1º de Julio ~ 30 de Septiembre)' = @Trimestre
+	begin
+	
+	end	
+	if '4ºTrimestre (1º de Octubre ~ 31 de Diciembre)' = @Trimestre
+ 	begin
+	
+	end   
+end
+
+
+--Habitaciones con mayor cantidad de dias y veces que fueron ocupadas
+GO
+CREATE PROCEDURE MMEL.TOP5_4 @Año int,@Trimestre varchar(80)
+as
+begin
+
+if '1ºTrimestre (1º de Enero ~ 31 de Marzo)' = @Trimestre
+	begin
+
+	end
+	if '2ºTrimestre (1º de Abril ~ 30 de Junio)' = @Trimestre
+	begin
+	
+	end
+	if '3ºTrimestre (1º de Julio ~ 30 de Septiembre)' = @Trimestre
+	begin
+	
+	end	
+	if '4ºTrimestre (1º de Octubre ~ 31 de Diciembre)' = @Trimestre
+ 	begin
+	
+	end   
+
+end
+
+
+--Cliente con mayor cantidad de puntos
+GO
+CREATE PROCEDURE MMEL.TOP5_5 @Año int,@Trimestre varchar(80)
+as
+begin
+
+if '1ºTrimestre (1º de Enero ~ 31 de Marzo)' = @Trimestre
+	begin
+		
+	end
+	if '2ºTrimestre (1º de Abril ~ 30 de Junio)' = @Trimestre
+	begin
+	
+	end
+	if '3ºTrimestre (1º de Julio ~ 30 de Septiembre)' = @Trimestre
+	begin
+	
+	end	
+	if '4ºTrimestre (1º de Octubre ~ 31 de Diciembre)' = @Trimestre
+ 	begin
+	
+	end   
+
+end
+*/
 
 
 

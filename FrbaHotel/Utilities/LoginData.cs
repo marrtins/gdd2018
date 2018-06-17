@@ -20,6 +20,7 @@ namespace FrbaHotel.Utilities
             get
             {
                 return Rol.Nombre == "administrador";
+             
             }
         }
     }
