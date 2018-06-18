@@ -1005,7 +1005,6 @@ GO
 
 
 /*
---Hoteles con mayor cantidad de reservas canceladas
 GO
 CREATE PROCEDURE MMEL.TOP5_1 @Año int,@Trimestre varchar(80)
 as
@@ -1051,28 +1050,28 @@ begin
 if '1ºTrimestre (1º de Enero ~ 31 de Marzo)' = @Trimestre
 	begin
 	select top 5 * from mmel.Facturacion f join mmel.Estadia e on f.idEstadia = e.idEstadia
-										   join mmel.consumiblesporestaida cpr on e.idEstadia = cpr.idEstadia
+										   join mmel.ConsumiblePorEstadia cpr on e.idEstadia = cpr.idEstadia
 									       join mmel.consumible c on cpr.idConsumible = c.idConsumible
 										   where year(f.FacturaFecha) = @Año and (month(f.FacturaFecha) = 1 OR month(f.FacturaFecha) = 2 or month(f.FacturaFecha) = 3)
 	end
 	if '2ºTrimestre (1º de Abril ~ 30 de Junio)' = @Trimestre
 	begin
 	select top 5 * from mmel.Facturacion f join mmel.Estadia e on f.idEstadia = e.idEstadia
-										   join mmel.consumiblesporestaida cpr on e.idEstadia = cpr.idEstadia
+										   join mmel.ConsumiblePorEstadia cpr on e.idEstadia = cpr.idEstadia
 									       join mmel.consumible c on cpr.idConsumible = c.idConsumible
 										   where year(f.FacturaFecha) = @Año and (month(f.FacturaFecha) = 4 OR month(f.FacturaFecha) = 5 or month(f.FacturaFecha) = 6)
 	end
 	if '3ºTrimestre (1º de Julio ~ 30 de Septiembre)' = @Trimestre
 	begin
 	select top 5 * from mmel.Facturacion f join mmel.Estadia e on f.idEstadia = e.idEstadia
-										   join mmel.consumiblesporestaida cpr on e.idEstadia = cpr.idEstadia
+										   join mmel.ConsumiblePorEstadia cpr on e.idEstadia = cpr.idEstadia
 									       join mmel.consumible c on cpr.idConsumible = c.idConsumible
 										   where year(f.FacturaFecha) = @Año and (month(f.FacturaFecha) = 7 OR month(f.FacturaFecha) = 8 or month(f.FacturaFecha) = 9)
 	end	
 	if '4ºTrimestre (1º de Octubre ~ 31 de Diciembre)' = @Trimestre
  	begin
 	select top 5 * from mmel.Facturacion f join mmel.Estadia e on f.idEstadia = e.idEstadia
-										   join mmel.consumiblesporestaida cpr on e.idEstadia = cpr.idEstadia
+										   join mmel.ConsumiblePorEstadia cpr on e.idEstadia = cpr.idEstadia
 									       join mmel.consumible c on cpr.idConsumible = c.idConsumible
 										   where year(f.FacturaFecha) = @Año and (month(f.FacturaFecha) = 10 OR month(f.FacturaFecha) = 11 or month(f.FacturaFecha) = 12)
 	end   
@@ -1114,19 +1113,41 @@ begin
 
 if '1ºTrimestre (1º de Enero ~ 31 de Marzo)' = @Trimestre
 	begin
+	select top 5 SUM(DATEDIFF(DAY, e.FechaCheckIN, e.FechaCheckOUT)) 'Días',
+		COUNT(1) 'Veces' from mmel.estadia e join mmel.reserva r on e.idReserva = r.idReserva
+	         where year(e.FechaCheckIN)=@Año and year(e.FechaCheckOUT)=@Año and (
+				   month(e.FechaCheckIN) = 1 OR month(e.FechaCheckOUT) = 1 OR
+			       month(e.FechaCheckIN) = 2 OR month(e.FechaCheckOUT) = 2 OR
+				   month(e.FechaCheckIN) = 3 OR month(e.FechaCheckOUT) = 3
+			 )
 
 	end
 	if '2ºTrimestre (1º de Abril ~ 30 de Junio)' = @Trimestre
 	begin
-	
+		select top 5 * from mmel.estadia e join mmel.reserva r on e.idReserva = r.idReserva
+	         where year(e.FechaCheckIN)=@Año and year(e.FechaCheckOUT)=@Año and (
+				   month(e.FechaCheckIN) = 4 OR month(e.FechaCheckOUT) = 4
+			       month(e.FechaCheckIN) = 5 OR month(e.FechaCheckOUT) = 5
+				   month(e.FechaCheckIN) = 6 OR month(e.FechaCheckOUT) = 6
+			 )
 	end
 	if '3ºTrimestre (1º de Julio ~ 30 de Septiembre)' = @Trimestre
 	begin
-	
+		select top 5 * from mmel.estadia e join mmel.reserva r on e.idReserva = r.idReserva
+	         where year(e.FechaCheckIN)=@Año and year(e.FechaCheckOUT)=@Año and (
+				   month(e.FechaCheckIN) = 7 OR month(e.FechaCheckOUT) = 7 OR
+			       month(e.FechaCheckIN) = 8 OR month(e.FechaCheckOUT) = 8 OR
+				   month(e.FechaCheckIN) = 9 OR month(e.FechaCheckOUT) = 9
+			 )
 	end	
 	if '4ºTrimestre (1º de Octubre ~ 31 de Diciembre)' = @Trimestre
  	begin
-	
+		select top 5 * from mmel.estadia e join mmel.reserva r on e.idReserva = r.idReserva
+	         where year(e.FechaCheckIN)=@Año and year(e.FechaCheckOUT)=@Año and (
+				   month(e.FechaCheckIN) = 1 OR month(e.FechaCheckOUT) = 1 OR
+			       month(e.FechaCheckIN) = 2 OR month(e.FechaCheckOUT) = 2 OR
+				   month(e.FechaCheckIN) = 3 OR month(e.FechaCheckOUT) = 3
+			 )
 	end   
 
 end
@@ -1156,6 +1177,7 @@ if '1ºTrimestre (1º de Enero ~ 31 de Marzo)' = @Trimestre
 	end   
 
 end
+
 */
 
 

@@ -35,6 +35,8 @@
             this.top5Input = new System.Windows.Forms.ComboBox();
             this.filtrarBtn = new System.Windows.Forms.Button();
             this.trimestreInput = new System.Windows.Forms.ComboBox();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -81,7 +83,7 @@
             // 
             // filtrarBtn
             // 
-            this.filtrarBtn.Location = new System.Drawing.Point(330, 166);
+            this.filtrarBtn.Location = new System.Drawing.Point(566, 61);
             this.filtrarBtn.Name = "filtrarBtn";
             this.filtrarBtn.Size = new System.Drawing.Size(97, 32);
             this.filtrarBtn.TabIndex = 6;
@@ -97,11 +99,20 @@
             this.trimestreInput.Size = new System.Drawing.Size(349, 21);
             this.trimestreInput.TabIndex = 7;
             // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(12, 159);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(746, 318);
+            this.dataGridView1.TabIndex = 8;
+            // 
             // ListadoEstadistico
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(439, 209);
+            this.ClientSize = new System.Drawing.Size(770, 505);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.trimestreInput);
             this.Controls.Add(this.filtrarBtn);
             this.Controls.Add(this.top5Input);
@@ -111,6 +122,7 @@
             this.Controls.Add(this.label1);
             this.Name = "ListadoEstadistico";
             this.Text = "Listado Estadistico";
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -125,5 +137,6 @@
         private System.Windows.Forms.ComboBox top5Input;
         private System.Windows.Forms.Button filtrarBtn;
         private System.Windows.Forms.ComboBox trimestreInput;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }

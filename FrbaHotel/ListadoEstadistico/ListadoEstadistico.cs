@@ -96,7 +96,7 @@ namespace FrbaHotel.ListadoEstadistico
                 var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
-                    mostarResultados(dr);
+                    mostarResultados(dr,cmd);
                 }
                 else
                 {
@@ -105,9 +105,9 @@ namespace FrbaHotel.ListadoEstadistico
             }
         }
 
-        public void mostarResultados(SqlDataReader dr)
+        public void mostarResultados(SqlDataReader dr,SqlCommand procedure)
         {
-
+            DataGridViewHelper.fill(procedure, dataGridView1);
         }
     }
    
