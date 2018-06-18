@@ -61,5 +61,12 @@ namespace FrbaHotel
             listado.ShowDialog();
             this.Hide();
         }
+
+        private void abmUsuarioBtn_Click(object sender, EventArgs e)
+        {
+            AbmUsuario.ListadoUsuarios usuarios = new AbmUsuario.ListadoUsuarios();
+            usuarios.ShowDialog();
+            this.Hide();
+        }
     }
 }

@@ -33,6 +33,7 @@
             this.rolButton = new System.Windows.Forms.Button();
             this.buttonHabitacion = new System.Windows.Forms.Button();
             this.buttonListadoEstadistico = new System.Windows.Forms.Button();
+            this.abmUsuarioBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCliente
@@ -77,7 +78,7 @@
             // 
             // buttonListadoEstadistico
             // 
-            this.buttonListadoEstadistico.Location = new System.Drawing.Point(45, 248);
+            this.buttonListadoEstadistico.Location = new System.Drawing.Point(45, 311);
             this.buttonListadoEstadistico.Name = "buttonListadoEstadistico";
             this.buttonListadoEstadistico.Size = new System.Drawing.Size(131, 57);
             this.buttonListadoEstadistico.TabIndex = 4;
@@ -85,11 +86,22 @@
             this.buttonListadoEstadistico.UseVisualStyleBackColor = true;
             this.buttonListadoEstadistico.Click += new System.EventHandler(this.buttonListadoEstadistico_Click);
             // 
+            // abmUsuarioBtn
+            // 
+            this.abmUsuarioBtn.Location = new System.Drawing.Point(45, 248);
+            this.abmUsuarioBtn.Name = "abmUsuarioBtn";
+            this.abmUsuarioBtn.Size = new System.Drawing.Size(131, 57);
+            this.abmUsuarioBtn.TabIndex = 5;
+            this.abmUsuarioBtn.Text = "ABM Usuario";
+            this.abmUsuarioBtn.UseVisualStyleBackColor = true;
+            this.abmUsuarioBtn.Click += new System.EventHandler(this.abmUsuarioBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(240, 321);
+            this.ClientSize = new System.Drawing.Size(240, 379);
+            this.Controls.Add(this.abmUsuarioBtn);
             this.Controls.Add(this.buttonListadoEstadistico);
             this.Controls.Add(this.buttonHabitacion);
             this.Controls.Add(this.rolButton);
@@ -109,6 +121,7 @@
         private System.Windows.Forms.Button rolButton;
         private System.Windows.Forms.Button buttonHabitacion;
         private System.Windows.Forms.Button buttonListadoEstadistico;
+        private System.Windows.Forms.Button abmUsuarioBtn;
     }
 }
 
