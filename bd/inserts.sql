@@ -325,7 +325,7 @@ begin
 	set NroDocumento=null where idPersona=@idPersona
 end
 
-
+go
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[modificarCliente]'))
 	DROP procedure [MMEL].modificarCliente
@@ -536,7 +536,7 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[rese
 go
 
 
-alter procedure mmel.reservar(@fechaDeReserva datetime,@idUsuarioQueReserva int,@fechaDesde datetime,@fechaHasta datetime,@idHotel int,@tipoHabDesc varchar(100),@tipoRegimenDesc varchar(100),@idPersona int, @codReserva int output)
+create procedure mmel.reservar(@fechaDeReserva datetime,@idUsuarioQueReserva int,@fechaDesde datetime,@fechaHasta datetime,@idHotel int,@tipoHabDesc varchar(100),@tipoRegimenDesc varchar(100),@idPersona int, @codReserva int output)
 as
 begin
 	

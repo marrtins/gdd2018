@@ -62,8 +62,13 @@ IF OBJECT_ID('MMEL.Rol', 'U') IS NOT NULL
 IF OBJECT_ID('MMEL.Usuarios', 'U') IS NOT NULL 
 	drop table MMEL.Usuarios
 
+IF OBJECT_ID('MMEL.PersonasInconsistentes', 'U') IS NOT NULL 
+	drop table MMEL.PersonasInconsistentes
+
+
 IF OBJECT_ID('MMEL.Persona', 'U') IS NOT NULL 
 	drop table MMEL.Persona
+
 
 IF OBJECT_ID('MMEL.TipoDocumento', 'U') IS NOT NULL 
 	drop table MMEL.TipoDocumento
@@ -147,6 +152,13 @@ create Table [MMEL].[Persona](
 	
 	constraint PK_idPersona primary key(idPersona)
 	)
+CREATE TABLE [MMEL].[PersonasInconsistentes](
+	idPI int identity(1,1) not null,
+	idPersona int references MMEL.Persona(idPersona),
+	Mail varchar(200),
+	NroDocumento varchar(25),
+	constraint PK_idPI primary key(idPI)
+)
 
 CREATE TABLE [MMEL].[Usuarios](
 	[idUsuario] [int] IDENTITY(1,1) NOT NULL,
@@ -462,7 +474,13 @@ select distinct upper(ot.Cliente_Nombre),upper(ot.Cliente_Apellido),1,ot.Cliente
 				ot.Cliente_Fecha_Nac,1,ot.Cliente_Dom_Calle,ot.Cliente_Nro_Calle,1,ot.Cliente_Piso,ot.Cliente_Depto
  from gd_esquema.Maestra ot
 
- 
+ insert into MMEL.PersonasInconsistentes(idPersona,Mail,NroDocumento)
+select  distinct p1.idPersona,p1.Mail,p1.NroDocumento from mmel.Persona p1, mmel.Persona p2 where 
+(p1.Mail=p2.Mail and p1.idPersona<>p2.idPersona ) order by  p1.Mail
+
+insert into MMEL.PersonasInconsistentes(idPersona,Mail,NroDocumento)
+select  distinct p1.idPersona,p1.Mail,p1.NroDocumento from mmel.Persona p1, mmel.Persona p2 where 
+(p1.idPersona<>p2.idPersona and p1.NroDocumento=p2.NroDocumento ) order by p1.NroDocumento
 
  /*--ver si estan todos habilitados o que.. supongo q aca una funcion/sp determinara si estan habilitados en base a q sus datos esten todos ok
  --aca estoy agregando la condicion de usuario a todos los clientes q acabo de agregar ( x ahora son los unicos q estan en la tabla persona, x eso agrego todo directo)
@@ -1721,7 +1739,34 @@ begin
 end
 go
 
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[resolverInconsistencia]'))
+	DROP procedure [MMEL].resolverInconsistencia
+go
 
+
+
+create procedure mmel.resolverInconsistencia(@idPersona int)
+as
+begin
+	
+	declare @mail varchar(200)
+	declare @nroDoc varchar(25)
+
+	(select @mail=mail,@nroDoc=NroDocumento from mmel.Persona where idPersona=@idPersona)
+	
+	update mmel.Persona
+	set Mail = null  where idPersona <> @idPersona and mail=@mail
+	update mmel.Persona
+	set nroDocumento=null where idPersona <> @idPersona and nroDocumento=@nroDoc 
+
+	update mmel.PersonasInconsistentes
+	set Mail = null  where idPersona <> @idPersona and mail=@mail
+	update mmel.PersonasInconsistentes
+	set nroDocumento=null where idPersona <> @idPersona and nroDocumento=@nroDoc 
+
+end
+
+go
 
 
 
