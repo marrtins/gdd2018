@@ -127,7 +127,7 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         private void button1_Click(object sender, EventArgs e)
         {
-            FuncionesCompartidas fc = new FuncionesCompartidas();
+            
             if (cboHotel.Text == "Seleccionar"){ MessageBox.Show("Seleccione un hotel", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             else if (cboTipo.Text == "Seleccionar") { MessageBox.Show("Seleccione Tipo de Habitacion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             else if(dtDesde.Value >= dtHasta.Value | dtDesde.Value.Day<System.DateTime.Now.Day | dtHasta.Value < System.DateTime.Now) { MessageBox.Show("Seleccione fechas validas", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
