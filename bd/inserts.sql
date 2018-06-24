@@ -1,6 +1,6 @@
 --Migracion de datos
 
-
+use GD1C2018
 --Tabla Rol
 insert into MMEL.Rol values('administrador','S')
 insert into MMEL.Rol values('recepcionista','S')
@@ -195,11 +195,11 @@ select fa.idFactura,fa.idEstadia,'VALOR CONSUMIBLE',co.idConsumible,ot.Item_Fact
  where ot.Consumible_Codigo is not null and ot.Factura_Fecha is not null 
  go
 
-IF object_id('mmel.AgregarCliente') IS NULL
-    EXEC ('create procedure mmel.AgregarCliente as select 1')
-GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[AgregarCliente]'))
+	DROP PROCEDURE [MMEL].AgregarCliente
+go
 
-alter procedure mmel.AgregarCliente (@nombre varchar(50),@apellido varchar(50),@tipoDocumento varchar(15),@nroDocumento nvarchar(25),@mail varchar(200),@telefono varchar(20),
+create procedure mmel.AgregarCliente (@nombre varchar(50),@apellido varchar(50),@tipoDocumento varchar(15),@nroDocumento nvarchar(25),@mail varchar(200),@telefono varchar(20),
 	@fechaDeNacimiento datetime,@nacionalidad varchar(50),@dirCalle nvarchar(150),@dirNroCalle int ,@pais varchar(150),@dirPiso smallint,@dirDepto char(2),@dirLocalidad nvarchar(150),
 	@habilitado char(1),@idNuevo int output,@codigoRet int output)
 as
@@ -242,11 +242,13 @@ end
 	
 go
 
-IF object_id('mmel.existeCliente') IS NULL
-    EXEC ('create function mmel.existeCliente as select 1')
-GO
 
-alter function mmel.existeCliente(@tipodoc varchar(15),@nrodoc int,@mail varchar(200))
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[existeCliente]'))
+	DROP function [MMEL].existeCliente
+go
+
+
+create function mmel.existeCliente(@tipodoc varchar(15),@nrodoc int,@mail varchar(200))
 returns int
 as
 begin
@@ -260,10 +262,10 @@ end
 go
 
 
-IF object_id('mmel.clienteErroneo') IS NULL
-    EXEC ('create function mmel.clienteErroneo as select 1')
-GO
-alter function mmel.clienteErroneo(@idPersona int)
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[clienteErroneo]'))
+	DROP function [MMEL].clienteErroneo
+go
+create function mmel.clienteErroneo(@idPersona int)
 returns int
 as
 begin
@@ -277,7 +279,12 @@ begin
 end
 go
 
-alter procedure mmel.esErroneo(@idPersona int,@codigoRet int output)
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[esErroneo]'))
+	DROP procedure [MMEL].esErroneo
+go
+
+create procedure mmel.esErroneo(@idPersona int,@codigoRet int output)
 as
 begin
 	if exists (SELECT distinct  * FROM mmel.Persona p1 inner join mmel.Persona p2 on p1.idPersona =@idPersona and  p1.idPersona <>p2.idPersona and p1.Mail=p2.Mail)
@@ -288,7 +295,15 @@ begin
 end
 go
 
-alter procedure mmel.removerEmail(@idPersona int)
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[removerEmail]'))
+	DROP procedure [MMEL].removerEmail
+go
+
+
+
+create procedure mmel.removerEmail(@idPersona int)
+
 as
 begin
 	update mmel.Persona
@@ -296,7 +311,14 @@ begin
 end
 go
 
-alter procedure mmel.removerPasaporte(@idPersona int)
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[removerPasaporte]'))
+	DROP procedure [MMEL].removerPasaporte
+go
+
+
+
+
+create procedure mmel.removerPasaporte(@idPersona int)
 as
 begin
 	update mmel.Persona
@@ -305,10 +327,11 @@ end
 
 
 
-IF object_id('mmel.modificarCliente') IS NULL
-    EXEC ('create procedure mmel.modificarCliente as select 1')
-GO
-alter procedure mmel.modificarCliente(@idPersona int,@nombre varchar(50),@apellido varchar(50),@tipoDocumento varchar(15),@nroDocumento nvarchar(25),@mail varchar(200),@telefono varchar(20),
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[modificarCliente]'))
+	DROP procedure [MMEL].modificarCliente
+go
+
+create procedure mmel.modificarCliente(@idPersona int,@nombre varchar(50),@apellido varchar(50),@tipoDocumento varchar(15),@nroDocumento nvarchar(25),@mail varchar(200),@telefono varchar(20),
 	@fechaDeNacimiento datetime,@nacionalidad varchar(50),@dirCalle nvarchar(150),@dirNroCalle int ,@pais varchar(150),@dirPiso smallint,@dirDepto char(2),@dirLocalidad nvarchar(150),
 	@habilitado char(1),@codigoRet int output)
 as
@@ -345,7 +368,12 @@ end
 
 go
 
-alter function mmel.existeClienteModif(@tipodoc varchar(15),@nrodoc int,@mail varchar(200),@idp int)
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[existeClienteModif]'))
+	DROP function [MMEL].existeClienteModif
+go
+
+
+create function mmel.existeClienteModif(@tipodoc varchar(15),@nrodoc int,@mail varchar(200),@idp int)
 returns int
 as
 begin
@@ -358,9 +386,12 @@ begin
 end
 go
 
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[borrarCliente]'))
+	DROP procedure [MMEL].borrarCliente
+go
 
 
-alter procedure mmel.borrarCliente(@idCliente int)
+create procedure mmel.borrarCliente(@idCliente int)
 as
 begin
 	update mmel.Huesped
@@ -370,7 +401,15 @@ end
 
 go
 
-alter PROCEDURE MMEL.obtenerDisponibilidad(@fechaDesde datetime, @fechaHasta datetime,@idHotel int,@tipoHabDesc nvarchar(200))
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[obtenerDisponibilidad]'))
+	DROP procedure [MMEL].obtenerDisponibilidad
+go
+
+
+
+
+create PROCEDURE MMEL.obtenerDisponibilidad(@fechaDesde datetime, @fechaHasta datetime,@idHotel int,@tipoHabDesc nvarchar(200))
 AS
 BEGIN
     
@@ -394,9 +433,13 @@ BEGIN
 END
 GO	
 
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[hayDisponibilidad]'))
+	DROP procedure [MMEL].hayDisponibilidad
+go
 
 
-alter PROCEDURE MMEL.hayDisponibilidad(@fechaDesde datetime, @fechaHasta datetime,@idHotel int,@tipoHabDesc nvarchar(200),@rta int output)
+
+create PROCEDURE MMEL.hayDisponibilidad(@fechaDesde datetime, @fechaHasta datetime,@idHotel int,@tipoHabDesc nvarchar(200),@rta int output)
 AS
 BEGIN
     
@@ -424,8 +467,12 @@ BEGIN
 END
 GO		
 
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[identificarClienteMail]'))
+	DROP procedure [MMEL].identificarClienteMail
+go
 
-alter procedure mmel.identificarClienteMail(@mail varchar(200), @codigoRet int output)
+
+create procedure mmel.identificarClienteMail(@mail varchar(200), @codigoRet int output)
 as
 begin
 	select count(*) from mmel.Persona p,mmel.Huesped hu where p.Mail=@mail and hu.Habilitado='S' and p.idPersona=hu.idPersona
@@ -443,7 +490,14 @@ begin
 	end
 end
 go
-alter procedure mmel.identificarClienteIdent(@tipoId varchar(30),@nroId varchar(25), @codigoRet int output)
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[identificarClienteIdent]'))
+	DROP procedure [MMEL].identificarClienteIdent
+go
+
+
+
+create procedure mmel.identificarClienteIdent(@tipoId varchar(30),@nroId varchar(25), @codigoRet int output)
 as
 begin
 	select count(*) from mmel.Persona p,mmel.Huesped hu,mmel.TipoDocumento td where p.NroDocumento=@nroId and td.detalle = @tipoId and p.idPersona=hu.idPersona and hu.Habilitado='S'
@@ -462,7 +516,12 @@ begin
 end
 go
 
-alter function mmel.getCodigoReserva()
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[getCodigoReserva]'))
+	DROP function [MMEL].getCodigoReserva
+go
+
+
+create function mmel.getCodigoReserva()
 returns int
 as
 begin
@@ -471,6 +530,12 @@ begin
 	return @codret
 end
 go
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[reservar]'))
+	DROP procedure [MMEL].reservar
+go
+
+
 alter procedure mmel.reservar(@fechaDeReserva datetime,@idUsuarioQueReserva int,@fechaDesde datetime,@fechaHasta datetime,@idHotel int,@tipoHabDesc varchar(100),@tipoRegimenDesc varchar(100),@idPersona int, @codReserva int output)
 as
 begin
@@ -501,7 +566,7 @@ begin
 
 	insert into mmel.Reserva(idUsuarioQueProcesoReserva,idHotel,FechaDeReserva,FechaDesde,FechaHasta,idHabitacion,idRegimen,idHuesped,CodigoReserva,EstadoReserva)
 	values(@idUsuarioQueReserva,@idHotel,@fechaDeReserva,@fechaDesde,@fechaHasta,@idHabitacion,@idRegimen,@idHuesped,@codReserva,'C')
-	--revisar no puede ir getdate..
+	
 	
 end
 go

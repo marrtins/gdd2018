@@ -1,4 +1,4 @@
-﻿using FrbaHotel.AbmUsuario2.Model;
+﻿using FrbaHotel.AbmUsuario.Model;
 using FrbaHotel.Utilities;
 using Rubberduck.Winforms;
 using System;
@@ -8,7 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 
-namespace FrbaHotel.AbmUsuario2
+namespace FrbaHotel.AbmUsuario
 {
     public partial class ListadoUsuarios : ModelBoundForm
     {
@@ -73,8 +73,8 @@ namespace FrbaHotel.AbmUsuario2
                     cmd.Parameters.AddWithValue("@Username", SqlDbType.NVarChar).Value = filtros.Username ?? Convert.DBNull;
                     cmd.Parameters.AddWithValue("@Nombre", SqlDbType.NVarChar).Value = filtros.Nombre ?? Convert.DBNull;
                     cmd.Parameters.AddWithValue("@Apellido", SqlDbType.NVarChar).Value = filtros.Apellido ?? Convert.DBNull;
-                    cmd.Parameters.AddWithValue("@Mail", SqlDbType.NVarChar).Value = filtros.Mail ?? Convert.DBNull
-                    cmd.Parameters.AddWithValue("@NroDocumento", SqlDbType.NVarChar).Value = filtros.NroDocumento ?? Convert.DBNull
+                    cmd.Parameters.AddWithValue("@Mail", SqlDbType.NVarChar).Value = filtros.Mail ?? Convert.DBNull;
+                    cmd.Parameters.AddWithValue("@NroDocumento", SqlDbType.NVarChar).Value = filtros.NroDocumento ?? Convert.DBNull;
                     cmd.Parameters.AddWithValue("@IdTipoDocumento", SqlDbType.Int).Value = filtros.IdTipoDocumento;
                     cmd.Parameters.AddWithValue("@IdRol", SqlDbType.Int).Value = filtros.IdRol;
 

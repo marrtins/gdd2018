@@ -78,15 +78,41 @@ namespace FrbaHotel.AbmRol
                     funcionalidades.Clear();
 
                     if (listaF != null)
-                        listaF.ForEach(lh => funcionalidades.Add(lh)); // lo hago asi para que no se pierda el binding
+                        listaF.ForEach(lh => funcionalidades.Add(lh)); // lo hago asi para que no se pierda el binding                  
                 }
             }
         }
         private void rolesGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex == -1) //toco los headers
+                return;
+
             var selectedItem = this.rolesGridView.Rows[e.RowIndex].DataBoundItem as Rol;
 
-            RefreshFuncionalidadesData(selectedItem.idRol);
+
+            if (e.ColumnIndex == this.rolesGridView.Columns["SeleccionarCol"].DisplayIndex)
+            {
+                AbrirModificar(selectedItem);
+            } else
+            {
+                RefreshFuncionalidadesData(selectedItem.idRol);
+
+                selectedItem.Funcionalidades = funcionalidades;
+            }
+
+        }
+
+        private void AbrirModificar(Rol selectedItem)
+        {
+            InsertarModificar ins = new InsertarModificar(ObjectCloner.DeepCopy(selectedItem));
+            this.Hide();
+
+            ins.ShowDialog();
+
+            this.Show();
+
+            if (ins.Result == DialogResult.OK)
+                RefreshRolesData();
         }
 
         private void rolesGridView_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -94,6 +120,26 @@ namespace FrbaHotel.AbmRol
             var selectedItem = this.rolesGridView.Rows[e.RowIndex].DataBoundItem as Rol;
 
             RefreshFuncionalidadesData(selectedItem.idRol);
+        }
+
+        private void altaBtn_Click(object sender, EventArgs e)
+        {
+            var ins = new InsertarModificar();
+
+            ins.ShowDialog();
+
+            this.Show();
+
+            if (ins.Result == DialogResult.OK)
+                RefreshRolesData();
+        }
+
+        private void Listado_Shown(object sender, EventArgs e)
+        {
+            var selectedItem = this.rolesGridView.Rows[0].DataBoundItem as Rol; //el primero
+
+            RefreshFuncionalidadesData(selectedItem.idRol);
+
         }
     }
 }

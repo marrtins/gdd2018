@@ -89,8 +89,34 @@
     <Compile Include="AbmCliente\SeleccionCliente.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AbmCliente\SeleccionCliente.Designer.cs">
+    <Compile Include="AbmCliente\SeleccionCliente.designer.cs">
       <DependentUpon>SeleccionCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmHabitacion\AltaHabitacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmHabitacion\AltaHabitacion.Designer.cs">
+      <DependentUpon>AltaHabitacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmHabitacion\BajaHabitacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmHabitacion\BajaHabitacion.Designer.cs">
+      <DependentUpon>BajaHabitacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmHabitacion\InicioHabitacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmHabitacion\InicioHabitacion.Designer.cs">
+      <DependentUpon>InicioHabitacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmHabitacion\Model\Habitacion.cs" />
+    <Compile Include="AbmHabitacion\Model\TipoHabitacion.cs" />
+    <Compile Include="AbmHabitacion\ModificarHabitacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmHabitacion\ModificarHabitacion.Designer.cs">
+      <DependentUpon>ModificarHabitacion.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmHotel\InsertarModificar.cs">
       <SubType>Form</SubType>
@@ -117,6 +143,13 @@
       <DependentUpon>Listado.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmRol\Model\Funcionalidad.cs" />
+    <Compile Include="ListadoEstadistico\ListadoEstadistico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListadoEstadistico\ListadoEstadistico.Designer.cs">
+      <DependentUpon>ListadoEstadistico.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListadoEstadistico\Model\ListadoEstadistico.cs" />
     <Compile Include="Login\Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -209,17 +242,35 @@
     <EmbeddedResource Include="AbmCliente\SeleccionCliente.resx">
       <DependentUpon>SeleccionCliente.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AbmHabitacion\AltaHabitacion.resx">
+      <DependentUpon>AltaHabitacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmHabitacion\BajaHabitacion.resx">
+      <DependentUpon>BajaHabitacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmHabitacion\InicioHabitacion.resx">
+      <DependentUpon>InicioHabitacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmHabitacion\ModificarHabitacion.resx">
+      <DependentUpon>ModificarHabitacion.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AbmHotel\InsertarModificar.resx">
       <DependentUpon>InsertarModificar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmHotel\Listado.resx">
       <DependentUpon>Listado.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\InsertarModifica.resx">
+      <DependentUpon>InsertarModifica.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AbmRol\Listado.resx">
       <DependentUpon>Listado.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListadoEstadistico\ListadoEstadistico.resx">
+      <DependentUpon>ListadoEstadistico.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
@@ -284,6 +335,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AbmUsuario\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AbmHabitacion\script_abm_habitacion.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

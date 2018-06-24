@@ -1,10 +1,17 @@
-﻿namespace FrbaHotel.Utilities
+﻿using FrbaHotel.AbmRol.Model;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+
+namespace FrbaHotel.Utilities
 {
+    [Serializable]
     public class Rol
     {
         public int idRol { get; set; }
         public string Nombre { get; set; }
         public string Activo { get; set; }
+        public BindingList<Funcionalidad> Funcionalidades { get; set; } = new BindingList<Funcionalidad>(); //No se carga excepto en el ABMRol
 
         public Rol(int id, string nombre, string activo)
         {

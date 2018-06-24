@@ -1,4 +1,4 @@
-namespace FrbaHotel.AbmUsuario2
+namespace FrbaHotel.AbmUsuario
 {
     partial class ListadoUsuarios
     {
@@ -188,7 +188,7 @@ namespace FrbaHotel.AbmUsuario2
             this.gpoFiltros.Size = new System.Drawing.Size(842, 194);
             this.gpoFiltros.TabIndex = 5;
             this.gpoFiltros.TabStop = false;
-            this.gpoFiltros.Text = "Filtros de búsqueda";
+            this.gpoFiltros.Text = "Filtros de bï¿½squeda";
             // 
             // usernameInput
             // 
@@ -254,7 +254,7 @@ namespace FrbaHotel.AbmUsuario2
             this.lblNro.Name = "lblNro";
             this.lblNro.Size = new System.Drawing.Size(141, 17);
             this.lblNro.TabIndex = 6;
-            this.lblNro.Text = "Nro. de Identificación";
+            this.lblNro.Text = "Nro. de Identificaciï¿½n";
             // 
             // cboTipoDoc
             // 
@@ -272,7 +272,7 @@ namespace FrbaHotel.AbmUsuario2
             this.lblTipoId.Name = "lblTipoId";
             this.lblTipoId.Size = new System.Drawing.Size(142, 17);
             this.lblTipoId.TabIndex = 4;
-            this.lblTipoId.Text = "Tipo de Identificación";
+            this.lblTipoId.Text = "Tipo de Identificaciï¿½n";
             // 
             // apellidoInput
             // 
