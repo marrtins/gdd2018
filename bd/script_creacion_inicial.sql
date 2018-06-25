@@ -512,7 +512,7 @@ select distinct 3,pe.idPersona from mmel.Rol ro, mmel.Persona pe
  join mmel.Hotel ho on di.idDireccion=ho.idDireccion
 
 
---revisar el usuario q realizo estas reservas ..
+/*--revisar el usuario q realizo estas reservas ..
 insert into mmel.Reserva(FechaDesde,FechaHasta,idHabitacion,idRegimen,idHuesped,CodigoReserva,idHotel) 
 select distinct ot.Reserva_Fecha_Inicio,ot.Reserva_Cant_Noches+ot.Reserva_Fecha_Inicio,ha.idHabitacion,re.idRegimen,hu.idHuesped,ot.Reserva_Codigo,ho.idHotel		
 from gd_esquema.Maestra ot
@@ -524,11 +524,59 @@ inner join mmel.Persona pe on pe.Apellido=ot.Cliente_Apellido and pe.NroDocument
 --inner join mmel.Usuarios us on us.idPersona=pe.idPersona
 inner join mmel.Habitacion ha on ot.Habitacion_Numero=ha.NumeroHabitacion and ho.idHotel=ha.idHotel
 inner join mmel.Huesped hu on hu.idPersona = pe.idPersona
+*/
 /*
 
 insert into mmel.ReservaPorHabitacion(idReserva,idHabitacion)
 select distinct re.idReserva,ha.idHabitacion from
 */
+
+insert into mmel.Reserva(CodigoReserva,EstadoReserva)
+select distinct ot.Reserva_Codigo,'CO' from gd_esquema.Maestra ot
+where Reserva_Fecha_Inicio > GETDATE() and Estadia_Fecha_Inicio is null and ot.Reserva_Codigo not in( select distinct ot2.Reserva_Codigo from gd_esquema.Maestra ot2 where ot2.Factura_Nro is not null ) 
+
+
+insert into mmel.Reserva(CodigoReserva,EstadoReserva)
+select distinct ot.Reserva_Codigo,'CXNS' from gd_esquema.Maestra ot
+where Reserva_Fecha_Inicio < GETDATE() and Estadia_Fecha_Inicio is null and ot.Reserva_Codigo not in( select distinct ot2.Reserva_Codigo from gd_esquema.Maestra ot2 where ot2.Factura_Nro is not null )
+
+insert into mmel.Reserva(CodigoReserva,EstadoReserva)
+select distinct ot.Reserva_Codigo,'RCI' from gd_esquema.Maestra ot
+where Estadia_Fecha_Inicio < GETDATE() and (Estadia_Fecha_Inicio+Estadia_Cant_Noches+1)>GETDATE() and ot.Reserva_Codigo not in( select distinct ot2.Reserva_Codigo from gd_esquema.Maestra ot2 where ot2.Factura_Nro is not null )
+
+insert into mmel.Reserva(CodigoReserva,EstadoReserva)
+select distinct  ot.Reserva_Codigo,'RCICF' from gd_esquema.Maestra ot
+where Estadia_Fecha_Inicio < GETDATE() and (Estadia_Fecha_Inicio+Estadia_Cant_Noches+1)>GETDATE() and ot.Reserva_Codigo  in( select distinct ot2.Reserva_Codigo from gd_esquema.Maestra ot2 where ot2.Factura_Nro is not null )
+
+insert into mmel.Reserva(CodigoReserva,EstadoReserva)
+select distinct ot.Reserva_Codigo,'RINCF' from gd_esquema.Maestra ot
+where (Estadia_Fecha_Inicio)>GETDATE() and ot.Reserva_Codigo  in( select distinct ot2.Reserva_Codigo from gd_esquema.Maestra ot2 where ot2.Factura_Nro is not null ) order by Reserva_Codigo
+
+
+insert into mmel.Reserva(CodigoReserva,EstadoReserva)
+select distinct ot.Reserva_Codigo,'RF' from gd_esquema.Maestra ot
+where (Estadia_Fecha_Inicio+Estadia_Cant_Noches+1)<GETDATE() and ot.Reserva_Codigo  in( select distinct ot2.Reserva_Codigo from gd_esquema.Maestra ot2 where ot2.Factura_Nro is not null )
+
+update mmel.Reserva 
+set 
+FechaDesde = ot1.Reserva_Fecha_Inicio,
+FechaHasta=ot1.Reserva_Fecha_Inicio+ot1.Reserva_Cant_Noches,
+idHabitacion = ha.idHabitacion,
+idRegimen=re.idRegimen,
+idHuesped=pe.idPersona,
+idHotel = ho.idHotel
+from gd_esquema.Maestra ot1,mmel.Hotel ho,mmel.Direccion di,mmel.Habitacion ha,mmel.Regimen re,mmel.Persona pe
+where ho.idDireccion=di.idDireccion 
+and di.calle=ot1.Hotel_Calle
+and di.nroCalle = ot1.Hotel_Nro_Calle
+and ha.idHotel=ho.idHotel
+and ot1.Regimen_Descripcion = re.Descripcion
+and CodigoReserva=ot1.Reserva_Codigo
+and ot1.Habitacion_Numero = ha.NumeroHabitacion
+and pe.Apellido=ot1.Cliente_Apellido
+and pe.NroDocumento=ot1.Cliente_Pasaporte_Nro
+and pe.Mail=ot1.Cliente_Mail
+
 
 
 --hay campos en q fehca inicio y cant noches son nulos , no los pongo pero revisar...
