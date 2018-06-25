@@ -430,12 +430,12 @@ select distinct Hotel_Calle,Hotel_Nro_Calle,1,Hotel_Ciudad from gd_esquema.Maest
 
 
 
-insert into mmel.Hotel(idDireccion,CantidadEstrellas,RecargaEstrellas)
+insert into mmel.Hotel(idDireccion,CantidadEstrellas,RecargaEstrellas,Nombre)
 select 
-	distinct di.idDireccion,ot.Hotel_CantEstrella,ot.Hotel_Recarga_Estrella
+	distinct di.idDireccion,ot.Hotel_CantEstrella,ot.Hotel_Recarga_Estrella,concat(ot.Hotel_Calle,' ',ot.Hotel_Nro_Calle)
 	from gd_esquema.Maestra ot
 	join mmel.Direccion di on di.calle=ot.Hotel_Calle and di.nroCalle = ot.Hotel_Nro_Calle
-	
+
 
 
 insert into mmel.TipoHabitacion (idTipoHabitacion,Descripcion,TipoPorcentual)
@@ -1768,6 +1768,52 @@ end
 
 go
 
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[cancelarReserva]'))
+	DROP procedure [MMEL].cancelarReserva
+go
+
+create procedure mmel.cancelarReserva(@codigoRes int,@motivo varchar(300),@idRol int,@fecha datetime,@cancelPor int )
+as
+begin
+	
+	declare @idPersona int
+	declare @idReserva int
+	--declare @idRol int
+	
+	select @idPersona=hu.idPersona,@idReserva=re.idReserva from mmel.Reserva re ,mmel.Huesped hu  where re.CodigoReserva=@codigoRes and hu.idHuesped=re.idHuesped
+	
+	--select @idRol = idRol from mmel.Rol where Nombre=@rol
+
+	insert into mmel.CancelacionReserva(Motivo,FechaDeCancelacion,idPersona,idReserva,idRol)
+	values(@motivo,@fecha,@idPersona,@idReserva,@idRol)
+
+	--si @cancelPor = 1 -> cancelo recep ; =2 cancel cliente
+
+	update mmel.Reserva
+	set EstadoReserva = 
+	case 
+		when @cancelPor=1 then 'C'
+		when @cancelPor=2 then 'D'
+	end
+	where CodigoReserva=@codigoRes
+	--estados de reserva : a->correcta  ; b->modificada;c->cancel x recep;d->cancel x cliente ; e->cancel x no show  ;  f->res c ingreso
+
+end
+go
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[existeReserva]'))
+	DROP procedure [MMEL].existeReserva
+go
+create procedure mmel.existeReserva(@codigoRes int, @ret int output)
+as
+begin
+	
+	if exists(select * from mmel.Reserva where CodigoReserva=@codigoRes)
+		set @ret=1 
+	else 
+		set @ret = 0
+end
+	
 
 
 

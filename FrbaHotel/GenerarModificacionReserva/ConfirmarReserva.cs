@@ -1,4 +1,5 @@
 ﻿using FrbaHotel.AbmCliente;
+using FrbaHotel.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -171,10 +172,12 @@ namespace FrbaHotel.GenerarModificacionReserva
                 con.Close();
                 if (aux > 1)
                 {
-                    
-                    PasaporteErroneoReserva per = new PasaporteErroneoReserva(idCliente, nombre, apellido, nro, mail,this);
-                    per.Show();
+
+                    //PasaporteErroneoReserva per = new PasaporteErroneoReserva(idCliente, nombre, apellido, nro, mail,this);
+                    //per.Show();
+                    ErrorPasaporteErroneo epe = new ErrorPasaporteErroneo(nro,mail,this);
                     this.Hide();
+                    epe.Show();
                     return false;
                 }
                 
@@ -220,8 +223,10 @@ namespace FrbaHotel.GenerarModificacionReserva
                 con.Close();
                 if (aux > 1)
                 {
-                    MailErroneoReserva per = new MailErroneoReserva(idCliente, nombre, apellido, idNro, mail,this);
-                    per.Show();
+                    //MailErroneoReserva per = new MailErroneoReserva(idCliente, nombre, apellido, idNro, mail,this);
+                    //per.Show();
+                    ErrorPasaporteErroneo epe = new ErrorPasaporteErroneo(idNro, mail, this);
+                    epe.Show();
                     this.Hide();
                     return false;
                 }

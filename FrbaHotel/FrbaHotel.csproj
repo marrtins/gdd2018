@@ -143,20 +143,18 @@
       <DependentUpon>Listado.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmRol\Model\Funcionalidad.cs" />
-    <Compile Include="AbmUsuario\AltaModificar.cs">
+    <Compile Include="CancelarReserva\CancelarReserva.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AbmUsuario\AltaModificar.Designer.cs">
-      <DependentUpon>AltaModificar.cs</DependentUpon>
+    <Compile Include="CancelarReserva\CancelarReserva.Designer.cs">
+      <DependentUpon>CancelarReserva.cs</DependentUpon>
     </Compile>
-    <Compile Include="AbmUsuario\ListadoUsuarios.cs">
+    <Compile Include="CancelarReserva\MainCancelReserva.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AbmUsuario\ListadoUsuarios.Designer.cs">
-      <DependentUpon>ListadoUsuarios.cs</DependentUpon>
+    <Compile Include="CancelarReserva\MainCancelReserva.Designer.cs">
+      <DependentUpon>MainCancelReserva.cs</DependentUpon>
     </Compile>
-    <Compile Include="AbmUsuario\Model\Usuario.cs" />
-    <Compile Include="AbmUsuario\Model\UsuarioFiltros.cs" />
     <Compile Include="GenerarModificacionReserva\CodigoReserva.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -230,12 +228,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="AbmRegimen\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CancelarReserva\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CancelarReserva\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Form1.cs">
@@ -323,11 +315,11 @@
     <EmbeddedResource Include="AbmRol\Listado.resx">
       <DependentUpon>Listado.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AbmUsuario\AltaModificar.resx">
-      <DependentUpon>AltaModificar.cs</DependentUpon>
+    <EmbeddedResource Include="CancelarReserva\CancelarReserva.resx">
+      <DependentUpon>CancelarReserva.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AbmUsuario\ListadoUsuarios.resx">
-      <DependentUpon>ListadoUsuarios.cs</DependentUpon>
+    <EmbeddedResource Include="CancelarReserva\MainCancelReserva.resx">
+      <DependentUpon>MainCancelReserva.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
