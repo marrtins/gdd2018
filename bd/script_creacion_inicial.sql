@@ -269,7 +269,7 @@ Create Table [MMEL].[Reserva](
 	idHabitacion int references MMEL.Habitacion(idHabitacion),
 	idRegimen int references MMEL.Regimen(idRegimen),
 	idHuesped int references MMEL.Huesped(idHuesped),
-	EstadoReserva char(1) ,
+	EstadoReserva char(6) ,
 	CodigoReserva int ,
 	constraint PK_idReserva primary key(idReserva)
 	)
