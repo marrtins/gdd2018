@@ -89,7 +89,7 @@
     <Compile Include="AbmCliente\SeleccionCliente.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AbmCliente\SeleccionCliente.designer.cs">
+    <Compile Include="AbmCliente\SeleccionCliente.Designer.cs">
       <DependentUpon>SeleccionCliente.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmHabitacion\AltaHabitacion.cs">
@@ -143,6 +143,63 @@
       <DependentUpon>Listado.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmRol\Model\Funcionalidad.cs" />
+    <Compile Include="AbmUsuario\AltaModificar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmUsuario\AltaModificar.Designer.cs">
+      <DependentUpon>AltaModificar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmUsuario\ListadoUsuarios.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmUsuario\ListadoUsuarios.Designer.cs">
+      <DependentUpon>ListadoUsuarios.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmUsuario\Model\Usuario.cs" />
+    <Compile Include="AbmUsuario\Model\UsuarioFiltros.cs" />
+    <Compile Include="GenerarModificacionReserva\CodigoReserva.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenerarModificacionReserva\CodigoReserva.Designer.cs">
+      <DependentUpon>CodigoReserva.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GenerarModificacionReserva\ConfirmarReserva.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenerarModificacionReserva\ConfirmarReserva.Designer.cs">
+      <DependentUpon>ConfirmarReserva.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GenerarModificacionReserva\GenerarReserva.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenerarModificacionReserva\GenerarReserva.Designer.cs">
+      <DependentUpon>GenerarReserva.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GenerarModificacionReserva\GenModReserva.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenerarModificacionReserva\GenModReserva.Designer.cs">
+      <DependentUpon>GenModReserva.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GenerarModificacionReserva\MailErroneoReserva.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenerarModificacionReserva\MailErroneoReserva.Designer.cs">
+      <DependentUpon>MailErroneoReserva.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GenerarModificacionReserva\ModificarReserva.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenerarModificacionReserva\ModificarReserva.Designer.cs">
+      <DependentUpon>ModificarReserva.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GenerarModificacionReserva\PasaporteErroneoReserva.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenerarModificacionReserva\PasaporteErroneoReserva.Designer.cs">
+      <DependentUpon>PasaporteErroneoReserva.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GenerarModificacionReserva\Reserva.cs" />
     <Compile Include="ListadoEstadistico\ListadoEstadistico.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -187,12 +244,6 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="GenerarModificacionReserva\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GenerarModificacionReserva\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="ListadoEstadistico\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -214,6 +265,12 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilities\DataReaderExtensions.cs" />
+    <Compile Include="Utilities\ErrorPasaporteErroneo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utilities\ErrorPasaporteErroneo.Designer.cs">
+      <DependentUpon>ErrorPasaporteErroneo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\LoginData.cs" />
     <Compile Include="Utilities\ObjectCloner.cs" />
     <Compile Include="Utilities\Pais.cs" />
@@ -266,8 +323,35 @@
     <EmbeddedResource Include="AbmRol\Listado.resx">
       <DependentUpon>Listado.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AbmUsuario\AltaModificar.resx">
+      <DependentUpon>AltaModificar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmUsuario\ListadoUsuarios.resx">
+      <DependentUpon>ListadoUsuarios.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenerarModificacionReserva\CodigoReserva.resx">
+      <DependentUpon>CodigoReserva.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenerarModificacionReserva\ConfirmarReserva.resx">
+      <DependentUpon>ConfirmarReserva.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenerarModificacionReserva\GenerarReserva.resx">
+      <DependentUpon>GenerarReserva.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenerarModificacionReserva\GenModReserva.resx">
+      <DependentUpon>GenModReserva.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenerarModificacionReserva\MailErroneoReserva.resx">
+      <DependentUpon>MailErroneoReserva.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenerarModificacionReserva\ModificarReserva.resx">
+      <DependentUpon>ModificarReserva.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenerarModificacionReserva\PasaporteErroneoReserva.resx">
+      <DependentUpon>PasaporteErroneoReserva.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ListadoEstadistico\ListadoEstadistico.resx">
       <DependentUpon>ListadoEstadistico.cs</DependentUpon>
@@ -289,6 +373,9 @@
     </Compile>
     <EmbeddedResource Include="RegistrarEstadia\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utilities\ErrorPasaporteErroneo.resx">
+      <DependentUpon>ErrorPasaporteErroneo.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -333,9 +420,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="AbmUsuario\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="AbmHabitacion\script_abm_habitacion.sql" />
   </ItemGroup>

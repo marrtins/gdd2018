@@ -17,7 +17,7 @@ namespace FrbaHotel.GenerarModificacionReserva
 {
     public partial class GenerarReserva : Form
     {
-        List<Regimen> listaRegimenes = new List<Regimen>();
+        //List<Regimen> listaRegimenes = new List<Regimen>();
         List<TipoHabitacion> tipoHabitaciones = new List<TipoHabitacion>();
         private int idHotel;
         public GenerarReserva(int idHotel)

@@ -1,4 +1,4 @@
-﻿using FrbaHotel.Abmusuario.Model;
+﻿using FrbaHotel.AbmUsuario.Model;
 using FrbaHotel.Utilities;
 using Rubberduck.Winforms;
 using System;
