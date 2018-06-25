@@ -31,5 +31,9 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         }
 
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

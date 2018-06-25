@@ -288,6 +288,7 @@ Create Table [MMEL].[Estadia](
 	FechaCheckOUT datetime ,
 	idRecepcionistaCheckIN int references MMEL.Usuarios(idUsuario), 
 	idRecepcionistaCheckOUT int references MMEL.Usuarios(idUsuario), --revisar estos 2 si son fk a usuario y en ese caso cambiar el nombre en el der
+	Consistente char(1),
 	constraint PK_idEstadia primary key(idEstadia)
 	)
 Create Table [MMEL].[Consumible](
@@ -584,6 +585,14 @@ insert into mmel.Estadia (idReserva,FechaCheckIN,FechaCheckOUT)
 select distinct re.idReserva,ot.Estadia_Fecha_Inicio,ot.Estadia_Fecha_Inicio+Estadia_Cant_Noches from gd_esquema.Maestra ot
 inner join mmel.Reserva re on re.CodigoReserva = ot.Reserva_Codigo
 where ot.Estadia_Fecha_Inicio is not null
+
+
+update mmel.Estadia
+set Consistente = case
+when FechaCheckIN < getdate() and FechaCheckOUT < getdate () then 'S'
+when FechaCheckIN > getdate() or FechaCheckOUT > GETDATE() then 'N'
+end
+
 
 insert into mmel.Consumible (Costo,Nombre,CodigoConsumible)
 select distinct ot.Consumible_Precio,Consumible_Descripcion,Consumible_Codigo from gd_esquema.Maestra ot
@@ -1861,9 +1870,62 @@ begin
 	else 
 		set @ret = 0
 end
+go
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[actualizarCheckIn]'))
+	DROP procedure [MMEL].actualizarCheckIn
+go
+
+create procedure actualizarCheckIn (@idEstadia int, @fechaCheckIn datetime,@userQueModifica varchar(200))
+as
+begin
+	declare @idRecepQueModifica int
+	set @idRecepQueModifica=3 --cambiar!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+	update mmel.Estadia
+	set FechaCheckIN = @fechaCheckIn,
+	idRecepcionistaCheckIN=@idRecepQueModifica,
+	FechaCheckOUT= case
+		when Consistente = 'N' then null else FechaCheckOUT 
+	end,
+	Consistente='S'
+	where idEstadia=@idEstadia
+end
+go
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[realizarCheckIn]'))
+	DROP procedure [MMEL].realizarCheckIn
+go
+
+create procedure realizarCheckIn(@codigoRes int, @fechaCheckIn datetime,@userQueModifica varchar(200))
+as
+begin
+	
+	declare @idRecepQueModifica int
+	declare @idReserva int
+	set @idRecepQueModifica=3 --cambiar!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+	select @idReserva=idReserva from mmel.Reserva where CodigoReserva=@codigoRes
+	insert into mmel.Estadia(FechaCheckIN,idRecepcionistaCheckIN,idReserva,Consistente)
+	values(@fechaCheckIn,@idRecepQueModifica,@idReserva,'S')
+end
+go
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[actualizarCheckOut]'))
+	DROP procedure [MMEL].actualizarCheckOut
+go
+
+
+create procedure actualizarCheckOut (@idEstadia int,@fechaCheckOut datetime,@userQueModifica varchar(200))
+as
+begin
+	declare @idRecepQueModificaCOUT int
+	set @idRecepQueModificaCOUT=3 --cambiar!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
 	
 
-
+	update mmel.Estadia
+	set FechaCheckOut = @fechaCheckOut,
+	idRecepcionistaCheckOUT=@idRecepQueModificaCOUT
+	where idEstadia=@idEstadia
+end
+go
 
 
 
