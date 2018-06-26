@@ -1,10 +1,12 @@
 --Migracion de datos
 
-
+use GD1C2018
 --Tabla Rol
 insert into MMEL.Rol values('administrador','S')
 insert into MMEL.Rol values('recepcionista','S')
 insert into MMEL.Rol values('guest','S')
+
+
 
 --Tabla Funcionalidades
 
@@ -48,7 +50,9 @@ insert into mmel.RolesPorFuncionalidades values(12,2) --fact estadia
 insert into mmel.RolesPorFuncionalidades values(8,3) --abm rese
 insert into mmel.RolesPorFuncionalidades values(9,3) --cancelar rese
 
-
+--agrego el rol guest 
+insert into mmel.Usuarios(Activo)values('S') (idUsuario ==1)
+insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(3,1)
 
 
 insert into mmel.Pais values('ARGENTINA')
@@ -105,7 +109,7 @@ select distinct upper(ot.Cliente_Nombre),upper(ot.Cliente_Apellido),1,ot.Cliente
 
  
 
- --ver si estan todos habilitados o que.. supongo q aca una funcion/sp determinara si estan habilitados en base a q sus datos esten todos ok
+ /*--ver si estan todos habilitados o que.. supongo q aca una funcion/sp determinara si estan habilitados en base a q sus datos esten todos ok
  --aca estoy agregando la condicion de usuario a todos los clientes q acabo de agregar ( x ahora son los unicos q estan en la tabla persona, x eso agrego todo directo)
  insert into mmel.Usuarios(idPersona)
  select distinct idPersona from mmel.Persona
@@ -113,7 +117,7 @@ select distinct upper(ot.Cliente_Nombre),upper(ot.Cliente_Apellido),1,ot.Cliente
 --aca le doy la condicion de guest a los usuarios recien creados arriba
 insert into mmel.UsuariosPorRoles(idRol,idUsuario)
 select distinct 3,pe.idPersona from mmel.Rol ro, mmel.Persona pe
-
+*/
  /*insert into mmel.Huesped(idUsuario)
  select distinct us.idUsuario 
  from mmel.Persona pe 
@@ -143,9 +147,9 @@ inner join mmel.Hotel ho on di.idDireccion=ho.idDireccion
 inner join mmel.RegimenesPorHotel rph on rph.idHotel=ho.idHotel
 inner join mmel.Regimen re on re.Descripcion=ot.Regimen_Descripcion
 inner join mmel.Persona pe on pe.Apellido=ot.Cliente_Apellido and pe.NroDocumento=ot.Cliente_Pasaporte_Nro  
-inner join mmel.Usuarios us on us.idPersona=pe.idPersona
+--inner join mmel.Usuarios us on us.idPersona=pe.idPersona
 inner join mmel.Habitacion ha on ot.Habitacion_Numero=ha.NumeroHabitacion and ho.idHotel=ha.idHotel
-inner join mmel.Huesped hu on hu.idPersona = us.idPersona
+inner join mmel.Huesped hu on hu.idPersona = pe.idPersona
 /*
 
 insert into mmel.ReservaPorHabitacion(idReserva,idHabitacion)
@@ -191,11 +195,11 @@ select fa.idFactura,fa.idEstadia,'VALOR CONSUMIBLE',co.idConsumible,ot.Item_Fact
  where ot.Consumible_Codigo is not null and ot.Factura_Fecha is not null 
  go
 
-IF object_id('mmel.AgregarCliente') IS NULL
-    EXEC ('create procedure mmel.AgregarCliente as select 1')
-GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[AgregarCliente]'))
+	DROP PROCEDURE [MMEL].AgregarCliente
+go
 
-alter procedure mmel.AgregarCliente (@nombre varchar(50),@apellido varchar(50),@tipoDocumento varchar(15),@nroDocumento nvarchar(25),@mail varchar(200),@telefono varchar(20),
+create procedure mmel.AgregarCliente (@nombre varchar(50),@apellido varchar(50),@tipoDocumento varchar(15),@nroDocumento nvarchar(25),@mail varchar(200),@telefono varchar(20),
 	@fechaDeNacimiento datetime,@nacionalidad varchar(50),@dirCalle nvarchar(150),@dirNroCalle int ,@pais varchar(150),@dirPiso smallint,@dirDepto char(2),@dirLocalidad nvarchar(150),
 	@habilitado char(1),@idNuevo int output,@codigoRet int output)
 as
@@ -238,11 +242,13 @@ end
 	
 go
 
-IF object_id('mmel.existeCliente') IS NULL
-    EXEC ('create function mmel.existeCliente as select 1')
-GO
 
-alter function mmel.existeCliente(@tipodoc varchar(15),@nrodoc int,@mail varchar(200))
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[existeCliente]'))
+	DROP function [MMEL].existeCliente
+go
+
+
+create function mmel.existeCliente(@tipodoc varchar(15),@nrodoc int,@mail varchar(200))
 returns int
 as
 begin
@@ -256,10 +262,10 @@ end
 go
 
 
-IF object_id('mmel.clienteErroneo') IS NULL
-    EXEC ('create function mmel.clienteErroneo as select 1')
-GO
-alter function mmel.clienteErroneo(@idPersona int)
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[clienteErroneo]'))
+	DROP function [MMEL].clienteErroneo
+go
+create function mmel.clienteErroneo(@idPersona int)
 returns int
 as
 begin
@@ -273,7 +279,12 @@ begin
 end
 go
 
-alter procedure mmel.esErroneo(@idPersona int,@codigoRet int output)
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[esErroneo]'))
+	DROP procedure [MMEL].esErroneo
+go
+
+create procedure mmel.esErroneo(@idPersona int,@codigoRet int output)
 as
 begin
 	if exists (SELECT distinct  * FROM mmel.Persona p1 inner join mmel.Persona p2 on p1.idPersona =@idPersona and  p1.idPersona <>p2.idPersona and p1.Mail=p2.Mail)
@@ -283,7 +294,16 @@ begin
 	else begin set @codigoRet = 0 end
 end
 go
-alter procedure mmel.removerEmail(@idPersona int)
+
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[removerEmail]'))
+	DROP procedure [MMEL].removerEmail
+go
+
+
+
+create procedure mmel.removerEmail(@idPersona int)
+
 as
 begin
 	update mmel.Persona
@@ -291,19 +311,27 @@ begin
 end
 go
 
-alter procedure mmel.removerPasaporte(@idPersona int)
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[removerPasaporte]'))
+	DROP procedure [MMEL].removerPasaporte
+go
+
+
+
+
+create procedure mmel.removerPasaporte(@idPersona int)
 as
 begin
 	update mmel.Persona
 	set NroDocumento=null where idPersona=@idPersona
 end
 
+go
 
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[modificarCliente]'))
+	DROP procedure [MMEL].modificarCliente
+go
 
-IF object_id('mmel.modificarCliente') IS NULL
-    EXEC ('create procedure mmel.modificarCliente as select 1')
-GO
-alter procedure mmel.modificarCliente(@idPersona int,@nombre varchar(50),@apellido varchar(50),@tipoDocumento varchar(15),@nroDocumento nvarchar(25),@mail varchar(200),@telefono varchar(20),
+create procedure mmel.modificarCliente(@idPersona int,@nombre varchar(50),@apellido varchar(50),@tipoDocumento varchar(15),@nroDocumento nvarchar(25),@mail varchar(200),@telefono varchar(20),
 	@fechaDeNacimiento datetime,@nacionalidad varchar(50),@dirCalle nvarchar(150),@dirNroCalle int ,@pais varchar(150),@dirPiso smallint,@dirDepto char(2),@dirLocalidad nvarchar(150),
 	@habilitado char(1),@codigoRet int output)
 as
@@ -340,6 +368,11 @@ end
 
 go
 
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[existeClienteModif]'))
+	DROP function [MMEL].existeClienteModif
+go
+
+
 create function mmel.existeClienteModif(@tipodoc varchar(15),@nrodoc int,@mail varchar(200),@idp int)
 returns int
 as
@@ -353,14 +386,189 @@ begin
 end
 go
 
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[borrarCliente]'))
+	DROP procedure [MMEL].borrarCliente
+go
 
 
-alter procedure mmel.borrarCliente(@idCliente int)
+create procedure mmel.borrarCliente(@idCliente int)
 as
 begin
-
-update mmel.Huesped
-set Habilitado ='N' where idPersona=@idCliente
+	update mmel.Huesped
+	set Habilitado ='N' where idPersona=@idCliente
 end
+
+
+go
+
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[obtenerDisponibilidad]'))
+	DROP procedure [MMEL].obtenerDisponibilidad
+go
+
+
+
+
+create PROCEDURE MMEL.obtenerDisponibilidad(@fechaDesde datetime, @fechaHasta datetime,@idHotel int,@tipoHabDesc nvarchar(200))
+AS
+BEGIN
+    
+	declare @idRegimen int
+	declare @idTipoHab int
+	set @idTipoHab = (select top 1 idTipoHabitacion from mmel.TipoHabitacion where Descripcion=@tipoHabDesc)
+
+		select * from mmel.habitacion where idHabitacion not in 
+		(SELECT h.idHabitacion  FROM MMEL.Habitacion h
+		join mmel.Reserva r on h.idHotel=r.idHotel and h.idHabitacion=r.idHabitacion
+		WHERE	h.idHotel=@idHotel AND					
+								(	
+									( FechaDesde<=@fechaDesde and @fechaDesde<FechaHasta) OR
+									( FechaDesde<@fechaHasta and @fechaHasta<=FechaHasta) OR
+									( @fechaDesde<=FechaDesde and @fechaHasta>=FechaHasta)
+						
+								) 
+		) and idHotel = @idHotel and idTipoHabitacion=@idTipoHab
+
+	
+END
+GO	
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[hayDisponibilidad]'))
+	DROP procedure [MMEL].hayDisponibilidad
+go
+
+
+
+create PROCEDURE MMEL.hayDisponibilidad(@fechaDesde datetime, @fechaHasta datetime,@idHotel int,@tipoHabDesc nvarchar(200),@rta int output)
+AS
+BEGIN
+    
+	declare @idRegimen int
+	declare @idTipoHab int
+	set @idTipoHab = (select top 1 idTipoHabitacion from mmel.TipoHabitacion where Descripcion=@tipoHabDesc)
+
+		if exists(
+			select * from mmel.habitacion where idHabitacion not in 
+				(SELECT h.idHabitacion  FROM MMEL.Habitacion h
+				join mmel.Reserva r on h.idHotel=r.idHotel and h.idHabitacion=r.idHabitacion
+				WHERE	h.idHotel=@idHotel AND					
+										(	
+											( FechaDesde<=@fechaDesde and @fechaDesde<FechaHasta) OR
+											( FechaDesde<@fechaHasta and @fechaHasta<=FechaHasta) OR
+											( @fechaDesde<=FechaDesde and @fechaHasta>=FechaHasta)
+						
+										) 
+			) and idHotel = @idHotel and idTipoHabitacion=@idTipoHab
+		) begin set @rta = 1 end
+		else begin set @rta=0 end
+
+
+	
+END
+GO		
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[identificarClienteMail]'))
+	DROP procedure [MMEL].identificarClienteMail
+go
+
+
+create procedure mmel.identificarClienteMail(@mail varchar(200), @codigoRet int output)
+as
+begin
+	select count(*) from mmel.Persona p,mmel.Huesped hu where p.Mail=@mail and hu.Habilitado='S' and p.idPersona=hu.idPersona
+	IF @@ROWCOUNT = 1 
+	BEGIN 
+		set @codigoRet = 1
+	end
+	else if @@ROWCOUNT>1
+	begin
+		set @codigoRet=2
+	end
+	else 
+	begin
+		set @codigoRet=0
+	end
+end
+go
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[identificarClienteIdent]'))
+	DROP procedure [MMEL].identificarClienteIdent
+go
+
+
+
+create procedure mmel.identificarClienteIdent(@tipoId varchar(30),@nroId varchar(25), @codigoRet int output)
+as
+begin
+	select count(*) from mmel.Persona p,mmel.Huesped hu,mmel.TipoDocumento td where p.NroDocumento=@nroId and td.detalle = @tipoId and p.idPersona=hu.idPersona and hu.Habilitado='S'
+	IF @@ROWCOUNT = 1 
+	BEGIN 
+		set @codigoRet = 1
+	end
+	else if @@ROWCOUNT>1
+	begin
+		set @codigoRet=2
+	end
+	else 
+	begin
+		set @codigoRet=0
+	end
+end
+go
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[getCodigoReserva]'))
+	DROP function [MMEL].getCodigoReserva
+go
+
+
+create function mmel.getCodigoReserva()
+returns int
+as
+begin
+	declare @codret int
+	set @codret = (select (max(CodigoReserva)+1) from mmel.Reserva)
+	return @codret
+end
+go
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[reservar]'))
+	DROP procedure [MMEL].reservar
+go
+
+
+create procedure mmel.reservar(@fechaDeReserva datetime,@idUsuarioQueReserva int,@fechaDesde datetime,@fechaHasta datetime,@idHotel int,@tipoHabDesc varchar(100),@tipoRegimenDesc varchar(100),@idPersona int, @codReserva int output)
+as
+begin
+	
+	declare @idHabitacion int
+	declare @idRegimen int
+	declare @idHuesped int
+	
+	declare @idTipoHab int
+	set @idUsuarioQueReserva = 1 --todo
+	set @idTipoHab = (select top 1 idTipoHabitacion from mmel.TipoHabitacion where Descripcion=@tipoHabDesc)
+	set @idRegimen = (select top 1 idRegimen from mmel.Regimen where Descripcion=@tipoRegimenDesc)
+	set @codReserva = mmel.getCodigoReserva()
+	set @idHuesped=(select top 1 idHuesped from mmel.Huesped where idPersona=@idPersona)
+	set @idHabitacion = 
+		(select top 1 idHabitacion from mmel.habitacion where idHabitacion not in 
+				(SELECT h.idHabitacion  FROM MMEL.Habitacion h
+					join mmel.Reserva r on h.idHotel=r.idHotel and h.idHabitacion=r.idHabitacion
+					WHERE	h.idHotel=@idHotel AND					
+						(	
+							( FechaDesde<=@fechaDesde and @fechaDesde<FechaHasta) OR
+							( FechaDesde<@fechaHasta and @fechaHasta<=FechaHasta) OR
+							( @fechaDesde<=FechaDesde and @fechaHasta>=FechaHasta)
+						) 
+				)
+				and idHotel = @idHotel and idTipoHabitacion=@idTipoHab
+		)
+
+	insert into mmel.Reserva(idUsuarioQueProcesoReserva,idHotel,FechaDeReserva,FechaDesde,FechaHasta,idHabitacion,idRegimen,idHuesped,CodigoReserva,EstadoReserva)
+	values(@idUsuarioQueReserva,@idHotel,@fechaDeReserva,@fechaDesde,@fechaHasta,@idHabitacion,@idRegimen,@idHuesped,@codReserva,'C')
+	
+	
+end
+go
 
 

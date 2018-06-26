@@ -63,7 +63,7 @@ namespace FrbaHotel.AbmCliente
             if (cboTipoId.Text != "Seleccionar")
             {
                     
-                    consultaBusqueda = String.Format("{0} and pe.TipoDocumento like '{1}'", consultaBusqueda, cboTipoId.Text);
+                    consultaBusqueda = String.Format("{0} and td.detalle like '{1}'", consultaBusqueda, cboTipoId.Text);
                 
             }
             if (txtNroId.Text != "")

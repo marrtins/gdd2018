@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FrbaHotel.GenerarModificacionReserva
+namespace FrbaHotel.ListadoEstadistico
 {
-    public partial class Form1 : Form
+    public partial class MostrarListadocs : Form
     {
-        public Form1()
+        public MostrarListadocs()
         {
             InitializeComponent();
         }

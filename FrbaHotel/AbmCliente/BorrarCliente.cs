@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrbaHotel.Utilities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -30,23 +31,27 @@ namespace FrbaHotel.AbmCliente
 
             int aux = datos.esErroneo(datos.idPersona);
 
-            if (aux == 1)
+            if (aux == 1 || aux==2)
             {
-                MailErroneo me = new MailErroneo(datos,2);
-                me.Show();
+                //MailErroneo me = new MailErroneo(datos,2);
+                //me.Show();
+                this.Hide();
+                ErrorPasaporteErroneo epe = new ErrorPasaporteErroneo(datos.nrodoc, datos.mail, this);
+                epe.Show();
             }
-            else if (aux == 2)
+            /*else if (aux == 2)
             {
                 //error de id y tipo repetidos
                 PasaporteErroneo pe = new PasaporteErroneo(datos,2);
                 pe.Show();
-            }
+            }*/
             else if (aux == 0)
             {
                 //todo ok 
                 this.Show();
-                llenarCampos();
+                
             }
+            llenarCampos();
 
 
         }
