@@ -124,7 +124,7 @@ namespace FrbaHotel.AbmUsuario
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
-            ControlResetter.ResetAllControls(this.filtrosGroup);
+            ControlResetter.ResetAllControls(this.gpoFiltros);
         }
     }
 }

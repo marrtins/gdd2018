@@ -182,3 +182,23 @@ AS
 	WHERE  [idUsuario] = @idUsuario
 
 	COMMIT
+
+
+USE [GD1C2018]
+GO
+/****** Object:  StoredProcedure [MMEL].[RolesListar]    Script Date: 26/6/2018 17:22:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROC [MMEL].[TiposDocumentoListar] 
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+
+	BEGIN TRAN
+
+	SELECT [idTipoDocumento], [detalle]
+	FROM   [MMEL].[TipoDocumento]
+
+	COMMIT
