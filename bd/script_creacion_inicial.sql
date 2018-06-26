@@ -988,7 +988,8 @@ CREATE PROC [MMEL].[HotelCrear]
     @CantidadEstrellas int,
     @Nombre varchar(100),
 	@idAdmin int,
-    @Inhabilitado bit = NULL
+    @Inhabilitado bit = NULL,
+	@RecargaEstrellas int
 
 AS
 	SET NOCOUNT ON
@@ -1127,15 +1128,16 @@ CREATE PROC [MMEL].[HotelUpdate]
     @Ciudad nvarchar(150) = NULL,
     @CantidadEstrellas int = NULL,
     @Nombre varchar(100) = NULL,
-    @Inhabilitado bit = NULL
+    @Inhabilitado bit = NULL,
+	@RecargaEstrellas int
 AS
 	SET NOCOUNT ON
 	SET XACT_ABORT ON
 
 	BEGIN TRAN
 
-	UPDATE [MMEL].[Hotel]
-	SET    [Mail] = @Mail, [Telefono] = @Telefono, [CantidadEstrellas] = @CantidadEstrellas, [Nombre] = @Nombre, [Inhabilitado] = @Inhabilitado
+UPDATE [MMEL].[Hotel]
+	SET    [Mail] = @Mail, [Telefono] = @Telefono, [CantidadEstrellas] = @CantidadEstrellas, [Nombre] = @Nombre, [Inhabilitado] = @Inhabilitado, RecargaEstrellas = @RecargaEstrellas
 	WHERE  [idHotel] = @idHotel
 
 	UPDATE [MMEL].[Direccion]
@@ -2106,7 +2108,11 @@ BEGIN
 END
 GO
 
-
+CREATE VIEW [MMEL].[DireccionPais]
+AS SELECT d.idDireccion,d.Ciudad,d.calle,d.nroCalle, p.idPais, p.Nombre as NombrePais
+FROM MMEL.Direccion d 
+JOIN MMEL.Pais p on p.idPais = d.idPais;
+GO
 
 
 GO
