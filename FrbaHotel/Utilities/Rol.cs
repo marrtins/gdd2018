@@ -11,17 +11,20 @@ namespace FrbaHotel.Utilities
         public int idRol { get; set; }
         public string Nombre { get; set; }
         public string Activo { get; set; }
-        public BindingList<Funcionalidad> Funcionalidades { get; set; } = new BindingList<Funcionalidad>(); //No se carga excepto en el ABMRol
+        public BindingList<Funcionalidad> Funcionalidades { get; set; }  //No se carga excepto en el ABMRol
 
         public Rol(int id, string nombre, string activo)
         {
             idRol = id;
             Nombre = nombre;
             Activo = activo;
+            Funcionalidades = new BindingList<Funcionalidad>();
         }
 
         public Rol()
         {
+            Funcionalidades = new BindingList<Funcionalidad>();
+
         }
     }
 }
