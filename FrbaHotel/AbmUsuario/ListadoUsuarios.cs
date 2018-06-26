@@ -38,11 +38,11 @@ namespace FrbaHotel.AbmUsuario
 
             nroDocumentoInput.DataBindings.Add(new TextBinding(this.Model, "NroDocumento"));
 
-            cboRol.DataSource = Roles.GetAllWithDefault();
+            cboRol.DataSource = Roles.GetAll();
 
             cboRol.DataBindings.Add(new Binding("SelectedValue", this.Model, "IdRol"));
 
-            cboTipoDoc.DataSource = TiposDocumento.GetAllWithDefault();
+            cboTipoDoc.DataSource = TiposDocumento.GetAll();
 
             cboTipoDoc.DataBindings.Add(new Binding("SelectedValue", this.Model, "IdTipoDocumento"));
         }
@@ -67,7 +67,7 @@ namespace FrbaHotel.AbmUsuario
 
             using (SqlConnection con = new SqlConnection(connection))
             {
-                using (SqlCommand cmd = new SqlCommand("MMEL.HotelListar", con))
+                using (SqlCommand cmd = new SqlCommand("MMEL.UsuarioListar", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Username", SqlDbType.NVarChar).Value = filtros.Username ?? Convert.DBNull;
