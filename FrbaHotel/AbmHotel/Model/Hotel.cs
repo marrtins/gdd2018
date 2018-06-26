@@ -97,7 +97,7 @@ namespace FrbaHotel.AbmHotel.Model
         [CustomRequired]
         public string Mail
         {
-            get => _mail;
+            get { return _mail; }
             set
             {
                 _mail = value;
@@ -109,7 +109,7 @@ namespace FrbaHotel.AbmHotel.Model
         [RegularExpression("^[0-9]+$", ErrorMessage = "El campo solo puede contener numeros.")]
         public string Telefono
         {
-            get => _telefono;
+            get { return _telefono; }
             set
             {
                 _telefono = value;
@@ -122,22 +122,23 @@ namespace FrbaHotel.AbmHotel.Model
         [CustomRequired]
         public string Ciudad
         {
-            get => _ciudad; set
+            get { return _ciudad; }
+            set
             {
                 _ciudad = value;
                 InvokePropertyChanged("");
             }
         }
 
-        public int IdHotel { get => idHotel; set => idHotel = value; }
-        public int IdPais { get => idPais; set => idPais = value; }
-        public string NombrePais { get => nombrePais; set => nombrePais = value; }
+        public int IdHotel { get { return idHotel; } set { idHotel = value; } }
+        public int IdPais { get { return idPais; } set { idPais = value; } }
+        public string NombrePais { get { return nombrePais; } set { nombrePais = value; } }
         private int idDireccion;
 
 
         public bool Inhabilitado
         {
-            get => _inhabilitado; set
+            get { return _inhabilitado; } set
             {
                 _inhabilitado = value;
                 InvokePropertyChanged("");
@@ -154,7 +155,8 @@ namespace FrbaHotel.AbmHotel.Model
 
         public int IdDireccion
         {
-            get => idDireccion; set
+            get { return idDireccion; }
+            set
             {
                 idDireccion = value;
             }

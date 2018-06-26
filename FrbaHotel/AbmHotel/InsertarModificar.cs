@@ -22,7 +22,7 @@ namespace FrbaHotel.AbmHotel
         private Action<Hotel> accion;
         private List<Pais> paises;
 
-        public DialogResult Result { get => result; set => result = value; }
+        public DialogResult Result { get { return result; } set { result = value; } }
 
         public InsertarModificar(int idUsuario)
             : base(new Hotel())

@@ -15,7 +15,7 @@ namespace FrbaHotel.AbmHabitacion.Model
 
         public int IdTipoHabitacion
         {
-            get => idTipoHabitacion;
+            get { return idTipoHabitacion; }
             set
             {
                 idTipoHabitacion = value;
@@ -25,7 +25,10 @@ namespace FrbaHotel.AbmHabitacion.Model
 
         public char Descripcion
         {
-            get => descripcion;
+
+
+
+            get { return descripcion; }
             set
             {
                 descripcion = value;

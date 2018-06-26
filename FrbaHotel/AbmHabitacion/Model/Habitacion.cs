@@ -6,12 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using FrbaHotel.Utilities;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace FrbaHotel.AbmHabitacion.Model
 {
@@ -44,7 +39,7 @@ namespace FrbaHotel.AbmHabitacion.Model
         [CustomRequired]
         public int IdHabitacion
         {
-            get => idHabitacion;
+            get { return idHabitacion; }
             set
             {
                 idHabitacion = value;
@@ -55,7 +50,7 @@ namespace FrbaHotel.AbmHabitacion.Model
         [CustomRequired]
         public int NumeroHabitacion
         {
-            get => numeroHabitacion;
+            get {return numeroHabitacion; }
             set
             {
                 numeroHabitacion = value;
@@ -65,7 +60,7 @@ namespace FrbaHotel.AbmHabitacion.Model
 
         public int IdHotel
         {
-            get => idHotel;
+            get { return idHotel; }
             set
             {
                 idHotel = value;
@@ -75,7 +70,7 @@ namespace FrbaHotel.AbmHabitacion.Model
      
         public int IdTipoHabitacion
         {
-            get => idTipoHabitacion;
+            get { return idTipoHabitacion; }
             set
             {
                 idTipoHabitacion = value;
@@ -87,7 +82,7 @@ namespace FrbaHotel.AbmHabitacion.Model
         [RegularExpression("^[0-9]+$", ErrorMessage = "El campo solo puede contener numeros.")]
         public int Piso
         {
-            get => piso;
+            get { return piso; }
             set
             {
                 piso = value;
@@ -99,7 +94,7 @@ namespace FrbaHotel.AbmHabitacion.Model
         [CustomRequired]
         public char VistaAlExterior
         {
-            get => vistaAlExterior;
+            get { return vistaAlExterior; }
             set
             {
                 vistaAlExterior = value;
@@ -110,7 +105,7 @@ namespace FrbaHotel.AbmHabitacion.Model
         [CustomRequired]
         public string Descripcion
         {
-            get => descripcion;
+            get { return descripcion; }
             set
             {
                 descripcion = value;
@@ -120,7 +115,7 @@ namespace FrbaHotel.AbmHabitacion.Model
         [CustomRequired]
         public char Habilitado
         {
-            get => Habilitado;
+            get { return Habilitado; }
             set
             {
                 Habilitado = value;

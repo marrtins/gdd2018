@@ -20,7 +20,7 @@ namespace FrbaHotel.AbmHabitacion
     {
         private DialogResult result;
 
-        public DialogResult Result { get => result; set => result = value; }
+        public DialogResult Result { get { return result; } set { result = value; } }
 
         public AltaHabitacion()
         {

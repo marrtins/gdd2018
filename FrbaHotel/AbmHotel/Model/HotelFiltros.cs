@@ -29,7 +29,8 @@ namespace FrbaHotel.AbmHotel.Model
 
         public string Ciudad
         {
-            get => _ciudad; set
+            get { return _ciudad; }
+            set
             {
                 _ciudad = value;
                 InvokePropertyChanged("");
