@@ -9,19 +9,29 @@ namespace FrbaHotel.AbmUsuario.Model
     {
         public static string Requerido = "El campo es requerido";
     }
+    internal class CustomRequiredAttribute : RequiredAttribute
+    {
+        public CustomRequiredAttribute()
+            : base()
+        {
+            this.ErrorMessage = "Este campo es requerido";
+        }
+    }
 
     [Serializable]
     public class Usuario : INotifyPropertyChanged
     {
         
         private int idUsuario; // PK
-        private int idRol;
+        private int idRol; // FK
         private DateTime fechaNac;
-        private int idTipoDocumento;
+        private int idTipoDocumento; // FK
         private string nroDocumento;
         private string telefono;
         private string mail;
-        private bool activo;
+        private char activo;
+        private List<Hotel> hotelDondeTrabaja;
+
 
         // direccion calle nro pais
 
@@ -143,7 +153,7 @@ namespace FrbaHotel.AbmUsuario.Model
 
         public Usuario(int id, string username, string password, string nombre, string apellido, int idTipoDocumento, string nroDocumento, DateTime fechaNac, string mail, string telefono, int idPais, string calle, string nroCalle, string localidad, string dpto, string piso)
         {
-            // Direccion
+            // Dirección
             NroCalle = nroCalle;
             Calle = calle;
             IdPais = idPais;
@@ -206,7 +216,7 @@ namespace FrbaHotel.AbmUsuario.Model
             }
         }
 
-        string dpto;
+        string depto;
         [CustomRequired]
         [RegularExpression("^[0-9]+$", ErrorMessage = "El campo solo puede contener numeros.")]
         public string Depto
