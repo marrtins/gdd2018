@@ -2015,6 +2015,8 @@ BEGIN
 		SET @firstMonth = 4;
 	ELSE IF @trimestre = 3
 		SET @firstMonth = 7;
+	ELSE IF @trimestre = 4
+		SET @firstMonth = 10;
 
 	DECLARE @secondMonth int;
 	DECLARE @thirdMonth int;
