@@ -2,95 +2,95 @@
 
 Use GD1C2018
 
-IF NOT EXISTS ( SELECT  * FROM    sys.schemas  WHERE   name = N'MMEL' ) 
+IF NOT EXISTS ( SELECT  * FROM    sys.schemas  WHERE   name = N'MMEL' )
 		EXEC('CREATE SCHEMA [MMEL] AUTHORIZATION [gdHotel2018]');
 go
-------------------ELIMINO LAS TABLAS SI YA EXISTEN PARA VOLVER A CREARLAS -------------- 
-IF OBJECT_ID('MMEL.FacturacionPorEstadia', 'U') IS NOT NULL 
+------------------ELIMINO LAS TABLAS SI YA EXISTEN PARA VOLVER A CREARLAS --------------
+IF OBJECT_ID('MMEL.FacturacionPorEstadia', 'U') IS NOT NULL
 	DROP TABLE MMEL.FacturacionPorEstadia;
- 
-IF OBJECT_ID('MMEL.ConsumiblePorEstadia', 'U') IS NOT NULL 
-	drop table MMEL.ConsumiblePorEstadia	
 
-IF OBJECT_ID('MMEL.RolesPorFuncionalidades', 'U') IS NOT NULL 
+IF OBJECT_ID('MMEL.ConsumiblePorEstadia', 'U') IS NOT NULL
+	drop table MMEL.ConsumiblePorEstadia
+
+IF OBJECT_ID('MMEL.RolesPorFuncionalidades', 'U') IS NOT NULL
 	drop table MMEL.RolesPorFuncionalidades
 
-IF OBJECT_ID('MMEL.UsuariosPorRoles', 'U') IS NOT NULL 
+IF OBJECT_ID('MMEL.UsuariosPorRoles', 'U') IS NOT NULL
 	drop table MMEL.UsuariosPorRoles
 
-IF OBJECT_ID('MMEL.HotelesPorUsuarios', 'U') IS NOT NULL 
+IF OBJECT_ID('MMEL.HotelesPorUsuarios', 'U') IS NOT NULL
 	drop table MMEL.HotelesPorUsuarios
 
-IF OBJECT_ID('MMEL.RegimenesPorHotel', 'U') IS NOT NULL 
+IF OBJECT_ID('MMEL.RegimenesPorHotel', 'U') IS NOT NULL
 	drop table MMEL.RegimenesPorHotel
 
-IF OBJECT_ID('MMEL.Funcionalidades', 'U') IS NOT NULL 
+IF OBJECT_ID('MMEL.Funcionalidades', 'U') IS NOT NULL
 	drop table MMEL.Funcionalidades
 
-IF OBJECT_ID('MMEL.CancelacionReserva', 'U') IS NOT NULL 
+IF OBJECT_ID('MMEL.CancelacionReserva', 'U') IS NOT NULL
 	drop table MMEL.CancelacionReserva
-IF OBJECT_ID('MMEL.ReservaPorHabitacion', 'U') IS NOT NULL 
+IF OBJECT_ID('MMEL.ReservaPorHabitacion', 'U') IS NOT NULL
 	drop table MMEL.ReservaPorHabitacion
-	
 
-IF OBJECT_ID('MMEL.Item', 'U') IS NOT NULL 
+
+IF OBJECT_ID('MMEL.Item', 'U') IS NOT NULL
 	drop table MMEL.Item
-IF OBJECT_ID('MMEL.ItemFactura', 'U') IS NOT NULL 
+IF OBJECT_ID('MMEL.ItemFactura', 'U') IS NOT NULL
 	drop table MMEL.ItemFactura
 
-IF OBJECT_ID('MMEL.Consumible', 'U') IS NOT NULL	
+IF OBJECT_ID('MMEL.Consumible', 'U') IS NOT NULL
 	drop table MMEL.Consumible
 
-IF OBJECT_ID('MMEL.Facturacion', 'U') IS NOT NULL 
+IF OBJECT_ID('MMEL.Facturacion', 'U') IS NOT NULL
 	drop table MMEL.Facturacion
 
-IF OBJECT_ID('MMEL.FormaDePago', 'U') IS NOT NULL 
+IF OBJECT_ID('MMEL.FormaDePago', 'U') IS NOT NULL
 	drop table MMEL.FormaDePago
 
-IF OBJECT_ID('MMEL.Estadia', 'U') IS NOT NULL 
+IF OBJECT_ID('MMEL.Estadia', 'U') IS NOT NULL
 	drop table MMEL.Estadia
 
-IF OBJECT_ID('MMEL.Reserva', 'U') IS NOT NULL 
+IF OBJECT_ID('MMEL.Reserva', 'U') IS NOT NULL
 	drop table MMEL.Reserva
 
-IF OBJECT_ID('MMEL.Huesped', 'U') IS NOT NULL 
+IF OBJECT_ID('MMEL.Huesped', 'U') IS NOT NULL
 	drop table MMEL.Huesped
 
-IF OBJECT_ID('MMEL.Rol', 'U') IS NOT NULL 
+IF OBJECT_ID('MMEL.Rol', 'U') IS NOT NULL
 	drop table MMEL.Rol
 
-IF OBJECT_ID('MMEL.Usuarios', 'U') IS NOT NULL 
+IF OBJECT_ID('MMEL.Usuarios', 'U') IS NOT NULL
 	drop table MMEL.Usuarios
 
-IF OBJECT_ID('MMEL.PersonasInconsistentes', 'U') IS NOT NULL 
+IF OBJECT_ID('MMEL.PersonasInconsistentes', 'U') IS NOT NULL
 	drop table MMEL.PersonasInconsistentes
 
 
-IF OBJECT_ID('MMEL.Persona', 'U') IS NOT NULL 
+IF OBJECT_ID('MMEL.Persona', 'U') IS NOT NULL
 	drop table MMEL.Persona
 
 
-IF OBJECT_ID('MMEL.TipoDocumento', 'U') IS NOT NULL 
+IF OBJECT_ID('MMEL.TipoDocumento', 'U') IS NOT NULL
 	drop table MMEL.TipoDocumento
 
-IF OBJECT_ID('MMEL.Regimen', 'U') IS NOT NULL 
+IF OBJECT_ID('MMEL.Regimen', 'U') IS NOT NULL
 	drop table MMEL.Regimen
 
-IF OBJECT_ID('MMEL.Habitacion', 'U') IS NOT NULL 
+IF OBJECT_ID('MMEL.Habitacion', 'U') IS NOT NULL
 	drop table MMEL.Habitacion
 
-IF OBJECT_ID('MMEL.TipoHabitacion', 'U') IS NOT NULL 
+IF OBJECT_ID('MMEL.TipoHabitacion', 'U') IS NOT NULL
 	drop table MMEL.TipoHabitacion
 
-IF OBJECT_ID('MMEL.Hotel', 'U') IS NOT NULL 
+IF OBJECT_ID('MMEL.Hotel', 'U') IS NOT NULL
 	drop table MMEL.Hotel
 
-IF OBJECT_ID('MMEL.Direccion', 'U') IS NOT NULL 
+IF OBJECT_ID('MMEL.Direccion', 'U') IS NOT NULL
 	drop table MMEL.Direccion
 
-IF OBJECT_ID('MMEL.Pais', 'U') IS NOT NULL 
+IF OBJECT_ID('MMEL.Pais', 'U') IS NOT NULL
 	drop table MMEL.Pais
-IF OBJECT_ID('MMEL.[Constantes]', 'U') IS NOT NULL 
+IF OBJECT_ID('MMEL.[Constantes]', 'U') IS NOT NULL
 	drop table MMEL.[Constantes]
 
 
@@ -118,7 +118,7 @@ CREATE TABLE [MMEL].[Constantes](
 Create Table [MMEL].[Direccion](
 	idDireccion int identity(1,1) not null,
 	calle nvarchar(150),
-	nroCalle int , --AGREGAR EN DER! 
+	nroCalle int , --AGREGAR EN DER!
 	idPais int references MMEL.Pais(idPais),
 	Ciudad nvarchar(150), ---AGREGAR EN EL DER
 	constraint  PK_idDireccion PRIMARY KEY(idDireccion)
@@ -145,11 +145,11 @@ create Table [MMEL].[Persona](
 	-----------------cambios------------------------
 	dirCalle nvarchar(150),
 	dirNroCalle int , --AGREGAR EN DER! --VERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRr
-	dirIdPais int references MMEL.Pais(idPais), --agregar en der 
+	dirIdPais int references MMEL.Pais(idPais), --agregar en der
 	dirPiso smallint,--agregar en der
 	dirDepto char(2),---agergar ender
 	dirLocalidad nvarchar(150), ---AGREGAR EN EL DER
-	
+
 	constraint PK_idPersona primary key(idPersona)
 	)
 CREATE TABLE [MMEL].[PersonasInconsistentes](
@@ -191,7 +191,7 @@ Create Table [MMEL].[Regimen](
 	Precio decimal(10,2) not null,
 	Habilitado char(1) not null,
 	Descripcion varchar(200) not null,
-	--idHotel int references MMEL.Hotel(idHotel), --No tendria q ir aca 
+	--idHotel int references MMEL.Hotel(idHotel), --No tendria q ir aca
 	constraint PK_idRegimen primary key(idRegimen)
 	)
 Create Table [MMEL].[RegimenesPorHotel](
@@ -254,14 +254,14 @@ Create Table [MMEL].[Huesped](
 	idHuesped int identity(1,1) not null,
 	Habilitado char(1) ,
 	Reservo char(1) ,
-	--idUsuario int references MMEL.Usuarios(idUsuario), ----------REVISAR ESTOOOOOOOOO!! 
+	--idUsuario int references MMEL.Usuarios(idUsuario), ----------REVISAR ESTOOOOOOOOO!!
 	idPersona int references MMEL.Persona(idPersona),
 	constraint PK_idHuesped primary key(idHuesped)
 	)
 Create Table [MMEL].[Reserva](
 	idReserva int identity(1,1) not null,
 	--idRol int references MMEL.Rol(idRol),--cambiar esto, tiene q ir el id de quien realizo la reserva
-	idUsuarioQueProcesoReserva int references MMEL.Usuarios(idUsuario), --agregar al der 
+	idUsuarioQueProcesoReserva int references MMEL.Usuarios(idUsuario), --agregar al der
 	idHotel int references MMEL.Hotel(idHotel),
 	FechaDeReserva datetime ,
 	FechaDesde datetime ,
@@ -286,7 +286,7 @@ Create Table [MMEL].[Estadia](
 	idReserva int references MMEL.Reserva(idReserva),
 	FechaCheckIN datetime ,
 	FechaCheckOUT datetime ,
-	idRecepcionistaCheckIN int references MMEL.Usuarios(idUsuario), 
+	idRecepcionistaCheckIN int references MMEL.Usuarios(idUsuario),
 	idRecepcionistaCheckOUT int references MMEL.Usuarios(idUsuario), --revisar estos 2 si son fk a usuario y en ese caso cambiar el nombre en el der
 	Consistente char(1),
 	constraint PK_idEstadia primary key(idEstadia)
@@ -295,7 +295,7 @@ Create Table [MMEL].[Consumible](
 	idConsumible int identity(1,1) not null,
 	Costo int ,
 	--idEstadia int references MMEL.Estadia(idEstadia), --esto no deberia ir aca
-	--idHabitacion int references MMEL.Habitacion(idHabitacion), --esto tmp deberia ir aca 
+	--idHabitacion int references MMEL.Habitacion(idHabitacion), --esto tmp deberia ir aca
 	Nombre varchar(75) ,
 	CodigoConsumible int,
 	constraint PK_idConsumible primary key(idConsumible)
@@ -319,7 +319,7 @@ Create Table [MMEL].[Facturacion](
 	MontoTotal int ,--en la maestra fact total es un nro q nada q ver, cambio montoTotal x fact total para evitar confusiones
 	FactTotal int,
 	MontoFinal int,
-	NroFactura int , --REVISARRRRRRRRRRRRRR agregado al der 
+	NroFactura int , --REVISARRRRRRRRRRRRRR agregado al der
 	FacturaFecha smalldatetime ,
 	constraint PK_idFactura primary key(idFactura)
 	)
@@ -366,7 +366,7 @@ GO
 
 
 
-<<<<<<< HEAD
+
 --Migracion de datos
 
 
@@ -397,7 +397,7 @@ INSERT INTO MMEL.Funcionalidades VALUES('Listado Estadistico')
 
 --Rol x Funcionalidades (funcionalidad,rol)
 
---para el rol de admin: 
+--para el rol de admin:
 insert into mmel.RolesPorFuncionalidades values(1,1) --abm rol
 insert into mmel.RolesPorFuncionalidades values(2,1) --login y se
 insert into mmel.RolesPorFuncionalidades values(3,1) --abm user
@@ -415,11 +415,11 @@ insert into mmel.RolesPorFuncionalidades values(10,2) --regis estadia
 insert into mmel.RolesPorFuncionalidades values(11,2) --regis consu
 insert into mmel.RolesPorFuncionalidades values(12,2) --fact estadia
 
---para el guest 
+--para el guest
 insert into mmel.RolesPorFuncionalidades values(8,3) --abm rese
 insert into mmel.RolesPorFuncionalidades values(9,3) --cancelar rese
 
---agrego el rol guest 
+--agrego el rol guest
 insert into mmel.Usuarios(Activo)values('S')
 insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(3,1)
 
@@ -433,7 +433,7 @@ select distinct Hotel_Calle,Hotel_Nro_Calle,1,Hotel_Ciudad from gd_esquema.Maest
 
 
 insert into mmel.Hotel(idDireccion,CantidadEstrellas,RecargaEstrellas,Nombre)
-select 
+select
 	distinct di.idDireccion,ot.Hotel_CantEstrella,ot.Hotel_Recarga_Estrella,concat(ot.Hotel_Calle,' ',ot.Hotel_Nro_Calle)
 	from gd_esquema.Maestra ot
 	join mmel.Direccion di on di.calle=ot.Hotel_Calle and di.nroCalle = ot.Hotel_Nro_Calle
@@ -441,7 +441,7 @@ select
 
 
 insert into mmel.TipoHabitacion (idTipoHabitacion,Descripcion,TipoPorcentual)
-select 
+select
 	Habitacion_Tipo_Codigo,
 	Habitacion_Tipo_Descripcion,
 	Habitacion_Tipo_Porcentual
@@ -454,14 +454,14 @@ go
 
 
 insert into mmel.Habitacion(NumeroHabitacion,Piso,idHotel,VistaAlExterior,idTipoHabitacion)
-select distinct ot.Habitacion_Numero,ot.Habitacion_Piso,ho.idHotel,ot.Habitacion_Frente,th.idTipoHabitacion 
-from gd_esquema.Maestra ot 
+select distinct ot.Habitacion_Numero,ot.Habitacion_Piso,ho.idHotel,ot.Habitacion_Frente,th.idTipoHabitacion
+from gd_esquema.Maestra ot
 inner join mmel.Direccion d on d.calle=ot.Hotel_Calle and d.nroCalle = ot.Hotel_Nro_Calle
 inner join mmel.Hotel ho on d.idDireccion=ho.idDireccion
 inner join mmel.TipoHabitacion th on th.Descripcion=ot.Habitacion_Tipo_Descripcion
 
 
-	
+
 
 --iria esta versio ya q no hay q agregar idhotel creeria
 insert into mmel.Regimen(Precio,Habilitado,Descripcion)
@@ -477,11 +477,11 @@ select distinct upper(ot.Cliente_Nombre),upper(ot.Cliente_Apellido),1,ot.Cliente
  from gd_esquema.Maestra ot
 
  insert into MMEL.PersonasInconsistentes(idPersona,Mail,NroDocumento)
-select  distinct p1.idPersona,p1.Mail,p1.NroDocumento from mmel.Persona p1, mmel.Persona p2 where 
+select  distinct p1.idPersona,p1.Mail,p1.NroDocumento from mmel.Persona p1, mmel.Persona p2 where
 (p1.Mail=p2.Mail and p1.idPersona<>p2.idPersona ) order by  p1.Mail
 
 insert into MMEL.PersonasInconsistentes(idPersona,Mail,NroDocumento)
-select  distinct p1.idPersona,p1.Mail,p1.NroDocumento from mmel.Persona p1, mmel.Persona p2 where 
+select  distinct p1.idPersona,p1.Mail,p1.NroDocumento from mmel.Persona p1, mmel.Persona p2 where
 (p1.idPersona<>p2.idPersona and p1.NroDocumento=p2.NroDocumento ) order by p1.NroDocumento
 
  /*--ver si estan todos habilitados o que.. supongo q aca una funcion/sp determinara si estan habilitados en base a q sus datos esten todos ok
@@ -494,14 +494,14 @@ insert into mmel.UsuariosPorRoles(idRol,idUsuario)
 select distinct 3,pe.idPersona from mmel.Rol ro, mmel.Persona pe
 */
  /*insert into mmel.Huesped(idUsuario)
- select distinct us.idUsuario 
- from mmel.Persona pe 
+ select distinct us.idUsuario
+ from mmel.Persona pe
  join mmel.Usuarios us on pe.idPersona=us.idPersona
  join mmel.UsuariosPorRoles upr on us.idUsuario=upr.idUsuario
  join mmel.Rol ro on upr.idRol=ro.idRol
  */
  insert into mmel.Huesped(idPersona,Habilitado)
- select distinct idPersona,'S' from mmel.Persona 
+ select distinct idPersona,'S' from mmel.Persona
 
 
 
@@ -515,14 +515,14 @@ select distinct 3,pe.idPersona from mmel.Rol ro, mmel.Persona pe
 
 
 /*--revisar el usuario q realizo estas reservas ..
-insert into mmel.Reserva(FechaDesde,FechaHasta,idHabitacion,idRegimen,idHuesped,CodigoReserva,idHotel) 
-select distinct ot.Reserva_Fecha_Inicio,ot.Reserva_Cant_Noches+ot.Reserva_Fecha_Inicio,ha.idHabitacion,re.idRegimen,hu.idHuesped,ot.Reserva_Codigo,ho.idHotel		
+insert into mmel.Reserva(FechaDesde,FechaHasta,idHabitacion,idRegimen,idHuesped,CodigoReserva,idHotel)
+select distinct ot.Reserva_Fecha_Inicio,ot.Reserva_Cant_Noches+ot.Reserva_Fecha_Inicio,ha.idHabitacion,re.idRegimen,hu.idHuesped,ot.Reserva_Codigo,ho.idHotel
 from gd_esquema.Maestra ot
 inner join mmel.Direccion di on ot.Hotel_Calle=di.calle and ot.Hotel_Nro_Calle=di.nroCalle
 inner join mmel.Hotel ho on di.idDireccion=ho.idDireccion
 inner join mmel.RegimenesPorHotel rph on rph.idHotel=ho.idHotel
 inner join mmel.Regimen re on re.Descripcion=ot.Regimen_Descripcion
-inner join mmel.Persona pe on pe.Apellido=ot.Cliente_Apellido and pe.NroDocumento=ot.Cliente_Pasaporte_Nro  
+inner join mmel.Persona pe on pe.Apellido=ot.Cliente_Apellido and pe.NroDocumento=ot.Cliente_Pasaporte_Nro
 --inner join mmel.Usuarios us on us.idPersona=pe.idPersona
 inner join mmel.Habitacion ha on ot.Habitacion_Numero=ha.NumeroHabitacion and ho.idHotel=ha.idHotel
 inner join mmel.Huesped hu on hu.idPersona = pe.idPersona
@@ -535,7 +535,7 @@ select distinct re.idReserva,ha.idHabitacion from
 
 insert into mmel.Reserva(CodigoReserva,EstadoReserva)
 select distinct ot.Reserva_Codigo,'CO' from gd_esquema.Maestra ot
-where Reserva_Fecha_Inicio > GETDATE() and Estadia_Fecha_Inicio is null and ot.Reserva_Codigo not in( select distinct ot2.Reserva_Codigo from gd_esquema.Maestra ot2 where ot2.Factura_Nro is not null ) 
+where Reserva_Fecha_Inicio > GETDATE() and Estadia_Fecha_Inicio is null and ot.Reserva_Codigo not in( select distinct ot2.Reserva_Codigo from gd_esquema.Maestra ot2 where ot2.Factura_Nro is not null )
 
 
 insert into mmel.Reserva(CodigoReserva,EstadoReserva)
@@ -559,8 +559,8 @@ insert into mmel.Reserva(CodigoReserva,EstadoReserva)
 select distinct ot.Reserva_Codigo,'RF' from gd_esquema.Maestra ot
 where (Estadia_Fecha_Inicio+Estadia_Cant_Noches+1)<GETDATE() and ot.Reserva_Codigo  in( select distinct ot2.Reserva_Codigo from gd_esquema.Maestra ot2 where ot2.Factura_Nro is not null )
 
-update mmel.Reserva 
-set 
+update mmel.Reserva
+set
 FechaDesde = ot1.Reserva_Fecha_Inicio,
 FechaHasta=ot1.Reserva_Fecha_Inicio+ot1.Reserva_Cant_Noches,
 idHabitacion = ha.idHabitacion,
@@ -568,7 +568,7 @@ idRegimen=re.idRegimen,
 idHuesped=pe.idPersona,
 idHotel = ho.idHotel
 from gd_esquema.Maestra ot1,mmel.Hotel ho,mmel.Direccion di,mmel.Habitacion ha,mmel.Regimen re,mmel.Persona pe
-where ho.idDireccion=di.idDireccion 
+where ho.idDireccion=di.idDireccion
 and di.calle=ot1.Hotel_Calle
 and di.nroCalle = ot1.Hotel_Nro_Calle
 and ha.idHotel=ho.idHotel
@@ -607,7 +607,7 @@ inner join mmel.Estadia es on es.idReserva=re.idReserva
 
 
 insert into mmel.Facturacion(FacturaFecha,idEstadia,FactTotal,NroFactura) --falta agregar forma de pago
-select distinct ot.Factura_Fecha,es.idEstadia,ot.Factura_Total,ot.Factura_Nro from gd_esquema.Maestra ot 
+select distinct ot.Factura_Fecha,es.idEstadia,ot.Factura_Total,ot.Factura_Nro from gd_esquema.Maestra ot
 inner join mmel.Reserva re on re.CodigoReserva = ot.Reserva_Codigo
 inner join mmel.Estadia es on es.idReserva=re.idReserva
 where ot.Factura_Fecha is not null
@@ -615,281 +615,18 @@ where ot.Factura_Fecha is not null
 --agergo el item q consideramos valor base de habitacion
 insert into mmel.ItemFactura(idFactura,idEstadia,itemDescripcion,itemFacturaCantidad,itemFacturaMonto)
 select fa.idFactura,fa.idEstadia,'VALOR BASE HABITACION',ot.Item_Factura_Cantidad,ot.Item_Factura_Monto
- from gd_esquema.Maestra ot 
- inner join mmel.Facturacion fa on fa.NroFactura=ot.Factura_Nro where ot.Consumible_Codigo is null and ot.Factura_Fecha is not null 
+ from gd_esquema.Maestra ot
+ inner join mmel.Facturacion fa on fa.NroFactura=ot.Factura_Nro where ot.Consumible_Codigo is null and ot.Factura_Fecha is not null
 
 insert into mmel.ItemFactura(idFactura,idEstadia,itemDescripcion,idConsumible,itemFacturaCantidad,itemFacturaMonto)
 select fa.idFactura,fa.idEstadia,'VALOR CONSUMIBLE',co.idConsumible,ot.Item_Factura_Cantidad,ot.Item_Factura_Monto
- from gd_esquema.Maestra ot 
+ from gd_esquema.Maestra ot
  inner join mmel.Facturacion fa on fa.NroFactura=ot.Factura_Nro
  inner join mmel.Estadia es on es.idEstadia=fa.idEstadia
  inner join mmel.ConsumiblePorEstadia cpe on cpe.idEstadia = es.idEstadia
  inner join mmel.Consumible co on co.idConsumible=cpe.idConsumible
- where ot.Consumible_Codigo is not null and ot.Factura_Fecha is not null 
-=======
---Migracion de datos
-
-
---Tabla Rol
-insert into MMEL.Rol values('administrador','S')
-insert into MMEL.Rol values('recepcionista','S')
-insert into MMEL.Rol values('guest','S')
-
-
-
---Tabla Funcionalidades
-
-
-INSERT INTO MMEL.Funcionalidades VALUES('ABM de Rol')
-INSERT INTO MMEL.Funcionalidades VALUES('Login y Seguridad')
-INSERT INTO MMEL.Funcionalidades VALUES('ABM de Usuario')
-INSERT INTO MMEL.Funcionalidades VALUES('ABM de Hotel')
-INSERT INTO MMEL.Funcionalidades VALUES('ABM de Cliente')
-INSERT INTO MMEL.Funcionalidades VALUES('ABM de Habitacion')
-INSERT INTO MMEL.Funcionalidades VALUES('ABM de Regimen')
-INSERT INTO MMEL.Funcionalidades VALUES('ABM de Reserva')
-INSERT INTO MMEL.Funcionalidades VALUES('Cancelar Reserva')
-INSERT INTO MMEL.Funcionalidades VALUES('Registrar Estadía')
-INSERT INTO MMEL.Funcionalidades VALUES('Registrar Consumibles')
-INSERT INTO MMEL.Funcionalidades VALUES('Facturar Publicaciones')
-INSERT INTO MMEL.Funcionalidades VALUES('Listado Estadistico')
-
-
---Rol x Funcionalidades (funcionalidad,rol)
-
---para el rol de admin: 
-insert into mmel.RolesPorFuncionalidades values(1,1) --abm rol
-insert into mmel.RolesPorFuncionalidades values(2,1) --login y se
-insert into mmel.RolesPorFuncionalidades values(3,1) --abm user
-insert into mmel.RolesPorFuncionalidades values(5,1) --abm hotel
-insert into mmel.RolesPorFuncionalidades values(6,1) --ab, habi
-insert into mmel.RolesPorFuncionalidades values(7,1) --ab, regimen
-insert into mmel.RolesPorFuncionalidades values(13,1) --list estadistico
-
---para el recepcionista
-insert into mmel.RolesPorFuncionalidades values(2,2) --login y seg
-insert into mmel.RolesPorFuncionalidades values(4,2) --cliente
-insert into mmel.RolesPorFuncionalidades values(8,2) --ab, rese
-insert into mmel.RolesPorFuncionalidades values(9,2) --cancela rese
-insert into mmel.RolesPorFuncionalidades values(10,2) --regis estadia
-insert into mmel.RolesPorFuncionalidades values(11,2) --regis consu
-insert into mmel.RolesPorFuncionalidades values(12,2) --fact estadia
-
---para el guest 
-insert into mmel.RolesPorFuncionalidades values(8,3) --abm rese
-insert into mmel.RolesPorFuncionalidades values(9,3) --cancelar rese
-
---agrego el rol guest 
-insert into mmel.Usuarios(Activo)values('S')
-insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(3,1)
-
-
-insert into mmel.Pais values('ARGENTINA')
-
-insert into MMEL.Direccion(calle,nroCalle,idPais,Ciudad)
-select distinct Hotel_Calle,Hotel_Nro_Calle,1,Hotel_Ciudad from gd_esquema.Maestra
-
-
-
-
-insert into mmel.Hotel(idDireccion,CantidadEstrellas,RecargaEstrellas,Nombre)
-select 
-	distinct di.idDireccion,ot.Hotel_CantEstrella,ot.Hotel_Recarga_Estrella,concat(ot.Hotel_Calle,' ',ot.Hotel_Nro_Calle)
-	from gd_esquema.Maestra ot
-	join mmel.Direccion di on di.calle=ot.Hotel_Calle and di.nroCalle = ot.Hotel_Nro_Calle
-
-
-
-insert into mmel.TipoHabitacion (idTipoHabitacion,Descripcion,TipoPorcentual)
-select 
-	Habitacion_Tipo_Codigo,
-	Habitacion_Tipo_Descripcion,
-	Habitacion_Tipo_Porcentual
- from gd_esquema.Maestra
-  group by Habitacion_Tipo_Codigo,Habitacion_Tipo_Descripcion,Habitacion_Tipo_Porcentual
-
-
-go
-
-
-
-insert into mmel.Habitacion(NumeroHabitacion,Piso,idHotel,VistaAlExterior,idTipoHabitacion)
-select distinct ot.Habitacion_Numero,ot.Habitacion_Piso,ho.idHotel,ot.Habitacion_Frente,th.idTipoHabitacion 
-from gd_esquema.Maestra ot 
-inner join mmel.Direccion d on d.calle=ot.Hotel_Calle and d.nroCalle = ot.Hotel_Nro_Calle
-inner join mmel.Hotel ho on d.idDireccion=ho.idDireccion
-inner join mmel.TipoHabitacion th on th.Descripcion=ot.Habitacion_Tipo_Descripcion
-
-
-	
-
---iria esta versio ya q no hay q agregar idhotel creeria
-insert into mmel.Regimen(Precio,Habilitado,Descripcion)
-select distinct ot.Regimen_Precio,'S',upper(ot.Regimen_Descripcion) from gd_esquema.Maestra ot  --revisar si entran todas habilitadas
-
-
-insert into MMEL.TipoDocumento(Detalle) values('PASAPORTE')
-
-
-insert into mmel.Persona(Nombre,Apellido,idTipoDocumento,NroDocumento,Mail,FechaDeNacimiento,idNacionalidad,dirCalle,dirNroCalle,dirIdPais,dirPiso,dirDepto) --ver si nacionalidad va como un string o la tabla id pais(esa es d las direcciones)
-select distinct upper(ot.Cliente_Nombre),upper(ot.Cliente_Apellido),1,ot.Cliente_Pasaporte_Nro,ot.Cliente_Mail,
-				ot.Cliente_Fecha_Nac,1,ot.Cliente_Dom_Calle,ot.Cliente_Nro_Calle,1,ot.Cliente_Piso,ot.Cliente_Depto
- from gd_esquema.Maestra ot
-
- insert into MMEL.PersonasInconsistentes(idPersona,Mail,NroDocumento)
-select  distinct p1.idPersona,p1.Mail,p1.NroDocumento from mmel.Persona p1, mmel.Persona p2 where 
-(p1.Mail=p2.Mail and p1.idPersona<>p2.idPersona ) order by  p1.Mail
-
-insert into MMEL.PersonasInconsistentes(idPersona,Mail,NroDocumento)
-select  distinct p1.idPersona,p1.Mail,p1.NroDocumento from mmel.Persona p1, mmel.Persona p2 where 
-(p1.idPersona<>p2.idPersona and p1.NroDocumento=p2.NroDocumento ) order by p1.NroDocumento
-
- /*--ver si estan todos habilitados o que.. supongo q aca una funcion/sp determinara si estan habilitados en base a q sus datos esten todos ok
- --aca estoy agregando la condicion de usuario a todos los clientes q acabo de agregar ( x ahora son los unicos q estan en la tabla persona, x eso agrego todo directo)
- insert into mmel.Usuarios(idPersona)
- select distinct idPersona from mmel.Persona
-
---aca le doy la condicion de guest a los usuarios recien creados arriba
-insert into mmel.UsuariosPorRoles(idRol,idUsuario)
-select distinct 3,pe.idPersona from mmel.Rol ro, mmel.Persona pe
-*/
- /*insert into mmel.Huesped(idUsuario)
- select distinct us.idUsuario 
- from mmel.Persona pe 
- join mmel.Usuarios us on pe.idPersona=us.idPersona
- join mmel.UsuariosPorRoles upr on us.idUsuario=upr.idUsuario
- join mmel.Rol ro on upr.idRol=ro.idRol
- */
- insert into mmel.Huesped(idPersona,Habilitado)
- select distinct idPersona,'S' from mmel.Persona 
-
-
-
----esta se podria agregar a manopla... todos los hoteles tienen todos los regimenes..
- insert into mmel.RegimenesPorHotel(idRegimen,idHotel)
- select distinct re.idRegimen,ho.idHotel
- from gd_esquema.Maestra ot
- join mmel.Regimen re on ot.Regimen_Descripcion=re.Descripcion
- join mmel.Direccion di on ot.Hotel_Calle=di.calle and ot.Hotel_Nro_Calle=di.nroCalle and di.Ciudad=ot.Hotel_Ciudad
- join mmel.Hotel ho on di.idDireccion=ho.idDireccion
-
-
-/*--revisar el usuario q realizo estas reservas ..
-insert into mmel.Reserva(FechaDesde,FechaHasta,idHabitacion,idRegimen,idHuesped,CodigoReserva,idHotel) 
-select distinct ot.Reserva_Fecha_Inicio,ot.Reserva_Cant_Noches+ot.Reserva_Fecha_Inicio,ha.idHabitacion,re.idRegimen,hu.idHuesped,ot.Reserva_Codigo,ho.idHotel		
-from gd_esquema.Maestra ot
-inner join mmel.Direccion di on ot.Hotel_Calle=di.calle and ot.Hotel_Nro_Calle=di.nroCalle
-inner join mmel.Hotel ho on di.idDireccion=ho.idDireccion
-inner join mmel.RegimenesPorHotel rph on rph.idHotel=ho.idHotel
-inner join mmel.Regimen re on re.Descripcion=ot.Regimen_Descripcion
-inner join mmel.Persona pe on pe.Apellido=ot.Cliente_Apellido and pe.NroDocumento=ot.Cliente_Pasaporte_Nro  
---inner join mmel.Usuarios us on us.idPersona=pe.idPersona
-inner join mmel.Habitacion ha on ot.Habitacion_Numero=ha.NumeroHabitacion and ho.idHotel=ha.idHotel
-inner join mmel.Huesped hu on hu.idPersona = pe.idPersona
-*/
-/*
-
-insert into mmel.ReservaPorHabitacion(idReserva,idHabitacion)
-select distinct re.idReserva,ha.idHabitacion from
-*/
-
-insert into mmel.Reserva(CodigoReserva,EstadoReserva)
-select distinct ot.Reserva_Codigo,'CO' from gd_esquema.Maestra ot
-where Reserva_Fecha_Inicio > GETDATE() and Estadia_Fecha_Inicio is null and ot.Reserva_Codigo not in( select distinct ot2.Reserva_Codigo from gd_esquema.Maestra ot2 where ot2.Factura_Nro is not null ) 
-
-
-insert into mmel.Reserva(CodigoReserva,EstadoReserva)
-select distinct ot.Reserva_Codigo,'CXNS' from gd_esquema.Maestra ot
-where Reserva_Fecha_Inicio < GETDATE() and Estadia_Fecha_Inicio is null and ot.Reserva_Codigo not in( select distinct ot2.Reserva_Codigo from gd_esquema.Maestra ot2 where ot2.Factura_Nro is not null )
-
-insert into mmel.Reserva(CodigoReserva,EstadoReserva)
-select distinct ot.Reserva_Codigo,'RCI' from gd_esquema.Maestra ot
-where Estadia_Fecha_Inicio < GETDATE() and (Estadia_Fecha_Inicio+Estadia_Cant_Noches+1)>GETDATE() and ot.Reserva_Codigo not in( select distinct ot2.Reserva_Codigo from gd_esquema.Maestra ot2 where ot2.Factura_Nro is not null )
-
-insert into mmel.Reserva(CodigoReserva,EstadoReserva)
-select distinct  ot.Reserva_Codigo,'RCICF' from gd_esquema.Maestra ot
-where Estadia_Fecha_Inicio < GETDATE() and (Estadia_Fecha_Inicio+Estadia_Cant_Noches+1)>GETDATE() and ot.Reserva_Codigo  in( select distinct ot2.Reserva_Codigo from gd_esquema.Maestra ot2 where ot2.Factura_Nro is not null )
-
-insert into mmel.Reserva(CodigoReserva,EstadoReserva)
-select distinct ot.Reserva_Codigo,'RINCF' from gd_esquema.Maestra ot
-where (Estadia_Fecha_Inicio)>GETDATE() and ot.Reserva_Codigo  in( select distinct ot2.Reserva_Codigo from gd_esquema.Maestra ot2 where ot2.Factura_Nro is not null ) order by Reserva_Codigo
-
-
-insert into mmel.Reserva(CodigoReserva,EstadoReserva)
-select distinct ot.Reserva_Codigo,'RF' from gd_esquema.Maestra ot
-where (Estadia_Fecha_Inicio+Estadia_Cant_Noches+1)<GETDATE() and ot.Reserva_Codigo  in( select distinct ot2.Reserva_Codigo from gd_esquema.Maestra ot2 where ot2.Factura_Nro is not null )
-
-update mmel.Reserva 
-set 
-FechaDesde = ot1.Reserva_Fecha_Inicio,
-FechaHasta=ot1.Reserva_Fecha_Inicio+ot1.Reserva_Cant_Noches,
-idHabitacion = ha.idHabitacion,
-idRegimen=re.idRegimen,
-idHuesped=pe.idPersona,
-idHotel = ho.idHotel
-from gd_esquema.Maestra ot1,mmel.Hotel ho,mmel.Direccion di,mmel.Habitacion ha,mmel.Regimen re,mmel.Persona pe
-where ho.idDireccion=di.idDireccion 
-and di.calle=ot1.Hotel_Calle
-and di.nroCalle = ot1.Hotel_Nro_Calle
-and ha.idHotel=ho.idHotel
-and ot1.Regimen_Descripcion = re.Descripcion
-and CodigoReserva=ot1.Reserva_Codigo
-and ot1.Habitacion_Numero = ha.NumeroHabitacion
-and pe.Apellido=ot1.Cliente_Apellido
-and pe.NroDocumento=ot1.Cliente_Pasaporte_Nro
-and pe.Mail=ot1.Cliente_Mail
-
-
-
---hay campos en q fehca inicio y cant noches son nulos , no los pongo pero revisar...
-insert into mmel.Estadia (idReserva,FechaCheckIN,FechaCheckOUT)
-select distinct re.idReserva,ot.Estadia_Fecha_Inicio,ot.Estadia_Fecha_Inicio+Estadia_Cant_Noches from gd_esquema.Maestra ot
-inner join mmel.Reserva re on re.CodigoReserva = ot.Reserva_Codigo
-where ot.Estadia_Fecha_Inicio is not null
-
-
-update mmel.Estadia
-set Consistente = case
-when FechaCheckIN < getdate() and FechaCheckOUT < getdate () then 'S'
-when FechaCheckIN > getdate() or FechaCheckOUT > GETDATE() then 'N'
-end
-
-
-insert into mmel.Consumible (Costo,Nombre,CodigoConsumible)
-select distinct ot.Consumible_Precio,Consumible_Descripcion,Consumible_Codigo from gd_esquema.Maestra ot
-
-insert into mmel.ConsumiblePorEstadia (idConsumible,idEstadia)
-select distinct co.idConsumible,es.idEstadia from gd_esquema.Maestra ot
-inner join mmel.Consumible co on co.CodigoConsumible = ot.Consumible_Codigo
-inner join mmel.Reserva re on re.CodigoReserva=ot.Reserva_Codigo
-inner join mmel.Estadia es on es.idReserva=re.idReserva
-
-
-insert into mmel.Facturacion(FacturaFecha,idEstadia,FactTotal,NroFactura) --falta agregar forma de pago
-select distinct ot.Factura_Fecha,es.idEstadia,ot.Factura_Total,ot.Factura_Nro from gd_esquema.Maestra ot 
-inner join mmel.Reserva re on re.CodigoReserva = ot.Reserva_Codigo
-inner join mmel.Estadia es on es.idReserva=re.idReserva
-where ot.Factura_Fecha is not null
-
---agergo el item q consideramos valor base de habitacion
-insert into mmel.ItemFactura(idFactura,idEstadia,itemDescripcion,itemFacturaCantidad,itemFacturaMonto)
-select fa.idFactura,fa.idEstadia,'VALOR BASE HABITACION',ot.Item_Factura_Cantidad,ot.Item_Factura_Monto
- from gd_esquema.Maestra ot 
- inner join mmel.Facturacion fa on fa.NroFactura=ot.Factura_Nro where ot.Consumible_Codigo is null and ot.Factura_Fecha is not null 
-
-insert into mmel.ItemFactura(idFactura,idEstadia,itemDescripcion,idConsumible,itemFacturaCantidad,itemFacturaMonto)
-select fa.idFactura,fa.idEstadia,'VALOR CONSUMIBLE',co.idConsumible,ot.Item_Factura_Cantidad,ot.Item_Factura_Monto
- from gd_esquema.Maestra ot 
- inner join mmel.Facturacion fa on fa.NroFactura=ot.Factura_Nro
- inner join mmel.Estadia es on es.idEstadia=fa.idEstadia
- inner join mmel.ConsumiblePorEstadia cpe on cpe.idEstadia = es.idEstadia
- inner join mmel.Consumible co on co.idConsumible=cpe.idConsumible
- where ot.Consumible_Codigo is not null and ot.Factura_Fecha is not null 
->>>>>>> d1c3ca1b6a1c06a9b02d5fc630dbb525457b5a24
- go
-
-
------------------FIN MIGRACION-------------
+ where ot.Consumible_Codigo is not null and ot.Factura_Fecha is not null
+-----fin migracion
 
 
 
@@ -922,9 +659,9 @@ BEGIN
 	hab.[idTipoHabitacion],
 	Descripcion,
 	Habilitado
-	FROM [MMEL].[Habitacion] hab   
-	
-	WHERE   
+	FROM [MMEL].[Habitacion] hab
+
+	WHERE
  (@Piso is NULL OR (@Piso = piso))and
   (@VistaAlExterior is NULL OR           (@VistaAlExterior = VistaAlExterior))and
  (@NumeroHabitacion is NULL OR (@NumeroHabitacion = hab.NumeroHabitacion)) and
@@ -950,8 +687,8 @@ create PROCEDURE [MMEL].[HabitacionesAlta]
                     @Habilitado char(1),
 					@MESSAGE int OUTPUT
 AS
-    SET NOCOUNT ON 
-	SET XACT_ABORT ON  
+    SET NOCOUNT ON
+	SET XACT_ABORT ON
 	DECLARE @ExisteHotel int
 	DECLARE @ExisteTipoHabitacion int
 	SELECT @ExisteTipoHabitacion = idTipoHabitacion FROM mmel.TipoHabitacion where @IdTipoHabitacion=idTipoHabitacion
@@ -960,12 +697,12 @@ AS
 	PRINT @ExisteHotel
 	PRINT @ExisteTipoHabitacion
 	print @AUX
-	IF @ExisteHotel != 0 AND @ExisteTipoHabitacion!=0  
+	IF @ExisteHotel != 0 AND @ExisteTipoHabitacion!=0
 	BEGIN
-		if NOT exists (SELECT idHabitacion FROM mmel.Habitacion where @IdTipoHabitacion = [idTipoHabitacion] AND 
-	 @NumeroHabitacion = [NumeroHabitacion] AND 
-	 @IdHotel=[idHotel] AND  
-	 @Piso= [Piso] AND 
+		if NOT exists (SELECT idHabitacion FROM mmel.Habitacion where @IdTipoHabitacion = [idTipoHabitacion] AND
+	 @NumeroHabitacion = [NumeroHabitacion] AND
+	 @IdHotel=[idHotel] AND
+	 @Piso= [Piso] AND
 	 @VistaAlExterior= [VistaAlExterior] AND
 	 @Habilitado = [Habilitado] AND
 	 @Descripcion = [Descripcion])
@@ -980,7 +717,7 @@ AS
                    @Piso ,
                    @VistaAlExterior ,
                    @Descripcion ,
-                   @Habilitado 
+                   @Habilitado
 	COMMIT
 	END
 	ELSE
@@ -1008,20 +745,20 @@ create PROCEDURE [MMEL].[HabitacionesBaja]
                     @Piso int,
                     @VistaAlExterior char(1),
 				@MESSAGE int OUTPUT
-					
+
 AS
-SET NOCOUNT ON 
-	SET XACT_ABORT ON  
+SET NOCOUNT ON
+	SET XACT_ABORT ON
 	DECLARE @HabitacionABorrar int
-	SELECT  @HabitacionABorrar=h.idHabitacion FROM [MMEL].[Habitacion] h join [MMEL].[Reserva] r on h.idHabitacion=r.idHabitacion where @IdTipoHabitacion = [idTipoHabitacion] AND 
+	SELECT  @HabitacionABorrar=h.idHabitacion FROM [MMEL].[Habitacion] h join [MMEL].[Reserva] r on h.idHabitacion=r.idHabitacion where @IdTipoHabitacion = [idTipoHabitacion] AND
 	 @NumeroHabitacion = [NumeroHabitacion] AND @IdHotel=h.[idHotel] AND  @Piso= [Piso] AND @VistaAlExterior= [VistaAlExterior]  --le agregue h a idHotel xq no andaba.. calculoq  esta bien
-	PRINT @HabitacionABorrar 
-	
+	PRINT @HabitacionABorrar
+
 	IF @HabitacionABorrar = NULL
 	BEGIN
 	BEGIN TRAN
-	DELETE FROM [MMEL].[Habitacion] WHERE  @IdTipoHabitacion = [idTipoHabitacion] AND 
-	 @NumeroHabitacion = [NumeroHabitacion] AND @IdHotel=[idHotel] AND  @Piso= [Piso] AND @VistaAlExterior= [VistaAlExterior] 
+	DELETE FROM [MMEL].[Habitacion] WHERE  @IdTipoHabitacion = [idTipoHabitacion] AND
+	 @NumeroHabitacion = [NumeroHabitacion] AND @IdHotel=[idHotel] AND  @Piso= [Piso] AND @VistaAlExterior= [VistaAlExterior]
 		SET @MESSAGE = 1
 	COMMIT
 	END
@@ -1048,21 +785,21 @@ create PROCEDURE [MMEL].[HabitacionesModificar]
                    @Descripcion nvarchar(80),
                    @Habilitado char(1)
 AS
-SET NOCOUNT ON 
-	SET XACT_ABORT ON  
-	
+SET NOCOUNT ON
+	SET XACT_ABORT ON
+
 	BEGIN TRAN
-	
-	UPDATE  [MMEL].[Habitacion]  
-	SET [idTipoHabitacion] =  @IdTipoHabitacion , 
+
+	UPDATE  [MMEL].[Habitacion]
+	SET [idTipoHabitacion] =  @IdTipoHabitacion ,
 	 [NumeroHabitacion] = @NumeroHabitacion  ,
-	 [idHotel] =  @IdHotel , 
+	 [idHotel] =  @IdHotel ,
 	 [Piso] = @Piso,
 	 [VistaAlExterior]= @VistaAlExterior,
 	 [Descripcion] = @Descripcion,
 	 [Habilitado] = @Habilitado
-	
-               
+
+
 	COMMIT
 GO
 
@@ -1078,12 +815,12 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROC [MMEL].[DireccionDelete] 
+CREATE PROC [MMEL].[DireccionDelete]
     @idDireccion int
-AS 
-	SET NOCOUNT ON 
-	SET XACT_ABORT ON  
-	
+AS
+	SET NOCOUNT ON
+	SET XACT_ABORT ON
+
 	BEGIN TRAN
 
 	DELETE
@@ -1104,24 +841,24 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROC [MMEL].[DireccionInsert] 
+CREATE PROC [MMEL].[DireccionInsert]
     @calle nvarchar(150) = NULL,
     @nroCalle int = NULL,
     @idPais int = NULL,
     @Ciudad nvarchar(150) = NULL
-AS 
-	SET NOCOUNT ON 
-	SET XACT_ABORT ON  
-	
+AS
+	SET NOCOUNT ON
+	SET XACT_ABORT ON
+
 	BEGIN TRAN
-	
+
 	INSERT INTO [MMEL].[Direccion] ([calle], [nroCalle], [idPais], [Ciudad])
 	SELECT @calle, @nroCalle, @idPais, @Ciudad
-	
+
 	SELECT [idDireccion], [calle], [nroCalle], [idPais], [Ciudad]
 	FROM   [MMEL].[Direccion]
 	WHERE  [idDireccion] = SCOPE_IDENTITY()
-               
+
 	COMMIT
 GO
 
@@ -1135,17 +872,17 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROC [MMEL].[DireccionSelect] 
+CREATE PROC [MMEL].[DireccionSelect]
     @idDireccion int
-AS 
-	SET NOCOUNT ON 
-	SET XACT_ABORT ON  
+AS
+	SET NOCOUNT ON
+	SET XACT_ABORT ON
 
 	BEGIN TRAN
 
-	SELECT [idDireccion], [calle], [nroCalle], [idPais], [Ciudad] 
-	FROM   [MMEL].[Direccion] 
-	WHERE  ([idDireccion] = @idDireccion OR @idDireccion IS NULL) 
+	SELECT [idDireccion], [calle], [nroCalle], [idPais], [Ciudad]
+	FROM   [MMEL].[Direccion]
+	WHERE  ([idDireccion] = @idDireccion OR @idDireccion IS NULL)
 
 	COMMIT
 GO
@@ -1159,25 +896,25 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROC [MMEL].[DireccionUpdate] 
+CREATE PROC [MMEL].[DireccionUpdate]
     @idDireccion int,
     @calle nvarchar(150) = NULL,
     @nroCalle int = NULL,
     @idPais int = NULL,
     @Ciudad nvarchar(150) = NULL
-AS 
-	SET NOCOUNT ON 
-	SET XACT_ABORT ON  
-	
+AS
+	SET NOCOUNT ON
+	SET XACT_ABORT ON
+
 	BEGIN TRAN
 
 	UPDATE [MMEL].[Direccion]
 	SET    [calle] = @calle, [nroCalle] = @nroCalle, [idPais] = @idPais, [Ciudad] = @Ciudad
 	WHERE  [idDireccion] = @idDireccion
-	
+
 	SELECT [idDireccion], [calle], [nroCalle], [idPais], [Ciudad]
 	FROM   [MMEL].[Direccion]
-	WHERE  [idDireccion] = @idDireccion	
+	WHERE  [idDireccion] = @idDireccion
 
 	COMMIT
 GO
@@ -1191,11 +928,11 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROC [MMEL].[FuncionalidadesDeRol] 
+CREATE PROC [MMEL].[FuncionalidadesDeRol]
 	@idRol int
-AS 
-	SET NOCOUNT ON 
-	SET XACT_ABORT ON  
+AS
+	SET NOCOUNT ON
+	SET XACT_ABORT ON
 
 	BEGIN TRAN
 
@@ -1218,15 +955,15 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROC [MMEL].[FuncionalidadesListar] 
-AS 
-	SET NOCOUNT ON 
-	SET XACT_ABORT ON  
+CREATE PROC [MMEL].[FuncionalidadesListar]
+AS
+	SET NOCOUNT ON
+	SET XACT_ABORT ON
 
 	BEGIN TRAN
 
-	SELECT [idFuncionalidad], [Descripcion] 
-	FROM   [MMEL].[Funcionalidades] 
+	SELECT [idFuncionalidad], [Descripcion]
+	FROM   [MMEL].[Funcionalidades]
 
 	COMMIT
 GO
@@ -1241,7 +978,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROC [MMEL].[HotelCrear] 
+CREATE PROC [MMEL].[HotelCrear]
     @Mail varchar(200),
     @calle varchar(200),
 	@nrocalle int,
@@ -1253,27 +990,27 @@ CREATE PROC [MMEL].[HotelCrear]
 	@idAdmin int,
     @Inhabilitado bit = NULL
 
-AS 
-	SET NOCOUNT ON 
-	SET XACT_ABORT ON  
-	
+AS
+	SET NOCOUNT ON
+	SET XACT_ABORT ON
+
 	BEGIN TRAN
 
 	INSERT INTO [MMEL].[Direccion] ([calle], [nroCalle], [idPais], [Ciudad])
 	SELECT @calle, @nroCalle, @idPais, @Ciudad
-	
+
 	DECLARE @idDireccion int = SCOPE_IDENTITY();
 
 	DECLARE @rol [varchar](50);
 
-	SELECT @rol = Nombre FROM Rol r JOIN UsuariosPorRoles upr on upr.idRol = r.idRol WHERE upr.idUsuario = @idAdmin 
-	
+	SELECT @rol = Nombre FROM Rol r JOIN UsuariosPorRoles upr on upr.idRol = r.idRol WHERE upr.idUsuario = @idAdmin
+
 	IF @rol != 'administrador'
-		THROW 51000, 'El usuario no es administrador', 1; 
+		THROW 51000, 'El usuario no es administrador', 1;
 
 	INSERT INTO [MMEL].[Hotel] ([Mail], [idDireccion], [Telefono], [CantidadEstrellas], [FechaDeCreacion], [Nombre], [Inhabilitado] )
 	SELECT @Mail, @idDireccion, @Telefono, @CantidadEstrellas, GETDATE(), @Nombre, @Inhabilitado
-	
+
 
 	DECLARE @idHotel int  =  SCOPE_IDENTITY();
 
@@ -1286,7 +1023,7 @@ AS
 
 	SELECT SCOPE_IDENTITY() as Id
 
-               
+
 	COMMIT
 GO
 
@@ -1299,12 +1036,12 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROC [MMEL].[HotelDelete] 
+CREATE PROC [MMEL].[HotelDelete]
     @idHotel int
-AS 
-	SET NOCOUNT ON 
-	SET XACT_ABORT ON  
-	
+AS
+	SET NOCOUNT ON
+	SET XACT_ABORT ON
+
 	BEGIN TRAN
 
 	UPDATE [MMEL].[Hotel]
@@ -1324,18 +1061,18 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROC [MMEL].[HotelesDeUsuario] 
+CREATE PROC [MMEL].[HotelesDeUsuario]
     @idUsuario int
-AS 
-	SET NOCOUNT ON 
-	SET XACT_ABORT ON  
+AS
+	SET NOCOUNT ON
+	SET XACT_ABORT ON
 
 	BEGIN TRAN
 
 	SELECT h.idHotel, h.Nombre
 	FROM   [MMEL].[HotelesPorUsuarios] hpu
 	JOIN	[MMEL].[Hotel] h ON h.idHotel =  hpu.idHotel
-	WHERE  (@idUsuario = hpu.idUsuario) 
+	WHERE  (@idUsuario = hpu.idUsuario)
 
 	COMMIT
 GO
@@ -1350,16 +1087,16 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [MMEL].[HotelListar]  
-    @Nombre nvarchar(50),   
+CREATE PROCEDURE [MMEL].[HotelListar]
+    @Nombre nvarchar(50),
     @CantidadEstrellas int,
     @Ciudad nvarchar(150),
     @idPais int
-AS   
+AS
 
-    SET NOCOUNT ON;  
+    SET NOCOUNT ON;
 
-    SELECT * 
+    SELECT *
     FROM MMEL.Hotel ho
     LEFT JOIN MMEL.DireccionPais dir on ho.idDireccion = dir.idDireccion
     WHERE (@Nombre is null or Nombre LIKE '%' + @Nombre + '%')
@@ -1379,7 +1116,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROC [MMEL].[HotelUpdate] 
+CREATE PROC [MMEL].[HotelUpdate]
     @idHotel int,
     @Mail varchar(200) = NULL,
     @idDireccion int = NULL,
@@ -1391,23 +1128,23 @@ CREATE PROC [MMEL].[HotelUpdate]
     @CantidadEstrellas int = NULL,
     @Nombre varchar(100) = NULL,
     @Inhabilitado bit = NULL
-AS 
-	SET NOCOUNT ON 
-	SET XACT_ABORT ON  
-	
+AS
+	SET NOCOUNT ON
+	SET XACT_ABORT ON
+
 	BEGIN TRAN
 
 	UPDATE [MMEL].[Hotel]
 	SET    [Mail] = @Mail, [Telefono] = @Telefono, [CantidadEstrellas] = @CantidadEstrellas, [Nombre] = @Nombre, [Inhabilitado] = @Inhabilitado
 	WHERE  [idHotel] = @idHotel
-	
+
 	UPDATE [MMEL].[Direccion]
 	SET    [calle] = @calle, [nroCalle] = @nroCalle, [idPais] = @idPais, [Ciudad] = @Ciudad
 	WHERE  [idDireccion] = @idDireccion
 
 	SELECT [idHotel]
 	FROM   [MMEL].[Hotel]
-	WHERE  [idHotel] = @idHotel	
+	WHERE  [idHotel] = @idHotel
 
 	COMMIT
 GO
@@ -1449,16 +1186,16 @@ BEGIN
 		SELECT @noHabilitadoReturn AS id
 	ELSE
 		IF @rightPassword != @contrasenia
-			BEGIN 
-		
-				DECLARE @ingresosFallidos int   
+			BEGIN
+
+				DECLARE @ingresosFallidos int
 				UPDATE MMEL.Usuarios SET [IngresosFallidos] = [IngresosFallidos] + 1 WHERE Username = @usuario
 				SELECT @ingresosFallidos = [IngresosFallidos] FROM MMEL.Usuarios WHERE Username = @usuario
 
 				IF @ingresosFallidos = 3
 					BEGIN
 						UPDATE MMEL.Usuarios SET [Activo] = 'N' WHERE Username = @usuario -- Deshabilito al usuario
-						SELECT @blockedReturn AS id	
+						SELECT @blockedReturn AS id
 					END
 				ELSE
 					SELECT @wrongPasswordReturn AS id
@@ -1480,15 +1217,15 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROC [MMEL].[PaisListar]
     @idPais int
-AS 
-	SET NOCOUNT ON 
-	SET XACT_ABORT ON  
+AS
+	SET NOCOUNT ON
+	SET XACT_ABORT ON
 
 	BEGIN TRAN
 
-	SELECT [idPais], [Nombre] 
-	FROM   [MMEL].[Pais] 
-	WHERE  ([idPais] = @idPais OR @idPais IS NULL) 
+	SELECT [idPais], [Nombre]
+	FROM   [MMEL].[Pais]
+	WHERE  ([idPais] = @idPais OR @idPais IS NULL)
 
 	COMMIT
 GO
@@ -1502,33 +1239,33 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROC [MMEL].[RolCrear] 
+CREATE PROC [MMEL].[RolCrear]
     @Nombre varchar(50),
 	@funcionalidades_ids IdList READONLY,
     @Activo char(1)
-AS 
-	SET NOCOUNT ON 
-	SET XACT_ABORT ON  
-	
+AS
+	SET NOCOUNT ON
+	SET XACT_ABORT ON
+
 	BEGIN TRAN
-	
+
 	INSERT INTO [MMEL].[Rol] ([Nombre], [Activo])
 	SELECT @Nombre, @Activo
-	
+
 	DECLARE @idRol int = SCOPE_IDENTITY();
 
 	DECLARE @FuncionalidadId int
 
-	DECLARE CURSOR_FUNCIONALIDADES CURSOR 
+	DECLARE CURSOR_FUNCIONALIDADES CURSOR
 	  LOCAL STATIC READ_ONLY FORWARD_ONLY
-	FOR 
-	SELECT DISTINCT Id 
+	FOR
+	SELECT DISTINCT Id
 	FROM @funcionalidades_ids
 
 	OPEN CURSOR_FUNCIONALIDADES
 	FETCH NEXT FROM CURSOR_FUNCIONALIDADES INTO @FuncionalidadId
 	WHILE @@FETCH_STATUS = 0
-	BEGIN 
+	BEGIN
 		--Do something with Id here
 		INSERT INTO MMEL.RolesPorFuncionalidades (idRol,idFuncionalidad)
 		VALUES (@idRol,@FuncionalidadId)
@@ -1543,7 +1280,7 @@ AS
 	FROM   [MMEL].[Rol]
 	WHERE  [idRol] = SCOPE_IDENTITY()
 	-- End Return Select <- do not remove
-               
+
 	COMMIT
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[RolesDeUsuario]'))
@@ -1589,15 +1326,15 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROC [MMEL].[RolesListar] 
-AS 
-	SET NOCOUNT ON 
-	SET XACT_ABORT ON  
+CREATE PROC [MMEL].[RolesListar]
+AS
+	SET NOCOUNT ON
+	SET XACT_ABORT ON
 
 	BEGIN TRAN
 
-	SELECT [idRol], [Nombre], [Activo] 
-	FROM   [MMEL].[Rol] 
+	SELECT [idRol], [Nombre], [Activo]
+	FROM   [MMEL].[Rol]
 
 	COMMIT
 GO
@@ -1611,36 +1348,36 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROC [MMEL].[RolModificar] 
+CREATE PROC [MMEL].[RolModificar]
     @idRol int,
     @Nombre varchar(50),
 	@funcionalidades_ids IdList READONLY,
     @Activo char(1)
-AS 
-	SET NOCOUNT ON 
-	SET XACT_ABORT ON  
-	
+AS
+	SET NOCOUNT ON
+	SET XACT_ABORT ON
+
 	BEGIN TRAN
 
 	UPDATE [MMEL].[Rol]
 	SET    [Nombre] = @Nombre, [Activo] = @Activo
 	WHERE  [idRol] = @idRol
-	
+
 	DELETE FROM MMEL.RolesPorFuncionalidades
 	WHERE idRol = @idRol
 
 	DECLARE @FuncionalidadId int
 
-	DECLARE CURSOR_FUNCIONALIDADES CURSOR 
+	DECLARE CURSOR_FUNCIONALIDADES CURSOR
 	  LOCAL STATIC READ_ONLY FORWARD_ONLY
-	FOR 
-	SELECT DISTINCT Id 
+	FOR
+	SELECT DISTINCT Id
 	FROM @funcionalidades_ids
 
 	OPEN CURSOR_FUNCIONALIDADES
 	FETCH NEXT FROM CURSOR_FUNCIONALIDADES INTO @FuncionalidadId
 	WHILE @@FETCH_STATUS = 0
-	BEGIN 
+	BEGIN
 		--Do something with Id here
 		INSERT INTO MMEL.RolesPorFuncionalidades (idRol,idFuncionalidad)
 		VALUES (@idRol,@FuncionalidadId)
@@ -1653,7 +1390,7 @@ AS
 	-- Begin Return Select <- do not remove
 	SELECT [idRol], [Nombre], [Activo]
 	FROM   [MMEL].[Rol]
-	WHERE  [idRol] = @idRol	
+	WHERE  [idRol] = @idRol
 	-- End Return Select <- do not remove
 
 	COMMIT
@@ -1671,7 +1408,7 @@ SELECT        MMEL.Usuarios.idUsuario, MMEL.Usuarios.Username, MMEL.Rol.idRol, M
 FROM            MMEL.Rol INNER JOIN
                          MMEL.UsuariosPorRoles ON MMEL.Rol.idRol = MMEL.UsuariosPorRoles.idRol INNER JOIN
                          MMEL.Usuarios ON MMEL.UsuariosPorRoles.idUsuario = MMEL.Usuarios.idUsuario
-' 
+'
 GO
 
 
@@ -1691,7 +1428,7 @@ create procedure mmel.AgregarCliente (@nombre varchar(50),@apellido varchar(50),
 	@habilitado char(1),@idNuevo int output,@codigoRet int output)
 as
 begin
-	
+
 	declare @idDirPais int
 	declare @idNacionalidad int
 	declare @aux int
@@ -1700,7 +1437,7 @@ begin
 	set @idNacionalidad=1
 	set @idTipoDoc = 1
 
-	--chequeo si ya existe el cliente. 
+	--chequeo si ya existe el cliente.
 	set @aux= mmel.existeCliente(@tipoDocumento,@nroDocumento,@mail)
 	if(@aux=1)
 	begin
@@ -1723,10 +1460,10 @@ begin
 			select idUsuario,3 from Usuarios where idPersona = @idNuevo
 		insert into mmel.Huesped(idPersona,Habilitado) values(@idNuevo,@habilitado)
 		set @codigoRet = 0 --se creo ok el cliente
-		
+
 	end
 end
-	
+
 go
 
 
@@ -1739,7 +1476,7 @@ create function mmel.existeCliente(@tipodoc varchar(15),@nrodoc int,@mail varcha
 returns int
 as
 begin
-	
+
 	if exists (SELECT TOP 1 * FROM mmel.Persona, mmel.TipoDocumento ti WHERE NroDocumento=@nrodoc and ti.Detalle = @tipodoc)
 	begin return 1 end --existe el nro y tipodoc en la bdd
 	if exists(SELECT TOP 1 * FROM mmel.Persona WHERE Mail=@mail)
@@ -1756,12 +1493,12 @@ create function mmel.clienteErroneo(@idPersona int)
 returns int
 as
 begin
-	
+
 	if exists (SELECT distinct  * FROM mmel.Persona p1 inner join mmel.Persona p2 on p1.idPersona =@idPersona and  p1.idPersona <>p2.idPersona and p1.Mail=p2.Mail)
 	begin  return 1 end --hay un conflicto con mail duplicado --> dejo uno con ese mail y el otro borro el mail pero no el usuario.
 	if exists(SELECT distinct  * FROM mmel.Persona p1 inner join mmel.Persona p2 on p1.idPersona =@idPersona and p1.idPersona <>p2.idPersona and p1.NroDocumento=p2.NroDocumento and p1.idTipoDocumento=p2.idTipoDocumento)
 	begin return 2 end --existe el mismo nro de id para cliente c distinto mail. --> unificar todo al mismo mail y elegir nueva direccioncalle y demas
-	
+
 	return 0
 end
 go
@@ -1823,7 +1560,7 @@ create procedure mmel.modificarCliente(@idPersona int,@nombre varchar(50),@apell
 	@habilitado char(1),@codigoRet int output)
 as
 begin
-	
+
 	declare @idDirPais int
 	declare @idNacionalidad int
 	declare @aux int
@@ -1835,11 +1572,11 @@ begin
 	set @aux= mmel.existeClienteModif(@tipoDocumento,@nroDocumento,@mail,@idPersona)
 	if(@aux=1)
 	begin
-		set @codigoRet =1 --el mail esta duplicado 
+		set @codigoRet =1 --el mail esta duplicado
 	end
 	else if(@aux=2)
 	begin
-		set @codigoRet =2 --el pasap esta duplicado 
+		set @codigoRet =2 --el pasap esta duplicado
 	end
 	else if(@aux=0)
 	begin
@@ -1864,10 +1601,10 @@ create function mmel.existeClienteModif(@tipodoc varchar(15),@nrodoc int,@mail v
 returns int
 as
 begin
-	
+
 	if exists (SELECT TOP 1 * FROM mmel.Persona, mmel.TipoDocumento ti WHERE NroDocumento=@nrodoc and ti.Detalle = @tipodoc and idPersona<>@idp)
 	begin return 1 end --existe el nro y tipodoc en la bdd
-	if exists(SELECT TOP 1 * FROM mmel.Persona WHERE Mail=@mail and idPersona<>@idp ) 
+	if exists(SELECT TOP 1 * FROM mmel.Persona WHERE Mail=@mail and idPersona<>@idp )
 	begin return 2 end --existe el mail en la bdd
 	return 0 --no existe
 end
@@ -1899,26 +1636,26 @@ go
 create PROCEDURE MMEL.obtenerDisponibilidad(@fechaDesde datetime, @fechaHasta datetime,@idHotel int,@tipoHabDesc nvarchar(200))
 AS
 BEGIN
-    
+
 	declare @idRegimen int
 	declare @idTipoHab int
 	set @idTipoHab = (select top 1 idTipoHabitacion from mmel.TipoHabitacion where Descripcion=@tipoHabDesc)
 
-		select * from mmel.habitacion where idHabitacion not in 
+		select * from mmel.habitacion where idHabitacion not in
 		(SELECT h.idHabitacion  FROM MMEL.Habitacion h
 		join mmel.Reserva r on h.idHotel=r.idHotel and h.idHabitacion=r.idHabitacion
-		WHERE	h.idHotel=@idHotel AND					
-								(	
+		WHERE	h.idHotel=@idHotel AND
+								(
 									( FechaDesde<=@fechaDesde and @fechaDesde<FechaHasta) OR
 									( FechaDesde<@fechaHasta and @fechaHasta<=FechaHasta) OR
 									( @fechaDesde<=FechaDesde and @fechaHasta>=FechaHasta)
-						
-								) 
+
+								)
 		) and idHotel = @idHotel and idTipoHabitacion=@idTipoHab
 
-	
+
 END
-GO	
+GO
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[hayDisponibilidad]'))
 	DROP procedure [MMEL].hayDisponibilidad
@@ -1929,30 +1666,30 @@ go
 create PROCEDURE MMEL.hayDisponibilidad(@fechaDesde datetime, @fechaHasta datetime,@idHotel int,@tipoHabDesc nvarchar(200),@rta int output)
 AS
 BEGIN
-    
+
 	declare @idRegimen int
 	declare @idTipoHab int
 	set @idTipoHab = (select top 1 idTipoHabitacion from mmel.TipoHabitacion where Descripcion=@tipoHabDesc)
 
 		if exists(
-			select * from mmel.habitacion where idHabitacion not in 
+			select * from mmel.habitacion where idHabitacion not in
 				(SELECT h.idHabitacion  FROM MMEL.Habitacion h
 				join mmel.Reserva r on h.idHotel=r.idHotel and h.idHabitacion=r.idHabitacion
-				WHERE	h.idHotel=@idHotel AND					
-										(	
+				WHERE	h.idHotel=@idHotel AND
+										(
 											( FechaDesde<=@fechaDesde and @fechaDesde<FechaHasta) OR
 											( FechaDesde<@fechaHasta and @fechaHasta<=FechaHasta) OR
 											( @fechaDesde<=FechaDesde and @fechaHasta>=FechaHasta)
-						
-										) 
+
+										)
 			) and idHotel = @idHotel and idTipoHabitacion=@idTipoHab
 		) begin set @rta = 1 end
 		else begin set @rta=0 end
 
 
-	
+
 END
-GO		
+GO
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[identificarClienteMail]'))
 	DROP procedure [MMEL].identificarClienteMail
@@ -1963,15 +1700,15 @@ create procedure mmel.identificarClienteMail(@mail varchar(200), @codigoRet int 
 as
 begin
 	select count(*) from mmel.Persona p,mmel.Huesped hu where p.Mail=@mail and hu.Habilitado='S' and p.idPersona=hu.idPersona
-	IF @@ROWCOUNT = 1 
-	BEGIN 
+	IF @@ROWCOUNT = 1
+	BEGIN
 		set @codigoRet = 1
 	end
 	else if @@ROWCOUNT>1
 	begin
 		set @codigoRet=2
 	end
-	else 
+	else
 	begin
 		set @codigoRet=0
 	end
@@ -1988,15 +1725,15 @@ create procedure mmel.identificarClienteIdent(@tipoId varchar(30),@nroId varchar
 as
 begin
 	select count(*) from mmel.Persona p,mmel.Huesped hu,mmel.TipoDocumento td where p.NroDocumento=@nroId and td.detalle = @tipoId and p.idPersona=hu.idPersona and hu.Habilitado='S'
-	IF @@ROWCOUNT = 1 
-	BEGIN 
+	IF @@ROWCOUNT = 1
+	BEGIN
 		set @codigoRet = 1
 	end
 	else if @@ROWCOUNT>1
 	begin
 		set @codigoRet=2
 	end
-	else 
+	else
 	begin
 		set @codigoRet=0
 	end
@@ -2026,35 +1763,35 @@ go
 create procedure mmel.reservar(@fechaDeReserva datetime,@idUsuarioQueReserva int,@fechaDesde datetime,@fechaHasta datetime,@idHotel int,@tipoHabDesc varchar(100),@tipoRegimenDesc varchar(100),@idPersona int, @codReserva int output)
 as
 begin
-	
+
 	declare @idHabitacion int
 	declare @idRegimen int
 	declare @idHuesped int
-	
+
 	declare @idTipoHab int
 	set @idUsuarioQueReserva = 1 --todo
 	set @idTipoHab = (select top 1 idTipoHabitacion from mmel.TipoHabitacion where Descripcion=@tipoHabDesc)
 	set @idRegimen = (select top 1 idRegimen from mmel.Regimen where Descripcion=@tipoRegimenDesc)
 	set @codReserva = mmel.getCodigoReserva()
 	set @idHuesped=(select top 1 idHuesped from mmel.Huesped where idPersona=@idPersona)
-	set @idHabitacion = 
-		(select top 1 idHabitacion from mmel.habitacion where idHabitacion not in 
+	set @idHabitacion =
+		(select top 1 idHabitacion from mmel.habitacion where idHabitacion not in
 				(SELECT h.idHabitacion  FROM MMEL.Habitacion h
 					join mmel.Reserva r on h.idHotel=r.idHotel and h.idHabitacion=r.idHabitacion
-					WHERE	h.idHotel=@idHotel AND					
-						(	
+					WHERE	h.idHotel=@idHotel AND
+						(
 							( FechaDesde<=@fechaDesde and @fechaDesde<FechaHasta) OR
 							( FechaDesde<@fechaHasta and @fechaHasta<=FechaHasta) OR
 							( @fechaDesde<=FechaDesde and @fechaHasta>=FechaHasta)
-						) 
+						)
 				)
 				and idHotel = @idHotel and idTipoHabitacion=@idTipoHab
 		)
 
 	insert into mmel.Reserva(idUsuarioQueProcesoReserva,idHotel,FechaDeReserva,FechaDesde,FechaHasta,idHabitacion,idRegimen,idHuesped,CodigoReserva,EstadoReserva)
 	values(@idUsuarioQueReserva,@idHotel,@fechaDeReserva,@fechaDesde,@fechaHasta,@idHabitacion,@idRegimen,@idHuesped,@codReserva,'C')
-	
-	
+
+
 end
 go
 
@@ -2067,21 +1804,21 @@ go
 create procedure mmel.resolverInconsistencia(@idPersona int)
 as
 begin
-	
+
 	declare @mail varchar(200)
 	declare @nroDoc varchar(25)
 
 	(select @mail=mail,@nroDoc=NroDocumento from mmel.Persona where idPersona=@idPersona)
-	
+
 	update mmel.Persona
 	set Mail = null  where idPersona <> @idPersona and mail=@mail
 	update mmel.Persona
-	set nroDocumento=null where idPersona <> @idPersona and nroDocumento=@nroDoc 
+	set nroDocumento=null where idPersona <> @idPersona and nroDocumento=@nroDoc
 
 	update mmel.PersonasInconsistentes
 	set Mail = null  where idPersona <> @idPersona and mail=@mail
 	update mmel.PersonasInconsistentes
-	set nroDocumento=null where idPersona <> @idPersona and nroDocumento=@nroDoc 
+	set nroDocumento=null where idPersona <> @idPersona and nroDocumento=@nroDoc
 
 end
 
@@ -2095,13 +1832,13 @@ go
 create procedure mmel.cancelarReserva(@codigoRes int,@motivo varchar(300),@idRol int,@fecha datetime,@cancelPor int )
 as
 begin
-	
+
 	declare @idPersona int
 	declare @idReserva int
 	--declare @idRol int
-	
+
 	select @idPersona=hu.idPersona,@idReserva=re.idReserva from mmel.Reserva re ,mmel.Huesped hu  where re.CodigoReserva=@codigoRes and hu.idHuesped=re.idHuesped
-	
+
 	--select @idRol = idRol from mmel.Rol where Nombre=@rol
 
 	insert into mmel.CancelacionReserva(Motivo,FechaDeCancelacion,idPersona,idReserva,idRol)
@@ -2110,8 +1847,8 @@ begin
 	--si @cancelPor = 1 -> cancelo recep ; =2 cancel cliente
 
 	update mmel.Reserva
-	set EstadoReserva = 
-	case 
+	set EstadoReserva =
+	case
 		when @cancelPor=1 then 'C'
 		when @cancelPor=2 then 'D'
 	end
@@ -2126,75 +1863,77 @@ go
 create procedure mmel.existeReserva(@codigoRes int, @ret int output)
 as
 begin
-	
+
 	if exists(select * from mmel.Reserva where CodigoReserva=@codigoRes)
-		set @ret=1 
-	else 
+		set @ret=1
+	else
 		set @ret = 0
 end
 go
+
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[actualizarCheckIn]'))
 	DROP procedure [MMEL].actualizarCheckIn
 go
 
-create procedure actualizarCheckIn (@idEstadia int, @fechaCheckIn datetime,@userQueModifica varchar(200))
+
+create procedure mmel.actualizarCheckIn (@idEstadia int, @fechaCheckIn datetime,@userQueModifica varchar(200))
 as
 begin
 	declare @idRecepQueModifica int
-	set @idRecepQueModifica=3 --cambiar!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+	set @idRecepQueModifica=3 --cambiar!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	update mmel.Estadia
 	set FechaCheckIN = @fechaCheckIn,
 	idRecepcionistaCheckIN=@idRecepQueModifica,
 	FechaCheckOUT= case
-		when Consistente = 'N' then null else FechaCheckOUT 
+		when Consistente = 'N' then null else FechaCheckOUT
 	end,
 	Consistente='S'
 	where idEstadia=@idEstadia
 end
+
 go
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[realizarCheckIn]'))
 	DROP procedure [MMEL].realizarCheckIn
 go
 
-create procedure realizarCheckIn(@codigoRes int, @fechaCheckIn datetime,@userQueModifica varchar(200))
+
+create procedure mmel.realizarCheckIn(@codigoRes int, @fechaCheckIn datetime,@userQueModifica varchar(200))
 as
 begin
-	
+
 	declare @idRecepQueModifica int
 	declare @idReserva int
-	set @idRecepQueModifica=3 --cambiar!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+	set @idRecepQueModifica=3 --cambiar!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	select @idReserva=idReserva from mmel.Reserva where CodigoReserva=@codigoRes
 	insert into mmel.Estadia(FechaCheckIN,idRecepcionistaCheckIN,idReserva,Consistente)
 	values(@fechaCheckIn,@idRecepQueModifica,@idReserva,'S')
 end
 go
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[actualizarCheckOut]'))
-	DROP procedure [MMEL].actualizarCheckOut
-go
+
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[agregarConsumibles]'))
 	DROP procedure [MMEL].agregarConsumibles
 go
 
 
-create procedure agregarConsumibles(@idHabitacion int,@idHotel int,@idConsumible int,@cantidad int,@codigoRet int output,@fechaCheckOut datetime)
+create procedure mmel.agregarConsumibles(@idHabitacion int,@idHotel int,@idConsumible int,@cantidad int,@codigoRet int output,@fechaCheckOut datetime)
 as
 begin
-	
+
 	declare @idEstadia int
 	declare @idReserva int
 
-	
+
 	if exists(select idEstadia from mmel.Estadia es,mmel.Reserva re,mmel.Habitacion ha
 	where ha.idHabitacion=@idHabitacion and es.idReserva=re.idReserva and re.idHabitacion=ha.idHabitacion and (es.FechaCheckOUT=@fechaCheckOut or es.FechaCheckOUT=@fechaCheckOut +1))
 	begin
-	
+
 		select @idEstadia = idEstadia from mmel.Estadia es,mmel.Reserva re,mmel.Habitacion ha
 		where ha.idHabitacion=@idHabitacion and es.idReserva=re.idReserva and re.idHabitacion=ha.idHabitacion and (es.FechaCheckOUT=@fechaCheckOut  or es.FechaCheckOUT=@fechaCheckOut +1)
-	
-	
+
+
 		DECLARE @cnt INT = 0;
 
 		WHILE @cnt < @cantidad
@@ -2211,12 +1950,12 @@ begin
 		end
 end
 
-
+go
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[crearConsumible]'))
 	DROP procedure [MMEL].crearConsumible
 go
 
-create procedure mmel.crearConsumible(@nombre varchar(75),@costo int,@codigoRet int output)
+create procedure MMEL.crearConsumible(@nombre varchar(75),@costo int,@codigoRet int output)
 as
 begin
 
@@ -2224,7 +1963,7 @@ begin
 		begin
 		declare @codigo int
 		select @codigo=max(CodigoConsumible + 1) from mmel.Consumible
-		insert into mmel.Consumible(Costo,Nombre,CodigoConsumible) 
+		insert into mmel.Consumible(Costo,Nombre,CodigoConsumible)
 		values(@costo,@nombre,@codigo)
 		set @codigoRet=1
 		end
@@ -2232,16 +1971,18 @@ begin
 		set @codigoRet=0
 
 end
+go
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[actualizarCheckOut]'))
+	DROP procedure [MMEL].actualizarCheckOut
+go
 
 
-
-
-create procedure actualizarCheckOut (@idEstadia int,@fechaCheckOut datetime,@userQueModifica varchar(200))
+create procedure MMEL.actualizarCheckOut (@idEstadia int,@fechaCheckOut datetime,@userQueModifica varchar(200))
 as
 begin
 	declare @idRecepQueModificaCOUT int
-	set @idRecepQueModificaCOUT=3 --cambiar!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
-	
+	set @idRecepQueModificaCOUT=3 --cambiar!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 
 	update mmel.Estadia
 	set FechaCheckOut = @fechaCheckOut,
@@ -2256,7 +1997,7 @@ GO
 
 CREATE VIEW [MMEL].[ReservasPorHotelYHabitacion]
 AS
-SELECT        MMEL.Habitacion.idHabitacion, MMEL.Hotel.idHotel, MMEL.Reserva.idReserva, MMEL.Reserva.FechaDesde, MMEL.Reserva.FechaHasta, MMEL.Habitacion.NumeroHabitacion, MMEL.Habitacion.Piso, MMEL.Hotel.Nombre, 
+SELECT        MMEL.Habitacion.idHabitacion, MMEL.Hotel.idHotel, MMEL.Reserva.idReserva, MMEL.Reserva.FechaDesde, MMEL.Reserva.FechaHasta, MMEL.Habitacion.NumeroHabitacion, MMEL.Habitacion.Piso, MMEL.Hotel.Nombre,
                          MMEL.Reserva.EstadoReserva, DATEDIFF(day, MMEL.Reserva.FechaDesde,MMEL.Reserva.FechaHasta) as Dias
 FROM            MMEL.Habitacion INNER JOIN
                          MMEL.Hotel ON MMEL.Habitacion.idHotel = MMEL.Hotel.idHotel INNER JOIN
@@ -2268,7 +2009,7 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[Habi
 GO
 
 CREATE PROCEDURE [MMEL].[HabitacionesConMayorCantidadDeVecesOcupadas]
-	@anio int, 
+	@anio int,
 	@trimestre int
 AS
 BEGIN
@@ -2297,14 +2038,14 @@ BEGIN
 
 	SET @secondMonth = @firstMonth + 1;
 	SET @thirdMonth = @firstMonth + 2;
-	
+
 	select *
 	into #ReservasPorHotelYHabitacionEnTrimestreEnAnio
 	from #ReservasPorHotelYHabitacionEnAnio rhh
 	WHERE	(month(rhh.FechaDesde) = @firstMonth OR month(rhh.FechaHasta) = @firstMonth)
 			OR (month(rhh.FechaDesde) = @secondMonth OR month(rhh.FechaHasta) = @secondMonth)
 			OR (month(rhh.FechaDesde) = @thirdMonth OR month(rhh.FechaHasta) = @thirdMonth) -- O bien arrancaron o terminaron en el trimestre, o estan totalmente contenidas (arrancaron Y terminaron)
-			 
+
 	select top 5 rhhta.Nombre, rhhta.NumeroHabitacion, rhhta.Piso, count(*) as Veces
 	from #ReservasPorHotelYHabitacionEnTrimestreEnAnio rhhta
 	WHERE rhhta.EstadoReserva = 'RF' -- si la reserva no fue finalizada y facturada la ignoro
@@ -2319,7 +2060,7 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[Habi
 GO
 
 CREATE PROCEDURE [MMEL].[HabitacionesConMayorCantidadDeDiasOcupadas]
-	@anio int, 
+	@anio int,
 	@trimestre int
 AS
 BEGIN
@@ -2348,14 +2089,14 @@ BEGIN
 
 	SET @secondMonth = @firstMonth + 1;
 	SET @thirdMonth = @firstMonth + 2;
-	
+
 	select *
 	into #ReservasPorHotelYHabitacionEnTrimestreEnAnio
 	from #ReservasPorHotelYHabitacionEnAnio rhh
 	WHERE	(month(rhh.FechaDesde) = @firstMonth OR month(rhh.FechaHasta) = @firstMonth)
 			OR (month(rhh.FechaDesde) = @secondMonth OR month(rhh.FechaHasta) = @secondMonth)
 			OR (month(rhh.FechaDesde) = @thirdMonth OR month(rhh.FechaHasta) = @thirdMonth) -- O bien arrancaron o terminaron en el trimestre, o estan totalmente contenidas (arrancaron Y terminaron)
-			
+
     -- Insert statements for procedure here
 	select top 5 rhhta.Nombre, rhhta.NumeroHabitacion, rhhta.Piso, SUM(rhhta.Dias) as Dias
 	from #ReservasPorHotelYHabitacionEnTrimestreEnAnio rhhta
@@ -2372,22 +2113,22 @@ GO
 CREATE PROCEDURE MMEL.TOP5_1 @Año int,@Trimestre varchar(80)
 as
 begin
-	
+
 	if '1ºTrimestre (1º de Enero ~ 31 de Marzo)' = @Trimestre
 	begin
 		select top 5 hot.idHotel 'Id Hotel',
-		COUNT(*)  'Reservas Canceladas' from mmel.CancelacionReserva cr join mmel.reserva r on cr.idReserva = r.idReserva 
+		COUNT(*)  'Reservas Canceladas' from mmel.CancelacionReserva cr join mmel.reserva r on cr.idReserva = r.idReserva
 											 join mmel.Habitacion h on r.idHabitacion = h.idHabitacion
 											 join mmel.Hotel hot on h.idHotel = hot.idHotel
 											  where  year(cr.FechaDeCancelacion)= @Año and (month(cr.FechaDeCancelacion) = 1 OR month(cr.FechaDeCancelacion) = 2 OR month(cr.FechaDeCancelacion)=3)
 											GROUP BY hot.idHotel
 											ORDER BY 2 DESC
-											
+
 	end
 	if '2ºTrimestre (1º de Abril ~ 30 de Junio)' = @Trimestre
 	begin
 			select top 5 hot.idHotel 'Id Hotel',
-		COUNT(*)  'Reservas Canceladas' from mmel.CancelacionReserva cr join mmel.reserva r on cr.idReserva = r.idReserva 
+		COUNT(*)  'Reservas Canceladas' from mmel.CancelacionReserva cr join mmel.reserva r on cr.idReserva = r.idReserva
 											 join mmel.Habitacion h on r.idHabitacion = h.idHabitacion
 											 join mmel.Hotel hot on h.idHotel = hot.idHotel
 											  where  year(cr.FechaDeCancelacion)= @Año and (month(cr.FechaDeCancelacion) = 4 OR month(cr.FechaDeCancelacion) = 5 OR month(cr.FechaDeCancelacion)=6)
@@ -2397,23 +2138,23 @@ begin
 	if '3ºTrimestre (1º de Julio ~ 30 de Septiembre)' = @Trimestre
 	begin
 			select top 5 hot.idHotel 'Id Hotel',
-		COUNT(*)  'Reservas Canceladas' from mmel.CancelacionReserva cr join mmel.reserva r on cr.idReserva = r.idReserva 
+		COUNT(*)  'Reservas Canceladas' from mmel.CancelacionReserva cr join mmel.reserva r on cr.idReserva = r.idReserva
 											 join mmel.Habitacion h on r.idHabitacion = h.idHabitacion
 											 join mmel.Hotel hot on h.idHotel = hot.idHotel
 											  where  year(cr.FechaDeCancelacion)= @Año and (month(cr.FechaDeCancelacion) = 7 OR month(cr.FechaDeCancelacion) = 8 OR month(cr.FechaDeCancelacion)=9)
 											GROUP BY hot.idHotel
 											ORDER BY 2 DESC
-	end	
+	end
 	if '4ºTrimestre (1º de Octubre ~ 31 de Diciembre)' = @Trimestre
  	begin
 		select top 5 hot.idHotel 'Id Hotel',
-		COUNT(*)  'Reservas Canceladas' from mmel.CancelacionReserva cr join mmel.reserva r on cr.idReserva = r.idReserva 
+		COUNT(*)  'Reservas Canceladas' from mmel.CancelacionReserva cr join mmel.reserva r on cr.idReserva = r.idReserva
 											 join mmel.Habitacion h on r.idHabitacion = h.idHabitacion
 											 join mmel.Hotel hot on h.idHotel = hot.idHotel
 											  where  year(cr.FechaDeCancelacion)= @Año and (month(cr.FechaDeCancelacion) = 10 OR month(cr.FechaDeCancelacion) = 11 OR month(cr.FechaDeCancelacion)=12)
 											GROUP BY hot.idHotel
 											ORDER BY 2 DESC
-	end   
+	end
 end
 
 
@@ -2426,7 +2167,7 @@ begin
 if '1ºTrimestre (1º de Enero ~ 31 de Marzo)' = @Trimestre
 	begin
 	select top 5 hot.idHotel 'Id Hotel',
-		SUM(c.Costo) 'Consumibles Facturados' from mmel.Hotel hot join mmel.Reserva rer on hot.idHotel = rer.idHotel 
+		SUM(c.Costo) 'Consumibles Facturados' from mmel.Hotel hot join mmel.Reserva rer on hot.idHotel = rer.idHotel
 										join mmel.Estadia e on rer.idReserva = e.idReserva
 										join mmel.Facturacion f on f.idEstadia = e.idEstadia
 										   join mmel.ConsumiblePorEstadia cpr on e.idEstadia = cpr.idEstadia
@@ -2436,7 +2177,7 @@ if '1ºTrimestre (1º de Enero ~ 31 de Marzo)' = @Trimestre
 	if '2ºTrimestre (1º de Abril ~ 30 de Junio)' = @Trimestre
 	begin
 	select top 5 hot.idHotel 'Id Hotel',
-		SUM(c.Costo) 'Consumibles Facturados' from mmel.Hotel hot join mmel.Reserva rer on hot.idHotel = rer.idHotel 
+		SUM(c.Costo) 'Consumibles Facturados' from mmel.Hotel hot join mmel.Reserva rer on hot.idHotel = rer.idHotel
 										join mmel.Estadia e on rer.idReserva = e.idReserva
 										join mmel.Facturacion f on f.idEstadia = e.idEstadia
 										   join mmel.ConsumiblePorEstadia cpr on e.idEstadia = cpr.idEstadia
@@ -2446,37 +2187,22 @@ if '1ºTrimestre (1º de Enero ~ 31 de Marzo)' = @Trimestre
 	if '3ºTrimestre (1º de Julio ~ 30 de Septiembre)' = @Trimestre
 	begin
 	select top 5  hot.idHotel 'Id Hotel',
-		SUM(c.Costo) 'Consumibles Facturados' from mmel.Hotel hot join mmel.Reserva rer on hot.idHotel = rer.idHotel 
+		SUM(c.Costo) 'Consumibles Facturados' from mmel.Hotel hot join mmel.Reserva rer on hot.idHotel = rer.idHotel
 										join mmel.Estadia e on rer.idReserva = e.idReserva
 										join mmel.Facturacion f on f.idEstadia = e.idEstadia
 										   join mmel.ConsumiblePorEstadia cpr on e.idEstadia = cpr.idEstadia
 									       join mmel.consumible c on cpr.idConsumible = c.idConsumible
 										   where year(f.FacturaFecha) = @Año and (month(f.FacturaFecha) = 7 OR month(f.FacturaFecha) = 8 or month(f.FacturaFecha) = 9)
-	end	
+	end
 	if '4ºTrimestre (1º de Octubre ~ 31 de Diciembre)' = @Trimestre
  	begin
 	select top 5 hot.idHotel 'Id Hotel',
-		SUM(c.Costo) 'Consumibles Facturados' from mmel.Hotel hot join mmel.Reserva rer on hot.idHotel = rer.idHotel 
+		SUM(c.Costo) 'Consumibles Facturados' from mmel.Hotel hot join mmel.Reserva rer on hot.idHotel = rer.idHotel
 										join mmel.Estadia e on rer.idReserva = e.idReserva
 										join mmel.Facturacion f on f.idEstadia = e.idEstadia
 										   join mmel.ConsumiblePorEstadia cpr on e.idEstadia = cpr.idEstadia
 									       join mmel.consumible c on cpr.idConsumible = c.idConsumible
 										   where year(f.FacturaFecha) = @Año and (month(f.FacturaFecha) = 10 OR month(f.FacturaFecha) = 11 or month(f.FacturaFecha) = 12)
-	end   
+	end
 
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
