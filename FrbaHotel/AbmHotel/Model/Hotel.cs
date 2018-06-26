@@ -36,6 +36,22 @@ namespace FrbaHotel.AbmHotel.Model
             }
         }
 
+        [CustomRequired]
+        [RegularExpression("^[0-9]+$", ErrorMessage = "El campo solo puede contener numeros.")]
+        public string RecargaEstrellas
+        {
+            get
+            {
+                return recargaEstrellas;
+            }
+
+            set
+            {
+                recargaEstrellas = value;
+                InvokePropertyChanged("");
+            }
+        }
+
         int idPais;
          //Refactor pendiente: hay que separar la entidad de su buildeada con un builder. Ahi vamos a pder usar mas objetos y cosas mas lindas
         string nombrePais;
@@ -134,7 +150,7 @@ namespace FrbaHotel.AbmHotel.Model
         public int IdPais { get { return idPais; } set { idPais = value; } }
         public string NombrePais { get { return nombrePais; } set { nombrePais = value; } }
         private int idDireccion;
-
+        private string recargaEstrellas;
 
         public bool Inhabilitado
         {

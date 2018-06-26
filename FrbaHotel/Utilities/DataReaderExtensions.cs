@@ -53,6 +53,10 @@ namespace FrbaHotel.Utilities
             {
                 throw;
             }
+
+            if (RetVal == null)
+                RetVal = new List<T>(); // cambio nulo por resultado vacios
+
             return RetVal;
         }
         /// <Summary>

@@ -138,5 +138,17 @@ namespace FrbaHotel.Login
             if (autoLogin)
                 button1_Click(null, null);
         }
+
+        private void guestBtn_Click(object sender, EventArgs e)
+        {
+            LoginData.IdUsuario = 0; //Limpio toda la info del usuario anterior y cargo el usuario guest
+            LoginData.Rol = new Rol(0, "Guest", "Y");
+
+            this.Hide();
+
+            Form1 form = new Form1();
+
+            form.Show();
+        }
     }
 }

@@ -35,25 +35,26 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.loginErrorLbl = new System.Windows.Forms.Label();
+            this.guestBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // usuarioInput
             // 
             this.usuarioInput.Location = new System.Drawing.Point(98, 10);
             this.usuarioInput.Name = "usuarioInput";
-            this.usuarioInput.Size = new System.Drawing.Size(176, 20);
+            this.usuarioInput.Size = new System.Drawing.Size(223, 20);
             this.usuarioInput.TabIndex = 0;
             // 
             // contraseniaInput
             // 
             this.contraseniaInput.Location = new System.Drawing.Point(98, 49);
             this.contraseniaInput.Name = "contraseniaInput";
-            this.contraseniaInput.Size = new System.Drawing.Size(176, 20);
+            this.contraseniaInput.Size = new System.Drawing.Size(223, 20);
             this.contraseniaInput.TabIndex = 1;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(199, 105);
+            this.button1.Location = new System.Drawing.Point(246, 105);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 3;
@@ -100,15 +101,26 @@
             this.loginErrorLbl.Text = "Login fallido";
             this.loginErrorLbl.Visible = false;
             // 
+            // guestBtn
+            // 
+            this.guestBtn.Location = new System.Drawing.Point(165, 105);
+            this.guestBtn.Name = "guestBtn";
+            this.guestBtn.Size = new System.Drawing.Size(75, 23);
+            this.guestBtn.TabIndex = 3;
+            this.guestBtn.Text = "Guest";
+            this.guestBtn.UseVisualStyleBackColor = true;
+            this.guestBtn.Click += new System.EventHandler(this.guestBtn_Click);
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(291, 140);
+            this.ClientSize = new System.Drawing.Size(332, 140);
             this.Controls.Add(this.loginErrorLbl);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button2);
+            this.Controls.Add(this.guestBtn);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.contraseniaInput);
             this.Controls.Add(this.usuarioInput);
@@ -129,5 +141,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label loginErrorLbl;
+        private System.Windows.Forms.Button guestBtn;
     }
 }

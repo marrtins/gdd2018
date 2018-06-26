@@ -40,7 +40,9 @@
             this.limpiarBtn = new System.Windows.Forms.Button();
             this.buscarBtn = new System.Windows.Forms.Button();
             this.hotelesGridView = new System.Windows.Forms.DataGridView();
+            this.button3 = new System.Windows.Forms.Button();
             this.NombreCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RecargaEstrellasCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CantidadEstrellasCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MailCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TelefonoCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -50,7 +52,6 @@
             this.NumeroCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.HabilitadoCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SeleccionarCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.button3 = new System.Windows.Forms.Button();
             this.filtrosGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cantidadEstrellasInput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hotelesGridView)).BeginInit();
@@ -181,6 +182,7 @@
             this.hotelesGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.hotelesGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.NombreCol,
+            this.RecargaEstrellasCol,
             this.CantidadEstrellasCol,
             this.MailCol,
             this.TelefonoCol,
@@ -198,12 +200,29 @@
             this.hotelesGridView.TabIndex = 3;
             this.hotelesGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.hotelesGridView_CellClick);
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(799, 79);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 4;
+            this.button3.Text = "Alta";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // NombreCol
             // 
             this.NombreCol.DataPropertyName = "Nombre";
             this.NombreCol.HeaderText = "Nombre";
             this.NombreCol.Name = "NombreCol";
             this.NombreCol.ReadOnly = true;
+            // 
+            // RecargaEstrellasCol
+            // 
+            this.RecargaEstrellasCol.DataPropertyName = "RecargaEstrellas";
+            this.RecargaEstrellasCol.HeaderText = "Recarga Estrellas";
+            this.RecargaEstrellasCol.Name = "RecargaEstrellasCol";
+            this.RecargaEstrellasCol.ReadOnly = true;
             // 
             // CantidadEstrellasCol
             // 
@@ -267,16 +286,6 @@
             this.SeleccionarCol.Name = "SeleccionarCol";
             this.SeleccionarCol.ReadOnly = true;
             // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(799, 79);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 4;
-            this.button3.Text = "Alta";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
             // Listado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -313,6 +322,7 @@
         private System.Windows.Forms.DataGridView hotelesGridView;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.DataGridViewTextBoxColumn NombreCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RecargaEstrellasCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn CantidadEstrellasCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn MailCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn TelefonoCol;

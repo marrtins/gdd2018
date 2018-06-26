@@ -84,6 +84,9 @@ namespace FrbaHotel.AbmHotel
             paisCombo.DataSource = paises;
             paisCombo.DataBindings.Add(new Binding("SelectedValue", this.Model, "IdPais"));
 
+            recEstrellasInput.DataBindings.Add(new TextBinding(this.Model, "RecargaEstrellas"));
+            Register(ErrorLabel.For(recEstrellasInput, Alignment.Bottom, 2));
+
             habilitadoCheck.Checked = !(this.Model as Hotel).Inhabilitado;
         }
 
@@ -128,6 +131,8 @@ namespace FrbaHotel.AbmHotel
                     cmd.Parameters.AddWithValue("@Nombre", SqlDbType.VarChar).Value = hotel.Nombre;
                     cmd.Parameters.AddWithValue("@idAdmin", SqlDbType.Int).Value = LoginData.IdUsuario;
                     cmd.Parameters.AddWithValue("@Inhabilitado", SqlDbType.VarChar).Value = hotel.Inhabilitado;
+                    cmd.Parameters.AddWithValue("@RecargaEstrellas", SqlDbType.Int).Value = hotel.RecargaEstrellas;
+
 
 
                     con.Open();
@@ -159,6 +164,8 @@ namespace FrbaHotel.AbmHotel
                     cmd.Parameters.AddWithValue("@CantidadEstrellas", SqlDbType.Int).Value = hotel.CantidadEstrellas;
                     cmd.Parameters.AddWithValue("@Nombre", SqlDbType.VarChar).Value = hotel.Nombre;
                     cmd.Parameters.AddWithValue("@Inhabilitado", SqlDbType.VarChar).Value = hotel.Inhabilitado;
+                    cmd.Parameters.AddWithValue("@RecargaEstrellas", SqlDbType.Int).Value = hotel.RecargaEstrellas;
+
 
 
                     con.Open();
@@ -174,6 +181,26 @@ namespace FrbaHotel.AbmHotel
             ControlResetter.ResetAllControls(this);
 
             this.habilitadoCheck.Checked = true;
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void calleInput_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void nroInput_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
