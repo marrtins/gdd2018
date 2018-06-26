@@ -18,7 +18,7 @@ namespace FrbaHotel.AbmUsuario
     public partial class AltaModificar : ModelBoundForm
     {
         private int idUsuario;
-        private DialogResult result;   
+        private DialogResult result;
         private Action<Usuario> accion;
         private List<TipoDocumento> tiposDocumento;
         private List<Rol> roles;

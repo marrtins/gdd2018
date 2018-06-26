@@ -9,13 +9,27 @@ namespace FrbaHotel.AbmUsuario.Model
 {
     internal class UsuarioFiltros : INotifyPropertyChanged
     {
-        private string username;
+        string username;
         string nombre;
         string apellido;
         string mail;
         public int idRol;
         public int idTipoDocumento;
         string nroDocumento;
+
+        public string Username
+        {
+            get
+            {
+                return username;
+            }
+
+            set
+            {
+                username = value;
+                InvokePropertyChanged("");
+            }
+        }
 
         public string Nombre
         {
