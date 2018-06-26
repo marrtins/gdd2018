@@ -50,10 +50,10 @@ namespace FrbaHotel.RegistrarConsumible
                 using (SqlCommand cmd = new SqlCommand("MMEL.EstadiaListar", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@CodigoReserva", SqlDbType.NVarChar).Value = filtros.Username ?? Convert.DBNull;
-                    cmd.Parameters.AddWithValue("@NroHabitacion", SqlDbType.NVarChar).Value = filtros.Nombre ?? Convert.DBNull;
-                    cmd.Parameters.AddWithValue("@Piso", SqlDbType.NVarChar).Value = filtros.Apellido ?? Convert.DBNull;
-                    cmd.Parameters.AddWithValue("@idTipoRegimen", SqlDbType.int).Value = filtros.Mail ?? Convert.DBNull;
+                    cmd.Parameters.AddWithValue("@CodigoReserva", SqlDbType.NVarChar).Value = filtros.CodigoReserva ?? Convert.DBNull;
+                    cmd.Parameters.AddWithValue("@NroHabitacion", SqlDbType.NVarChar).Value = filtros.NroHabitacion ?? Convert.DBNull;
+                    cmd.Parameters.AddWithValue("@Piso", SqlDbType.NVarChar).Value = filtros.Piso ?? Convert.DBNull;
+                    cmd.Parameters.AddWithValue("@IdTipoRegimen", SqlDbType.int).Value = filtros.IdTipoRegimen ?? Convert.DBNull;
 
                     con.Open();
                     var dr = cmd.ExecuteReader();
