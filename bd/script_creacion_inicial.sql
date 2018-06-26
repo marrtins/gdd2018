@@ -596,6 +596,7 @@ end
 
 insert into mmel.Consumible (Costo,Nombre,CodigoConsumible)
 select distinct ot.Consumible_Precio,Consumible_Descripcion,Consumible_Codigo from gd_esquema.Maestra ot
+where ot.Consumible_Descripcion is not null
 
 insert into mmel.ConsumiblePorEstadia (idConsumible,idEstadia)
 select distinct co.idConsumible,es.idEstadia from gd_esquema.Maestra ot
@@ -1926,6 +1927,67 @@ begin
 	where idEstadia=@idEstadia
 end
 go
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[agregarConsumibles]'))
+	DROP procedure [MMEL].agregarConsumibles
+go
+
+
+create procedure agregarConsumibles(@idHabitacion int,@idHotel int,@idConsumible int,@cantidad int,@codigoRet int output,@fechaCheckOut datetime)
+as
+begin
+	
+	declare @idEstadia int
+	declare @idReserva int
+
+	
+	if exists(select idEstadia from mmel.Estadia es,mmel.Reserva re,mmel.Habitacion ha
+	where ha.idHabitacion=@idHabitacion and es.idReserva=re.idReserva and re.idHabitacion=ha.idHabitacion and (es.FechaCheckOUT=@fechaCheckOut or es.FechaCheckOUT=@fechaCheckOut +1))
+	begin
+	
+		select @idEstadia = idEstadia from mmel.Estadia es,mmel.Reserva re,mmel.Habitacion ha
+		where ha.idHabitacion=@idHabitacion and es.idReserva=re.idReserva and re.idHabitacion=ha.idHabitacion and (es.FechaCheckOUT=@fechaCheckOut  or es.FechaCheckOUT=@fechaCheckOut +1)
+	
+	
+		DECLARE @cnt INT = 0;
+
+		WHILE @cnt < @cantidad
+		BEGIN
+		   insert into mmel.ConsumiblePorEstadia(idEstadia,idConsumible)
+		   values(@idEstadia,@idConsumible)
+		   SET @cnt = @cnt + 1
+		END
+		set @codigoRet=1
+	end
+	else
+		begin
+		set @codigoRet=0 --no hay habitacion ocupada en esta fecha
+		end
+end
+
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[crearConsumible]'))
+	DROP procedure [MMEL].crearConsumible
+go
+
+create procedure mmel.crearConsumible(@nombre varchar(75),@costo int,@codigoRet int output)
+as
+begin
+
+	if not exists(select Nombre,Costo from mmel.Consumible where Costo=@costo and Nombre=@nombre)
+		begin
+		declare @codigo int
+		select @codigo=max(CodigoConsumible + 1) from mmel.Consumible
+		insert into mmel.Consumible(Costo,Nombre,CodigoConsumible) 
+		values(@costo,@nombre,@codigo)
+		set @codigoRet=1
+		end
+	else
+		set @codigoRet=0
+
+end
+
+
 
 
 
