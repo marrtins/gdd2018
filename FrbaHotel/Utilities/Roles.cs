@@ -29,5 +29,31 @@ namespace FrbaHotel.Utilities
                 }
             }
         }
+
+        public static List<Rol> GetOne(int? id)
+        {
+            var connection = ConfigurationManager.ConnectionStrings["GD1C2018ConnectionString"].ConnectionString;
+
+            using (SqlConnection con = new SqlConnection(connection))
+            {
+                using (SqlCommand cmd = new SqlCommand("MMEL.RolesListar", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@idRol", SqlDbType.NVarChar).Value = id ?? Convert.DBNull;
+
+                    con.Open();
+                    var dr = cmd.ExecuteReader();
+
+                    return dr.MapToList<Rol>();
+                }
+            }
+        }
+
+        public static List<Rol> GetAll()
+        {
+            return GetOne(null);
+        }
+
     }
 }
