@@ -1,0 +1,67 @@
+--estados de reserva : 
+MO->modificada; X 
+CXR->cancel x recep; X
+CXC->cancel x cliente ; X
+CO->correcta  X (reserva fecha inicio > dia de hoy & estadia fecha inicio is null & no fueron facturadas)
+CXNS->cancel x no show  ;X (res fecha ini< dia de hoy & est fech ini is null & no fue facturada)
+RCI->res c ingreso(estadia fecha inicio < dia de hoy & est fecha fin > dia de hoy  & no tienen factura)
+RCICF->estan en curso y tienen factura (e f inicio < hoy & e f fin > hoy & tienen factura)
+RINSF->fecha ingreso mayor a hoy y no tienen factura (est fecha ingreso > hoy & factura is null)
+RINCF->fecha ini reserva > hoy & tienen fact (res fecha inicio > dia de hoy & tienen factura)
+
+RFSF->Reserva finalizada sin factura (estd fecha fin < dia de hoy & no tienen factura)
+RF->Reserva Finalizada c factura(reserva correcta con facturacion correcta)
+
+no hay estadias sin fecha inicio con factura(fecha inicio null & fact_total not null
+
+
+co-cxns-rci(vacia)-rcicf-rincf-rf-
+
+
+
+*Reservas con fecha de inicio futura que poseen factura, se consideran Reservas
+inconsistentes . -->RINCF
+? Reservas en curso con factura, se consideran Reservas inconsistentes  -->RCICF
+? Reserva en curso sin factura, reservas consistentes. ->RCI
+? Reserva finalizadas con Factura, reservas consistentes. -->RF
+? Reservas finalizadas sin Factura, se consideran Reservas inconsistentes. ->RFSF
+? Reservas con fecha inicio futura sin factura, reservas consistentes. ->CO * 
+
+
+
+
+
+
+
+
+
+
+
+
+select * from gd_esquema.Maestra where (Reserva_Fecha_Inicio)>getdate() and estadia fecha inicio is null and estadiaFand Factura_Total is null -- reserva sin iniciar sin factura: CO
+
+select * from gd_esquema.Maestra where (Reserva_Fecha_Inicio)<getdate() and Estadia_Fecha_Inicio is null -- Reserva cancelada x no show CXNS
+
+select * from gd_esquema.Maestra where (Estadia_Fecha_Inicio)<getdate() and (Estadia_Fecha_Inicio + Estadia_Cant_Noches +1)>GETDATE() and Factura_Total is null -- Reserva con ingreso RCI
+
+select * from gd_esquema.Maestra where (Estadia_Fecha_Inicio)> GETDATE and Factura_Total is null -- Reserva c ingreso mayor a hoy sin factura RISF
+
+select * from gd_esquema.Maestra where (Estadia_Fecha_Inicio)> GETDATE and Factura_Total is not null --Reserva c ingreso mayor a hoy q tienen factura RICF
+
+select * from gd_esquema.Maestra where (Estadia_Fecha_Inicio)<getdate() and (Estadia_Fecha_Inicio + Estadia_Cant_Noches +1)>GETDATE() and Factura_Total is not null -- Reserva con ingreso con factura: RIECCF
+
+select * from gd_esquema.Maestra where (Estadia_Fecha_Inicio + Estadia_Cant_Noches +1 )< GETDATE() and Factura_Total is null -- estadia finalizada sin facturar RSF
+
+
+select * from gd_esquema.Maestra where (Estadia_Fecha_Inicio + Estadia_Cant_Noches +1 )< GETDATE() and Factura_Total is not null -- estadia finalizada facturada. RF
+
+
+estadia: 
+I-> inconsistente ( fecha check in > dia de hoy)
+I->(fecha check out > dia de hoy)
+C-> fecha check in < dia de hoy
+C-> fecha check out < dia de hoy
+
+
+rsf: 10076
+
