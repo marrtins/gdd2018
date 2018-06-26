@@ -1966,6 +1966,8 @@ BEGIN
 		SET @firstMonth = 4;
 	ELSE IF @trimestre = 3
 		SET @firstMonth = 7;
+	ELSE IF @trimestre = 4
+		SET @firstMonth = 10;
 
 	DECLARE @secondMonth int;
 	DECLARE @thirdMonth int;
@@ -1980,11 +1982,11 @@ BEGIN
 			OR (month(rhh.FechaDesde) = @secondMonth OR month(rhh.FechaHasta) = @secondMonth)
 			OR (month(rhh.FechaDesde) = @thirdMonth OR month(rhh.FechaHasta) = @thirdMonth) -- O bien arrancaron o terminaron en el trimestre, o estan totalmente contenidas (arrancaron Y terminaron)
 			 
-	select rhhta.Nombre, rhhta.NumeroHabitacion, rhhta.Piso, count(*) as Veces
+	select top 5 rhhta.Nombre, rhhta.NumeroHabitacion, rhhta.Piso, count(*) as Veces
 	from #ReservasPorHotelYHabitacionEnTrimestreEnAnio rhhta
 	WHERE rhhta.EstadoReserva = 'RF' -- si la reserva no fue finalizada y facturada la ignoro
 	GROUP BY rhhta.Nombre, rhhta.NumeroHabitacion, rhhta.Piso
-
+	ORDER BY Veces Desc
 END
 GO
 
@@ -2032,10 +2034,11 @@ BEGIN
 			OR (month(rhh.FechaDesde) = @thirdMonth OR month(rhh.FechaHasta) = @thirdMonth) -- O bien arrancaron o terminaron en el trimestre, o estan totalmente contenidas (arrancaron Y terminaron)
 			
     -- Insert statements for procedure here
-	select rhhta.Nombre, rhhta.NumeroHabitacion, rhhta.Piso, SUM(rhhta.Dias) as Dias
+	select top 5 rhhta.Nombre, rhhta.NumeroHabitacion, rhhta.Piso, SUM(rhhta.Dias) as Dias
 	from #ReservasPorHotelYHabitacionEnTrimestreEnAnio rhhta
 	WHERE rhhta.EstadoReserva = 'RF' -- si la reserva no fue finalizada y facturada la ignoro
 	GROUP BY rhhta.Nombre, rhhta.NumeroHabitacion, rhhta.Piso
+	ORDER BY Dias Desc
 END
 GO
 
