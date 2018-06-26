@@ -54,19 +54,16 @@ namespace FrbaHotel.RegistrarConsumible
                     cmd.Parameters.AddWithValue("@NroHabitacion", SqlDbType.NVarChar).Value = filtros.Nombre ?? Convert.DBNull;
                     cmd.Parameters.AddWithValue("@Piso", SqlDbType.NVarChar).Value = filtros.Apellido ?? Convert.DBNull;
                     cmd.Parameters.AddWithValue("@idTipoRegimen", SqlDbType.int).Value = filtros.Mail ?? Convert.DBNull;
-                    cmd.Parameters.AddWithValue("@NroDocumento", SqlDbType.NVarChar).Value = filtros.NroDocumento ?? Convert.DBNull;
-                    cmd.Parameters.AddWithValue("@IdTipoDocumento", SqlDbType.Int).Value = filtros.IdTipoDocumento;
-                    cmd.Parameters.AddWithValue("@IdRol", SqlDbType.Int).Value = filtros.IdRol;
 
                     con.Open();
                     var dr = cmd.ExecuteReader();
 
-                    var listaUsuarios = dr.MapToList<Usuario>();
+                    var listaEstadias = dr.MapToList<Usuario>();
 
-                    usuarios.Clear();
+                    estadias.Clear();
 
-                    if(listaUsuarios != null)
-                        listaUsuarios.ForEach(lu => usuarios.Add(lu)); // lo hago asi para que no se pierda el binding
+                    if(listaEstadias != null)
+                        listaEstadias.ForEach(es => estadias.Add(es)); // lo hago asi para que no se pierda el binding
                 }
             }
         }
