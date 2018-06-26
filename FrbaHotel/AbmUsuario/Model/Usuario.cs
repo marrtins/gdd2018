@@ -24,13 +24,13 @@ namespace FrbaHotel.AbmUsuario.Model
         
         private int idUsuario; // PK
         private int idRol; // FK
+        private int idPersona; // FK
         private DateTime fechaNac;
         private int idTipoDocumento; // FK
-        private string nroDocumento;
+        private string nroDocumento; 
         private string telefono;
         private string mail;
         private char activo;
-        private List<Hotel> hotelDondeTrabaja;
 
 
         // direccion calle nro pais
@@ -151,14 +151,14 @@ namespace FrbaHotel.AbmUsuario.Model
             }
         }
 
-        public Usuario(int id, string username, string password, string nombre, string apellido, int idTipoDocumento, string nroDocumento, DateTime fechaNac, string mail, string telefono, int idPais, string calle, string nroCalle, string localidad, string dpto, string piso)
+        public Usuario(int id, string username, string password, string nombre, string apellido, int idTipoDocumento, string nroDocumento, DateTime fechaNac, string mail, string telefono, int idPais, string calle, string nroCalle, string localidad, string depto, string piso)
         {
             // Dirección
             NroCalle = nroCalle;
             Calle = calle;
             IdPais = idPais;
             Localidad = localidad;
-            Dpto = dpto;
+            Depto = depto;
             Piso = piso;
 
             // Usuario
@@ -184,7 +184,10 @@ namespace FrbaHotel.AbmUsuario.Model
         [CustomRequired]
         public string Mail
         {
-            get => mail;
+            get 
+            {
+                return mail;
+            }
             set
             {
                 mail = value;
@@ -196,7 +199,10 @@ namespace FrbaHotel.AbmUsuario.Model
         [RegularExpression("^[0-9]+$", ErrorMessage = "El campo solo puede contener numeros.")]
         public string Telefono
         {
-            get => telefono;
+            get 
+            {
+                return telefono;
+            }
             set
             {
                 telefono = value;
@@ -208,7 +214,10 @@ namespace FrbaHotel.AbmUsuario.Model
         [RegularExpression("^[0-9]+$", ErrorMessage = "El campo solo puede contener numeros.")]
         public string NroDocumento
         {
-            get => nroDocumento;
+            get 
+            {
+                return nroDocumento;
+            }
             set
             {
                 nroDocumento = value;
@@ -221,7 +230,10 @@ namespace FrbaHotel.AbmUsuario.Model
         [RegularExpression("^[0-9]+$", ErrorMessage = "El campo solo puede contener numeros.")]
         public string Depto
         {
-            get => depto;
+            get 
+            {
+                return depto;
+            }
             set
             {
                 depto = value;
@@ -234,7 +246,10 @@ namespace FrbaHotel.AbmUsuario.Model
         [RegularExpression("^[0-9]+$", ErrorMessage = "El campo solo puede contener numeros.")]
         public string Piso
         {
-            get => piso;
+            get 
+            {
+                return piso;
+            }
             set
             {
                 piso = value;
@@ -245,7 +260,10 @@ namespace FrbaHotel.AbmUsuario.Model
         [CustomRequired]
         public DateTime FechaNac
         {
-            get => fechaNac;
+            get 
+            {
+                return fechaNac;
+            }
             set
             {
                 fechaNac = value;
@@ -256,35 +274,67 @@ namespace FrbaHotel.AbmUsuario.Model
 
 
         public int IdUsuario {
-             get => idUsuario; 
-             set => idUsuario = value; 
+             get 
+             {
+                 return idUsuario;
              }
-        public int IdPais { 
-            get => idPais; 
-            set => idPais = value; 
+             set 
+             {
+                 idUsuario = value;
+             }
+            }
+        public int IdPais {
+            get 
+             {
+                 return idPais;
+             }
+             set 
+             {
+                 idPais = value;
+             }
             }
         public int IdTipoDocumento { 
-            get => idTipoDocumento; 
-            set => idTipoDocumento = value; 
+            get 
+             {
+                 return idTipoDocumento;
+             }
+             set 
+             {
+                 idTipoDocumento = value;
+             } 
             }
-        public int IdRol { 
-            get => idRol; 
-            set => idRol = value; 
+        public int IdRol {
+            get 
+             {
+                 return idRol;
+             }
+             set 
+             {
+                 idRol = value;
+             } 
             } 
 
 
         public char Activo
         {
-            get => activo; set
-            {
-                activo = value;
-                InvokePropertyChanged("");
-            }
+            get 
+             {
+                 return activo;
+             }
+             set 
+             {
+                 activo = value;
+                 InvokePropertyChanged("");
+             } 
         }
 
         public int IdPersona
         {
-            get => idPersona; set
+            get   
+             {
+                 return idPersona;
+             }
+            set
             {
                 idPersona = value;
             }
