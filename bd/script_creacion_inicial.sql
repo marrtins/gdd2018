@@ -1927,6 +1927,115 @@ begin
 end
 go
 
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[ReservasPorHotelYHabitacion]'))
+	DROP VIEW [MMEL].[ReservasPorHotelYHabitacion]
+GO
+
+CREATE VIEW [MMEL].[ReservasPorHotelYHabitacion]
+AS
+SELECT        MMEL.Habitacion.idHabitacion, MMEL.Hotel.idHotel, MMEL.Reserva.idReserva, MMEL.Reserva.FechaDesde, MMEL.Reserva.FechaHasta, MMEL.Habitacion.NumeroHabitacion, MMEL.Habitacion.Piso, MMEL.Hotel.Nombre, 
+                         MMEL.Reserva.EstadoReserva, DATEDIFF(day, MMEL.Reserva.FechaDesde,MMEL.Reserva.FechaHasta) as Dias
+FROM            MMEL.Habitacion INNER JOIN
+                         MMEL.Hotel ON MMEL.Habitacion.idHotel = MMEL.Hotel.idHotel INNER JOIN
+                         MMEL.Reserva ON MMEL.Habitacion.idHabitacion = MMEL.Reserva.idHabitacion AND MMEL.Hotel.idHotel = MMEL.Reserva.idHotel
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[HabitacionesConMayorCantidadDeVecesOcupadas]'))
+	DROP PROCEDURE [MMEL].[HabitacionesConMayorCantidadDeVecesOcupadas]
+GO
+
+CREATE PROCEDURE [MMEL].[HabitacionesConMayorCantidadDeVecesOcupadas]
+	@anio int, 
+	@trimestre int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+	select *
+	into #ReservasPorHotelYHabitacionEnAnio
+	from MMEL.ReservasPorHotelYHabitacion rhh
+	WHERE year(rhh.FechaDesde) = @anio OR year(rhh.FechaHasta) = @anio -- Contenidas en el anio
+
+	DECLARE @firstMonth int;
+
+	IF @trimestre = 1
+		SET @firstMonth = 1;
+	ELSE IF @trimestre = 2
+		SET @firstMonth = 4;
+	ELSE IF @trimestre = 3
+		SET @firstMonth = 7;
+
+	DECLARE @secondMonth int;
+	DECLARE @thirdMonth int;
+
+	SET @secondMonth = @firstMonth + 1;
+	SET @thirdMonth = @firstMonth + 2;
+	
+	select *
+	into #ReservasPorHotelYHabitacionEnTrimestreEnAnio
+	from #ReservasPorHotelYHabitacionEnAnio rhh
+	WHERE	(month(rhh.FechaDesde) = @firstMonth OR month(rhh.FechaHasta) = @firstMonth)
+			OR (month(rhh.FechaDesde) = @secondMonth OR month(rhh.FechaHasta) = @secondMonth)
+			OR (month(rhh.FechaDesde) = @thirdMonth OR month(rhh.FechaHasta) = @thirdMonth) -- O bien arrancaron o terminaron en el trimestre, o estan totalmente contenidas (arrancaron Y terminaron)
+			 
+	select rhhta.Nombre, rhhta.NumeroHabitacion, rhhta.Piso, count(*) as Veces
+	from #ReservasPorHotelYHabitacionEnTrimestreEnAnio rhhta
+	WHERE rhhta.EstadoReserva = 'RF' -- si la reserva no fue finalizada y facturada la ignoro
+	GROUP BY rhhta.Nombre, rhhta.NumeroHabitacion, rhhta.Piso
+
+END
+GO
+
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[HabitacionesConMayorCantidadDeDiasOcupadas]'))
+	DROP PROCEDURE [MMEL].[HabitacionesConMayorCantidadDeDiasOcupadas]
+GO
+
+CREATE PROCEDURE [MMEL].[HabitacionesConMayorCantidadDeDiasOcupadas]
+	@anio int, 
+	@trimestre int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+	select *
+	into #ReservasPorHotelYHabitacionEnAnio
+	from MMEL.ReservasPorHotelYHabitacion rhh
+	WHERE year(rhh.FechaDesde) = @anio OR year(rhh.FechaHasta) = @anio -- Contenidas en el anio
+
+	DECLARE @firstMonth int;
+
+	IF @trimestre = 1
+		SET @firstMonth = 1;
+	ELSE IF @trimestre = 2
+		SET @firstMonth = 4;
+	ELSE IF @trimestre = 3
+		SET @firstMonth = 7;
+
+	DECLARE @secondMonth int;
+	DECLARE @thirdMonth int;
+
+	SET @secondMonth = @firstMonth + 1;
+	SET @thirdMonth = @firstMonth + 2;
+	
+	select *
+	into #ReservasPorHotelYHabitacionEnTrimestreEnAnio
+	from #ReservasPorHotelYHabitacionEnAnio rhh
+	WHERE	(month(rhh.FechaDesde) = @firstMonth OR month(rhh.FechaHasta) = @firstMonth)
+			OR (month(rhh.FechaDesde) = @secondMonth OR month(rhh.FechaHasta) = @secondMonth)
+			OR (month(rhh.FechaDesde) = @thirdMonth OR month(rhh.FechaHasta) = @thirdMonth) -- O bien arrancaron o terminaron en el trimestre, o estan totalmente contenidas (arrancaron Y terminaron)
+			
+    -- Insert statements for procedure here
+	select rhhta.Nombre, rhhta.NumeroHabitacion, rhhta.Piso, SUM(rhhta.Dias) as Dias
+	from #ReservasPorHotelYHabitacionEnTrimestreEnAnio rhhta
+	WHERE rhhta.EstadoReserva = 'RF' -- si la reserva no fue finalizada y facturada la ignoro
+	GROUP BY rhhta.Nombre, rhhta.NumeroHabitacion, rhhta.Piso
+END
+GO
 
 
 
