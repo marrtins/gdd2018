@@ -19,6 +19,12 @@ namespace FrbaHotel.Utilities
                     textBox.Text = null;
                 }
 
+                if (control is MaskedTextBox)
+                {
+                    MaskedTextBox maskedTextBox = (MaskedTextBox)control;
+                    maskedTextBox.Text = null;
+                }
+
                 if (control is ComboBox)
                 {
                     ComboBox comboBox = (ComboBox)control;
