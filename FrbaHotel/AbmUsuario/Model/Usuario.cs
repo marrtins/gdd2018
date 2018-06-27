@@ -57,12 +57,12 @@ namespace FrbaHotel.AbmUsuario.Model
         {
             get
             {
-                return username;
+                return password;
             }
 
             set
             {
-                username = value;
+                password = value;
                 InvokePropertyChanged("");
             }
         }
