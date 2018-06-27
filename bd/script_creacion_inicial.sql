@@ -1894,11 +1894,11 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[actu
 go
 
 
-create procedure mmel.actualizarCheckIn (@idEstadia int, @fechaCheckIn datetime,@userQueModifica varchar(200))
+create procedure mmel.actualizarCheckIn (@idEstadia int, @fechaCheckIn datetime,@iduserQueModifica varchar(200))
 as
 begin
 	declare @idRecepQueModifica int
-	set @idRecepQueModifica=3 --cambiar!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	set @idRecepQueModifica=@iduserQueModifica
 	update mmel.Estadia
 	set FechaCheckIN = @fechaCheckIn,
 	idRecepcionistaCheckIN=@idRecepQueModifica,
@@ -1936,20 +1936,20 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[agre
 go
 
 
-create procedure mmel.agregarConsumibles(@idHabitacion int,@idHotel int,@idConsumible int,@cantidad int,@codigoRet int output,@fechaCheckOut datetime)
+create procedure mmel.agregarConsumibles(@codigoReserva varchar(50),@idConsumible int,@cantidad int,@codigoRet int output,@fechaCheckOut datetime,@idEstadia int output)
 as
 begin
 
-	declare @idEstadia int
+	
 	declare @idReserva int
 
 
-	if exists(select idEstadia from mmel.Estadia es,mmel.Reserva re,mmel.Habitacion ha
-	where ha.idHabitacion=@idHabitacion and es.idReserva=re.idReserva and re.idHabitacion=ha.idHabitacion and (es.FechaCheckOUT=@fechaCheckOut or es.FechaCheckOUT=@fechaCheckOut +1))
+	if exists(select idEstadia from mmel.Estadia es,mmel.Reserva re 
+	where re.idReserva=es.idReserva and re.CodigoReserva=@codigoReserva)
 	begin
 
-		select @idEstadia = idEstadia from mmel.Estadia es,mmel.Reserva re,mmel.Habitacion ha
-		where ha.idHabitacion=@idHabitacion and es.idReserva=re.idReserva and re.idHabitacion=ha.idHabitacion and (es.FechaCheckOUT=@fechaCheckOut  or es.FechaCheckOUT=@fechaCheckOut +1)
+		select @idEstadia = es.idEstadia from mmel.Estadia es,mmel.Reserva re 
+	where re.idReserva=es.idReserva and re.CodigoReserva=@codigoReserva
 
 
 		DECLARE @cnt INT = 0;

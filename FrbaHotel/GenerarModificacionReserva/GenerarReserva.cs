@@ -240,7 +240,7 @@ namespace FrbaHotel.GenerarModificacionReserva
         }
         private float getPrecio()
         {
-            string consultaBusqueda = String.Format("select (r.precio * {0} + 25 * ho.CantidadEstrellas) \"Precio por Noche\", Descripcion \"Tipo de Regimen\" from mmel.Regimen r, mmel.hotel ho where ho.idHotel={1} and r.descripcion='{2}'", getCantPersonas(), idHotel,cboRegimen.Text);
+            string consultaBusqueda = String.Format("select (r.precio * {0} + ho.RecargaEstrellas * ho.CantidadEstrellas) \"Precio por Noche\", Descripcion \"Tipo de Regimen\" from mmel.Regimen r, mmel.hotel ho where ho.idHotel={1} and r.descripcion='{2}'", getCantPersonas(), idHotel,cboRegimen.Text);
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
             SqlCommand cmd = new SqlCommand(consultaBusqueda, con);

@@ -103,7 +103,7 @@ namespace FrbaHotel.RegistrarEstadia
                 {
                     
                     idEstadia = Int32.Parse(reader["idEstadia"].ToString());
-                    codRes = Int32.Parse(reader["codRes"].ToString());
+                    codRes = Int32.Parse(reader["CodigoReserva"].ToString());
                     DateTime fechaCheckIn = DateTime.Parse(reader["fechaCheckIn"].ToString());
                     DateTime fechaCheckOut = DateTime.Parse(reader["fechaCheckOut"].ToString());
                     consistente = Char.Parse(reader["consistente"].ToString());

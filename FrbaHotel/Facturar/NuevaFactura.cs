@@ -12,77 +12,27 @@ using System.Windows.Forms;
 
 namespace FrbaHotel.Facturar
 {
-    public partial class FacturaExistente : Form
+    public partial class NuevaFactura : Form
     {
-        int idFactura; int FactTotal; int NroFactura; int idEstadia;
-        DateTime FacturaFecha;
+        int idEstadia;
         bool dtoRegimenbool = false;
         int nuevoValorVB;
         int nuevoValorCons;
         int nuevoCantCons;
         int nuevoDtoRegimen;
-        private void label3_Click(object sender, EventArgs e)
+        public NuevaFactura(int idest)
         {
-
-        }
-
-        public FacturaExistente(int idFactura, int FactTotal, int NroFactura, DateTime FacturaFecha,int idEstadia)
-        {
-            this.idFactura = idFactura;
-            this.FactTotal = FactTotal;
-            this.NroFactura = NroFactura;
-            this.FacturaFecha = FacturaFecha;
-            this.idEstadia = idEstadia;
             InitializeComponent();
-            cargarFacturaVieja();
-            cboFormaDePago.Text = "Seleccionar";
-            cboFDPAnt.Text = "No especificada";
-            cargarFormaDePago();
-            cargarFormaDePagoAnt();
+            this.idEstadia = idest;
         }
 
-        private void FacturaExistente_Load(object sender, EventArgs e)
+        private void NuevaFactura_Load(object sender, EventArgs e)
         {
 
         }
-        private void cargarFacturaVieja()
-        {
-            string strCo = ConfigurationManager.AppSettings["stringConexion"];
-            SqlConnection con = new SqlConnection(strCo);
-
-            SqlCommand cmd;
-            cmd = new SqlCommand("MMEL.getFacturaVieja", con);
-
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add("@idEstadia", SqlDbType.Int).Value = idEstadia;
-            
-            cmd.Parameters.Add("@valorBase", SqlDbType.Int).Direction = ParameterDirection.Output;
-            cmd.Parameters.Add("@valorConsumibles", SqlDbType.Int).Direction = ParameterDirection.Output;
-            cmd.Parameters.Add("@cantidadConsumibles", SqlDbType.Int).Direction = ParameterDirection.Output;
-            cmd.Parameters.Add("@factTotal", SqlDbType.Int).Direction = ParameterDirection.Output;
-            cmd.Parameters.Add("@FactFecha", SqlDbType.DateTime).Direction = ParameterDirection.Output;
-            cmd.Parameters.Add("@NroFactura", SqlDbType.Int).Direction = ParameterDirection.Output;
 
 
-            if (cmd.Connection.State == ConnectionState.Closed)
-            {
-                cmd.Connection.Open();
-            }
-            cmd.ExecuteNonQuery();
 
-            int valorBase = int.Parse(cmd.Parameters["@valorBase"].Value.ToString());
-            int valorConsumibles = int.Parse(cmd.Parameters["@valorConsumibles"].Value.ToString());
-            int cantidadConsumibles = int.Parse(cmd.Parameters["@cantidadConsumibles"].Value.ToString());
-            int factTotal = int.Parse(cmd.Parameters["@factTotal"].Value.ToString());
-            DateTime FactFecha = DateTime.Parse(cmd.Parameters["@FactFecha"].Value.ToString());
-            int NroFactura = int.Parse(cmd.Parameters["@NroFactura"].Value.ToString());
-
-            lblValorBase.Text = lblValorBase.Text + String.Format(" ${0}", valorBase);
-            lblConsumibles.Text = lblConsumibles.Text + String.Format(" ${0}", valorConsumibles);
-            lblTotal.Text= lblTotal.Text + String.Format(" ${0}", factTotal);
-            lblFechaAnt.Text= lblFechaAnt.Text + String.Format(" {0}", FactFecha);
-            lblNroAnt.Text = lblNroAnt.Text + String.Format(" {0}", NroFactura);
-        }
         private void cargarFacturaNueva()
         {
 
@@ -125,13 +75,12 @@ namespace FrbaHotel.Facturar
             nuevoCantCons = cantidadConsumibles;
             nuevoValorCons = valorConsumibles;
             nuevoValorVB = valorBaseHab;
-            
 
             float valoractual = valorBaseHab + valorConsumibles;
             if (dtoRegimen == 100)
             {
                 valoractual = valoractual - valorConsumibles;
-                lblTotalAct.Text = lblTotalAct.Text + String.Format(" $-{0}",valorConsumibles );
+                lblTotalAct.Text = lblTotalAct.Text + String.Format(" $-{0}", valorConsumibles);
                 dtoRegimenbool = true;
                 nuevoDtoRegimen = valorConsumibles;
             }
@@ -141,20 +90,20 @@ namespace FrbaHotel.Facturar
             }
 
 
-            lblFCHIN.Text += String.Format(" {0}",chINEstadia);
+            lblFCHIN.Text += String.Format(" {0}", chINEstadia);
             lblFCHOUT.Text += String.Format(" {0}", lblFCHOUT);
 
             lblVBActual.Text = lblVBActual.Text + String.Format(" ${0}", valorBaseHab);
             lbldaloj.Text += String.Format(" {0}", cantDiasUtilizados);
             lbldnu.Text += String.Format(" {0}", cantDiasNoUtilizados);
-            lblVCAct.Text+= String.Format(" ${0}", valorConsumibles);
-            lblDtoACt.Text+= String.Format(" $%{0}", dtoRegimen);
+            lblVCAct.Text += String.Format(" ${0}", valorConsumibles);
+            lblDtoACt.Text += String.Format(" $%{0}", dtoRegimen);
 
 
             listarConsumiblesAct();
 
 
-            
+
 
         }
 
@@ -166,17 +115,6 @@ namespace FrbaHotel.Facturar
             cboFormaDePago.Items.Add("CHEQUE");
 
         }
-
-        private void cargarFormaDePagoAnt()
-        {
-            cboFormaDePago.Items.Add("TARJETA DE CREDITO");
-            cboFormaDePago.Items.Add("TARJETA DE DEBITO");
-            cboFormaDePago.Items.Add("EFECTIVO");
-            cboFormaDePago.Items.Add("CHEQUE");
-
-        }
-
-
         private void listarConsumiblesAct()
         {
             string consultaBusqueda = String.Format("select Nombre,Costo from mmel.Consumible co,mmel.ConsumiblePorEstadia ce where ce.idEstadia={0} and ce.idConsumible=co.idConsumible",idEstadia);
@@ -205,34 +143,20 @@ namespace FrbaHotel.Facturar
             }
         }
 
-        private void lblFechaAnt_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void button2_Click(object sender, EventArgs e)
         {
-            //actualizar itemvbase
-            //actualizar itemconsum
-            //actualizar itemdto
-
-
-           
-            
-
-
             //factual
             if (cboFormaDePago.Text == "Seleccionar")
             {
                 return;
             }
 
-            
+
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
 
             SqlCommand cmd;
-            cmd = new SqlCommand("MMEL.modificarFactura", con);
+            cmd = new SqlCommand("MMEL.crearFactura", con);
 
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@idEstadia", SqlDbType.Int).Value = idEstadia;
@@ -249,7 +173,6 @@ namespace FrbaHotel.Facturar
             cmd.ExecuteNonQuery();
 
             MessageBox.Show("Facturacion realizada exitosamente");
-            
 
 
             actualizarVBAse();
@@ -257,12 +180,10 @@ namespace FrbaHotel.Facturar
             {
                 actualizardtoReg();
             }
+
+
             this.Hide();
         }
-
-
-
-
         private void actualizarVBAse()
         {
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
@@ -307,38 +228,6 @@ namespace FrbaHotel.Facturar
                 cmd.Connection.Open();
             }
             cmd.ExecuteNonQuery();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            //f vieja. 
-
-            if (cboFormaDePago.Text == "No especificada")
-            {
-                return;
-            }
-            string strCo = ConfigurationManager.AppSettings["stringConexion"];
-            SqlConnection con = new SqlConnection(strCo);
-
-            SqlCommand cmd;
-            cmd = new SqlCommand("MMEL.modificarFormaDePago", con);
-
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add("@idEstadia", SqlDbType.Int).Value = idEstadia;
-            cmd.Parameters.Add("@formaDePago", SqlDbType.Int).Value = cboFDPAnt.Text;
-
-
-
-            if (cmd.Connection.State == ConnectionState.Closed)
-            {
-                cmd.Connection.Open();
-            }
-            cmd.ExecuteNonQuery();
-
-            MessageBox.Show("Facturacion realizada exitosamente");
-            this.Hide();
-
-
         }
     }
 }

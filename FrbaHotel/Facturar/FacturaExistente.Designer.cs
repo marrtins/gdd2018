@@ -31,23 +31,28 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupFactAnt = new System.Windows.Forms.GroupBox();
+            this.lblTotal = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lblConsumibles = new System.Windows.Forms.Label();
+            this.lblValorBase = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblTotalAct = new System.Windows.Forms.Label();
+            this.lbldnu = new System.Windows.Forms.Label();
+            this.lbldaloj = new System.Windows.Forms.Label();
+            this.lblDtoACt = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.lstConsAct = new System.Windows.Forms.ListBox();
+            this.lblVCAct = new System.Windows.Forms.Label();
+            this.lblVBActual = new System.Windows.Forms.Label();
             this.lblFCHIN = new System.Windows.Forms.Label();
             this.lblFCHOUT = new System.Windows.Forms.Label();
-            this.lblValorBase = new System.Windows.Forms.Label();
-            this.lblConsumibles = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.lblTotal = new System.Windows.Forms.Label();
-            this.lblVBActual = new System.Windows.Forms.Label();
-            this.lblVCAct = new System.Windows.Forms.Label();
-            this.lstConsAct = new System.Windows.Forms.ListBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.lblDtoACt = new System.Windows.Forms.Label();
-            this.lbldaloj = new System.Windows.Forms.Label();
-            this.lbldnu = new System.Windows.Forms.Label();
-            this.lblTotalAct = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.lblFechaAnt = new System.Windows.Forms.Label();
+            this.lblNroAnt = new System.Windows.Forms.Label();
+            this.cboFormaDePago = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.cboFDPAnt = new System.Windows.Forms.ComboBox();
             this.groupFactAnt.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -72,6 +77,9 @@
             // 
             // groupFactAnt
             // 
+            this.groupFactAnt.Controls.Add(this.cboFDPAnt);
+            this.groupFactAnt.Controls.Add(this.lblNroAnt);
+            this.groupFactAnt.Controls.Add(this.lblFechaAnt);
             this.groupFactAnt.Controls.Add(this.lblTotal);
             this.groupFactAnt.Controls.Add(this.label3);
             this.groupFactAnt.Controls.Add(this.lblConsumibles);
@@ -83,8 +91,47 @@
             this.groupFactAnt.TabStop = false;
             this.groupFactAnt.Text = "Factura Anterior";
             // 
+            // lblTotal
+            // 
+            this.lblTotal.AutoSize = true;
+            this.lblTotal.Location = new System.Drawing.Point(11, 311);
+            this.lblTotal.Name = "lblTotal";
+            this.lblTotal.Size = new System.Drawing.Size(48, 13);
+            this.lblTotal.TabIndex = 3;
+            this.lblTotal.Text = "TOTAL: ";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(11, 108);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(84, 13);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Forma de pago: ";
+            // 
+            // lblConsumibles
+            // 
+            this.lblConsumibles.AutoSize = true;
+            this.lblConsumibles.Location = new System.Drawing.Point(11, 78);
+            this.lblConsumibles.Name = "lblConsumibles";
+            this.lblConsumibles.Size = new System.Drawing.Size(129, 13);
+            this.lblConsumibles.TabIndex = 1;
+            this.lblConsumibles.Text = "VALOR CONSUMIBLES: ";
+            // 
+            // lblValorBase
+            // 
+            this.lblValorBase.AutoSize = true;
+            this.lblValorBase.Location = new System.Drawing.Point(11, 50);
+            this.lblValorBase.Name = "lblValorBase";
+            this.lblValorBase.Size = new System.Drawing.Size(148, 13);
+            this.lblValorBase.TabIndex = 0;
+            this.lblValorBase.Text = "VALOR BASE HABITACION: ";
+            this.lblValorBase.Click += new System.EventHandler(this.label3_Click);
+            // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.cboFormaDePago);
             this.groupBox1.Controls.Add(this.lblTotalAct);
             this.groupBox1.Controls.Add(this.lbldnu);
             this.groupBox1.Controls.Add(this.lbldaloj);
@@ -99,6 +146,79 @@
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Factura Actual";
+            // 
+            // lblTotalAct
+            // 
+            this.lblTotalAct.AutoSize = true;
+            this.lblTotalAct.Location = new System.Drawing.Point(16, 307);
+            this.lblTotalAct.Name = "lblTotalAct";
+            this.lblTotalAct.Size = new System.Drawing.Size(45, 13);
+            this.lblTotalAct.TabIndex = 6;
+            this.lblTotalAct.Text = "TOTAL:";
+            // 
+            // lbldnu
+            // 
+            this.lbldnu.AutoSize = true;
+            this.lbldnu.Location = new System.Drawing.Point(137, 74);
+            this.lbldnu.Name = "lbldnu";
+            this.lbldnu.Size = new System.Drawing.Size(92, 13);
+            this.lbldnu.TabIndex = 5;
+            this.lbldnu.Text = "Dias no utilizados:";
+            // 
+            // lbldaloj
+            // 
+            this.lbldaloj.AutoSize = true;
+            this.lbldaloj.Location = new System.Drawing.Point(14, 74);
+            this.lbldaloj.Name = "lbldaloj";
+            this.lbldaloj.Size = new System.Drawing.Size(69, 13);
+            this.lbldaloj.TabIndex = 4;
+            this.lbldaloj.Text = "Dias Alojado:";
+            // 
+            // lblDtoACt
+            // 
+            this.lblDtoACt.AutoSize = true;
+            this.lblDtoACt.Location = new System.Drawing.Point(6, 224);
+            this.lblDtoACt.Name = "lblDtoACt";
+            this.lblDtoACt.Size = new System.Drawing.Size(226, 13);
+            this.lblDtoACt.TabIndex = 4;
+            this.lblDtoACt.Text = "DESCUENTO POR REGIMEN DE ESTADIA: ";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(30, 120);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(120, 13);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "Detalle de Consumibles:";
+            // 
+            // lstConsAct
+            // 
+            this.lstConsAct.FormattingEnabled = true;
+            this.lstConsAct.HorizontalScrollbar = true;
+            this.lstConsAct.Location = new System.Drawing.Point(51, 136);
+            this.lstConsAct.Name = "lstConsAct";
+            this.lstConsAct.ScrollAlwaysVisible = true;
+            this.lstConsAct.Size = new System.Drawing.Size(212, 69);
+            this.lstConsAct.TabIndex = 2;
+            // 
+            // lblVCAct
+            // 
+            this.lblVCAct.AutoSize = true;
+            this.lblVCAct.Location = new System.Drawing.Point(21, 100);
+            this.lblVCAct.Name = "lblVCAct";
+            this.lblVCAct.Size = new System.Drawing.Size(129, 13);
+            this.lblVCAct.TabIndex = 1;
+            this.lblVCAct.Text = "VALOR CONSUMIBLES: ";
+            // 
+            // lblVBActual
+            // 
+            this.lblVBActual.AutoSize = true;
+            this.lblVBActual.Location = new System.Drawing.Point(16, 43);
+            this.lblVBActual.Name = "lblVBActual";
+            this.lblVBActual.Size = new System.Drawing.Size(148, 13);
+            this.lblVBActual.TabIndex = 0;
+            this.lblVBActual.Text = "VALOR BASE HABITACION: ";
             // 
             // lblFCHIN
             // 
@@ -118,124 +238,15 @@
             this.lblFCHOUT.TabIndex = 4;
             this.lblFCHOUT.Text = "Fecha Check OUT:";
             // 
-            // lblValorBase
-            // 
-            this.lblValorBase.AutoSize = true;
-            this.lblValorBase.Location = new System.Drawing.Point(11, 50);
-            this.lblValorBase.Name = "lblValorBase";
-            this.lblValorBase.Size = new System.Drawing.Size(148, 13);
-            this.lblValorBase.TabIndex = 0;
-            this.lblValorBase.Text = "VALOR BASE HABITACION: ";
-            this.lblValorBase.Click += new System.EventHandler(this.label3_Click);
-            // 
-            // lblConsumibles
-            // 
-            this.lblConsumibles.AutoSize = true;
-            this.lblConsumibles.Location = new System.Drawing.Point(11, 78);
-            this.lblConsumibles.Name = "lblConsumibles";
-            this.lblConsumibles.Size = new System.Drawing.Size(129, 13);
-            this.lblConsumibles.TabIndex = 1;
-            this.lblConsumibles.Text = "VALOR CONSUMIBLES: ";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(11, 108);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(162, 13);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Forma de pago: No Especificada";
-            // 
-            // lblTotal
-            // 
-            this.lblTotal.AutoSize = true;
-            this.lblTotal.Location = new System.Drawing.Point(11, 311);
-            this.lblTotal.Name = "lblTotal";
-            this.lblTotal.Size = new System.Drawing.Size(48, 13);
-            this.lblTotal.TabIndex = 3;
-            this.lblTotal.Text = "TOTAL: ";
-            // 
-            // lblVBActual
-            // 
-            this.lblVBActual.AutoSize = true;
-            this.lblVBActual.Location = new System.Drawing.Point(16, 43);
-            this.lblVBActual.Name = "lblVBActual";
-            this.lblVBActual.Size = new System.Drawing.Size(148, 13);
-            this.lblVBActual.TabIndex = 0;
-            this.lblVBActual.Text = "VALOR BASE HABITACION: ";
-            // 
-            // lblVCAct
-            // 
-            this.lblVCAct.AutoSize = true;
-            this.lblVCAct.Location = new System.Drawing.Point(21, 100);
-            this.lblVCAct.Name = "lblVCAct";
-            this.lblVCAct.Size = new System.Drawing.Size(129, 13);
-            this.lblVCAct.TabIndex = 1;
-            this.lblVCAct.Text = "VALOR CONSUMIBLES: ";
-            // 
-            // lstConsAct
-            // 
-            this.lstConsAct.FormattingEnabled = true;
-            this.lstConsAct.HorizontalScrollbar = true;
-            this.lstConsAct.Location = new System.Drawing.Point(51, 136);
-            this.lstConsAct.Name = "lstConsAct";
-            this.lstConsAct.ScrollAlwaysVisible = true;
-            this.lstConsAct.Size = new System.Drawing.Size(212, 69);
-            this.lstConsAct.TabIndex = 2;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(30, 120);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(120, 13);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Detalle de Consumibles:";
-            // 
-            // lblDtoACt
-            // 
-            this.lblDtoACt.AutoSize = true;
-            this.lblDtoACt.Location = new System.Drawing.Point(6, 224);
-            this.lblDtoACt.Name = "lblDtoACt";
-            this.lblDtoACt.Size = new System.Drawing.Size(226, 13);
-            this.lblDtoACt.TabIndex = 4;
-            this.lblDtoACt.Text = "DESCUENTO POR REGIMEN DE ESTADIA: ";
-            // 
-            // lbldaloj
-            // 
-            this.lbldaloj.AutoSize = true;
-            this.lbldaloj.Location = new System.Drawing.Point(14, 74);
-            this.lbldaloj.Name = "lbldaloj";
-            this.lbldaloj.Size = new System.Drawing.Size(69, 13);
-            this.lbldaloj.TabIndex = 4;
-            this.lbldaloj.Text = "Dias Alojado:";
-            // 
-            // lbldnu
-            // 
-            this.lbldnu.AutoSize = true;
-            this.lbldnu.Location = new System.Drawing.Point(137, 74);
-            this.lbldnu.Name = "lbldnu";
-            this.lbldnu.Size = new System.Drawing.Size(92, 13);
-            this.lbldnu.TabIndex = 5;
-            this.lbldnu.Text = "Dias no utilizados:";
-            // 
-            // lblTotalAct
-            // 
-            this.lblTotalAct.AutoSize = true;
-            this.lblTotalAct.Location = new System.Drawing.Point(16, 307);
-            this.lblTotalAct.Name = "lblTotalAct";
-            this.lblTotalAct.Size = new System.Drawing.Size(45, 13);
-            this.lblTotalAct.TabIndex = 6;
-            this.lblTotalAct.Text = "TOTAL:";
-            // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(166, 462);
+            this.button1.Location = new System.Drawing.Point(243, 459);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(122, 27);
             this.button1.TabIndex = 5;
             this.button1.Text = "Utilizar F. Anterior";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
@@ -245,6 +256,51 @@
             this.button2.TabIndex = 6;
             this.button2.Text = "Utilizar F. Actual";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // lblFechaAnt
+            // 
+            this.lblFechaAnt.AutoSize = true;
+            this.lblFechaAnt.Location = new System.Drawing.Point(15, 149);
+            this.lblFechaAnt.Name = "lblFechaAnt";
+            this.lblFechaAnt.Size = new System.Drawing.Size(99, 13);
+            this.lblFechaAnt.TabIndex = 4;
+            this.lblFechaAnt.Text = "Fecha Facturacion:";
+            this.lblFechaAnt.Click += new System.EventHandler(this.lblFechaAnt_Click);
+            // 
+            // lblNroAnt
+            // 
+            this.lblNroAnt.AutoSize = true;
+            this.lblNroAnt.Location = new System.Drawing.Point(15, 173);
+            this.lblNroAnt.Name = "lblNroAnt";
+            this.lblNroAnt.Size = new System.Drawing.Size(86, 13);
+            this.lblNroAnt.TabIndex = 5;
+            this.lblNroAnt.Text = "Numero Factura:";
+            // 
+            // cboFormaDePago
+            // 
+            this.cboFormaDePago.FormattingEnabled = true;
+            this.cboFormaDePago.Location = new System.Drawing.Point(106, 255);
+            this.cboFormaDePago.Name = "cboFormaDePago";
+            this.cboFormaDePago.Size = new System.Drawing.Size(97, 21);
+            this.cboFormaDePago.TabIndex = 7;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(19, 258);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(79, 13);
+            this.label5.TabIndex = 8;
+            this.label5.Text = "Forma de Pago";
+            // 
+            // cboFDPAnt
+            // 
+            this.cboFDPAnt.FormattingEnabled = true;
+            this.cboFDPAnt.Location = new System.Drawing.Point(101, 104);
+            this.cboFDPAnt.Name = "cboFDPAnt";
+            this.cboFDPAnt.Size = new System.Drawing.Size(86, 21);
+            this.cboFDPAnt.TabIndex = 7;
             // 
             // FacturaExistente
             // 
@@ -293,5 +349,10 @@
         private System.Windows.Forms.Label lblVBActual;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label lblFechaAnt;
+        private System.Windows.Forms.Label lblNroAnt;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox cboFormaDePago;
+        private System.Windows.Forms.ComboBox cboFDPAnt;
     }
 }

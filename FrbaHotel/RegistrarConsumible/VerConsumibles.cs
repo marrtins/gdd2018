@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrbaHotel.Facturar;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -14,11 +15,14 @@ namespace FrbaHotel.RegistrarConsumible
 {
     public partial class VerConsumibles : Form
     {
-        int idEstadia,nroHab;
+        int idHab;
+        int idEstadia;
+        int nroHab;
         Form formvolver;
-        public VerConsumibles(int idEstadia,int nroHab,Form formVolver)
+        public VerConsumibles(int idEstadia,int idHab,int nroHab,Form formVolver)
         {
             this.idEstadia = idEstadia;
+            this.idHab = idHab;
             this.nroHab = nroHab;
             this.formvolver = formVolver;
             InitializeComponent();
@@ -73,14 +77,13 @@ namespace FrbaHotel.RegistrarConsumible
 
         private void btnFacturar_Click(object sender, EventArgs e)
         {
-            if (existeFactura)
-            {
 
-            }
-            else
-            {
 
-            }
+
+
+
+            existeFactura();
+            
         }
 
         private void cargarConsumibles()
@@ -95,7 +98,7 @@ namespace FrbaHotel.RegistrarConsumible
             lblCons.Text = String.Format("Cant consumibles: {0}", dataTable.Rows.Count);
         }
     
-    private bool existeFactura()
+    private void existeFactura()
     {
         string consultaBusqueda = String.Format("select * from mmel.Facturacion  where idEstadia = {0}",idEstadia);
         string strCo = ConfigurationManager.AppSettings["stringConexion"];
@@ -121,20 +124,21 @@ namespace FrbaHotel.RegistrarConsumible
                     FacturaFecha = DateTime.Parse(reader["FacturaFecha"].ToString());
                     this.Hide();
                     FacturaExistente fe = new FacturaExistente(idFactura, FactTotal, NroFactura, FacturaFecha, idEstadia);
-                    break;
+                    
+                    fe.Show();
+                    return;
+
                 }
                 reader.Close();
-                con.Close();
-                
-
-
+                con.Close();              
         }
         else
         {
-            MessageBox.Show("No hay usuario registrado con ese tipo y nro de identifiacion");
-            return false;
+                NuevaFactura nf = new NuevaFactura(idEstadia);
+                nf.Show();
+                this.Hide();
         }
-        return true;
+            
         }
     }
 }

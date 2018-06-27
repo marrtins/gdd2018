@@ -16,7 +16,7 @@ namespace FrbaHotel.RegistrarConsumible
     public partial class MainRegCons : Form
     {
 
-        int idHotel = 1; //CAMBIARRRRRRRRRR
+        int idEstadia;
         List<Consumible> consumibles = new List<Consumible>();
         List<Habitacion> habitaciones = new List<Habitacion>();
         public MainRegCons()        
@@ -74,7 +74,7 @@ namespace FrbaHotel.RegistrarConsumible
         }
         private void cargarHabitaciones()
         {
-            string consultaBusqueda = String.Format("select * from mmel.Habitacion where idHotel={0}",idHotel);
+            /*string consultaBusqueda = String.Format("select * from mmel.Habitacion where idHotel={0}",idHotel);
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
             SqlCommand cmd = new SqlCommand(consultaBusqueda, con);
@@ -97,7 +97,7 @@ namespace FrbaHotel.RegistrarConsumible
 
             }
             reader.Close();
-            con.Close();
+            con.Close();*/
 
         }
 
@@ -113,13 +113,14 @@ namespace FrbaHotel.RegistrarConsumible
                 cmd = new SqlCommand("MMEL.agregarConsumibles", con);
 
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@idHabitacion", SqlDbType.Int).Value = getIdHab();
-                cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel;
+                //cmd.Parameters.Add("@idHabitacion", SqlDbType.Int).Value = getIdHab();
+                //cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel;
+                cmd.Parameters.Add("@codigoReserva", SqlDbType.VarChar,50).Value = txtCodRes.Text;
                 cmd.Parameters.Add("@idConsumible", SqlDbType.Int).Value = getIdConsumible();
                 cmd.Parameters.Add("@cantidad", SqlDbType.Int).Value = Int32.Parse(textBox1.Text);
                 cmd.Parameters.Add("@fechaCheckOut", SqlDbType.Date).Value = DateTime.Today; ///ARREGLARRR
                 cmd.Parameters.Add("@codigoRet", SqlDbType.Int).Direction = ParameterDirection.Output; //0->no existe la habitacion en esta fecha ; 1 -> ok
-
+                cmd.Parameters.Add("@idEstadia", SqlDbType.Int).Direction = ParameterDirection.Output;
                 if (cmd.Connection.State == ConnectionState.Closed)
                 {
                     cmd.Connection.Open();
@@ -127,6 +128,7 @@ namespace FrbaHotel.RegistrarConsumible
                 cmd.ExecuteNonQuery();
 
                 int codigoRet = int.Parse(cmd.Parameters["@codigoRet"].Value.ToString());
+                idEstadia= int.Parse(cmd.Parameters["@idEstadia"].Value.ToString());
                 if (codigoRet == 0)
                 {
                     MessageBox.Show("Ninguna habitacion ha sido cerrada el dia de hoy.", "X", MessageBoxButtons.OK);
@@ -146,9 +148,9 @@ namespace FrbaHotel.RegistrarConsumible
                 MessageBox.Show("Seleccionar consumible", "X", MessageBoxButtons.OK);
                 return false;
             }
-            if (cboHabitaciones.Text == "Seleccionar")
+            if (txtCodRes.Text == "")
             {
-                MessageBox.Show("Seleccionar Habitacion", "X", MessageBoxButtons.OK);
+                MessageBox.Show("Seleccionar Coigo Reserva", "X", MessageBoxButtons.OK);
                 return false;
             }
             if(textBox1.Text=="" || !int.TryParse(textBox1.Text, out i))
@@ -162,19 +164,28 @@ namespace FrbaHotel.RegistrarConsumible
         {
             return habitaciones[cboHabitaciones.SelectedIndex].IdHabitacion;    
         }
+        private int getNroHab()
+        {
+            return habitaciones[cboHabitaciones.SelectedIndex].NumeroHabitacion;
+        }
         private int getIdConsumible()
         {
             return consumibles[cboConsumibles.SelectedIndex].IdConsumible;
         }
+       
 
         private void btnOtroConsumible_Click(object sender, EventArgs e)
         {
-
+            NuevoConsumible nc = new NuevoConsumible(this);
+            nc.Show();
+            this.Hide();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            VerConsumibles vc = new VerConsumibles(idEstadia,getIdHab(),getNroHab(),this);
+            vc.Show();
+            this.Hide();
         }
     }
 }

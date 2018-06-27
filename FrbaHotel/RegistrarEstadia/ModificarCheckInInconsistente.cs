@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrbaHotel.Utilities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -20,13 +21,14 @@ namespace FrbaHotel.RegistrarEstadia
             
         public ModificarCheckInInconsistente(DateTime fin,DateTime fout,int idest,Form ftr)
         {
+            
+            InitializeComponent();
             this.fin = fin;
             this.fout = fout;
             this.idest = idest;
             this.ftr = ftr;
             lblCheckInActual.Text = lblCheckInActual.Text + String.Format(" {0}", fin);
             lblFechaCheckOut.Text = lblFechaCheckOut.Text + String.Format(" {0}", fout);
-            InitializeComponent();
             //label2.Text = "Para dejar la estadia en un estado consistente, se modificará la fecha de check in  y se eliminará la fecha de check out a fin de poder estipularla cuando sea necesaria. Gracias"
         }
 
@@ -46,8 +48,8 @@ namespace FrbaHotel.RegistrarEstadia
 
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@idEstadia", SqlDbType.Int).Value = idest;
-            cmd.Parameters.Add("@fechaCheckIn", SqlDbType.Int).Value = DateTime.Today; //MODIFICAR!
-            cmd.Parameters.Add("@userQueModifica", SqlDbType.VarChar, 200).Value = "Juan"; //MODIFICArRRRrR
+            cmd.Parameters.Add("@fechaCheckIn", SqlDbType.DateTime).Value = DateTime.Today; //MODIFICAR!
+            cmd.Parameters.Add("@iduserQueModifica", SqlDbType.Int).Value = LoginData.IdUsuario;
 
             if (cmd.Connection.State == ConnectionState.Closed)
             {
