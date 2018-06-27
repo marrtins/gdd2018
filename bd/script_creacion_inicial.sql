@@ -2113,7 +2113,9 @@ AS SELECT d.idDireccion,d.Ciudad,d.calle,d.nroCalle, p.idPais, p.Nombre as Nombr
 FROM MMEL.Direccion d 
 JOIN MMEL.Pais p on p.idPais = d.idPais;
 GO
-
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[TOP5_1]'))
+	DROP VIEW [MMEL].[TOP5_1]
+GO
 
 GO
 CREATE PROCEDURE MMEL.TOP5_1 @Año int,@Trimestre varchar(80)
@@ -2163,7 +2165,9 @@ begin
 	end
 end
 
-
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[TOP5_2]'))
+	DROP VIEW [MMEL].[TOP5_2]
+GO
 --Hoteles con mayor cantidad de consumibles facturados
 GO
 CREATE PROCEDURE MMEL.TOP5_2 @Año int,@Trimestre varchar(80)
@@ -2179,6 +2183,7 @@ if '1ºTrimestre (1º de Enero ~ 31 de Marzo)' = @Trimestre
 										   join mmel.ConsumiblePorEstadia cpr on e.idEstadia = cpr.idEstadia
 									       join mmel.consumible c on cpr.idConsumible = c.idConsumible
 										   where year(f.FacturaFecha) = @Año and (month(f.FacturaFecha) = 1 OR month(f.FacturaFecha) = 2 or month(f.FacturaFecha) = 3)
+										   group by hot.idHotel
 	end
 	if '2ºTrimestre (1º de Abril ~ 30 de Junio)' = @Trimestre
 	begin
@@ -2189,6 +2194,7 @@ if '1ºTrimestre (1º de Enero ~ 31 de Marzo)' = @Trimestre
 										   join mmel.ConsumiblePorEstadia cpr on e.idEstadia = cpr.idEstadia
 									       join mmel.consumible c on cpr.idConsumible = c.idConsumible
 										   where year(f.FacturaFecha) = @Año and (month(f.FacturaFecha) = 4 OR month(f.FacturaFecha) = 5 or month(f.FacturaFecha) = 6)
+										   group by hot.idHotel
 	end
 	if '3ºTrimestre (1º de Julio ~ 30 de Septiembre)' = @Trimestre
 	begin
@@ -2199,6 +2205,7 @@ if '1ºTrimestre (1º de Enero ~ 31 de Marzo)' = @Trimestre
 										   join mmel.ConsumiblePorEstadia cpr on e.idEstadia = cpr.idEstadia
 									       join mmel.consumible c on cpr.idConsumible = c.idConsumible
 										   where year(f.FacturaFecha) = @Año and (month(f.FacturaFecha) = 7 OR month(f.FacturaFecha) = 8 or month(f.FacturaFecha) = 9)
+										   group by hot.idHotel
 	end
 	if '4ºTrimestre (1º de Octubre ~ 31 de Diciembre)' = @Trimestre
  	begin
@@ -2209,6 +2216,7 @@ if '1ºTrimestre (1º de Enero ~ 31 de Marzo)' = @Trimestre
 										   join mmel.ConsumiblePorEstadia cpr on e.idEstadia = cpr.idEstadia
 									       join mmel.consumible c on cpr.idConsumible = c.idConsumible
 										   where year(f.FacturaFecha) = @Año and (month(f.FacturaFecha) = 10 OR month(f.FacturaFecha) = 11 or month(f.FacturaFecha) = 12)
+										   group by hot.idHotel
 	end
 
 end
