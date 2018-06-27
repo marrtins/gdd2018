@@ -52,6 +52,7 @@
             this.NumeroCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.HabilitadoCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SeleccionarCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BajaCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.filtrosGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cantidadEstrellasInput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hotelesGridView)).BeginInit();
@@ -191,7 +192,8 @@
             this.CalleCol,
             this.NumeroCol,
             this.HabilitadoCol,
-            this.SeleccionarCol});
+            this.SeleccionarCol,
+            this.BajaCol});
             this.hotelesGridView.Location = new System.Drawing.Point(9, 109);
             this.hotelesGridView.Name = "hotelesGridView";
             this.hotelesGridView.ReadOnly = true;
@@ -286,6 +288,12 @@
             this.SeleccionarCol.Name = "SeleccionarCol";
             this.SeleccionarCol.ReadOnly = true;
             // 
+            // BajaCol
+            // 
+            this.BajaCol.HeaderText = "Baja";
+            this.BajaCol.Name = "BajaCol";
+            this.BajaCol.ReadOnly = true;
+            // 
             // Listado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -297,7 +305,7 @@
             this.Controls.Add(this.limpiarBtn);
             this.Controls.Add(this.filtrosGroup);
             this.Name = "Listado";
-            this.Text = "Listado";
+            this.Text = "+";
             this.filtrosGroup.ResumeLayout(false);
             this.filtrosGroup.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cantidadEstrellasInput)).EndInit();
@@ -332,5 +340,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn NumeroCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn HabilitadoCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn SeleccionarCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BajaCol;
     }
 }
