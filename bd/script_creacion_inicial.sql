@@ -1009,8 +1009,8 @@ AS
 	IF @rol != 'administrador'
 		THROW 51000, 'El usuario no es administrador', 1;
 
-	INSERT INTO [MMEL].[Hotel] ([Mail], [idDireccion], [Telefono], [CantidadEstrellas], [FechaDeCreacion], [Nombre], [Inhabilitado] )
-	SELECT @Mail, @idDireccion, @Telefono, @CantidadEstrellas, GETDATE(), @Nombre, @Inhabilitado
+INSERT INTO [MMEL].[Hotel] ([Mail], [idDireccion], [Telefono], [CantidadEstrellas], [FechaDeCreacion], [Nombre], [Inhabilitado], RecargaEstrellas )
+	SELECT @Mail, @idDireccion, @Telefono, @CantidadEstrellas, GETDATE(), @Nombre, @Inhabilitado, @RecargaEstrellas
 
 
 	DECLARE @idHotel int  =  SCOPE_IDENTITY();
@@ -2212,3 +2212,87 @@ if '1ºTrimestre (1º de Enero ~ 31 de Marzo)' = @Trimestre
 	end
 
 end
+
+
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[FacturasPorCliente]'))
+	DROP VIEW [MMEL].[FacturasPorCliente]
+GO
+
+CREATE VIEW [MMEL].[FacturasPorCliente]
+AS
+SELECT        MMEL.Persona.idPersona, MMEL.Reserva.idReserva, MMEL.Facturacion.idFactura, MMEL.Estadia.idEstadia, MMEL.Facturacion.FacturaFecha
+FROM            MMEL.Estadia INNER JOIN
+                         MMEL.Reserva ON MMEL.Estadia.idReserva = MMEL.Reserva.idReserva INNER JOIN
+                         MMEL.Facturacion ON MMEL.Estadia.idEstadia = MMEL.Facturacion.idEstadia INNER JOIN
+                         MMEL.Persona ON MMEL.Reserva.idHuesped = MMEL.Persona.idPersona
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[ClientesConMayorCantidadDePuntos]'))
+	DROP VIEW [MMEL].[FacturasPorCliente]
+GO
+
+CREATE PROCEDURE [MMEL].[ClientesConMayorCantidadDePuntos]
+	-- Add the parameters for the stored procedure here
+	@anio int, 
+	@trimestre int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+		SET NOCOUNT ON;
+
+	select *
+	into #FacturasPorClienteEnAnio
+	from MMEL.FacturasPorCliente rhh
+	WHERE year(rhh.FacturaFecha) = @anio
+
+	DECLARE @firstMonth int;
+
+	IF @trimestre = 1
+		SET @firstMonth = 1;
+	ELSE IF @trimestre = 2
+		SET @firstMonth = 4;
+	ELSE IF @trimestre = 3
+		SET @firstMonth = 7;
+
+	DECLARE @secondMonth int;
+	DECLARE @thirdMonth int;
+
+	SET @secondMonth = @firstMonth + 1;
+	SET @thirdMonth = @firstMonth + 2;
+	
+	select *
+	into #FacturasPorClienteEnTrimestreEnAnio
+	from #FacturasPorClienteEnAnio rhh
+	WHERE	(month(rhh.FacturaFecha) = @firstMonth)
+			OR (month(rhh.FacturaFecha) = @secondMonth)
+			OR (month(rhh.FacturaFecha) = @thirdMonth) -- solo si fueron facturadas en el trimestre			
+
+	SELECT ifa.idFactura, fpcetea.idEstadia, fpcetea.idPersona, ifa.itemFacturaMonto
+	into #EstadiasFacturadasPorClienteEnTrimestre
+	FROM #FacturasPorClienteEnTrimestreEnAnio  fpcetea
+	INNER JOIN  MMEL.ItemFactura AS ifa ON  fpcetea.idFactura = ifa.idFactura
+	WHERE  (ifa.itemDescripcion = 'VALOR BASE HABITACION')
+
+	SELECT efpct.idPersona, SUM(efpct.itemFacturaMonto) / 20 as PuntosEstadia
+	into #PuntosPorEstadiaPorCliente
+	FROM #EstadiasFacturadasPorClienteEnTrimestre efpct
+	GROUP BY efpct.idPersona
+	ORDER BY PuntosEstadia DESC
+
+	SELECT        fpc.idPersona, SUM(ifa.itemFacturaCantidad * ifa.itemFacturaMonto) / 10 as PuntosConsumibles
+	into #PuntosPorConsumiblesPorCliente
+	FROM            MMEL.ItemFactura AS ifa INNER JOIN
+								#FacturasPorClienteEnTrimestreEnAnio AS fpc ON ifa.idFactura = fpc.idFactura
+	WHERE        (ifa.idConsumible IS NOT NULL)
+	GROUP BY fpc.idPersona
+	ORDER BY PuntosConsumibles DESC
+
+	SELECT top 5 ppe.idPersona, ppe.PuntosEstadia + ppc.PuntosConsumibles as Puntos -- Por fin!
+	FROM #PuntosPorEstadiaPorCliente ppe
+	LEFT JOIN #PuntosPorConsumiblesPorCliente ppc on ppe.idPersona = ppc.idPersona
+	GROUP BY ppe.idPersona, ppe.PuntosEstadia, ppc.PuntosConsumibles
+	ORDER BY Puntos DESC
+
+END
