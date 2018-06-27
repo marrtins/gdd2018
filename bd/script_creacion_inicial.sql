@@ -172,7 +172,19 @@ CREATE TABLE [MMEL].[Usuarios](
 
 ALTER TABLE [MMEL].[Usuarios] ADD  CONSTRAINT [DF_Usuarios_IngresosFallidos]  DEFAULT ((0)) FOR [IngresosFallidos]
 
+IF OBJECT_ID('MMEL.HotelBajas', 'U') IS NOT NULL
+	DROP TABLE MMEL.HotelBajas;
 
+CREATE TABLE [MMEL].[HotelBajas](
+	[idBaja] [int] IDENTITY(1,1) NOT NULL,
+	[idHotel] [int] NOT NULL,
+	[FechaDesde] [datetime] NOT NULL,
+	[FechaHasta] [datetime] NOT NULL,
+	[Motivo] [varchar](500) NULL,
+CONSTRAINT [PK_idBaja] PRIMARY  key(idBaja)
+
+
+)
 CREATE TABLE [MMEL].[Hotel](
 	[idHotel] [int] IDENTITY(1,1) NOT NULL,
 	[Mail] [varchar](200) NULL,
@@ -633,6 +645,16 @@ select fa.idFactura,fa.idEstadia,'VALOR CONSUMIBLE',co.idConsumible,ot.Item_Fact
 -----fin migracion
 
 
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[ReservasNoCanceladas]'))
+	DROP VIEW [MMEL].[ReservasNoCanceladas]
+go
+
+CREATE VIEW [MMEL].[ReservasNoCanceladas]
+AS
+SELECT        idReserva, idUsuarioQueProcesoReserva, idHotel, FechaDeReserva, FechaDesde, FechaHasta, idHabitacion, idRegimen, idHuesped, EstadoReserva, CodigoReserva
+FROM            MMEL.Reserva AS r
+WHERE        (EstadoReserva <> 'CXR') AND (EstadoReserva <> 'CXC') AND (EstadoReserva <> 'CXNS')
+GO
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[HabitacionesListar]'))
 	DROP PROCEDURE [MMEL].[HabitacionesListar]
@@ -2489,5 +2511,43 @@ BEGIN
 END
 GO
 
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[HotelDarBaja]'))
+	DROP PROCEDURE [MMEL].[HotelDarBaja]
+GO
+
+CREATE PROCEDURE [MMEL].[HotelDarBaja]
+	-- Add the parameters for the stored procedure here
+	@idHotel int,
+	@FechaInicio datetime,
+	@FechaFin datetime,
+	@Motivo varchar(500)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+	DECLARE @ReservasEnIntervalo int;
+
+	SELECT @ReservasEnIntervalo = count(*) 
+	FROM ReservasNoCanceladas r
+	where r.idHotel = @idHotel AND
+			(r.FechaDesde <= @FechaFin
+			AND r.FechaHasta >= @FechaInicio) -- existe overlap de fechas
+
+	IF @ReservasEnIntervalo > 0
+		SELECT -1 as Resultado -- No se puede dar de baja un hotel si hay reservas en el periodo (y por ende si hay huespedes tmb)
+	ELSE
+		BEGIN
+			
+			INSERT INTO MMEL.HotelBajas (idHotel,FechaDesde,FechaHasta,Motivo)
+			VALUES (@idHotel, @FechaInicio, @FechaFin, @Motivo);
+
+			SELECT SCOPE_IDENTITY() as Resultado
+		END
+
+
+END
+GO
 
 
