@@ -71,7 +71,7 @@ namespace FrbaHotel.ListadoEstadistico
                         this.obtenerTop5HotelesReservasCanceladas();
                         break;
                     case ("Hoteles con mayor cantidad de consumibles facturados"):
-                        //this.ejectuarComando("MMEL.TOP5" + "_2", con);
+                        this.obtenerTop5HotelesConsumiblesFacturados();
                         break;
                     case ("Hoteles con mayor cantidad de días fuera de servicio"):
                         //this.ejectuarComando("MMEL.TOP5" + "_3", con);
@@ -111,6 +111,10 @@ namespace FrbaHotel.ListadoEstadistico
             obtenerTop5De<HabitacionCantidades>("[HabitacionesConMayorCantidadDeDiasOcupadas]");
         }
 
+        private void obtenerTop5HotelesConsumiblesFacturados()
+        {
+            obtenerTop5De<HotelCantidades>("HotelesConMayorCantidadDeConsumiblesFacturados");
+        }
 
         private void obtenerTop5De<T>(string procedureName) where T : new()
         {
