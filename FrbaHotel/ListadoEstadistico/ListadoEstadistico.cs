@@ -16,70 +16,75 @@ using FrbaHotel.ListadoEstadistico.Model;
 
 namespace FrbaHotel.ListadoEstadistico
 {
-    public partial class ListadoEstadistico : Form
+    public partial class ListadoEstadistico : ModelBoundForm
     {
         public ListadoEstadistico()
+            :base(new Top5Filtros())
         {
             InitializeComponent();
+            this.trimestreInput.Items.Add("1ºTrimestre (1º de Enero ~ 31 de Marzo)");
+            this.trimestreInput.Items.Add("2ºTrimestre (1º de Abril ~ 30 de Junio)");
+            this.trimestreInput.Items.Add("3ºTrimestre (1º de Julio ~ 30 de Septiembre)");
+            this.trimestreInput.Items.Add("4ºTrimestre (1º de Octubre ~ 31 de Diciembre)");
 
-            if(this.trimestreInput.Items.Count == 0)
-            {
-                this.trimestreInput.Items.Insert(0, "1ºTrimestre (1º de Enero ~ 31 de Marzo)");
-                this.trimestreInput.Items.Insert(1, "2ºTrimestre (1º de Abril ~ 30 de Junio)");
-                this.trimestreInput.Items.Insert(2, "3ºTrimestre (1º de Julio ~ 30 de Septiembre)");
-                this.trimestreInput.Items.Insert(3, "4ºTrimestre (1º de Octubre ~ 31 de Diciembre)");
-            }
+            this.top5Input.Items.Insert(0, "Hoteles con mayor cantidad de reservas canceladas");
+            this.top5Input.Items.Insert(1, "Hoteles con mayor cantidad de consumibles facturados");
+            this.top5Input.Items.Insert(2, "Hoteles con mayor cantidad de días fuera de servicio");
+            this.top5Input.Items.Insert(3, "Habitaciones con mayor cantidad de dias que fueron ocupadas");
+            this.top5Input.Items.Insert(4, "Habitaciones con mayor cantidad de veces que fueron ocupadas");
+            this.top5Input.Items.Insert(5, "Cliente con mayor cantidad de puntos");
+
+            RegistrarInputs();
+        }
+
+        private void RegistrarInputs()
+        {
+            trimestreInput.DataBindings.Add(new TextBinding(this.Model, "Trimestre"));
+            Register(ErrorLabel.For(trimestreInput, Alignment.Bottom, 2));
 
 
-            if (this.top5Input.Items.Count == 0 )
-            {
-                this.top5Input.Items.Insert(0, "Hoteles con mayor cantidad de reservas canceladas");
-                this.top5Input.Items.Insert(1, "Hoteles con mayor cantidad de consumibles facturados");
-                this.top5Input.Items.Insert(2, "Hoteles con mayor cantidad de días fuera de servicio");
-                this.top5Input.Items.Insert(3, "Habitaciones con mayor cantidad de dias que fueron ocupadas");
-                this.top5Input.Items.Insert(4, "Habitaciones con mayor cantidad de veces que fueron ocupadas");
-                this.top5Input.Items.Insert(5, "Cliente con mayor cantidad de puntos");
-             
-            }
+            top5Input.DataBindings.Add(new TextBinding(this.Model, "Top5De"));
+            Register(ErrorLabel.For(top5Input, Alignment.Bottom, 2));
+
+
+            anioInput.DataBindings.Add(new TextBinding(this.Model, "Anio"));
+            Register(ErrorLabel.For(anioInput, Alignment.Bottom, 2));
+
         }
 
         private void filtrarBtn_Click(object sender, EventArgs e)
-        {  
-            if ( this.top5Input.Text.Trim() != "")
-            {
-                if ( this.trimestreInput.Text.Trim() != "")
-                {
-                    if ( this.añoInput.Text.Trim() != "")
-                    {
-                        var top5 = this.top5Input.Text;
-                        
-                        var connection = ConfigurationManager.ConnectionStrings["GD1C2018ConnectionString"].ConnectionString;
-                        using (SqlConnection con = new SqlConnection(connection))
-                        {
-                            switch(top5){
-                                case ("Hoteles con mayor cantidad de reservas canceladas"):
-                                    this.obtenerTop5HotelesReservasCanceladas();
-                                    break;
-                                case ("Hoteles con mayor cantidad de consumibles facturados"):
-                                    //this.ejectuarComando("MMEL.TOP5" + "_2", con);
-                                    break;
-                                case ("Hoteles con mayor cantidad de días fuera de servicio"):
-                                    //this.ejectuarComando("MMEL.TOP5" + "_3", con);
-                                    break;
-                                case ("Habitaciones con mayor cantidad de dias que fueron ocupadas"):
-                                    this.obtenerTop5HabitacionesReservadasDias();
-                                    break;
-                                case ("Habitaciones con mayor cantidad de veces que fueron ocupadas"):
-                                    this.obtenerTop5HabitacionesReservadasVeces();
-                                    break;
-                                case ("Cliente con mayor cantidad de puntos"):
-                                    this.obtenerTop5Clientes();
-                                    break;
-                            }
+        {
+            if (!this.ValidateChildren())
+                return;
 
-                            
-                        }
-                    }
+            var filtros = (Top5Filtros)this.Model;
+
+
+            var top5 = filtros.Top5De;
+
+            var connection = ConfigurationManager.ConnectionStrings["GD1C2018ConnectionString"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(connection))
+            {
+                switch (top5)
+                {
+                    case ("Hoteles con mayor cantidad de reservas canceladas"):
+                        this.obtenerTop5HotelesReservasCanceladas();
+                        break;
+                    case ("Hoteles con mayor cantidad de consumibles facturados"):
+                        //this.ejectuarComando("MMEL.TOP5" + "_2", con);
+                        break;
+                    case ("Hoteles con mayor cantidad de días fuera de servicio"):
+                        //this.ejectuarComando("MMEL.TOP5" + "_3", con);
+                        break;
+                    case ("Habitaciones con mayor cantidad de dias que fueron ocupadas"):
+                        this.obtenerTop5HabitacionesReservadasDias();
+                        break;
+                    case ("Habitaciones con mayor cantidad de veces que fueron ocupadas"):
+                        this.obtenerTop5HabitacionesReservadasVeces();
+                        break;
+                    case ("Cliente con mayor cantidad de puntos"):
+                        this.obtenerTop5Clientes();
+                        break;
                 }
             }
         }
@@ -110,14 +115,15 @@ namespace FrbaHotel.ListadoEstadistico
         private void obtenerTop5De<T>(string procedureName) where T : new()
         {
             var connection = ConfigurationManager.ConnectionStrings["GD1C2018ConnectionString"].ConnectionString;
+            var filtros = (Top5Filtros)this.Model;
 
             using (SqlConnection con = new SqlConnection(connection))
             {
                 using (SqlCommand cmd = new SqlCommand("MMEL." + procedureName, con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@anio", SqlDbType.Int).Value = this.añoInput.Text;
-                    cmd.Parameters.AddWithValue("@trimestre", SqlDbType.Int).Value = this.trimestreInput.Text[0].ToString();
+                    cmd.Parameters.AddWithValue("@anio", SqlDbType.Int).Value = filtros.Anio;
+                    cmd.Parameters.AddWithValue("@trimestre", SqlDbType.Int).Value = filtros.Trimestre[0].ToString();
 
                     con.Open();
                     var dr = cmd.ExecuteReader();
