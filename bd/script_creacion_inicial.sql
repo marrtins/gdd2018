@@ -605,6 +605,10 @@ inner join mmel.Consumible co on co.CodigoConsumible = ot.Consumible_Codigo
 inner join mmel.Reserva re on re.CodigoReserva=ot.Reserva_Codigo
 inner join mmel.Estadia es on es.idReserva=re.idReserva
 
+insert into mmel.FormaDePago(Descripcion) values('TARJETA DE CREDITO')
+insert into mmel.FormaDePago(Descripcion) values('TARJETA DE DEBITO')
+insert into mmel.FormaDePago(Descripcion) values('EFECTIVO')
+insert into mmel.FormaDePago(Descripcion) values('CHEQUE')
 
 insert into mmel.Facturacion(FacturaFecha,idEstadia,FactTotal,NroFactura) --falta agregar forma de pago
 select distinct ot.Factura_Fecha,es.idEstadia,ot.Factura_Total,ot.Factura_Nro from gd_esquema.Maestra ot
@@ -1874,6 +1878,161 @@ begin
 		set @ret = 0
 end
 go
+
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[modificarFactura]'))
+	DROP PROCEDURE [MMEL].modificarFactura
+go
+create procedure mmel.modificarFactura(@idEstadia int,@FactTotal int,@FacturaFecha datetime,@formaDePago varchar(75))
+as
+begin
+	
+	declare @idFormaDePago int
+	select @idFormaDePago = idFormaDePago from mmel.FormaDePago where Descripcion=@formaDePago
+	update  mmel.Facturacion
+	set FactTotal=@FactTotal,
+	idFormaDePago=@idFormaDePago,
+	FacturaFecha=@FacturaFecha
+	where idEstadia=@idEstadia
+end
+go
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[modificarFormaDePago]'))
+	DROP PROCEDURE [MMEL].modificarFormaDePago
+go
+create procedure mmel.modificarFormaDePago(@idEstadia int,@formaDePago varchar(75))
+as
+begin
+	declare @idFormaDePago int
+	select @idFormaDePago = idFormaDePago from mmel.FormaDePago where Descripcion=@formaDePago
+	update  mmel.Facturacion
+	set 
+	idFormaDePago=@idFormaDePago
+	
+	where idEstadia=@idEstadia
+end
+
+
+go
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[agregarItemDto]'))
+	DROP PROCEDURE [MMEL].agregarItemDto
+go
+create procedure mmel.agregarItemDto(@valorDto int,@idEstadia int)
+as
+begin
+	
+	declare @idFactura int
+	select  @idFactura=idFactura from mmel.ItemFactura where idEstadia=@idEstadia
+
+	insert into mmel.ItemFactura(idEstadia,idFactura,itemDescripcion,itemFacturaCantidad,itemFacturaMonto)
+	values(@idEstadia,@idFactura,'DESCUENTO POR REGIMEN',1,@valorDto)
+end
+
+
+
+go
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[actualizarItems]'))
+	DROP PROCEDURE [MMEL].actualizarItems
+go
+create procedure mmel.actualizarItems(@idEstadia int, @nuevoValorVB int ,@nuevoValorCons int,@cantCons int )
+as
+begin
+	update mmel.ItemFactura
+	set itemFacturaMonto=@nuevoValorVB
+	where idEstadia=@idEstadia and itemDescripcion='VALOR BASE HABITACION'
+
+
+	update mmel.ItemFactura
+	set itemFacturaMonto=@nuevoValorCons,
+	itemFacturaCantidad=@cantCons
+	where idEstadia=@idEstadia and itemDescripcion='VALOR CONSUMIBLES'
+end
+
+go
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[getFacturaVieja]'))
+	DROP PROCEDURE [MMEL].getFacturaVieja
+go
+
+create procedure mmel.getFacturaVieja(@valorBase int output,@valorConsumibles int output, @cantidadConsumibles int output ,@idEstadia int,@factTotal int output,@FactFecha datetime output,@NroFactura int output)
+as
+begin
+
+	select @valorBase=itemFacturaMonto from mmel.ItemFactura where idEstadia = @idEstadia and itemDescripcion='VALOR BASE HABITACION'
+	select @cantidadConsumibles =itemFacturaCantidad,@valorConsumibles=itemFacturaMonto from mmel.ItemFactura where idEstadia=@idEstadia and itemDescripcion='VALOR CONSUMIBLES'
+	select @factTotal=FactTotal,@NroFactura=NroFactura,@FactFecha=FacturaFecha from mmel.Facturacion where idEstadia=@idEstadia
+
+end
+
+go
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[getFacturaNueva]'))
+	DROP PROCEDURE [MMEL].getFacturaNueva
+go
+
+
+create procedure mmel.getFacturaNueva (@cantDiasUtilizados int output,@cantDiasNoUtilizados int output,@valorBaseHab int output,@chINEstadia datetime output,@chOUTEstadia datetime output,@valorConsumibles int output,@dtoRegimen int output,@idEstadia int)
+as
+begin
+	declare @idHotel int
+	declare @idRegimen int
+	declare @cantPersonas int
+	declare @thDesc varchar(50)
+	declare @cantDias int
+	declare @cantiDiasReservados int
+	declare @startdate datetime
+	declare @enddate datetime
+	declare @startdateEST datetime
+	declare @enddateEST datetime
+	
+	select @idHotel=r.idHotel,@idRegimen=r.idRegimen,@enddateEST=e.FechaCheckOUT,@startdateEST=e.FechaCheckIN,@enddate=(r.FechaHasta),@startdate=(r.FechaDesde),@thDesc = th.Descripcion from mmel.Estadia e,mmel.Reserva r,mmel.Habitacion h,mmel.TipoHabitacion th where e.idReserva=r.idReserva and e.idEstadia=@idEstadia and r.idHabitacion=h.idHabitacion and h.idTipoHabitacion=th.idTipoHabitacion
+	SELECT @cantDias=DATEDIFF(day, @startdate, @enddate);
+	set @chINEstadia=@startdateEST
+	set @chOUTEstadia=@enddateEST
+	set @cantPersonas= case
+	when @thDesc='Base Simple' then 1
+	when @thDesc='Base Doble' then 2
+	when @thDesc='Base Triple' then 3
+	when @thDesc='Base Cuadruple' then 4
+	when @thDesc='Base King' then 5
+	end
+
+	
+
+	set @cantiDiasReservados=@cantDias
+	set @cantDiasUtilizados = DATEDIFF(day, @startdateEST, @enddateEST);
+	set @cantDiasNoUtilizados=@cantDias*@cantDiasUtilizados
+
+	select @valorBaseHab = (r.precio * @cantPersonas + ho.RecargaEstrellas * ho.CantidadEstrellas)
+	from mmel.Regimen r, mmel.hotel ho where ho.idHotel=@idHotel and r.idRegimen=@idRegimen
+
+	select @valorConsumibles = sum(c.costo) from mmel.ConsumiblePorEstadia ce,mmel.consumible c where idEstadia=@idEstadia and ce.idConsumible=c.idConsumible
+
+	set @valorBaseHab = @valorBaseHab * @cantDias*@cantPersonas
+
+	set @dtoRegimen = case
+		when @idRegimen=4 then @valorConsumibles else 0
+		end
+	 
+
+end
+
+go
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[crearFactura]'))
+	DROP PROCEDURE [MMEL].crearFactura
+go
+
+go
+create procedure mmel.crearFactura(@idEstadia int,@FactTotal int,@FacturaFecha datetime,@formaDePago varchar(75))
+as
+begin
+	declare @nroFactura int
+	declare @idFormaDePago int
+	select @nroFactura = max(NroFactura)+1 from mmel.Facturacion	
+	select @idFormaDePago = idFormaDePago from mmel.FormaDePago where Descripcion=@formaDePago
+	insert into mmel.Facturacion(idEstadia,FactTotal,NroFactura,FacturaFecha,idFormaDePago)
+	values(@idEstadia,@FactTotal,@nroFactura,@FacturaFecha,@idFormaDePago)
+end
+go
+
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[actualizarCheckIn]'))
 	DROP procedure [MMEL].actualizarCheckIn
