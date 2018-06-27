@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.añoInput = new System.Windows.Forms.TextBox();
+            this.anioInput = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.top5Input = new System.Windows.Forms.ComboBox();
@@ -50,15 +50,15 @@
             // 
             // añoInput
             // 
-            this.añoInput.Location = new System.Drawing.Point(77, 20);
-            this.añoInput.Name = "añoInput";
-            this.añoInput.Size = new System.Drawing.Size(350, 20);
-            this.añoInput.TabIndex = 1;
+            this.anioInput.Location = new System.Drawing.Point(77, 20);
+            this.anioInput.Name = "añoInput";
+            this.anioInput.Size = new System.Drawing.Size(350, 20);
+            this.anioInput.TabIndex = 1;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(21, 71);
+            this.label2.Location = new System.Drawing.Point(21, 75);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(50, 13);
             this.label2.TabIndex = 2;
@@ -67,7 +67,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(15, 115);
+            this.label3.Location = new System.Drawing.Point(15, 124);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(56, 13);
             this.label3.TabIndex = 4;
@@ -77,7 +77,7 @@
             // 
             this.top5Input.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.top5Input.FormattingEnabled = true;
-            this.top5Input.Location = new System.Drawing.Point(78, 115);
+            this.top5Input.Location = new System.Drawing.Point(77, 124);
             this.top5Input.Name = "top5Input";
             this.top5Input.Size = new System.Drawing.Size(349, 21);
             this.top5Input.TabIndex = 5;
@@ -96,7 +96,7 @@
             // 
             this.trimestreInput.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.trimestreInput.FormattingEnabled = true;
-            this.trimestreInput.Location = new System.Drawing.Point(78, 68);
+            this.trimestreInput.Location = new System.Drawing.Point(77, 72);
             this.trimestreInput.Name = "trimestreInput";
             this.trimestreInput.Size = new System.Drawing.Size(349, 21);
             this.trimestreInput.TabIndex = 7;
@@ -107,7 +107,7 @@
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 159);
+            this.dataGridView1.Location = new System.Drawing.Point(12, 175);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.Size = new System.Drawing.Size(746, 318);
@@ -124,7 +124,7 @@
             this.Controls.Add(this.top5Input);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.añoInput);
+            this.Controls.Add(this.anioInput);
             this.Controls.Add(this.label1);
             this.Name = "ListadoEstadistico";
             this.Text = "Listado Estadistico";
@@ -137,7 +137,7 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox añoInput;
+        private System.Windows.Forms.TextBox anioInput;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox top5Input;

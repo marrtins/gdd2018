@@ -1,6 +1,5 @@
 
 
-
 Use GD1C2018
 
 IF NOT EXISTS ( SELECT  * FROM    sys.schemas  WHERE   name = N'MMEL' )
@@ -317,9 +316,9 @@ Create Table [MMEL].[Facturacion](
 	idFactura int identity(1,1) not null,
 	idFormaDePago int references MMEL.FormaDePago(idFormaDePago), --cambiar nombre en el der
 	idEstadia int references MMEL.Estadia(idEstadia),
-	--MontoTotal int ,--en la maestra fact total es un nro q nada q ver, cambio montoTotal x fact total para evitar confusiones
+	MontoTotal int ,--en la maestra fact total es un nro q nada q ver, cambio montoTotal x fact total para evitar confusiones
 	FactTotal int,
-	--MontoFinal int,
+	MontoFinal int,
 	NroFactura int , --REVISARRRRRRRRRRRRRR agregado al der
 	FacturaFecha smalldatetime ,
 	constraint PK_idFactura primary key(idFactura)
@@ -331,7 +330,7 @@ Create table [MMEL].[ItemFactura](
 	idFactura int references MMEL.Facturacion(idFactura), --revisar esto en el der dice (nullable)
 	idEstadia int references MMEL.Estadia(idEstadia),
 	itemDescripcion nvarchar(200),
-	--idConsumible int references MMEL.Consumible(idconsumible),
+	idConsumible int references MMEL.Consumible(idconsumible),
 	itemFacturaCantidad smallint, --esto en la maestra es el precio del item ..
 	itemFacturaMonto int, --esto en la maestra es 1.00 para todos..
 	constraint PK_idItem primary key(idItemFactura)
@@ -470,8 +469,6 @@ select distinct ot.Regimen_Precio,'S',upper(ot.Regimen_Descripcion) from gd_esqu
 
 
 insert into MMEL.TipoDocumento(Detalle) values('PASAPORTE')
-insert into MMEL.TipoDocumento(Detalle) values('DNI')
-insert into MMEL.TipoDocumento(Detalle) values('LIBRETA CIVICA')
 
 
 insert into mmel.Persona(Nombre,Apellido,idTipoDocumento,NroDocumento,Mail,FechaDeNacimiento,idNacionalidad,dirCalle,dirNroCalle,dirIdPais,dirPiso,dirDepto) --ver si nacionalidad va como un string o la tabla id pais(esa es d las direcciones)
@@ -479,7 +476,7 @@ select distinct upper(ot.Cliente_Nombre),upper(ot.Cliente_Apellido),1,ot.Cliente
 				ot.Cliente_Fecha_Nac,1,ot.Cliente_Dom_Calle,ot.Cliente_Nro_Calle,1,ot.Cliente_Piso,ot.Cliente_Depto
  from gd_esquema.Maestra ot
 
-insert into MMEL.PersonasInconsistentes(idPersona,Mail,NroDocumento)
+ insert into MMEL.PersonasInconsistentes(idPersona,Mail,NroDocumento)
 select  distinct p1.idPersona,p1.Mail,p1.NroDocumento from mmel.Persona p1, mmel.Persona p2 where
 (p1.Mail=p2.Mail and p1.idPersona<>p2.idPersona ) order by  p1.Mail
 
@@ -616,30 +613,19 @@ inner join mmel.Estadia es on es.idReserva=re.idReserva
 where ot.Factura_Fecha is not null
 
 --agergo el item q consideramos valor base de habitacion
-insert into mmel.ItemFactura(idFactura,idEstadia,itemDescripcion,itemFacturaMonto,itemFacturaCantidad)
+insert into mmel.ItemFactura(idFactura,idEstadia,itemDescripcion,itemFacturaCantidad,itemFacturaMonto)
 select fa.idFactura,fa.idEstadia,'VALOR BASE HABITACION',ot.Item_Factura_Cantidad,ot.Item_Factura_Monto
  from gd_esquema.Maestra ot
  inner join mmel.Facturacion fa on fa.NroFactura=ot.Factura_Nro where ot.Consumible_Codigo is null and ot.Factura_Fecha is not null
 
-/*insert into mmel.ItemFactura(idFactura,idEstadia,itemDescripcion,idConsumible,itemFacturaCantidad,itemFacturaMonto)
-select fa.idFactura,fa.idEstadia,'VALOR CONSUMIBLES',co.idConsumible,ot.Item_Factura_Cantidad,ot.Item_Factura_Monto
+insert into mmel.ItemFactura(idFactura,idEstadia,itemDescripcion,idConsumible,itemFacturaCantidad,itemFacturaMonto)
+select fa.idFactura,fa.idEstadia,'VALOR CONSUMIBLE',co.idConsumible,ot.Item_Factura_Cantidad,ot.Item_Factura_Monto
  from gd_esquema.Maestra ot
  inner join mmel.Facturacion fa on fa.NroFactura=ot.Factura_Nro
  inner join mmel.Estadia es on es.idEstadia=fa.idEstadia
  inner join mmel.ConsumiblePorEstadia cpe on cpe.idEstadia = es.idEstadia
  inner join mmel.Consumible co on co.idConsumible=cpe.idConsumible
- where ot.Consumible_Codigo is not null and ot.Factura_Fecha is not null*/
-
-  insert into mmel.ItemFactura(idFactura,idEstadia,itemDescripcion,itemFacturaCantidad,itemFacturaMonto)
- select fa.idFactura,fa.idEstadia,'VALOR CONSUMIBLES',sum(ot.Item_Factura_Monto),sum(ot.Item_Factura_Cantidad)
- from gd_esquema.Maestra ot, mmel.Facturacion fa, mmel.Estadia es
- where fa.NroFactura=ot.Factura_Nro and es.idEstadia=fa.idEstadia and Consumible_Descripcion is not null 
- group by fa.idFactura,fa.idEstadia
-
-
-
-
-
+ where ot.Consumible_Codigo is not null and ot.Factura_Fecha is not null
 -----fin migracion
 
 
@@ -2133,6 +2119,25 @@ AS SELECT d.idDireccion,d.Ciudad,d.calle,d.nroCalle, p.idPais, p.Nombre as Nombr
 FROM MMEL.Direccion d 
 JOIN MMEL.Pais p on p.idPais = d.idPais;
 GO
+
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[ConsumiblesFacturadosPorHotel]'))
+	DROP VIEW [MMEL].[ConsumiblesFacturadosPorHotel]
+GO
+
+CREATE VIEW [MMEL].[ConsumiblesFacturadosPorHotel]
+AS
+SELECT        MMEL.Hotel.idHotel, MMEL.Facturacion.idFactura, MMEL.Facturacion.idEstadia, MMEL.Estadia.idReserva, MMEL.Reserva.idHabitacion, MMEL.ItemFactura.idItemFactura, MMEL.ItemFactura.itemDescripcion, 
+                         MMEL.ItemFactura.idConsumible, MMEL.ItemFactura.itemFacturaCantidad, MMEL.ItemFactura.itemFacturaMonto, MMEL.Facturacion.FacturaFecha, MMEL.Hotel.Nombre
+FROM            MMEL.Estadia INNER JOIN
+                         MMEL.Facturacion ON MMEL.Estadia.idEstadia = MMEL.Facturacion.idEstadia INNER JOIN
+                         MMEL.Reserva ON MMEL.Estadia.idReserva = MMEL.Reserva.idReserva INNER JOIN
+                         MMEL.Hotel ON MMEL.Reserva.idHotel = MMEL.Hotel.idHotel INNER JOIN
+                         MMEL.Habitacion ON MMEL.Reserva.idHabitacion = MMEL.Habitacion.idHabitacion AND MMEL.Hotel.idHotel = MMEL.Habitacion.idHotel INNER JOIN
+                         MMEL.ItemFactura ON MMEL.Estadia.idEstadia = MMEL.ItemFactura.idEstadia AND MMEL.Facturacion.idFactura = MMEL.ItemFactura.idFactura
+WHERE        (MMEL.ItemFactura.idConsumible IS NOT NULL)
+GO
+
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[HotelesConMayorCantidadDeReservasCanceladas]'))
 	DROP PROCEDURE [MMEL].HotelesConMayorCantidadDeReservasCanceladas
 GO
@@ -2184,62 +2189,6 @@ begin
 											ORDER BY Cantidad DESC
 	end
 end
-
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[TOP5_2]'))
-	DROP PROCEDURE [MMEL].[TOP5_2]
-GO
---Hoteles con mayor cantidad de consumibles facturados
-CREATE PROCEDURE MMEL.TOP5_2 @anio int,@trimestre int
-as
-begin
-
-if 1 = @trimestre
-	begin
-	select top 5 hot.idHotel 'Id Hotel',
-		SUM(c.Costo) 'Consumibles Facturados' from mmel.Hotel hot join mmel.Reserva rer on hot.idHotel = rer.idHotel
-										join mmel.Estadia e on rer.idReserva = e.idReserva
-										join mmel.Facturacion f on f.idEstadia = e.idEstadia
-										   join mmel.ConsumiblePorEstadia cpr on e.idEstadia = cpr.idEstadia
-									       join mmel.consumible c on cpr.idConsumible = c.idConsumible
-										   where year(f.FacturaFecha) = @anio and (month(f.FacturaFecha) = 1 OR month(f.FacturaFecha) = 2 or month(f.FacturaFecha) = 3)
-										   group by hot.idHotel
-	end
-	if 2 = @trimestre
-	begin
-	select top 5 hot.idHotel 'Id Hotel',
-		SUM(c.Costo) 'Consumibles Facturados' from mmel.Hotel hot join mmel.Reserva rer on hot.idHotel = rer.idHotel
-										join mmel.Estadia e on rer.idReserva = e.idReserva
-										join mmel.Facturacion f on f.idEstadia = e.idEstadia
-										   join mmel.ConsumiblePorEstadia cpr on e.idEstadia = cpr.idEstadia
-									       join mmel.consumible c on cpr.idConsumible = c.idConsumible
-										   where year(f.FacturaFecha) = @anio and (month(f.FacturaFecha) = 4 OR month(f.FacturaFecha) = 5 or month(f.FacturaFecha) = 6)
-										   group by hot.idHotel
-	end
-	if 3 = @trimestre
-	begin
-	select top 5  hot.idHotel 'Id Hotel',
-		SUM(c.Costo) 'Consumibles Facturados' from mmel.Hotel hot join mmel.Reserva rer on hot.idHotel = rer.idHotel
-										join mmel.Estadia e on rer.idReserva = e.idReserva
-										join mmel.Facturacion f on f.idEstadia = e.idEstadia
-										   join mmel.ConsumiblePorEstadia cpr on e.idEstadia = cpr.idEstadia
-									       join mmel.consumible c on cpr.idConsumible = c.idConsumible
-										   where year(f.FacturaFecha) = @anio and (month(f.FacturaFecha) = 7 OR month(f.FacturaFecha) = 8 or month(f.FacturaFecha) = 9)
-										   group by hot.idHotel
-	end
-	if 4 = @trimestre
- 	begin
-	select top 5 hot.idHotel 'Id Hotel',
-		SUM(c.Costo) 'Consumibles Facturados' from mmel.Hotel hot join mmel.Reserva rer on hot.idHotel = rer.idHotel
-										join mmel.Estadia e on rer.idReserva = e.idReserva
-										join mmel.Facturacion f on f.idEstadia = e.idEstadia
-										   join mmel.ConsumiblePorEstadia cpr on e.idEstadia = cpr.idEstadia
-									       join mmel.consumible c on cpr.idConsumible = c.idConsumible
-										   where year(f.FacturaFecha) = @anio and (month(f.FacturaFecha) = 10 OR month(f.FacturaFecha) = 11 or month(f.FacturaFecha) = 12)
-										   group by hot.idHotel
-	end
-
-end
-
 
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[FacturasPorCliente]'))
@@ -2324,4 +2273,62 @@ BEGIN
 	ORDER BY Puntos DESC
 
 END
+
+USE [GD1C2018]
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[HotelesConMayorCantidadDeConsumiblesFacturados]'))
+	DROP PROCEDURE [MMEL].[HotelesConMayorCantidadDeConsumiblesFacturados]
+GO
+
+CREATE PROCEDURE [MMEL].[HotelesConMayorCantidadDeConsumiblesFacturados]
+	-- Add the parameters for the stored procedure here
+	@anio int,
+	@trimestre int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+
+	select *
+	into #ConsumiblesFacturadosPorHotelEnAnio
+	from MMEL.ConsumiblesFacturadosPorHotel cfh
+	WHERE year(cfh.FacturaFecha) = @anio
+
+    -- Insert statements for procedure here
+	DECLARE @firstMonth int;
+
+	IF @trimestre = 1
+		SET @firstMonth = 1;
+	ELSE IF @trimestre = 2
+		SET @firstMonth = 4;
+	ELSE IF @trimestre = 3
+		SET @firstMonth = 7;
+	ELSE IF @trimestre = 4
+		SET @firstMonth = 10;
+
+	DECLARE @secondMonth int;
+	DECLARE @thirdMonth int;
+
+	SET @secondMonth = @firstMonth + 1;
+	SET @thirdMonth = @firstMonth + 2;
+
+	select *
+	into #ConsumiblesFacturadosPorHotelEnAnioEnTrimestre
+	from #ConsumiblesFacturadosPorHotelEnAnio rhh
+	WHERE	(month(rhh.FacturaFecha) = @firstMonth)
+			OR (month(rhh.FacturaFecha) = @secondMonth)
+			OR (month(rhh.FacturaFecha) = @thirdMonth)
+
+	select top 5 cfhat.idHotel, cfhat.Nombre, count(*) as Cantidad
+	from #ConsumiblesFacturadosPorHotelEnAnioEnTrimestre cfhat
+	GROUP BY cfhat.idHotel, cfhat.Nombre
+	ORDER BY Cantidad DESC
+
+END
+GO
+
+
 
