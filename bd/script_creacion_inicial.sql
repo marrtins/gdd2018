@@ -1,5 +1,6 @@
 
 
+
 Use GD1C2018
 
 IF NOT EXISTS ( SELECT  * FROM    sys.schemas  WHERE   name = N'MMEL' )
@@ -316,9 +317,9 @@ Create Table [MMEL].[Facturacion](
 	idFactura int identity(1,1) not null,
 	idFormaDePago int references MMEL.FormaDePago(idFormaDePago), --cambiar nombre en el der
 	idEstadia int references MMEL.Estadia(idEstadia),
-	MontoTotal int ,--en la maestra fact total es un nro q nada q ver, cambio montoTotal x fact total para evitar confusiones
+	--MontoTotal int ,--en la maestra fact total es un nro q nada q ver, cambio montoTotal x fact total para evitar confusiones
 	FactTotal int,
-	MontoFinal int,
+	--MontoFinal int,
 	NroFactura int , --REVISARRRRRRRRRRRRRR agregado al der
 	FacturaFecha smalldatetime ,
 	constraint PK_idFactura primary key(idFactura)
@@ -330,7 +331,7 @@ Create table [MMEL].[ItemFactura](
 	idFactura int references MMEL.Facturacion(idFactura), --revisar esto en el der dice (nullable)
 	idEstadia int references MMEL.Estadia(idEstadia),
 	itemDescripcion nvarchar(200),
-	idConsumible int references MMEL.Consumible(idconsumible),
+	--idConsumible int references MMEL.Consumible(idconsumible),
 	itemFacturaCantidad smallint, --esto en la maestra es el precio del item ..
 	itemFacturaMonto int, --esto en la maestra es 1.00 para todos..
 	constraint PK_idItem primary key(idItemFactura)
@@ -469,6 +470,8 @@ select distinct ot.Regimen_Precio,'S',upper(ot.Regimen_Descripcion) from gd_esqu
 
 
 insert into MMEL.TipoDocumento(Detalle) values('PASAPORTE')
+insert into MMEL.TipoDocumento(Detalle) values('DNI')
+insert into MMEL.TipoDocumento(Detalle) values('LIBRETA CIVICA')
 
 
 insert into mmel.Persona(Nombre,Apellido,idTipoDocumento,NroDocumento,Mail,FechaDeNacimiento,idNacionalidad,dirCalle,dirNroCalle,dirIdPais,dirPiso,dirDepto) --ver si nacionalidad va como un string o la tabla id pais(esa es d las direcciones)
@@ -476,7 +479,7 @@ select distinct upper(ot.Cliente_Nombre),upper(ot.Cliente_Apellido),1,ot.Cliente
 				ot.Cliente_Fecha_Nac,1,ot.Cliente_Dom_Calle,ot.Cliente_Nro_Calle,1,ot.Cliente_Piso,ot.Cliente_Depto
  from gd_esquema.Maestra ot
 
- insert into MMEL.PersonasInconsistentes(idPersona,Mail,NroDocumento)
+insert into MMEL.PersonasInconsistentes(idPersona,Mail,NroDocumento)
 select  distinct p1.idPersona,p1.Mail,p1.NroDocumento from mmel.Persona p1, mmel.Persona p2 where
 (p1.Mail=p2.Mail and p1.idPersona<>p2.idPersona ) order by  p1.Mail
 
@@ -613,19 +616,30 @@ inner join mmel.Estadia es on es.idReserva=re.idReserva
 where ot.Factura_Fecha is not null
 
 --agergo el item q consideramos valor base de habitacion
-insert into mmel.ItemFactura(idFactura,idEstadia,itemDescripcion,itemFacturaCantidad,itemFacturaMonto)
+insert into mmel.ItemFactura(idFactura,idEstadia,itemDescripcion,itemFacturaMonto,itemFacturaCantidad)
 select fa.idFactura,fa.idEstadia,'VALOR BASE HABITACION',ot.Item_Factura_Cantidad,ot.Item_Factura_Monto
  from gd_esquema.Maestra ot
  inner join mmel.Facturacion fa on fa.NroFactura=ot.Factura_Nro where ot.Consumible_Codigo is null and ot.Factura_Fecha is not null
 
-insert into mmel.ItemFactura(idFactura,idEstadia,itemDescripcion,idConsumible,itemFacturaCantidad,itemFacturaMonto)
-select fa.idFactura,fa.idEstadia,'VALOR CONSUMIBLE',co.idConsumible,ot.Item_Factura_Cantidad,ot.Item_Factura_Monto
+/*insert into mmel.ItemFactura(idFactura,idEstadia,itemDescripcion,idConsumible,itemFacturaCantidad,itemFacturaMonto)
+select fa.idFactura,fa.idEstadia,'VALOR CONSUMIBLES',co.idConsumible,ot.Item_Factura_Cantidad,ot.Item_Factura_Monto
  from gd_esquema.Maestra ot
  inner join mmel.Facturacion fa on fa.NroFactura=ot.Factura_Nro
  inner join mmel.Estadia es on es.idEstadia=fa.idEstadia
  inner join mmel.ConsumiblePorEstadia cpe on cpe.idEstadia = es.idEstadia
  inner join mmel.Consumible co on co.idConsumible=cpe.idConsumible
- where ot.Consumible_Codigo is not null and ot.Factura_Fecha is not null
+ where ot.Consumible_Codigo is not null and ot.Factura_Fecha is not null*/
+
+  insert into mmel.ItemFactura(idFactura,idEstadia,itemDescripcion,itemFacturaCantidad,itemFacturaMonto)
+ select fa.idFactura,fa.idEstadia,'VALOR CONSUMIBLES',sum(ot.Item_Factura_Monto),sum(ot.Item_Factura_Cantidad)
+ from gd_esquema.Maestra ot, mmel.Facturacion fa, mmel.Estadia es
+ where fa.NroFactura=ot.Factura_Nro and es.idEstadia=fa.idEstadia and Consumible_Descripcion is not null 
+ group by fa.idFactura,fa.idEstadia
+
+
+
+
+
 -----fin migracion
 
 
@@ -2310,3 +2324,4 @@ BEGIN
 	ORDER BY Puntos DESC
 
 END
+
