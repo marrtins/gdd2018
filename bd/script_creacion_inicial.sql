@@ -2190,62 +2190,6 @@ begin
 	end
 end
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[TOP5_2]'))
-	DROP PROCEDURE [MMEL].[TOP5_2]
-GO
---Hoteles con mayor cantidad de consumibles facturados
-CREATE PROCEDURE MMEL.TOP5_2 @anio int,@trimestre int
-as
-begin
-
-if 1 = @trimestre
-	begin
-	select top 5 hot.idHotel 'Id Hotel',
-		SUM(c.Costo) 'Consumibles Facturados' from mmel.Hotel hot join mmel.Reserva rer on hot.idHotel = rer.idHotel
-										join mmel.Estadia e on rer.idReserva = e.idReserva
-										join mmel.Facturacion f on f.idEstadia = e.idEstadia
-										   join mmel.ConsumiblePorEstadia cpr on e.idEstadia = cpr.idEstadia
-									       join mmel.consumible c on cpr.idConsumible = c.idConsumible
-										   where year(f.FacturaFecha) = @anio and (month(f.FacturaFecha) = 1 OR month(f.FacturaFecha) = 2 or month(f.FacturaFecha) = 3)
-										   group by hot.idHotel
-	end
-	if 2 = @trimestre
-	begin
-	select top 5 hot.idHotel 'Id Hotel',
-		SUM(c.Costo) 'Consumibles Facturados' from mmel.Hotel hot join mmel.Reserva rer on hot.idHotel = rer.idHotel
-										join mmel.Estadia e on rer.idReserva = e.idReserva
-										join mmel.Facturacion f on f.idEstadia = e.idEstadia
-										   join mmel.ConsumiblePorEstadia cpr on e.idEstadia = cpr.idEstadia
-									       join mmel.consumible c on cpr.idConsumible = c.idConsumible
-										   where year(f.FacturaFecha) = @anio and (month(f.FacturaFecha) = 4 OR month(f.FacturaFecha) = 5 or month(f.FacturaFecha) = 6)
-										   group by hot.idHotel
-	end
-	if 3 = @trimestre
-	begin
-	select top 5  hot.idHotel 'Id Hotel',
-		SUM(c.Costo) 'Consumibles Facturados' from mmel.Hotel hot join mmel.Reserva rer on hot.idHotel = rer.idHotel
-										join mmel.Estadia e on rer.idReserva = e.idReserva
-										join mmel.Facturacion f on f.idEstadia = e.idEstadia
-										   join mmel.ConsumiblePorEstadia cpr on e.idEstadia = cpr.idEstadia
-									       join mmel.consumible c on cpr.idConsumible = c.idConsumible
-										   where year(f.FacturaFecha) = @anio and (month(f.FacturaFecha) = 7 OR month(f.FacturaFecha) = 8 or month(f.FacturaFecha) = 9)
-										   group by hot.idHotel
-	end
-	if 4 = @trimestre
- 	begin
-	select top 5 hot.idHotel 'Id Hotel',
-		SUM(c.Costo) 'Consumibles Facturados' from mmel.Hotel hot join mmel.Reserva rer on hot.idHotel = rer.idHotel
-										join mmel.Estadia e on rer.idReserva = e.idReserva
-										join mmel.Facturacion f on f.idEstadia = e.idEstadia
-										   join mmel.ConsumiblePorEstadia cpr on e.idEstadia = cpr.idEstadia
-									       join mmel.consumible c on cpr.idConsumible = c.idConsumible
-										   where year(f.FacturaFecha) = @anio and (month(f.FacturaFecha) = 10 OR month(f.FacturaFecha) = 11 or month(f.FacturaFecha) = 12)
-										   group by hot.idHotel
-	end
-
-end
-
-
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[FacturasPorCliente]'))
 	DROP VIEW [MMEL].[FacturasPorCliente]
