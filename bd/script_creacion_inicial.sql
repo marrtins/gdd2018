@@ -2454,10 +2454,6 @@ BEGIN
 	ORDER BY Puntos DESC
 
 END
-
-USE [GD1C2018]
-GO
-
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[HotelesConMayorCantidadDeConsumiblesFacturados]'))
 	DROP PROCEDURE [MMEL].[HotelesConMayorCantidadDeConsumiblesFacturados]
 GO
