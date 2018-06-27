@@ -75,6 +75,7 @@
             // 
             // top5Input
             // 
+            this.top5Input.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.top5Input.FormattingEnabled = true;
             this.top5Input.Location = new System.Drawing.Point(78, 115);
             this.top5Input.Name = "top5Input";
@@ -93,6 +94,7 @@
             // 
             // trimestreInput
             // 
+            this.trimestreInput.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.trimestreInput.FormattingEnabled = true;
             this.trimestreInput.Location = new System.Drawing.Point(78, 68);
             this.trimestreInput.Name = "trimestreInput";
@@ -101,9 +103,13 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(12, 159);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.Size = new System.Drawing.Size(746, 318);
             this.dataGridView1.TabIndex = 8;
             // 

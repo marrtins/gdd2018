@@ -12,7 +12,7 @@ ALTER PROCEDURE [MMEL].[UsuarioListar]
 	@Nombre nvarchar(50),
 	@Apellido nvarchar(50),
     @idRol int,
-	@TipoDocumento varchar(15),
+	@idTipoDocumento int,
 	@NroDocumento int,
     @Mail nvarchar(200)
 AS   
@@ -27,7 +27,7 @@ AS
     WHERE (@Username is null or us.Username LIKE '%' + @Username + '%')
             and (@Nombre is null or pe.Nombre LIKE '%' + @Nombre + '%')
             and (@Apellido is null or pe.Apellido LIKE '%' + @Nombre + '%')
-            and (@TipoDocumento is null or pe.TipoDocumento = @TipoDocumento)
+            and (@idTipoDocumento is null or pe.idTipoDocumento = @idTipoDocumento)
 			and (@NroDocumento is null or pe.NroDocumento = @NroDocumento)
 			and (@idRol is null or ro.idRol = @idRol)
 			and (@Mail is null or pe.Mail LIKE '%' + @Mail + '%')
@@ -38,7 +38,7 @@ AS
 
 USE [GD1C2018]
 GO
-/****** Object:  StoredProcedure [MMEL].[HotelDelete]    Script Date: 13/6/2018 22:27:10 ******/
+/****** Object:  StoredProcedure [MMEL].[UsuarioDelete]    Script Date: 13/6/2018 22:27:10 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -75,7 +75,7 @@ ALTER PROC [MMEL].[UsuarioCrear]
 	@Nombre nvarchar(50),
 	@Apellido nvarchar(50),
     @idRol int,
-	@TipoDocumento varchar(15),
+	@idTipoDocumento int,
 	@NroDocumento int,
 	@FechaDeNacimiento datetime,
     @Mail nvarchar(200),
@@ -100,14 +100,16 @@ AS
 	IF @rol != 'administrador'
 		THROW 51000, 'El usuario no es administrador', 1; 
 
-	INSERT INTO [MMEL].[Persona] ([Nombre], [Apellido], [TipoDocumento], [NroDocumento], [FechaDenacimiento], [Mail], [Telefono], [dirCalle], [dirNroCalle], [dirPiso], [dirDepto], [dirIdPais])
-	SELECT @Nombre, @Apellido, @TipoDocumento, @NroDocumento, @FechaDeNacimiento, @Mail, @Telefono, @dirCalle, @dirNroCalle, @dirPiso, @dirDepto, @dirIdPais
+	INSERT INTO [MMEL].[Persona] ([Nombre], [Apellido], [idTipoDocumento], [NroDocumento], [FechaDenacimiento], [Mail], [Telefono], [dirCalle], [dirNroCalle], [dirPiso], [dirDepto], [dirIdPais])
+	SELECT @Nombre, @Apellido, @idTipoDocumento, @NroDocumento, @FechaDeNacimiento, @Mail, @Telefono, @dirCalle, @dirNroCalle, @dirPiso, @dirDepto, @dirIdPais
 	
 	DECLARE @idPersona int = SCOPE_IDENTITY();
 
+	DECLARE @PasswordHasheada varchar(200) = CONVERT(nvarchar(200), HASHBYTES('SHA256', @Password));
+
 
 	INSERT INTO [MMEL].[Usuario] ([Username], [Password], [idPersona], [idRol], [Activo])
-	SELECT @Username, @Password, @idPersona, @idRol, @Activo
+	SELECT @Username, @PasswordHasheada, @idPersona, @idRol, @Activo
 
 	DECLARE @idUsuario int  =  SCOPE_IDENTITY();
 
@@ -127,7 +129,7 @@ AS
 
 USE [GD1C2018]
 GO
-/****** Object:  StoredProcedure [MMEL].[HotelUpdate]    Script Date: 13/6/2018 22:26:00 ******/
+/****** Object:  StoredProcedure [MMEL].[UsuarioUpdate]    Script Date: 13/6/2018 22:26:00 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -140,7 +142,7 @@ ALTER PROC [MMEL].[UsuarioUpdate]
 	@Nombre nvarchar(50),
 	@Apellido nvarchar(50),
     @idRol int,
-	@TipoDocumento varchar(15),
+	@idTipoDocumento int,
 	@NroDocumento int,
 	@FechaDeNacimiento datetime,
     @Mail nvarchar(200),
@@ -174,7 +176,7 @@ AS
 	SELECT @idPersona FROM Persona P JOIN Usuario U WHERE U.idUsuario = @idUsuario AND U.idPersona = P.idPersona
 	
 	UPDATE [MMEL].[Persona]
-	SET    [Nombre] = @Nombre, [Apellido] = @Apellido, [TipoDocumento] = @TipoDocumento, [NroDocumento] = @NroDocumento, [FechaDenacimiento] = @FechaDeNacimiento, [Mail] = @Mail, [Telefono] = @Telefono, [dirCalle] = @dirCalle, [dirNroCalle] = @dirNroCalle, [dirPiso] = @dirPiso, [dirDepto] = @dirDepto, [dirIdPais] = @dirIdPais
+	SET    [Nombre] = @Nombre, [Apellido] = @Apellido, [idTipoDocumento] = @idTipoDocumento, [NroDocumento] = @NroDocumento, [FechaDenacimiento] = @FechaDeNacimiento, [Mail] = @Mail, [Telefono] = @Telefono, [dirCalle] = @dirCalle, [dirNroCalle] = @dirNroCalle, [dirPiso] = @dirPiso, [dirDepto] = @dirDepto, [dirIdPais] = @dirIdPais
 	WHERE  [idPersona] = @idPersona
 
 	SELECT [idUsuario]

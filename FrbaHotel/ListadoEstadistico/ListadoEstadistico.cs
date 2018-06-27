@@ -12,7 +12,7 @@ using FrbaHotel.Utilities;
 using Rubberduck.Winforms;
 using System.Configuration;
 using System.Data.SqlClient;
-
+using FrbaHotel.ListadoEstadistico.Model;
 
 namespace FrbaHotel.ListadoEstadistico
 {
@@ -36,8 +36,9 @@ namespace FrbaHotel.ListadoEstadistico
                 this.top5Input.Items.Insert(0, "Hoteles con mayor cantidad de reservas canceladas");
                 this.top5Input.Items.Insert(1, "Hoteles con mayor cantidad de consumibles facturados");
                 this.top5Input.Items.Insert(2, "Hoteles con mayor cantidad de días fuera de servicio");
-                this.top5Input.Items.Insert(3, "Habitaciones con mayor cantidad de días y veces que fueron ocupadas");
-                this.top5Input.Items.Insert(4, "Cliente con mayor cantidad de puntos");
+                this.top5Input.Items.Insert(3, "Habitaciones con mayor cantidad de dias que fueron ocupadas");
+                this.top5Input.Items.Insert(4, "Habitaciones con mayor cantidad de veces que fueron ocupadas");
+                this.top5Input.Items.Insert(5, "Cliente con mayor cantidad de puntos");
              
             }
         }
@@ -55,25 +56,24 @@ namespace FrbaHotel.ListadoEstadistico
                         var connection = ConfigurationManager.ConnectionStrings["GD1C2018ConnectionString"].ConnectionString;
                         using (SqlConnection con = new SqlConnection(connection))
                         {
-                            MessageBox.Show(this.top5Input.Text.Trim());
                             switch(top5){
                                 case ("Hoteles con mayor cantidad de reservas canceladas"):
-                                    this.ejectuarComando("MMEL.TOP5" + "_1", con);
+                                    this.obtenerTop5HotelesReservasCanceladas();
                                     break;
                                 case ("Hoteles con mayor cantidad de consumibles facturados"):
-                                    this.ejectuarComando("MMEL.TOP5" + "_2", con);
+                                    //this.ejectuarComando("MMEL.TOP5" + "_2", con);
                                     break;
                                 case ("Hoteles con mayor cantidad de días fuera de servicio"):
-                                    this.ejectuarComando("MMEL.TOP5" + "_3", con);
+                                    //this.ejectuarComando("MMEL.TOP5" + "_3", con);
                                     break;
-                                case ("Habitaciones con mayor cantidad de días y veces que fueron ocupadas"):
-                                    this.ejectuarComando("MMEL.TOP5" + "_4", con);
+                                case ("Habitaciones con mayor cantidad de dias que fueron ocupadas"):
+                                    this.obtenerTop5HabitacionesReservadasDias();
+                                    break;
+                                case ("Habitaciones con mayor cantidad de veces que fueron ocupadas"):
+                                    this.obtenerTop5HabitacionesReservadasVeces();
                                     break;
                                 case ("Cliente con mayor cantidad de puntos"):
-                                    this.ejectuarComando("MMEL.TOP5" + "_5", con);
-                                    break;
-                                default:
-                                    
+                                    this.obtenerTop5Clientes();
                                     break;
                             }
 
@@ -83,32 +83,50 @@ namespace FrbaHotel.ListadoEstadistico
                 }
             }
         }
-        private void ejectuarComando(string procedure, SqlConnection con)
-        {  
-            
-            using (SqlCommand cmd = new SqlCommand(procedure, con))
-            {
-                cmd.Parameters.AddWithValue("@Año", SqlDbType.Int).Value = this.añoInput.Text;
-                cmd.Parameters.AddWithValue("@Trimestre", SqlDbType.NVarChar).Value = this.trimestreInput.Text;
-                
 
-                con.Open();
-                var dr = cmd.ExecuteReader();
-                if (dr.HasRows)
+        private void obtenerTop5HotelesReservasCanceladas()
+        {
+            obtenerTop5De<HotelCantidades>("HotelesConMayorCantidadDeReservasCanceladas");
+        }
+
+        private void obtenerTop5Clientes()
+        {
+            obtenerTop5De<ClientePuntos>("[ClientesConMayorCantidadDePuntos]");
+
+           dataGridView1.Columns["idPersona"].Visible = false; // las columnas se autogeneran por los atributos de ClientePuntos, pero esa no la quiero ver
+        }
+
+        private void obtenerTop5HabitacionesReservadasVeces()
+        {
+            obtenerTop5De<HabitacionCantidades>("[HabitacionesConMayorCantidadDeVecesOcupadas]");
+        }
+
+        private void obtenerTop5HabitacionesReservadasDias()
+        {
+            obtenerTop5De<HabitacionCantidades>("[HabitacionesConMayorCantidadDeDiasOcupadas]");
+        }
+
+
+        private void obtenerTop5De<T>(string procedureName) where T : new()
+        {
+            var connection = ConfigurationManager.ConnectionStrings["GD1C2018ConnectionString"].ConnectionString;
+
+            using (SqlConnection con = new SqlConnection(connection))
+            {
+                using (SqlCommand cmd = new SqlCommand("MMEL." + procedureName, con))
                 {
-                    mostarResultados(dr,cmd);
-                }
-                else
-                {
-                    MessageBox.Show("No existe top 5");
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@anio", SqlDbType.Int).Value = this.añoInput.Text;
+                    cmd.Parameters.AddWithValue("@trimestre", SqlDbType.Int).Value = this.trimestreInput.Text[0].ToString();
+
+                    con.Open();
+                    var dr = cmd.ExecuteReader();
+
+                    var resultados = dr.MapToList<T>();
+
+                    dataGridView1.DataSource = new BindingList<T>(resultados);
                 }
             }
         }
-
-        public void mostarResultados(SqlDataReader dr,SqlCommand procedure)
-        {
-            DataGridViewHelper.fill(procedure, dataGridView1);
-        }
-    }
-   
+    }  
 }

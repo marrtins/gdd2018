@@ -65,6 +65,7 @@
             this.modificarBtn.TabIndex = 31;
             this.modificarBtn.Text = "Modificar";
             this.modificarBtn.UseVisualStyleBackColor = true;
+            this.modificarBtn.Click += new System.EventHandler(this.modificarBtn_Click);
             // 
             // numHabInput
             // 
