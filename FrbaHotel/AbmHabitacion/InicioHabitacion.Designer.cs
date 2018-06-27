@@ -31,6 +31,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.hotelInput = new System.Windows.Forms.TextBox();
             this.numHabInput = new System.Windows.Forms.TextBox();
             this.vistaExtInput = new System.Windows.Forms.TextBox();
             this.pisoInput = new System.Windows.Forms.TextBox();
@@ -51,7 +52,6 @@
             this.descripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.habilitado = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.button4 = new System.Windows.Forms.Button();
-            this.hotelInput = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -91,6 +91,13 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros de busqueda";
+            // 
+            // hotelInput
+            // 
+            this.hotelInput.Location = new System.Drawing.Point(457, 53);
+            this.hotelInput.Name = "hotelInput";
+            this.hotelInput.Size = new System.Drawing.Size(100, 20);
+            this.hotelInput.TabIndex = 9;
             // 
             // numHabInput
             // 
@@ -200,6 +207,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(748, 279);
             this.dataGridView1.TabIndex = 4;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // numeroHabitacion
             // 
@@ -245,13 +253,6 @@
             this.button4.Text = "Baja";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // hotelInput
-            // 
-            this.hotelInput.Location = new System.Drawing.Point(457, 53);
-            this.hotelInput.Name = "hotelInput";
-            this.hotelInput.Size = new System.Drawing.Size(100, 20);
-            this.hotelInput.TabIndex = 9;
             // 
             // InicioHabitacion
             // 

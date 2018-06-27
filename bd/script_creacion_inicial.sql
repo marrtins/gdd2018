@@ -783,7 +783,8 @@ create PROCEDURE [MMEL].[HabitacionesModificar]
                    @Piso int,
                    @VistaAlExterior char(1),
                    @Descripcion nvarchar(80),
-                   @Habilitado char(1)
+                   @Habilitado char(1),
+				   @MESSAGE int OUTPUT
 AS
 SET NOCOUNT ON
 	SET XACT_ABORT ON
@@ -799,6 +800,7 @@ SET NOCOUNT ON
 	 [Descripcion] = @Descripcion,
 	 [Habilitado] = @Habilitado
 
+	 set @MESSAGE = 1 
 
 	COMMIT
 GO

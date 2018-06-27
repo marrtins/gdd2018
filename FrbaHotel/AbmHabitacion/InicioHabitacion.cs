@@ -96,5 +96,28 @@ namespace FrbaHotel.AbmHabitacion
             if (baja.Result == DialogResult.OK)
                 RefreshData();
         }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+           
+            DataGridViewRow row = this.dataGridView1.Rows[e.RowIndex];
+
+            int numeroHabitacion = Int32.Parse(row.Cells["Numero Habitacion"].Value.ToString());
+           int piso  = Int32.Parse(row.Cells["Piso"].Value.ToString());
+            int hotel = Int32.Parse(row.Cells["Hotel"].Value.ToString());
+            string vista = row.Cells["Vista al Exterior"].Value.ToString();
+            int  tipo = Int32.Parse(row.Cells["Tipo"].Value.ToString());
+            string descripcion = row.Cells["Descripcion"].Value.ToString();
+            string habilitado = row.Cells["Habilitado"].Value.ToString();
+
+            ModificarHabitacion mod = new ModificarHabitacion(numeroHabitacion,piso,hotel,vista,tipo,descripcion,habilitado);
+            this.Hide();
+            mod.ShowDialog();
+
+            this.Show();
+
+            if (mod.Result == DialogResult.OK)
+                RefreshData();
+        }
     }
 }
