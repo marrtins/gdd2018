@@ -2050,11 +2050,11 @@ BEGIN
 			OR (month(rhh.FechaDesde) = @secondMonth OR month(rhh.FechaHasta) = @secondMonth)
 			OR (month(rhh.FechaDesde) = @thirdMonth OR month(rhh.FechaHasta) = @thirdMonth) -- O bien arrancaron o terminaron en el trimestre, o estan totalmente contenidas (arrancaron Y terminaron)
 
-	select top 5 rhhta.Nombre, rhhta.NumeroHabitacion, rhhta.Piso, count(*) as Veces
+	select top 5 rhhta.Nombre, rhhta.NumeroHabitacion, rhhta.Piso, count(*) as Cantidad
 	from #ReservasPorHotelYHabitacionEnTrimestreEnAnio rhhta
 	WHERE rhhta.EstadoReserva = 'RF' -- si la reserva no fue finalizada y facturada la ignoro
 	GROUP BY rhhta.Nombre, rhhta.NumeroHabitacion, rhhta.Piso
-	ORDER BY Veces Desc
+	ORDER BY Cantidad Desc
 END
 GO
 
@@ -2102,12 +2102,16 @@ BEGIN
 			OR (month(rhh.FechaDesde) = @thirdMonth OR month(rhh.FechaHasta) = @thirdMonth) -- O bien arrancaron o terminaron en el trimestre, o estan totalmente contenidas (arrancaron Y terminaron)
 
     -- Insert statements for procedure here
-	select top 5 rhhta.Nombre, rhhta.NumeroHabitacion, rhhta.Piso, SUM(rhhta.Dias) as Dias
+	select top 5 rhhta.Nombre, rhhta.NumeroHabitacion, rhhta.Piso, SUM(rhhta.Dias) as Cantidad
 	from #ReservasPorHotelYHabitacionEnTrimestreEnAnio rhhta
 	WHERE rhhta.EstadoReserva = 'RF' -- si la reserva no fue finalizada y facturada la ignoro
 	GROUP BY rhhta.Nombre, rhhta.NumeroHabitacion, rhhta.Piso
-	ORDER BY Dias Desc
+	ORDER BY Cantidad Desc
 END
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[DireccionPais]'))
+	DROP VIEW [MMEL].[DireccionPais]
 GO
 
 CREATE VIEW [MMEL].[DireccionPais]
@@ -2115,68 +2119,67 @@ AS SELECT d.idDireccion,d.Ciudad,d.calle,d.nroCalle, p.idPais, p.Nombre as Nombr
 FROM MMEL.Direccion d 
 JOIN MMEL.Pais p on p.idPais = d.idPais;
 GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[TOP5_1]'))
-	DROP VIEW [MMEL].[TOP5_1]
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[HotelesConMayorCantidadDeReservasCanceladas]'))
+	DROP PROCEDURE [MMEL].HotelesConMayorCantidadDeReservasCanceladas
 GO
 
 GO
-CREATE PROCEDURE MMEL.TOP5_1 @Año int,@Trimestre varchar(80)
+CREATE PROCEDURE MMEL.HotelesConMayorCantidadDeReservasCanceladas  @anio int,@trimestre int
 as
 begin
 
-	if '1ºTrimestre (1º de Enero ~ 31 de Marzo)' = @Trimestre
+	if 1 = @trimestre
 	begin
-		select top 5 hot.idHotel 'Id Hotel',
-		COUNT(*)  'Reservas Canceladas' from mmel.CancelacionReserva cr join mmel.reserva r on cr.idReserva = r.idReserva
+		select top 5 hot.idHotel, hot.Nombre,
+		COUNT(*) as Cantidad from mmel.CancelacionReserva cr join mmel.reserva r on cr.idReserva = r.idReserva
 											 join mmel.Habitacion h on r.idHabitacion = h.idHabitacion
 											 join mmel.Hotel hot on h.idHotel = hot.idHotel
-											  where  year(cr.FechaDeCancelacion)= @Año and (month(cr.FechaDeCancelacion) = 1 OR month(cr.FechaDeCancelacion) = 2 OR month(cr.FechaDeCancelacion)=3)
-											GROUP BY hot.idHotel
-											ORDER BY 2 DESC
+											  where  year(cr.FechaDeCancelacion)= @anio and (month(cr.FechaDeCancelacion) = 1 OR month(cr.FechaDeCancelacion) = 2 OR month(cr.FechaDeCancelacion)=3)
+											GROUP BY hot.idHotel, hot.Nombre
+											ORDER BY Cantidad DESC
 
 	end
-	if '2ºTrimestre (1º de Abril ~ 30 de Junio)' = @Trimestre
+	if 2 = @trimestre
 	begin
-			select top 5 hot.idHotel 'Id Hotel',
-		COUNT(*)  'Reservas Canceladas' from mmel.CancelacionReserva cr join mmel.reserva r on cr.idReserva = r.idReserva
+			select top 5 hot.idHotel, hot.Nombre,
+		COUNT(*) as Cantidad from mmel.CancelacionReserva cr join mmel.reserva r on cr.idReserva = r.idReserva
 											 join mmel.Habitacion h on r.idHabitacion = h.idHabitacion
 											 join mmel.Hotel hot on h.idHotel = hot.idHotel
-											  where  year(cr.FechaDeCancelacion)= @Año and (month(cr.FechaDeCancelacion) = 4 OR month(cr.FechaDeCancelacion) = 5 OR month(cr.FechaDeCancelacion)=6)
-											GROUP BY hot.idHotel
-											ORDER BY 2 DESC
+											  where  year(cr.FechaDeCancelacion)= @anio and (month(cr.FechaDeCancelacion) = 4 OR month(cr.FechaDeCancelacion) = 5 OR month(cr.FechaDeCancelacion)=6)
+											GROUP BY hot.idHotel, hot.Nombre
+											ORDER BY Cantidad DESC
 	end
-	if '3ºTrimestre (1º de Julio ~ 30 de Septiembre)' = @Trimestre
+	if 3 = @trimestre
 	begin
-			select top 5 hot.idHotel 'Id Hotel',
-		COUNT(*)  'Reservas Canceladas' from mmel.CancelacionReserva cr join mmel.reserva r on cr.idReserva = r.idReserva
+			select top 5 hot.idHotel, hot.Nombre,
+		COUNT(*) as Cantidad from mmel.CancelacionReserva cr join mmel.reserva r on cr.idReserva = r.idReserva
 											 join mmel.Habitacion h on r.idHabitacion = h.idHabitacion
 											 join mmel.Hotel hot on h.idHotel = hot.idHotel
-											  where  year(cr.FechaDeCancelacion)= @Año and (month(cr.FechaDeCancelacion) = 7 OR month(cr.FechaDeCancelacion) = 8 OR month(cr.FechaDeCancelacion)=9)
-											GROUP BY hot.idHotel
-											ORDER BY 2 DESC
+											  where  year(cr.FechaDeCancelacion)= @anio and (month(cr.FechaDeCancelacion) = 7 OR month(cr.FechaDeCancelacion) = 8 OR month(cr.FechaDeCancelacion)=9)
+											GROUP BY hot.idHotel, hot.Nombre
+											ORDER BY Cantidad DESC
 	end
-	if '4ºTrimestre (1º de Octubre ~ 31 de Diciembre)' = @Trimestre
+	if 4 = @trimestre
  	begin
-		select top 5 hot.idHotel 'Id Hotel',
-		COUNT(*)  'Reservas Canceladas' from mmel.CancelacionReserva cr join mmel.reserva r on cr.idReserva = r.idReserva
+		select top 5 hot.idHotel, hot.Nombre,
+		COUNT(*) as Cantidad from mmel.CancelacionReserva cr join mmel.reserva r on cr.idReserva = r.idReserva
 											 join mmel.Habitacion h on r.idHabitacion = h.idHabitacion
 											 join mmel.Hotel hot on h.idHotel = hot.idHotel
-											  where  year(cr.FechaDeCancelacion)= @Año and (month(cr.FechaDeCancelacion) = 10 OR month(cr.FechaDeCancelacion) = 11 OR month(cr.FechaDeCancelacion)=12)
-											GROUP BY hot.idHotel
-											ORDER BY 2 DESC
+											  where  year(cr.FechaDeCancelacion)= @anio and (month(cr.FechaDeCancelacion) = 10 OR month(cr.FechaDeCancelacion) = 11 OR month(cr.FechaDeCancelacion)=12)
+											GROUP BY hot.idHotel, hot.Nombre
+											ORDER BY Cantidad DESC
 	end
 end
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[TOP5_2]'))
-	DROP VIEW [MMEL].[TOP5_2]
+	DROP PROCEDURE [MMEL].[TOP5_2]
 GO
 --Hoteles con mayor cantidad de consumibles facturados
-GO
-CREATE PROCEDURE MMEL.TOP5_2 @Año int,@Trimestre varchar(80)
+CREATE PROCEDURE MMEL.TOP5_2 @anio int,@trimestre int
 as
 begin
 
-if '1ºTrimestre (1º de Enero ~ 31 de Marzo)' = @Trimestre
+if 1 = @trimestre
 	begin
 	select top 5 hot.idHotel 'Id Hotel',
 		SUM(c.Costo) 'Consumibles Facturados' from mmel.Hotel hot join mmel.Reserva rer on hot.idHotel = rer.idHotel
@@ -2184,10 +2187,10 @@ if '1ºTrimestre (1º de Enero ~ 31 de Marzo)' = @Trimestre
 										join mmel.Facturacion f on f.idEstadia = e.idEstadia
 										   join mmel.ConsumiblePorEstadia cpr on e.idEstadia = cpr.idEstadia
 									       join mmel.consumible c on cpr.idConsumible = c.idConsumible
-										   where year(f.FacturaFecha) = @Año and (month(f.FacturaFecha) = 1 OR month(f.FacturaFecha) = 2 or month(f.FacturaFecha) = 3)
+										   where year(f.FacturaFecha) = @anio and (month(f.FacturaFecha) = 1 OR month(f.FacturaFecha) = 2 or month(f.FacturaFecha) = 3)
 										   group by hot.idHotel
 	end
-	if '2ºTrimestre (1º de Abril ~ 30 de Junio)' = @Trimestre
+	if 2 = @trimestre
 	begin
 	select top 5 hot.idHotel 'Id Hotel',
 		SUM(c.Costo) 'Consumibles Facturados' from mmel.Hotel hot join mmel.Reserva rer on hot.idHotel = rer.idHotel
@@ -2195,10 +2198,10 @@ if '1ºTrimestre (1º de Enero ~ 31 de Marzo)' = @Trimestre
 										join mmel.Facturacion f on f.idEstadia = e.idEstadia
 										   join mmel.ConsumiblePorEstadia cpr on e.idEstadia = cpr.idEstadia
 									       join mmel.consumible c on cpr.idConsumible = c.idConsumible
-										   where year(f.FacturaFecha) = @Año and (month(f.FacturaFecha) = 4 OR month(f.FacturaFecha) = 5 or month(f.FacturaFecha) = 6)
+										   where year(f.FacturaFecha) = @anio and (month(f.FacturaFecha) = 4 OR month(f.FacturaFecha) = 5 or month(f.FacturaFecha) = 6)
 										   group by hot.idHotel
 	end
-	if '3ºTrimestre (1º de Julio ~ 30 de Septiembre)' = @Trimestre
+	if 3 = @trimestre
 	begin
 	select top 5  hot.idHotel 'Id Hotel',
 		SUM(c.Costo) 'Consumibles Facturados' from mmel.Hotel hot join mmel.Reserva rer on hot.idHotel = rer.idHotel
@@ -2206,10 +2209,10 @@ if '1ºTrimestre (1º de Enero ~ 31 de Marzo)' = @Trimestre
 										join mmel.Facturacion f on f.idEstadia = e.idEstadia
 										   join mmel.ConsumiblePorEstadia cpr on e.idEstadia = cpr.idEstadia
 									       join mmel.consumible c on cpr.idConsumible = c.idConsumible
-										   where year(f.FacturaFecha) = @Año and (month(f.FacturaFecha) = 7 OR month(f.FacturaFecha) = 8 or month(f.FacturaFecha) = 9)
+										   where year(f.FacturaFecha) = @anio and (month(f.FacturaFecha) = 7 OR month(f.FacturaFecha) = 8 or month(f.FacturaFecha) = 9)
 										   group by hot.idHotel
 	end
-	if '4ºTrimestre (1º de Octubre ~ 31 de Diciembre)' = @Trimestre
+	if 4 = @trimestre
  	begin
 	select top 5 hot.idHotel 'Id Hotel',
 		SUM(c.Costo) 'Consumibles Facturados' from mmel.Hotel hot join mmel.Reserva rer on hot.idHotel = rer.idHotel
@@ -2217,7 +2220,7 @@ if '1ºTrimestre (1º de Enero ~ 31 de Marzo)' = @Trimestre
 										join mmel.Facturacion f on f.idEstadia = e.idEstadia
 										   join mmel.ConsumiblePorEstadia cpr on e.idEstadia = cpr.idEstadia
 									       join mmel.consumible c on cpr.idConsumible = c.idConsumible
-										   where year(f.FacturaFecha) = @Año and (month(f.FacturaFecha) = 10 OR month(f.FacturaFecha) = 11 or month(f.FacturaFecha) = 12)
+										   where year(f.FacturaFecha) = @anio and (month(f.FacturaFecha) = 10 OR month(f.FacturaFecha) = 11 or month(f.FacturaFecha) = 12)
 										   group by hot.idHotel
 	end
 
@@ -2239,7 +2242,7 @@ FROM            MMEL.Estadia INNER JOIN
 GO
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[ClientesConMayorCantidadDePuntos]'))
-	DROP VIEW [MMEL].[FacturasPorCliente]
+	DROP PROCEDURE [MMEL].[ClientesConMayorCantidadDePuntos]
 GO
 
 CREATE PROCEDURE [MMEL].[ClientesConMayorCantidadDePuntos]
@@ -2299,10 +2302,11 @@ BEGIN
 	GROUP BY fpc.idPersona
 	ORDER BY PuntosConsumibles DESC
 
-	SELECT top 5 ppe.idPersona, ppe.PuntosEstadia + ppc.PuntosConsumibles as Puntos -- Por fin!
+	SELECT top 5 ppe.idPersona, p.Nombre, p.Apellido, ppe.PuntosEstadia + ppc.PuntosConsumibles as Puntos -- Por fin!
 	FROM #PuntosPorEstadiaPorCliente ppe
 	LEFT JOIN #PuntosPorConsumiblesPorCliente ppc on ppe.idPersona = ppc.idPersona
-	GROUP BY ppe.idPersona, ppe.PuntosEstadia, ppc.PuntosConsumibles
+	JOIN Persona p on ppe.idPersona = p.idPersona
+	GROUP BY ppe.idPersona, p.Nombre, p.Apellido, ppe.PuntosEstadia, ppc.PuntosConsumibles
 	ORDER BY Puntos DESC
 
 END
