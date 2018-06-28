@@ -17,7 +17,7 @@ no hay estadias sin fecha inicio con factura(fecha inicio null & fact_total not 
 
 co-cxns-rci(vacia)-rcicf-rincf-rf-
 
-
+CO-MO-CPR-CPC-CXNS-RCI-RCICF-RINSF-RINCF
 
 *Reservas con fecha de inicio futura que poseen factura, se consideran Reservas
 inconsistentes . -->RINCF

@@ -351,8 +351,7 @@ Create Table [MMEL].[CancelacionReserva](
 	idReservaCancelacion int identity(1,1) not null,
 	Motivo varchar(300) not null,
 	FechaDeCancelacion datetime not null,
-	idPersona int references MMEL.Persona(idPersona),
-	idRol int references MMEL.Rol(idRol),
+	idUsuarioQueGeneroCancelacion int references MMEL.Usuarios(idUsuario),
 	idReserva int references MMEL.Reserva(idReserva)
 	constraint PK_idReservaCancelacion primary key(idReservaCancelacion)
 	)
@@ -437,6 +436,9 @@ insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(3,1)
 
 
 insert into mmel.Pais values('ARGENTINA')
+insert into mmel.Pais values('BRASIL')
+insert into mmel.Pais values('CHILE')
+insert into mmel.Pais values('URUGUAY')
 
 insert into MMEL.Direccion(calle,nroCalle,idPais,Ciudad)
 select distinct Hotel_Calle,Hotel_Nro_Calle,1,Hotel_Ciudad from gd_esquema.Maestra
@@ -481,6 +483,8 @@ select distinct ot.Regimen_Precio,'S',upper(ot.Regimen_Descripcion) from gd_esqu
 
 
 insert into MMEL.TipoDocumento(Detalle) values('PASAPORTE')
+insert into MMEL.TipoDocumento(Detalle) values('DNI')
+insert into MMEL.TipoDocumento(Detalle) values('CEDULA')
 
 
 insert into mmel.Persona(Nombre,Apellido,idTipoDocumento,NroDocumento,Mail,FechaDeNacimiento,idNacionalidad,dirCalle,dirNroCalle,dirIdPais,dirPiso,dirDepto) --ver si nacionalidad va como un string o la tabla id pais(esa es d las direcciones)
@@ -2229,7 +2233,7 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[canc
 	DROP procedure [MMEL].cancelarReserva
 go
 
-create procedure mmel.cancelarReserva(@codigoRes int,@motivo varchar(300),@idRol int,@fecha datetime,@cancelPor int )
+create procedure mmel.cancelarReserva(@codigoRes int,@motivo varchar(300),@idUsuarioQueCancelo  int,@fecha datetime )
 as
 begin
 
@@ -2241,19 +2245,19 @@ begin
 
 	--select @idRol = idRol from mmel.Rol where Nombre=@rol
 
-	insert into mmel.CancelacionReserva(Motivo,FechaDeCancelacion,idPersona,idReserva,idRol)
-	values(@motivo,@fecha,@idPersona,@idReserva,@idRol)
+	insert into mmel.CancelacionReserva(Motivo,FechaDeCancelacion,idUsuarioQueGeneroCancelacion,idReserva)
+	values(@motivo,@fecha,@idUsuarioQueCancelo,@idReserva)
 
-	--si @cancelPor = 1 -> cancelo recep ; =2 cancel cliente
+	
 
 	update mmel.Reserva
 	set EstadoReserva =
 	case
-		when @cancelPor=1 then 'C'
-		when @cancelPor=2 then 'D'
+		when @idUsuarioQueCancelo=1 then 'CPC'
+		else  'CPR'
 	end
 	where CodigoReserva=@codigoRes
-	--estados de reserva : a->correcta  ; b->modificada;c->cancel x recep;d->cancel x cliente ; e->cancel x no show  ;  f->res c ingreso
+	
 
 end
 go
@@ -2271,6 +2275,22 @@ begin
 end
 go
 
+
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[puedoCancelar]'))
+	DROP procedure [MMEL].puedoCancelar
+go
+create procedure mmel.puedoCancelar(@codigoRes int, @ret int output,@fechaHoy datetime)
+as
+begin
+
+	if exists(select * from mmel.Reserva where CodigoReserva=@codigoRes and @fechaHoy<FechaDesde and 
+		(EstadoReserva = 'CO' or EstadoReserva = 'MO' or EstadoReserva = 'RINSF'or EstadoReserva = 'RINCF'))
+		set @ret=1
+	else
+		set @ret = 0
+end
+go
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[modificarFactura]'))
 	DROP PROCEDURE [MMEL].modificarFactura

@@ -74,7 +74,7 @@ namespace FrbaHotel.GenerarModificacionReserva
             int cant;
             if (reader.HasRows)
             {
-                Reserva res = new Reserva();
+                //Reserva res2 = new Reserva();
                 while (reader.Read())
                 {
                     idth = Int32.Parse(reader["idTipoHabitacion"].ToString());

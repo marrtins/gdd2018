@@ -45,11 +45,12 @@ namespace FrbaHotel.CancelarReserva
             SqlConnection con = new SqlConnection(strCo);
 
             SqlCommand cmd;
-            cmd = new SqlCommand("MMEL.existeReserva", con);
+            cmd = new SqlCommand("MMEL.puedoCancelar", con);
+            DateTime value = Convert.ToDateTime(ConfigurationManager.AppSettings["DateKey"]);
 
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@codigoRes", SqlDbType.Int).Value = codigoRes;
-
+            cmd.Parameters.Add("@fechaHoy", SqlDbType.DateTime).Value = value;
             cmd.Parameters.Add("@ret", SqlDbType.Int).Direction = ParameterDirection.Output; //0->no existe. 1->existe. 
             
 
@@ -62,11 +63,18 @@ namespace FrbaHotel.CancelarReserva
             int ret = int.Parse(cmd.Parameters["@ret"].Value.ToString());
             if (ret == 0)
             {
-                MessageBox.Show("El codigo no existe. Intente nuevamente", "X", MessageBoxButtons.OK);
+                MessageBox.Show("La reserva no existe/no puede cancelarse", "X", MessageBoxButtons.OK);
                 return false;
             }
 
             return true;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Form1 f = new Form1();
+            f.Show();
+            this.Hide();
         }
     }
 }

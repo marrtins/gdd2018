@@ -92,6 +92,9 @@ namespace FrbaHotel.AbmCliente
                 if (codigoRet == 0)
                 {
                     MessageBox.Show(string.Format("Cliente creado. id {0}", idNuevo), "OK", MessageBoxButtons.OK);
+                    this.Hide();
+                    Cliente c = new Cliente();
+                    c.Show();
                 }
                 else if (codigoRet == 1)
                 {
@@ -150,7 +153,7 @@ namespace FrbaHotel.AbmCliente
             }
             reader.Close();
             con.Close();
-            cboTipo.Items.Add("Otro");
+            
 
 
 
@@ -217,6 +220,13 @@ namespace FrbaHotel.AbmCliente
         private void cboPaisDir_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Cliente c = new Cliente();
+            c.Show();
         }
     }
 }
