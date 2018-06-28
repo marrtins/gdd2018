@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrbaHotel.Utilities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -19,6 +20,7 @@ namespace FrbaHotel.CancelarReserva
         {
             this.codigoRes = codigoReserva;
             InitializeComponent();
+            lblCodigoRes.Text = String.Format("Cancelar reserva: {0}", codigoReserva);
             
         }
 
@@ -37,10 +39,10 @@ namespace FrbaHotel.CancelarReserva
 
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@motivo", SqlDbType.VarChar, 300).Value = textBox1.Text;
-            cmd.Parameters.Add("@rol", SqlDbType.Int).Value = 1; //modificar esto!!!!
+            cmd.Parameters.Add("@idUsuarioQueCancelo", SqlDbType.Int).Value = LoginData.IdUsuario;
             cmd.Parameters.Add("@fecha", SqlDbType.DateTime).Value = DateTime.Now;
             cmd.Parameters.Add("@codigoRes", SqlDbType.Int).Value = codigoRes;
-            cmd.Parameters.Add("@cancelPor", SqlDbType.Int).Value = 1; //modificar esto
+            
             
             if (cmd.Connection.State == ConnectionState.Closed)
             {
@@ -49,8 +51,18 @@ namespace FrbaHotel.CancelarReserva
             cmd.ExecuteNonQuery();
 
             MessageBox.Show("Reserva cancelada con exito", "", MessageBoxButtons.OK);
-
+            this.Hide();
+            Form1 f = new Form1();
+            f.Show();
             
+        }
+
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            MainCancelReserva m = new MainCancelReserva();
+            m.Show();
+
         }
     }
 }

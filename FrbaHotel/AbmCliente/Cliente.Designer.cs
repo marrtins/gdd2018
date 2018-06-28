@@ -31,6 +31,7 @@
             this.btnCrearCliente = new System.Windows.Forms.Button();
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnBorrar = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCrearCliente
@@ -63,9 +64,20 @@
             this.btnBorrar.UseVisualStyleBackColor = true;
             this.btnBorrar.Click += new System.EventHandler(this.btnBorrar_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(12, 232);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(82, 25);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "Volver";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Cliente
             // 
             this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnBorrar);
             this.Controls.Add(this.btnModificar);
             this.Controls.Add(this.btnCrearCliente);
@@ -82,5 +94,6 @@
         private System.Windows.Forms.Button btnCrearCliente;
         private System.Windows.Forms.Button btnModificar;
         private System.Windows.Forms.Button btnBorrar;
+        private System.Windows.Forms.Button button1;
     }
 }
