@@ -29,15 +29,6 @@ namespace FrbaHotel.AbmUsuario
         private void InitializeComponent()
         {   
             this.usuariosGridView = new System.Windows.Forms.DataGridView();
-            this.UsernameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NombreCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ApellidoCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TipoDocumentoCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NroDocumentoCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MailCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NombreRolCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ActivoCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SeleccionarCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gpoFiltros = new System.Windows.Forms.GroupBox();
             this.btnAlta = new System.Windows.Forms.Button();
             this.cboRol = new System.Windows.Forms.ComboBox();
@@ -56,6 +47,14 @@ namespace FrbaHotel.AbmUsuario
             this.lblApellido = new System.Windows.Forms.Label();
             this.nombreInput = new System.Windows.Forms.TextBox();
             this.lblNombre = new System.Windows.Forms.Label();
+            this.UsernameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NombreCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ApellidoCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MailCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NroDocumentoCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TipoDocumentoCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NombreRolCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SeleccionarCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.usuariosGridView)).BeginInit();
             this.gpoFiltros.SuspendLayout();
             this.SuspendLayout();
@@ -71,11 +70,10 @@ namespace FrbaHotel.AbmUsuario
             this.UsernameCol,
             this.NombreCol,
             this.ApellidoCol,
-            this.TipoDocumentoCol,
-            this.NroDocumentoCol,
             this.MailCol,
+            this.NroDocumentoCol,
+            this.TipoDocumentoCol,
             this.NombreRolCol,
-            this.ActivoCol,
             this.SeleccionarCol});
             this.usuariosGridView.Location = new System.Drawing.Point(12, 215);
             this.usuariosGridView.Name = "usuariosGridView";
@@ -83,68 +81,6 @@ namespace FrbaHotel.AbmUsuario
             this.usuariosGridView.RowHeadersWidth = 40;
             this.usuariosGridView.Size = new System.Drawing.Size(842, 290);
             this.usuariosGridView.TabIndex = 4;
-            // 
-            // UsernameCol
-            // 
-            this.UsernameCol.DataPropertyName = "Username";
-            this.UsernameCol.HeaderText = "Username";
-            this.UsernameCol.Name = "UsernameCol";
-            this.UsernameCol.ReadOnly = true;
-            // 
-            // NombreCol
-            // 
-            this.NombreCol.DataPropertyName = "Nombre";
-            this.NombreCol.HeaderText = "Nombre";
-            this.NombreCol.Name = "NombreCol";
-            this.NombreCol.ReadOnly = true;
-            // 
-            // ApellidoCol
-            // 
-            this.ApellidoCol.DataPropertyName = "Apellido";
-            this.ApellidoCol.HeaderText = "Apellido";
-            this.ApellidoCol.Name = "ApellidoCol";
-            this.ApellidoCol.ReadOnly = true;
-            // 
-            // TipoDocumentoCol
-            // 
-            this.TipoDocumentoCol.DataPropertyName = "TipoDocumento";
-            this.TipoDocumentoCol.HeaderText = "Tipo Documento";
-            this.TipoDocumentoCol.Name = "TipoDocumentoCol";
-            this.TipoDocumentoCol.ReadOnly = true;
-            // 
-            // NroDocumentoCol
-            // 
-            this.NroDocumentoCol.DataPropertyName = "NroDocumento";
-            this.NroDocumentoCol.HeaderText = "Numero de Documento";
-            this.NroDocumentoCol.Name = "NroDocumentoCol";
-            this.NroDocumentoCol.ReadOnly = true;
-            // 
-            // MailCol
-            // 
-            this.MailCol.DataPropertyName = "Mail";
-            this.MailCol.HeaderText = "Mail";
-            this.MailCol.Name = "MailCol";
-            this.MailCol.ReadOnly = true;
-            // 
-            // NombreRolCol
-            // 
-            this.NombreRolCol.DataPropertyName = "NombreRol";
-            this.NombreRolCol.HeaderText = "Rol";
-            this.NombreRolCol.Name = "NombreRolCol";
-            this.NombreRolCol.ReadOnly = true;
-            // 
-            // ActivoCol
-            // 
-            this.ActivoCol.DataPropertyName = "Activo";
-            this.ActivoCol.HeaderText = "Activo";
-            this.ActivoCol.Name = "ActivoCol";
-            this.ActivoCol.ReadOnly = true;
-            // 
-            // SeleccionarCol
-            // 
-            this.SeleccionarCol.HeaderText = "Seleccionar";
-            this.SeleccionarCol.Name = "SeleccionarCol";
-            this.SeleccionarCol.ReadOnly = true;
             // 
             // gpoFiltros
             // 
@@ -316,6 +252,61 @@ namespace FrbaHotel.AbmUsuario
             this.lblNombre.TabIndex = 0;
             this.lblNombre.Text = "Nombre";
             // 
+            // UsernameCol
+            // 
+            this.UsernameCol.DataPropertyName = "Username";
+            this.UsernameCol.HeaderText = "Username";
+            this.UsernameCol.Name = "UsernameCol";
+            this.UsernameCol.ReadOnly = true;
+            // 
+            // NombreCol
+            // 
+            this.NombreCol.DataPropertyName = "Nombre";
+            this.NombreCol.HeaderText = "Nombre";
+            this.NombreCol.Name = "NombreCol";
+            this.NombreCol.ReadOnly = true;
+            // 
+            // ApellidoCol
+            // 
+            this.ApellidoCol.DataPropertyName = "Apellido";
+            this.ApellidoCol.HeaderText = "Apellido";
+            this.ApellidoCol.Name = "ApellidoCol";
+            this.ApellidoCol.ReadOnly = true;
+            // 
+            // MailCol
+            // 
+            this.MailCol.DataPropertyName = "Mail";
+            this.MailCol.HeaderText = "Mail";
+            this.MailCol.Name = "MailCol";
+            this.MailCol.ReadOnly = true;
+            // 
+            // NroDocumentoCol
+            // 
+            this.NroDocumentoCol.DataPropertyName = "NroDocumento";
+            this.NroDocumentoCol.HeaderText = "Numero de Documento";
+            this.NroDocumentoCol.Name = "NroDocumentoCol";
+            this.NroDocumentoCol.ReadOnly = true;
+            // 
+            // TipoDocumentoCol
+            // 
+            this.TipoDocumentoCol.DataPropertyName = "TipoDocumento";
+            this.TipoDocumentoCol.HeaderText = "Tipo Documento";
+            this.TipoDocumentoCol.Name = "TipoDocumentoCol";
+            this.TipoDocumentoCol.ReadOnly = true;
+            // 
+            // NombreRolCol
+            // 
+            this.NombreRolCol.DataPropertyName = "NombreRol";
+            this.NombreRolCol.HeaderText = "Rol";
+            this.NombreRolCol.Name = "NombreRolCol";
+            this.NombreRolCol.ReadOnly = true;
+            // 
+            // SeleccionarCol
+            // 
+            this.SeleccionarCol.HeaderText = "Seleccionar";
+            this.SeleccionarCol.Name = "SeleccionarCol";
+            this.SeleccionarCol.ReadOnly = true;
+            // 
             // ListadoUsuarios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -355,11 +346,10 @@ namespace FrbaHotel.AbmUsuario
         private System.Windows.Forms.DataGridViewTextBoxColumn UsernameCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn NombreCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn ApellidoCol;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TipoDocumentoCol;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NroDocumentoCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn MailCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NroDocumentoCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TipoDocumentoCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn NombreRolCol;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ActivoCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn SeleccionarCol;
         
     }

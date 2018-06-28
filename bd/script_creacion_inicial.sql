@@ -922,16 +922,16 @@ SELECT        idReserva, idUsuarioQueProcesoReserva, idHotel, FechaDeReserva, Fe
 FROM            MMEL.Reserva AS r
 WHERE        (EstadoReserva <> 'CXR') AND (EstadoReserva <> 'CXC') AND (EstadoReserva <> 'CXNS')
 GO
-
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[HabitacionesListar]'))
 	DROP PROCEDURE [MMEL].[HabitacionesListar]
 go
+
 
 create PROCEDURE [MMEL].[HabitacionesListar]
 	-- Add the parameters for the stored procedure here
 	@IdTipoHabitacion int,
     @NumeroHabitacion int,
-    @IdHotel int,
+    @IdHotel varchar(60),
     @Piso int,
     @VistaAlExterior char(1)
 AS
@@ -944,6 +944,11 @@ BEGIN
 	PRINT @IdHotel
 	PRINT @Piso
 	PRINT @VistaAlExterior
+
+	DECLARE @HOTEL int
+
+	select @HOTEL = idHotel from mmel.Hotel where Nombre=@IdHotel
+
 	SELECT idHabitacion,
 	[NumeroHabitacion],
 	[Piso],
@@ -958,7 +963,7 @@ BEGIN
  (@Piso is NULL OR (@Piso = piso))and
   (@VistaAlExterior is NULL OR           (@VistaAlExterior = VistaAlExterior))and
  (@NumeroHabitacion is NULL OR (@NumeroHabitacion = hab.NumeroHabitacion)) and
- (@IdHotel is NULL OR (@IdHotel = hab.IdHotel))  and
+ (@HOTEL is NULL OR (@HOTEL = hab.IdHotel))  and
 (@IdTipoHabitacion is NULL OR( @IdTipoHabitacion = hab.idTipoHabitacion))
 END
 
@@ -973,7 +978,7 @@ go
 create PROCEDURE [MMEL].[HabitacionesAlta]
 					@IdTipoHabitacion int,
                     @NumeroHabitacion int,
-                    @IdHotel int,
+                    @IdHotel varchar(80),
                     @Piso int,
                     @VistaAlExterior char(1),
                     @Descripcion nvarchar(80),
@@ -982,10 +987,13 @@ create PROCEDURE [MMEL].[HabitacionesAlta]
 AS
     SET NOCOUNT ON
 	SET XACT_ABORT ON
+		DECLARE @HOTEL int
+
+	select @HOTEL = idHotel from mmel.Hotel where Nombre=@IdHotel
 	DECLARE @ExisteHotel int
 	DECLARE @ExisteTipoHabitacion int
 	SELECT @ExisteTipoHabitacion = idTipoHabitacion FROM mmel.TipoHabitacion where @IdTipoHabitacion=idTipoHabitacion
-	SELECT @ExisteHotel = hot.idHotel FROM mmel.Hotel hot where @IdHotel = hot.idHotel
+	SELECT @ExisteHotel = hot.idHotel FROM mmel.Hotel hot where  @HOTEL = hot.idHotel
 	DECLARE @AUX int
 	PRINT @ExisteHotel
 	PRINT @ExisteTipoHabitacion
@@ -994,7 +1002,7 @@ AS
 	BEGIN
 		if NOT exists (SELECT idHabitacion FROM mmel.Habitacion where @IdTipoHabitacion = [idTipoHabitacion] AND
 	 @NumeroHabitacion = [NumeroHabitacion] AND
-	 @IdHotel=[idHotel] AND
+	  @HOTEL=[idHotel] AND
 	 @Piso= [Piso] AND
 	 @VistaAlExterior= [VistaAlExterior] AND
 	 @Habilitado = [Habilitado] AND
@@ -1006,7 +1014,7 @@ AS
 	INSERT INTO [MMEL].[Habitacion] ([idTipoHabitacion], [NumeroHabitacion],[idHotel], [Piso],[VistaAlExterior],[Descripcion],[Habilitado])
 	SELECT @IdTipoHabitacion,
                    @NumeroHabitacion ,
-                   @IdHotel ,
+                   @HOTEL ,
                    @Piso ,
                    @VistaAlExterior ,
                    @Descripcion ,
@@ -1032,42 +1040,21 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[Habi
 
 GO
 create PROCEDURE [MMEL].[HabitacionesBaja]
-					@IdTipoHabitacion int,
-                    @NumeroHabitacion int,
-                    @IdHotel int,
-                    @Piso int,
-                    @VistaAlExterior char(1),
-				@MESSAGE int OUTPUT
-
+					@IdHabitacion int,
+					@Descripcion nvarchar(200),
+					@MESSAGE int output
+   
 AS
-SET NOCOUNT ON
-	SET XACT_ABORT ON
-	DECLARE @HabitacionABorrar int
-	SELECT  @HabitacionABorrar=h.idHabitacion FROM [MMEL].[Habitacion] h join [MMEL].[Reserva] r on h.idHabitacion=r.idHabitacion where @IdTipoHabitacion = [idTipoHabitacion] AND
-	 @NumeroHabitacion = [NumeroHabitacion] AND @IdHotel=h.[idHotel] AND  @Piso= [Piso] AND @VistaAlExterior= [VistaAlExterior]  --le agregue h a idHotel xq no andaba.. calculoq  esta bien
-	PRINT @HabitacionABorrar
-
-	IF @HabitacionABorrar = NULL
-	BEGIN
 	BEGIN TRAN
-	DELETE FROM [MMEL].[Habitacion] WHERE  @IdTipoHabitacion = [idTipoHabitacion] AND
-	 @NumeroHabitacion = [NumeroHabitacion] AND @IdHotel=[idHotel] AND  @Piso= [Piso] AND @VistaAlExterior= [VistaAlExterior]
+	update [MMEL].[Habitacion] set Habilitado='N',Descripcion=@Descripcion WHERE idHabitacion=@IdHabitacion
 		SET @MESSAGE = 1
 	COMMIT
-	END
-	ELSE
-	BEGIN
-	SET @MESSAGE = 0
-	print @MESSAGE
-
-	END
 GO
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[HabitacionesModificar]'))
 	DROP PROCEDURE [MMEL].[HabitacionesModificar]
 
 go
-
 
 create PROCEDURE [MMEL].[HabitacionesModificar]
 @IdTipoHabitacion int,
@@ -1077,7 +1064,8 @@ create PROCEDURE [MMEL].[HabitacionesModificar]
                    @VistaAlExterior char(1),
                    @Descripcion nvarchar(80),
                    @Habilitado char(1),
-				   @MESSAGE int OUTPUT
+				   @IdHabitacion int
+				 
 AS
 SET NOCOUNT ON
 	SET XACT_ABORT ON
@@ -1092,11 +1080,13 @@ SET NOCOUNT ON
 	 [VistaAlExterior]= @VistaAlExterior,
 	 [Descripcion] = @Descripcion,
 	 [Habilitado] = @Habilitado
+	 where idHabitacion = @IdHabitacion
 
-	 set @MESSAGE = 1 
+	
 
 	COMMIT
 GO
+
 
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[DireccionDelete]'))

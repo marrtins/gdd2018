@@ -13,8 +13,6 @@ namespace FrbaHotel.AbmUsuario.Model
         string nombre;
         string apellido;
         string mail;
-        public int idRol;
-        public int idTipoDocumento;
         string nroDocumento;
 
         public string Username

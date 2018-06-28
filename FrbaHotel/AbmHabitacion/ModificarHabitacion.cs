@@ -18,6 +18,7 @@ namespace FrbaHotel.AbmHabitacion
 {
     public partial class ModificarHabitacion : Form
     {
+        private int idHabitacion;
         private int numero;
         private int piso;
         private int hotel;
@@ -25,9 +26,9 @@ namespace FrbaHotel.AbmHabitacion
         private int tipo;
         private string descripcion;
         private string habilitado;
-        public ModificarHabitacion(int numero,int piso,int hotel,string vista, int tipo,string descripcion,string habilitado)
+        public ModificarHabitacion(int id,int numero,int piso,int hotel,string vista, int tipo,string descripcion,string habilitado)
         {
-
+            this.idHabitacion = id;
             this.numero = numero;
             this.piso = piso;
             this.hotel = hotel;
@@ -68,7 +69,7 @@ namespace FrbaHotel.AbmHabitacion
             if (visExtInput.Text == "") { MessageBox.Show("Falta completar la vista", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
             if (tipoHabInput.Text == "") { MessageBox.Show("Falta completar el tipo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
             if (descripcionInput.Text == "") { MessageBox.Show("Falta completar la descripcion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
-            if (habilitadoInput.Text == "") { MessageBox.Show("Falta completar habilitacion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
+           
 
 
             var connection = ConfigurationManager.ConnectionStrings["GD1C2018ConnectionString"].ConnectionString;
@@ -79,13 +80,15 @@ namespace FrbaHotel.AbmHabitacion
                 {
 
                     cmd.CommandType = CommandType.StoredProcedure;
+                   
                     cmd.Parameters.AddWithValue("@IdTipoHabitacion", SqlDbType.Int).Value = tipoHabInput.Text;
                     cmd.Parameters.AddWithValue("@NumeroHabitacion", SqlDbType.Int).Value = numHabInput.Text;
                     cmd.Parameters.AddWithValue("@IdHotel", SqlDbType.Int).Value = hotelInput.Text;
                     cmd.Parameters.AddWithValue("@Piso", SqlDbType.Int).Value = pisoInput.Text;
                     cmd.Parameters.AddWithValue("@VistaAlExterior", SqlDbType.Char).Value = visExtInput.Text;
                     cmd.Parameters.AddWithValue("@Descripcion", SqlDbType.Char).Value = descripcionInput.Text;
-                    cmd.Parameters.Add("@MESSAGE", SqlDbType.Int).Direction = ParameterDirection.Output;
+                    cmd.Parameters.AddWithValue("@IdHabitacion", SqlDbType.Int).Value = this.idHabitacion;
+                   
                     if (habilitadoInput.Checked)
                     {
                         cmd.Parameters.Add("@Habilitado", SqlDbType.Char, 1).Value = 'S';
@@ -99,20 +102,17 @@ namespace FrbaHotel.AbmHabitacion
                     var dr = cmd.ExecuteReader();
                     if (dr != null)
                     {
-                        int MENSAJE = Convert.ToInt32(cmd.Parameters["@MESSAGE"].Value);
-                        if (MENSAJE == 0)
-                        {
-                            MessageBox.Show("La habitacion no se puede modificar");
-                            this.Hide();
-                        }
-                        else
-                        {
+                      
+                        
+                        
+                 
                             MessageBox.Show("La habitacion se pudo modificar con exito");
-                            this.Hide();
-                        }
+                        this.Hide();
+
                     }
                     else
                     {
+                        MessageBox.Show("La habitacion no se puede modificar");
                         this.Hide();
                     }
 

@@ -36,5 +36,12 @@ namespace FrbaHotel.Utilities
             return GetOne(null);
         }
 
+        public static List<TipoDocumento> GetAllWithDefault()
+        {
+            var tiposDocumentos = GetOne(null);
+            tiposDocumentos.Insert(0, new TipoDocumento(0, "Todos"));
+            return tiposDocumentos;
+        }
+
     }
 }

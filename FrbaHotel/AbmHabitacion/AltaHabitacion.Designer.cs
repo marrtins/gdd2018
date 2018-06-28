@@ -41,9 +41,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tipoHabInput = new System.Windows.Forms.TextBox();
-            this.hotelInput = new System.Windows.Forms.TextBox();
-            this.pisoInput = new System.Windows.Forms.TextBox();
             this.vistaExtInput = new System.Windows.Forms.TextBox();
+            this.hotelInput = new System.Windows.Forms.ComboBox();
+            this.pisoInput = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -162,20 +162,6 @@
             this.tipoHabInput.Size = new System.Drawing.Size(121, 20);
             this.tipoHabInput.TabIndex = 48;
             // 
-            // hotelInput
-            // 
-            this.hotelInput.Location = new System.Drawing.Point(126, 70);
-            this.hotelInput.Name = "hotelInput";
-            this.hotelInput.Size = new System.Drawing.Size(121, 20);
-            this.hotelInput.TabIndex = 49;
-            // 
-            // pisoInput
-            // 
-            this.pisoInput.Location = new System.Drawing.Point(126, 100);
-            this.pisoInput.Name = "pisoInput";
-            this.pisoInput.Size = new System.Drawing.Size(121, 20);
-            this.pisoInput.TabIndex = 50;
-            // 
             // vistaExtInput
             // 
             this.vistaExtInput.Location = new System.Drawing.Point(127, 131);
@@ -183,14 +169,29 @@
             this.vistaExtInput.Size = new System.Drawing.Size(121, 20);
             this.vistaExtInput.TabIndex = 51;
             // 
+            // hotelInput
+            // 
+            this.hotelInput.FormattingEnabled = true;
+            this.hotelInput.Location = new System.Drawing.Point(127, 70);
+            this.hotelInput.Name = "hotelInput";
+            this.hotelInput.Size = new System.Drawing.Size(121, 21);
+            this.hotelInput.TabIndex = 52;
+            // 
+            // pisoInput
+            // 
+            this.pisoInput.Location = new System.Drawing.Point(126, 100);
+            this.pisoInput.Name = "pisoInput";
+            this.pisoInput.Size = new System.Drawing.Size(121, 20);
+            this.pisoInput.TabIndex = 53;
+            // 
             // AltaHabitacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(263, 357);
-            this.Controls.Add(this.vistaExtInput);
             this.Controls.Add(this.pisoInput);
             this.Controls.Add(this.hotelInput);
+            this.Controls.Add(this.vistaExtInput);
             this.Controls.Add(this.tipoHabInput);
             this.Controls.Add(this.limpiarBtn);
             this.Controls.Add(this.modificarBtn);
@@ -226,8 +227,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox tipoHabInput;
-        private System.Windows.Forms.TextBox hotelInput;
-        private System.Windows.Forms.TextBox pisoInput;
         private System.Windows.Forms.TextBox vistaExtInput;
+        private System.Windows.Forms.ComboBox hotelInput;
+        private System.Windows.Forms.TextBox pisoInput;
     }
 }

@@ -165,7 +165,7 @@ namespace FrbaHotel.AbmUsuario.Model
             // Usuario
             Username = username;
             Password = password;
-            IdUsuario = id;
+            idUsuario = id;
             IdRol = idRol;
             IdHotel = idHotel;
 
