@@ -55,6 +55,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgPrecios)).BeginInit();
             this.SuspendLayout();
             // 
@@ -288,11 +289,22 @@
             this.label15.TabIndex = 34;
             this.label15.Text = "King";
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(28, 355);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(78, 31);
+            this.button3.TabIndex = 36;
+            this.button3.Text = "Volver";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // GenerarReserva
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(614, 396);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label10);
@@ -358,5 +370,6 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Button button3;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FrbaHotel.AbmHabitacion.Model;
+using FrbaHotel.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -13,7 +14,7 @@ namespace FrbaHotel.GenerarModificacionReserva
         //List<Regimen> listaRegimenes = new List<Regimen>();
         List<TipoHabitacion> tipoHabitaciones = new List<TipoHabitacion>();
         private int idHotel;
-        public GenerarReserva(int idHotel)
+        public GenerarReserva(int idHotel,string nombreHotel)
         {
             this.idHotel = idHotel;
             InitializeComponent();
@@ -24,7 +25,10 @@ namespace FrbaHotel.GenerarModificacionReserva
             
             dgPrecios.Visible = false;
             btnReservar.Enabled = false;
-            cboHotel.Text = "1";
+
+
+            cboHotel.Text = nombreHotel;
+            cboHotel.Enabled = false;
             this.idHotel = idHotel;
             txtC1.Text = "0";
             txtC2.Text = "0";
@@ -125,7 +129,7 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            
             if (!validarCampos())
             {
                 return;
@@ -206,7 +210,7 @@ namespace FrbaHotel.GenerarModificacionReserva
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@fechaDesde", SqlDbType.DateTime).Value = dtDesde.Value;
             cmd.Parameters.Add("@fechaHasta", SqlDbType.DateTime).Value = dtHasta.Value;
-            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = cboHotel.Text;
+            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel;
             cmd.Parameters.Add("@tipoHabDesc", SqlDbType.VarChar, 150).Value = tipoHabDesc;
 
 
@@ -379,6 +383,13 @@ namespace FrbaHotel.GenerarModificacionReserva
             reader.Close();
             con.Close();
             return precio;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            GenModReserva gm = new GenModReserva();
+            gm.Show();
         }
     }
 }

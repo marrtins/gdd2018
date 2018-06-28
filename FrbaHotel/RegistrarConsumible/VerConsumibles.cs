@@ -15,15 +15,14 @@ namespace FrbaHotel.RegistrarConsumible
 {
     public partial class VerConsumibles : Form
     {
-        int idHab;
+       
         int idEstadia;
-        int nroHab;
+        int codRes;
         Form formvolver;
-        public VerConsumibles(int idEstadia,int idHab,int nroHab,Form formVolver)
+        public VerConsumibles(int idEstadia,Form formVolver,int codRes)
         {
             this.idEstadia = idEstadia;
-            this.idHab = idHab;
-            this.nroHab = nroHab;
+            this.codRes = codRes;
             this.formvolver = formVolver;
             InitializeComponent();
             DataGridViewButtonColumn bcol = new DataGridViewButtonColumn();
@@ -33,7 +32,7 @@ namespace FrbaHotel.RegistrarConsumible
             bcol.Name = "btnClickMe";
             bcol.UseColumnTextForButtonValue = true;
             dataGridView1.Columns.Add(bcol);
-            lblCons.Text = lblCons.Text + String.Format(" {0}", nroHab);
+            lblCons.Text = lblCons.Text + String.Format(" {0}", codRes);
             cargarConsumibles();
         }
 
@@ -47,11 +46,11 @@ namespace FrbaHotel.RegistrarConsumible
             if (e.ColumnIndex == 0)
             {
 
-            
+                
                 DataGridViewRow row = this.dataGridView1.Rows[e.RowIndex];
-                int idConsumible = Int32.Parse(row.Cells["idConsumible"].Value.ToString());
+                int idCPE = Int32.Parse(row.Cells["idCPE"].Value.ToString());
 
-                string consultaBusqueda = String.Format("delete from mmel.ConsumiblePorEstadia where idEstadia={0} and idConsumible={1}",idEstadia,idConsumible);
+                string consultaBusqueda = String.Format("delete from mmel.ConsumiblePorEstadia where idCPE={0}",idCPE);
                 string strCo = ConfigurationManager.AppSettings["stringConexion"];
                 SqlConnection con = new SqlConnection(strCo);
                 SqlCommand cmd = new SqlCommand(consultaBusqueda, con);
@@ -60,10 +59,11 @@ namespace FrbaHotel.RegistrarConsumible
                 {
                     cmd.Connection.Open();
                 }
-                //SqlDataReader reader = cmd.ExecuteReader();
+                SqlDataReader reader = cmd.ExecuteReader();
 
                 MessageBox.Show("Consumible eliminado");
-                row.Visible = false;
+                //row.Visible = false;
+                cargarConsumibles();
 
 
             }
@@ -78,24 +78,21 @@ namespace FrbaHotel.RegistrarConsumible
         private void btnFacturar_Click(object sender, EventArgs e)
         {
 
-
-
-
-
             existeFactura();
             
         }
 
         private void cargarConsumibles()
         {
-            string consultaBusqueda = String.Format("select Nombre,Costo,c1.idConsumible from mmel.ConsumiblePorEstadia c1,mmel.Consumible c2 where c1.idEstadia={0} and c1.idConsumible=c2.idConsumible",idEstadia);
+            string consultaBusqueda = String.Format("select Nombre,Costo,c1.idConsumible,c1.idCPE from mmel.ConsumiblePorEstadia c1,mmel.Consumible c2 where c1.idEstadia={0} and c1.idConsumible=c2.idConsumible",idEstadia);
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
             SqlDataAdapter dataAdapter = new SqlDataAdapter(consultaBusqueda, strCo);
             DataTable dataTable = new DataTable();
             dataAdapter.Fill(dataTable);
             this.dataGridView1.DataSource = dataTable;
-            lblCons.Text = String.Format("Cant consumibles: {0}", dataTable.Rows.Count);
+            int cant = dataTable.Rows.Count;
+            lblCant.Text = String.Format("Cant consumibles: {0}", cant);
         }
     
     private void existeFactura()

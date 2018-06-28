@@ -140,7 +140,7 @@ namespace FrbaHotel.GenerarModificacionReserva
         }
         private bool consultarUsuarioExistenteIdentificacion()
         {
-            string consultaBusqueda = String.Format("select idPersona,Nombre,Apellido,Mail,NroDocumento from mmel.Persona p, mmel.TipoDocumento td where p.NroDocumento={0} and td.idTipoDocumento=p.idTipoDocumento and td.detalle='{1}'", txtidnro.Text, cboidtipo.Text);
+            string consultaBusqueda = String.Format("select p.idPersona,p.Nombre,p.Apellido,p.Mail,p.NroDocumento,hu.idHuesped from mmel.Persona p,mmel.Huesped, mmel.TipoDocumento td where p.idPersona=idPersona and p.NroDocumento={0} and td.idTipoDocumento=p.idTipoDocumento and td.detalle='{1}'", txtidnro.Text, cboidtipo.Text);
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
             SqlCommand cmd = new SqlCommand(consultaBusqueda, con);
@@ -160,7 +160,7 @@ namespace FrbaHotel.GenerarModificacionReserva
             {
                 while (reader.Read())
                 {
-                   idCliente = Int32.Parse(reader["idPersona"].ToString());
+                   idPersona = Int32.Parse(reader["idPersona"].ToString());
                     nombre = (reader["Nombre"].ToString());
                     apellido = (reader["Apellido"].ToString());
                     mail = (reader["Mail"].ToString());
@@ -211,7 +211,7 @@ namespace FrbaHotel.GenerarModificacionReserva
             {
                 while (reader.Read())
                 {
-                    idCliente = Int32.Parse(reader["idPersona"].ToString());
+                    idPersona = Int32.Parse(reader["idPersona"].ToString());
                     nombre = (reader["Nombre"].ToString());
                     apellido = (reader["Apellido"].ToString());
                     mail = (reader["Mail"].ToString());
@@ -253,11 +253,14 @@ namespace FrbaHotel.GenerarModificacionReserva
             cmd.Parameters.Add("@fechaDesde", SqlDbType.Date).Value = dtDesde;
             cmd.Parameters.Add("@fechaHasta", SqlDbType.Date).Value = dtHasta;
             cmd.Parameters.Add("@fechaDeReserva", SqlDbType.DateTime).Value = value;
+            int idusuario;
+            if (LoginData.IdUsuario == 0) idusuario = 3;
+            else idusuario = LoginData.IdUsuario;
             cmd.Parameters.Add("@idUsuarioQueReserva", SqlDbType.Int).Value = LoginData.IdUsuario;
             cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel;
             //cmd.Parameters.Add("@tipoHabDesc", SqlDbType.VarChar, 100).Value = tipohab;
             cmd.Parameters.Add("@tipoRegimenDesc", SqlDbType.VarChar, 100).Value = regimen;
-            cmd.Parameters.Add("@idPersona", SqlDbType.Int).Value = idCliente;
+            cmd.Parameters.Add("@idPersona", SqlDbType.Int).Value = idPersona;
             
             
             
@@ -438,10 +441,10 @@ namespace FrbaHotel.GenerarModificacionReserva
                 cmd.ExecuteNonQuery();
 
                 int codigoRet = int.Parse(cmd.Parameters["@codigoRet"].Value.ToString());
-                idCliente = int.Parse(cmd.Parameters["@idNuevo"].Value.ToString());
+                idPersona = int.Parse(cmd.Parameters["@idNuevo"].Value.ToString());
                 if (codigoRet == 0)
                 {
-                    MessageBox.Show(string.Format("Cliente creado. id {0}", idCliente), "OK", MessageBoxButtons.OK);
+                    MessageBox.Show(string.Format("Cliente creado. id {0}", idPersona), "OK", MessageBoxButtons.OK);
                     
                     return true;
                 }

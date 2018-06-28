@@ -21,6 +21,11 @@ namespace FrbaHotel
         public Form1()
         {
             InitializeComponent();
+            if (LoginData.IdUsuario == 3)
+            {
+                btnEstadia.Visible = false;
+                btnConsumible.Visible = false;
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)

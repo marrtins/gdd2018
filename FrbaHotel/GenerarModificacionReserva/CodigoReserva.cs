@@ -118,5 +118,12 @@ namespace FrbaHotel.GenerarModificacionReserva
         {
 
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            GenModReserva gm = new GenModReserva();
+            gm.Show();
+            this.Hide();
+        }
     }
 }

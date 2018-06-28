@@ -260,12 +260,6 @@
       <DependentUpon>Seleccion.cs</DependentUpon>
     </Compile>
     <Compile Include="RegistrarConsumible\Consumible.cs" />
-    <Compile Include="RegistrarConsumible\ListarConsumibles.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="RegistrarConsumible\ListarConsumibles.Designer.cs">
-      <DependentUpon>ListarConsumibles.cs</DependentUpon>
-    </Compile>
     <Compile Include="RegistrarConsumible\MainRegCons.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -451,9 +445,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="RegistrarConsumible\ListarConsumibles.resx">
-      <DependentUpon>ListarConsumibles.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="RegistrarConsumible\MainRegCons.resx">
       <DependentUpon>MainRegCons.cs</DependentUpon>
     </EmbeddedResource>

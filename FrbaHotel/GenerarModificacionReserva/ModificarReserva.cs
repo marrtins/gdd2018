@@ -569,5 +569,12 @@ namespace FrbaHotel.GenerarModificacionReserva
             con.Close();
             return precio;
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            CodigoReserva cr = new CodigoReserva();
+            cr.Show();
+        }
     }
 }

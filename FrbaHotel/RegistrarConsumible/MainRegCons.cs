@@ -16,7 +16,7 @@ namespace FrbaHotel.RegistrarConsumible
     public partial class MainRegCons : Form
     {
 
-        int idEstadia;
+        int idEstadia=-1;
         List<Consumible> consumibles = new List<Consumible>();
         List<Habitacion> habitaciones = new List<Habitacion>();
         public MainRegCons()        
@@ -24,7 +24,7 @@ namespace FrbaHotel.RegistrarConsumible
             InitializeComponent();
             cboHabitaciones.Text = "Seleccionar";
             cboConsumibles.Text = "Seleccionar";
-            cargarHabitaciones();
+            
             cargarConsumibles();
             
 
@@ -72,34 +72,7 @@ namespace FrbaHotel.RegistrarConsumible
             con.Close();
             
         }
-        private void cargarHabitaciones()
-        {
-            /*string consultaBusqueda = String.Format("select * from mmel.Habitacion where idHotel={0}",idHotel);
-            string strCo = ConfigurationManager.AppSettings["stringConexion"];
-            SqlConnection con = new SqlConnection(strCo);
-            SqlCommand cmd = new SqlCommand(consultaBusqueda, con);
-            con.Open();
-            if (cmd.Connection.State == ConnectionState.Closed)
-            {
-                cmd.Connection.Open();
-            }
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            while (reader.Read())
-            {
-                int idHabitacion = Int32.Parse(reader["idHabitacion"].ToString());
-                int NumeroHabitacion = Int32.Parse(reader["NumeroHabitacion"].ToString());
-                cboHabitaciones.Items.Add(NumeroHabitacion);
-                Habitacion h = new Habitacion();
-                h.IdHabitacion = idHabitacion;
-                h.NumeroHabitacion = NumeroHabitacion;
-                habitaciones.Add(h);
-
-            }
-            reader.Close();
-            con.Close();*/
-
-        }
+    
 
         private void btnRegistrar_Click(object sender, EventArgs e)
         {
@@ -160,14 +133,8 @@ namespace FrbaHotel.RegistrarConsumible
             }
             return true;
         }
-        private int getIdHab()
-        {
-            return habitaciones[cboHabitaciones.SelectedIndex].IdHabitacion;    
-        }
-        private int getNroHab()
-        {
-            return habitaciones[cboHabitaciones.SelectedIndex].NumeroHabitacion;
-        }
+        
+        
         private int getIdConsumible()
         {
             return consumibles[cboConsumibles.SelectedIndex].IdConsumible;
@@ -183,9 +150,52 @@ namespace FrbaHotel.RegistrarConsumible
 
         private void button1_Click(object sender, EventArgs e)
         {
-            VerConsumibles vc = new VerConsumibles(idEstadia,getIdHab(),getNroHab(),this);
+            int i;
+            if (txtCodRes.Text=="" || !int.TryParse(txtCodRes.Text, out i))
+            {
+                MessageBox.Show("Seleccionar codigo de reserva valido", "X", MessageBoxButtons.OK);
+                return;
+            }
+            if (idEstadia == -1)
+            {
+                idEstadia = getEstadia();
+                if (idEstadia == -1)
+                {
+                    MessageBox.Show("Seleccionar codigo de reserva valido", "X", MessageBoxButtons.OK);
+                    return;
+                }
+            }
+            VerConsumibles vc = new VerConsumibles(idEstadia,this,int.Parse(txtCodRes.Text));
             vc.Show();
             this.Hide();
+        }
+
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Form1 f1 = new Form1();
+            f1.Show();
+        }
+        private int getEstadia()
+        {
+            string consultaBusqueda = String.Format("select idEstadia from mmel.Estadia e,mmel.Reserva r where r.idReserva=e.idReserva and r.CodigoReserva={0}",txtCodRes.Text);
+            string strCo = ConfigurationManager.AppSettings["stringConexion"];
+            SqlConnection con = new SqlConnection(strCo);
+            SqlCommand cmd = new SqlCommand(consultaBusqueda, con);
+            con.Open();
+            if (cmd.Connection.State == ConnectionState.Closed)
+            {
+                cmd.Connection.Open();
+            }
+            SqlDataReader reader = cmd.ExecuteReader();
+            int idEstadia = -1;
+            while (reader.Read())
+            {
+                idEstadia = Int32.Parse(reader["idEstadia"].ToString());
+            }
+            reader.Close();
+            con.Close();
+            return idEstadia;
         }
     }
 }

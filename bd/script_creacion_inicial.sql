@@ -1707,9 +1707,7 @@ begin
 		values (@telefono,upper(@nombre),upper(@apellido),@idTipoDoc,@nroDocumento,upper(@mail),@fechaDeNacimiento,@idNacionalidad,@dirCalle,@dirNroCalle,@idDirPais,@dirPiso,
 				@dirDepto,@dirLocalidad)
 		set @idNuevo=SCOPE_IDENTITY()
-		insert into mmel.Usuarios(idPersona) values(@idNuevo)
-		insert into MMEL.UsuariosPorRoles(idUsuario,idRol)
-			select idUsuario,3 from Usuarios where idPersona = @idNuevo
+		
 		insert into mmel.Huesped(idPersona,Habilitado) values(@idNuevo,@habilitado)
 		set @codigoRet = 0 --se creo ok el cliente
 
@@ -2838,6 +2836,7 @@ BEGIN
 	ORDER BY Puntos DESC
 
 END
+go
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[HotelesConMayorCantidadDeConsumiblesFacturados]'))
 	DROP PROCEDURE [MMEL].[HotelesConMayorCantidadDeConsumiblesFacturados]
 GO

@@ -58,7 +58,7 @@
             // lblFCHOUT
             // 
             this.lblFCHOUT.AutoSize = true;
-            this.lblFCHOUT.Location = new System.Drawing.Point(244, 36);
+            this.lblFCHOUT.Location = new System.Drawing.Point(76, 39);
             this.lblFCHOUT.Name = "lblFCHOUT";
             this.lblFCHOUT.Size = new System.Drawing.Size(100, 13);
             this.lblFCHOUT.TabIndex = 9;
@@ -67,7 +67,7 @@
             // lblFCHIN
             // 
             this.lblFCHIN.AutoSize = true;
-            this.lblFCHIN.Location = new System.Drawing.Point(244, 9);
+            this.lblFCHIN.Location = new System.Drawing.Point(76, 9);
             this.lblFCHIN.Name = "lblFCHIN";
             this.lblFCHIN.Size = new System.Drawing.Size(88, 13);
             this.lblFCHIN.TabIndex = 7;
@@ -85,9 +85,9 @@
             this.groupBox1.Controls.Add(this.lstConsAct);
             this.groupBox1.Controls.Add(this.lblVCAct);
             this.groupBox1.Controls.Add(this.lblVBActual);
-            this.groupBox1.Location = new System.Drawing.Point(259, 79);
+            this.groupBox1.Location = new System.Drawing.Point(79, 79);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(298, 332);
+            this.groupBox1.Size = new System.Drawing.Size(478, 332);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Factura Actual";
@@ -95,7 +95,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(19, 258);
+            this.label5.Location = new System.Drawing.Point(260, 28);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(79, 13);
             this.label5.TabIndex = 8;
@@ -104,9 +104,9 @@
             // cboFormaDePago
             // 
             this.cboFormaDePago.FormattingEnabled = true;
-            this.cboFormaDePago.Location = new System.Drawing.Point(106, 255);
+            this.cboFormaDePago.Location = new System.Drawing.Point(263, 43);
             this.cboFormaDePago.Name = "cboFormaDePago";
-            this.cboFormaDePago.Size = new System.Drawing.Size(97, 21);
+            this.cboFormaDePago.Size = new System.Drawing.Size(185, 21);
             this.cboFormaDePago.TabIndex = 7;
             // 
             // lblTotalAct
@@ -139,7 +139,7 @@
             // lblDtoACt
             // 
             this.lblDtoACt.AutoSize = true;
-            this.lblDtoACt.Location = new System.Drawing.Point(6, 224);
+            this.lblDtoACt.Location = new System.Drawing.Point(16, 274);
             this.lblDtoACt.Name = "lblDtoACt";
             this.lblDtoACt.Size = new System.Drawing.Size(226, 13);
             this.lblDtoACt.TabIndex = 4;
@@ -161,7 +161,7 @@
             this.lstConsAct.Location = new System.Drawing.Point(51, 136);
             this.lstConsAct.Name = "lstConsAct";
             this.lstConsAct.ScrollAlwaysVisible = true;
-            this.lstConsAct.Size = new System.Drawing.Size(212, 69);
+            this.lstConsAct.Size = new System.Drawing.Size(212, 134);
             this.lstConsAct.TabIndex = 2;
             // 
             // lblVCAct
@@ -186,7 +186,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(588, 450);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.lblFCHOUT);
             this.Controls.Add(this.lblFCHIN);

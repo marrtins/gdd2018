@@ -20,10 +20,13 @@ namespace FrbaHotel.Facturar
         int nuevoValorCons;
         int nuevoCantCons;
         int nuevoDtoRegimen;
+        float valorActual;
         public NuevaFactura(int idest)
         {
             InitializeComponent();
             this.idEstadia = idest;
+            cargarFacturaNueva();
+            cargarFormaDePago();
         }
 
         private void NuevaFactura_Load(object sender, EventArgs e)
@@ -63,41 +66,41 @@ namespace FrbaHotel.Facturar
             }
             cmd.ExecuteNonQuery();
 
-            int valorBaseHab = int.Parse(cmd.Parameters["valorBaseHab"].Value.ToString());
+            int valorBaseHab = int.Parse(cmd.Parameters["@valorBaseHab"].Value.ToString());
             int cantDiasUtilizados = int.Parse(cmd.Parameters["@cantDiasUtilizados"].Value.ToString());
             int cantDiasNoUtilizados = int.Parse(cmd.Parameters["@cantDiasNoUtilizados"].Value.ToString());
-            int cantidadConsumibles = int.Parse(cmd.Parameters["@cantidadConsumibles"].Value.ToString());
+            //int cantidadConsumibles = int.Parse(cmd.Parameters["@cantidadConsumibles"].Value.ToString());
             int valorConsumibles = int.Parse(cmd.Parameters["@valorConsumibles"].Value.ToString());
             DateTime chINEstadia = DateTime.Parse(cmd.Parameters["@chINEstadia"].Value.ToString());
             DateTime chOUTEstadia = DateTime.Parse(cmd.Parameters["@chOUTEstadia"].Value.ToString());
             int dtoRegimen = int.Parse(cmd.Parameters["@dtoRegimen"].Value.ToString());
 
-            nuevoCantCons = cantidadConsumibles;
+            //nuevoCantCons = cantidadConsumibles;
             nuevoValorCons = valorConsumibles;
             nuevoValorVB = valorBaseHab;
 
-            float valoractual = valorBaseHab + valorConsumibles;
+            valorActual=valorBaseHab + valorConsumibles;
             if (dtoRegimen == 100)
             {
-                valoractual = valoractual - valorConsumibles;
+                valorActual = valorActual - valorConsumibles;
                 lblTotalAct.Text = lblTotalAct.Text + String.Format(" $-{0}", valorConsumibles);
                 dtoRegimenbool = true;
                 nuevoDtoRegimen = valorConsumibles;
             }
             else
             {
-                lblTotalAct.Text = lblTotalAct.Text + String.Format(" $0");
+                lblTotalAct.Text = lblTotalAct.Text + String.Format(" ${0}", valorActual);
             }
 
 
             lblFCHIN.Text += String.Format(" {0}", chINEstadia);
-            lblFCHOUT.Text += String.Format(" {0}", lblFCHOUT);
+            lblFCHOUT.Text += String.Format(" {0}", chOUTEstadia);
 
             lblVBActual.Text = lblVBActual.Text + String.Format(" ${0}", valorBaseHab);
             lbldaloj.Text += String.Format(" {0}", cantDiasUtilizados);
             lbldnu.Text += String.Format(" {0}", cantDiasNoUtilizados);
             lblVCAct.Text += String.Format(" ${0}", valorConsumibles);
-            lblDtoACt.Text += String.Format(" $%{0}", dtoRegimen);
+            lblDtoACt.Text += String.Format(" $ -{0}", dtoRegimen);
 
 
             listarConsumiblesAct();
@@ -157,12 +160,12 @@ namespace FrbaHotel.Facturar
 
             SqlCommand cmd;
             cmd = new SqlCommand("MMEL.crearFactura", con);
-
+            DateTime value = Convert.ToDateTime(ConfigurationManager.AppSettings["DateKey"]);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@idEstadia", SqlDbType.Int).Value = idEstadia;
-            cmd.Parameters.Add("@FactTotal", SqlDbType.Int).Value = Int32.Parse(lblTotalAct.Text);
-            cmd.Parameters.Add("@FacturaFecha", SqlDbType.DateTime).Value = (DateTime.Now); //CAMBIAR
-            cmd.Parameters.Add("@formaDePago", SqlDbType.Int).Value = cboFormaDePago.Text;
+            cmd.Parameters.Add("@FactTotal", SqlDbType.Int).Value = (valorActual);
+            cmd.Parameters.Add("@FacturaFecha", SqlDbType.DateTime).Value = value;
+            cmd.Parameters.Add("@formaDePago", SqlDbType.VarChar,50).Value = cboFormaDePago.Text;
 
 
 
@@ -183,6 +186,8 @@ namespace FrbaHotel.Facturar
 
 
             this.Hide();
+            Form1 f = new Form1();
+            f.Show();
         }
         private void actualizarVBAse()
         {

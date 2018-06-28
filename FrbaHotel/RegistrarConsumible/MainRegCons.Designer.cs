@@ -54,7 +54,7 @@
             // cboHabitaciones
             // 
             this.cboHabitaciones.FormattingEnabled = true;
-            this.cboHabitaciones.Location = new System.Drawing.Point(12, 378);
+            this.cboHabitaciones.Location = new System.Drawing.Point(1, 373);
             this.cboHabitaciones.Name = "cboHabitaciones";
             this.cboHabitaciones.Size = new System.Drawing.Size(10, 21);
             this.cboHabitaciones.TabIndex = 2;
@@ -121,6 +121,7 @@
             this.btnVolver.TabIndex = 9;
             this.btnVolver.Text = "Volver";
             this.btnVolver.UseVisualStyleBackColor = true;
+            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
             // button1
             // 

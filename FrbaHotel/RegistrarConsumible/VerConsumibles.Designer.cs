@@ -50,9 +50,9 @@
             this.lblCons.AutoSize = true;
             this.lblCons.Location = new System.Drawing.Point(64, 72);
             this.lblCons.Name = "lblCons";
-            this.lblCons.Size = new System.Drawing.Size(150, 13);
+            this.lblCons.Size = new System.Drawing.Size(136, 13);
             this.lblCons.TabIndex = 1;
-            this.lblCons.Text = "Consumibles de la habitacion: ";
+            this.lblCons.Text = "Consumibles de la reserva: ";
             // 
             // btnVolver
             // 

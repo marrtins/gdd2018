@@ -142,7 +142,7 @@ namespace FrbaHotel.RegistrarEstadia
                 cmd.Parameters.Add("@codigoRes", SqlDbType.Int).Value = Int32.Parse(txtCodigoRes.Text);
 
                 cmd.Parameters.Add("@fechaCheckIn", SqlDbType.DateTime).Value = value;
-                cmd.Parameters.Add("@userQueModifica", SqlDbType.Int).Value = LoginData.IdUsuario;
+                cmd.Parameters.Add("@idRecepQueModifica", SqlDbType.Int).Value = LoginData.IdUsuario;
 
                 if (cmd.Connection.State == ConnectionState.Closed)
                 {

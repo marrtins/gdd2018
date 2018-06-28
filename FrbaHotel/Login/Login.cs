@@ -56,6 +56,9 @@ namespace FrbaHotel.Login
                 else
                     LoginData.Rol = roles.First();
 
+                if (LoginData.Rol.idRol == 2)
+                    LoginData.Hotel = hoteles.First();
+
                 this.Hide();
               
                 Form1 form = new Form1();
@@ -144,7 +147,7 @@ namespace FrbaHotel.Login
 
         private void guestBtn_Click(object sender, EventArgs e)
         {
-            LoginData.IdUsuario = 0; //Limpio toda la info del usuario anterior y cargo el usuario guest
+            LoginData.IdUsuario = 1; //Limpio toda la info del usuario anterior y cargo el usuario guest guest agregado en la tabla con user 1
             LoginData.Rol = new Rol(0, "Guest", "Y");
 
             this.Hide();
