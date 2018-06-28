@@ -30,7 +30,7 @@ namespace FrbaHotel.AbmUsuario
         {   
             this.nroCalleInput = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.departamentoInput = new System.Windows.Forms.TextBox();
+            this.deptoInput = new System.Windows.Forms.TextBox();
             this.lblDpto = new System.Windows.Forms.Label();
             this.pisoInput = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -85,12 +85,12 @@ namespace FrbaHotel.AbmUsuario
             this.label4.TabIndex = 110;
             this.label4.Text = "Nro. de Calle";
             // 
-            // departamentoInput
+            // deptoInput
             // 
-            this.departamentoInput.Location = new System.Drawing.Point(545, 141);
-            this.departamentoInput.Name = "departamentoInput";
-            this.departamentoInput.Size = new System.Drawing.Size(49, 20);
-            this.departamentoInput.TabIndex = 109;
+            this.deptoInput.Location = new System.Drawing.Point(545, 141);
+            this.deptoInput.Name = "deptoInput";
+            this.deptoInput.Size = new System.Drawing.Size(49, 20);
+            this.deptoInput.TabIndex = 109;
             // 
             // lblDpto
             // 
@@ -147,6 +147,7 @@ namespace FrbaHotel.AbmUsuario
             this.btnCancelar.TabIndex = 103;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
             // btnAceptar
             // 
@@ -157,6 +158,7 @@ namespace FrbaHotel.AbmUsuario
             this.btnAceptar.TabIndex = 102;
             this.btnAceptar.Text = "Aceptar";
             this.btnAceptar.UseVisualStyleBackColor = true;
+            this.btnAceptar.Click += new System.EventHandler(this.btnAceptar_Click);
             // 
             // cboTipoDoc
             // 
@@ -375,6 +377,7 @@ namespace FrbaHotel.AbmUsuario
             this.btnLimpiar.TabIndex = 112;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.UseVisualStyleBackColor = true;
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
             // activoCheck
             // 
@@ -416,7 +419,7 @@ namespace FrbaHotel.AbmUsuario
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.nroCalleInput);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.departamentoInput);
+            this.Controls.Add(this.deptoInput);
             this.Controls.Add(this.lblDpto);
             this.Controls.Add(this.pisoInput);
             this.Controls.Add(this.label2);
@@ -459,7 +462,7 @@ namespace FrbaHotel.AbmUsuario
 
         private System.Windows.Forms.TextBox nroCalleInput;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox departamentoInput;
+        private System.Windows.Forms.TextBox deptoInput;
         private System.Windows.Forms.Label lblDpto;
         private System.Windows.Forms.TextBox pisoInput;
         private System.Windows.Forms.Label label2;

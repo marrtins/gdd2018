@@ -42,9 +42,9 @@ namespace FrbaHotel.AbmUsuario
         {
             InitializeComponent();
             this.idUsuario = idUsuario;
-            this.paises = Paises.GetAllWithDefault();
-            this.roles = Roles.GetAllWithDefault();
-            this.tiposDocumento = TiposDocumento.GetAllWithDefault();
+            this.paises = Paises.GetAll();
+            this.roles = Roles.GetAll();
+            this.tiposDocumento = TiposDocumento.GetAll();
             this.hoteles = Hoteles.GetAll();
             this.Text = "Crear";
 
@@ -100,16 +100,22 @@ namespace FrbaHotel.AbmUsuario
             mailInput.DataBindings.Add(new TextBinding(this.Model, "Mail"));
             Register(ErrorLabel.For(mailInput, Alignment.Bottom, 2));
 
-            calleInput.DataBindings.Add(new TextBinding(this.Model, "dirCalle"));
+            calleInput.DataBindings.Add(new TextBinding(this.Model, "Calle"));
             Register(ErrorLabel.For(calleInput, Alignment.Bottom, 2));
 
-            nroCalleInput.DataBindings.Add(new TextBinding(this.Model, "dirNroCalle"));
+            nroCalleInput.DataBindings.Add(new TextBinding(this.Model, "NroCalle"));
             Register(ErrorLabel.For(nroCalleInput, Alignment.Bottom, 2));
 
-            localidadInput.DataBindings.Add(new TextBinding(this.Model, "dirLocalidad"));
+            deptoInput.DataBindings.Add(new TextBinding(this.Model, "Depto"));
+            Register(ErrorLabel.For(deptoInput, Alignment.Bottom, 2));
+
+            pisoInput.DataBindings.Add(new TextBinding(this.Model, "Piso"));
+            Register(ErrorLabel.For(pisoInput, Alignment.Bottom, 2));
+
+            localidadInput.DataBindings.Add(new TextBinding(this.Model, "Localidad"));
             Register(ErrorLabel.For(localidadInput, Alignment.Bottom, 2));
 
-            nroDocumentoInput.DataBindings.Add(new TextBinding(this.Model, "nroDocumentoInput"));
+            nroDocumentoInput.DataBindings.Add(new TextBinding(this.Model, "NroDocumento"));
             Register(ErrorLabel.For(nroDocumentoInput, Alignment.Bottom, 2));
 
             cboPaisDir.DisplayMember = "Nombre";
@@ -128,12 +134,13 @@ namespace FrbaHotel.AbmUsuario
             cboTipoDoc.DataSource = tiposDocumento;
             //cboTipoDoc.DataBindings.Add(new Binding("SelectedValue", this.Model, "IdTipoDocumento"));
 
-            cboTipoDoc.DisplayMember = "Nombre";
-            cboTipoDoc.ValueMember = "idHotel";
+            cboHotel.DisplayMember = "Nombre";
+            cboHotel.ValueMember = "idHotel";
             cboHotel.DataSource = hoteles;
             //cboHotel.DataBindings.Add(new Binding("SelectedValue", this.Model, "IdHotel"));
 
-            fechaNacInput.DataBindings.Add(new Binding("SelectedValue", this.Model, "FechaDeNacimiento"));
+            fechaNacInput.DataBindings.Add(new TextBinding(this.Model, "FechaNac"));
+            Register(ErrorLabel.For(fechaNacInput, Alignment.Bottom, 2));
 
             if((this.Model as Usuario).Activo == 'S') {
                 activoCheck.Checked = true;
