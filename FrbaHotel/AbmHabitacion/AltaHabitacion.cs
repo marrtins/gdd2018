@@ -25,6 +25,34 @@ namespace FrbaHotel.AbmHabitacion
         public AltaHabitacion()
         {
             InitializeComponent();
+            cargarHoteles();
+        }
+
+        private void cargarHoteles()
+        {
+
+            var connection = ConfigurationManager.ConnectionStrings["GD1C2018ConnectionString"].ConnectionString;
+
+            string consultaBusqueda = String.Format("select distinct * from mmel.Hotel ");
+
+            SqlConnection con = new SqlConnection(connection);
+            SqlCommand cmd = new SqlCommand(consultaBusqueda, con);
+            con.Open();
+            if (cmd.Connection.State == ConnectionState.Closed)
+            {
+                cmd.Connection.Open();
+            }
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                string tipo = (reader["Nombre"].ToString());
+                hotelInput.Items.Add(tipo);
+
+            }
+            reader.Close();
+            con.Close();
+
         }
 
         private void modificarBtn_Click(object sender, EventArgs e)
@@ -39,7 +67,7 @@ namespace FrbaHotel.AbmHabitacion
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@IdTipoHabitacion", SqlDbType.Int).Value = tipoHabInput.Text;
                     cmd.Parameters.AddWithValue("@NumeroHabitacion", SqlDbType.Int).Value = numHabInput.Text;
-                    cmd.Parameters.AddWithValue("@IdHotel", SqlDbType.Int).Value = hotelInput.Text;
+                    cmd.Parameters.AddWithValue("@IdHotel", SqlDbType.Char).Value = hotelInput.Text;
                     cmd.Parameters.AddWithValue("@Piso", SqlDbType.Int).Value = pisoInput.Text;
                     cmd.Parameters.AddWithValue("@VistaAlExterior", SqlDbType.Char).Value = vistaExtInput.Text;
                     cmd.Parameters.AddWithValue("@Descripcion", SqlDbType.Char).Value = descripcionInput.Text;

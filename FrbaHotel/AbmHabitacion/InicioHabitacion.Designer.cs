@@ -31,7 +31,6 @@
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.hotelInput = new System.Windows.Forms.TextBox();
             this.numHabInput = new System.Windows.Forms.TextBox();
             this.vistaExtInput = new System.Windows.Forms.TextBox();
             this.pisoInput = new System.Windows.Forms.TextBox();
@@ -44,14 +43,8 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.numeroHabitacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.piso = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.idHotel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.vistaAlExterior = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tipoHabitacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.descripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.habilitado = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.button4 = new System.Windows.Forms.Button();
+            this.hotelInput = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -91,13 +84,6 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros de busqueda";
-            // 
-            // hotelInput
-            // 
-            this.hotelInput.Location = new System.Drawing.Point(457, 53);
-            this.hotelInput.Name = "hotelInput";
-            this.hotelInput.Size = new System.Drawing.Size(100, 20);
-            this.hotelInput.TabIndex = 9;
             // 
             // numHabInput
             // 
@@ -195,54 +181,11 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.numeroHabitacion,
-            this.piso,
-            this.idHotel,
-            this.vistaAlExterior,
-            this.tipoHabitacion,
-            this.descripcion,
-            this.habilitado});
             this.dataGridView1.Location = new System.Drawing.Point(15, 159);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(748, 279);
             this.dataGridView1.TabIndex = 4;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
-            // 
-            // numeroHabitacion
-            // 
-            this.numeroHabitacion.HeaderText = "Numero Habitacion";
-            this.numeroHabitacion.Name = "numeroHabitacion";
-            // 
-            // piso
-            // 
-            this.piso.HeaderText = "Piso";
-            this.piso.Name = "piso";
-            // 
-            // idHotel
-            // 
-            this.idHotel.HeaderText = "Hotel";
-            this.idHotel.Name = "idHotel";
-            // 
-            // vistaAlExterior
-            // 
-            this.vistaAlExterior.HeaderText = "Vista al Exterior";
-            this.vistaAlExterior.Name = "vistaAlExterior";
-            // 
-            // tipoHabitacion
-            // 
-            this.tipoHabitacion.HeaderText = "Tipo de Habitacion";
-            this.tipoHabitacion.Name = "tipoHabitacion";
-            // 
-            // descripcion
-            // 
-            this.descripcion.HeaderText = "Descripcion";
-            this.descripcion.Name = "descripcion";
-            // 
-            // habilitado
-            // 
-            this.habilitado.HeaderText = "Habilitado";
-            this.habilitado.Name = "habilitado";
             // 
             // button4
             // 
@@ -253,6 +196,14 @@
             this.button4.Text = "Baja";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // hotelInput
+            // 
+            this.hotelInput.FormattingEnabled = true;
+            this.hotelInput.Location = new System.Drawing.Point(457, 53);
+            this.hotelInput.Name = "hotelInput";
+            this.hotelInput.Size = new System.Drawing.Size(219, 21);
+            this.hotelInput.TabIndex = 9;
             // 
             // InicioHabitacion
             // 
@@ -292,14 +243,7 @@
         private System.Windows.Forms.TextBox pisoInput;
         private System.Windows.Forms.TextBox tipoHabInput;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn numeroHabitacion;
-        private System.Windows.Forms.DataGridViewTextBoxColumn piso;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idHotel;
-        private System.Windows.Forms.DataGridViewTextBoxColumn vistaAlExterior;
-        private System.Windows.Forms.DataGridViewTextBoxColumn tipoHabitacion;
-        private System.Windows.Forms.DataGridViewTextBoxColumn descripcion;
-        private System.Windows.Forms.DataGridViewTextBoxColumn habilitado;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.TextBox hotelInput;
+        private System.Windows.Forms.ComboBox hotelInput;
     }
 }

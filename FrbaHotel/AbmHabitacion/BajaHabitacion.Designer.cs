@@ -37,14 +37,19 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tipoHabInput = new System.Windows.Forms.TextBox();
-            this.hotelInput = new System.Windows.Forms.TextBox();
-            this.pisoInput = new System.Windows.Forms.TextBox();
             this.vistaExtInput = new System.Windows.Forms.TextBox();
+            this.hotelInput = new System.Windows.Forms.ComboBox();
+            this.pisoInput = new System.Windows.Forms.ComboBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.descripcionInput = new System.Windows.Forms.RichTextBox();
+            this.habitacionInput = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // limpiarBtn
             // 
-            this.limpiarBtn.Location = new System.Drawing.Point(9, 162);
+            this.limpiarBtn.Location = new System.Drawing.Point(9, 290);
             this.limpiarBtn.Name = "limpiarBtn";
             this.limpiarBtn.Size = new System.Drawing.Size(75, 23);
             this.limpiarBtn.TabIndex = 32;
@@ -54,7 +59,7 @@
             // 
             // borrarBtn
             // 
-            this.borrarBtn.Location = new System.Drawing.Point(171, 162);
+            this.borrarBtn.Location = new System.Drawing.Point(171, 290);
             this.borrarBtn.Name = "borrarBtn";
             this.borrarBtn.Size = new System.Drawing.Size(75, 23);
             this.borrarBtn.TabIndex = 31;
@@ -64,7 +69,7 @@
             // 
             // numHabInput
             // 
-            this.numHabInput.Location = new System.Drawing.Point(125, 12);
+            this.numHabInput.Location = new System.Drawing.Point(125, 43);
             this.numHabInput.Name = "numHabInput";
             this.numHabInput.Size = new System.Drawing.Size(121, 20);
             this.numHabInput.TabIndex = 30;
@@ -72,7 +77,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(9, 136);
+            this.label6.Location = new System.Drawing.Point(9, 167);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(79, 13);
             this.label6.TabIndex = 22;
@@ -81,7 +86,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(9, 102);
+            this.label5.Location = new System.Drawing.Point(9, 133);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(27, 13);
             this.label5.TabIndex = 21;
@@ -90,7 +95,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(9, 72);
+            this.label4.Location = new System.Drawing.Point(9, 103);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(32, 13);
             this.label4.TabIndex = 20;
@@ -99,7 +104,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(10, 41);
+            this.label2.Location = new System.Drawing.Point(10, 72);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(82, 13);
             this.label2.TabIndex = 19;
@@ -108,7 +113,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 11);
+            this.label1.Location = new System.Drawing.Point(10, 42);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(98, 13);
             this.label1.TabIndex = 18;
@@ -116,40 +121,79 @@
             // 
             // tipoHabInput
             // 
-            this.tipoHabInput.Location = new System.Drawing.Point(125, 41);
+            this.tipoHabInput.Location = new System.Drawing.Point(125, 72);
             this.tipoHabInput.Name = "tipoHabInput";
             this.tipoHabInput.Size = new System.Drawing.Size(121, 20);
             this.tipoHabInput.TabIndex = 33;
             // 
-            // hotelInput
-            // 
-            this.hotelInput.Location = new System.Drawing.Point(125, 69);
-            this.hotelInput.Name = "hotelInput";
-            this.hotelInput.Size = new System.Drawing.Size(121, 20);
-            this.hotelInput.TabIndex = 34;
-            // 
-            // pisoInput
-            // 
-            this.pisoInput.Location = new System.Drawing.Point(125, 99);
-            this.pisoInput.Name = "pisoInput";
-            this.pisoInput.Size = new System.Drawing.Size(121, 20);
-            this.pisoInput.TabIndex = 35;
-            // 
             // vistaExtInput
             // 
-            this.vistaExtInput.Location = new System.Drawing.Point(125, 129);
+            this.vistaExtInput.Location = new System.Drawing.Point(125, 160);
             this.vistaExtInput.Name = "vistaExtInput";
             this.vistaExtInput.Size = new System.Drawing.Size(121, 20);
             this.vistaExtInput.TabIndex = 36;
+            // 
+            // hotelInput
+            // 
+            this.hotelInput.FormattingEnabled = true;
+            this.hotelInput.Location = new System.Drawing.Point(125, 103);
+            this.hotelInput.Name = "hotelInput";
+            this.hotelInput.Size = new System.Drawing.Size(121, 21);
+            this.hotelInput.TabIndex = 37;
+            // 
+            // pisoInput
+            // 
+            this.pisoInput.FormattingEnabled = true;
+            this.pisoInput.Location = new System.Drawing.Point(125, 133);
+            this.pisoInput.Name = "pisoInput";
+            this.pisoInput.Size = new System.Drawing.Size(121, 21);
+            this.pisoInput.TabIndex = 38;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.descripcionInput);
+            this.groupBox1.Location = new System.Drawing.Point(12, 186);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(233, 78);
+            this.groupBox1.TabIndex = 39;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Descripcion";
+            // 
+            // descripcionInput
+            // 
+            this.descripcionInput.Location = new System.Drawing.Point(6, 17);
+            this.descripcionInput.Name = "descripcionInput";
+            this.descripcionInput.Size = new System.Drawing.Size(221, 48);
+            this.descripcionInput.TabIndex = 0;
+            this.descripcionInput.Text = "";
+            // 
+            // habitacionInput
+            // 
+            this.habitacionInput.Location = new System.Drawing.Point(125, 12);
+            this.habitacionInput.Name = "habitacionInput";
+            this.habitacionInput.Size = new System.Drawing.Size(121, 20);
+            this.habitacionInput.TabIndex = 41;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(10, 11);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(58, 13);
+            this.label3.TabIndex = 40;
+            this.label3.Text = "Habitacion";
             // 
             // BajaHabitacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(258, 199);
-            this.Controls.Add(this.vistaExtInput);
+            this.ClientSize = new System.Drawing.Size(258, 324);
+            this.Controls.Add(this.habitacionInput);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.pisoInput);
             this.Controls.Add(this.hotelInput);
+            this.Controls.Add(this.vistaExtInput);
             this.Controls.Add(this.tipoHabInput);
             this.Controls.Add(this.limpiarBtn);
             this.Controls.Add(this.borrarBtn);
@@ -161,6 +205,7 @@
             this.Controls.Add(this.label1);
             this.Name = "BajaHabitacion";
             this.Text = "BajaHabitacion";
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -177,8 +222,12 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox tipoHabInput;
-        private System.Windows.Forms.TextBox hotelInput;
-        private System.Windows.Forms.TextBox pisoInput;
         private System.Windows.Forms.TextBox vistaExtInput;
+        private System.Windows.Forms.ComboBox hotelInput;
+        private System.Windows.Forms.ComboBox pisoInput;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RichTextBox descripcionInput;
+        private System.Windows.Forms.TextBox habitacionInput;
+        private System.Windows.Forms.Label label3;
     }
 }
