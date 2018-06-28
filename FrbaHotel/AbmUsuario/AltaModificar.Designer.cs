@@ -70,7 +70,7 @@ namespace FrbaHotel.AbmUsuario
             // 
             // nroCalleInput
             // 
-            this.nroCalleInput.Location = new System.Drawing.Point(545, 111);
+            this.nroCalleInput.Location = new System.Drawing.Point(545, 144);
             this.nroCalleInput.Name = "nroCalleInput";
             this.nroCalleInput.Size = new System.Drawing.Size(100, 20);
             this.nroCalleInput.TabIndex = 111;
@@ -79,7 +79,7 @@ namespace FrbaHotel.AbmUsuario
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label4.Location = new System.Drawing.Point(430, 111);
+            this.label4.Location = new System.Drawing.Point(430, 144);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(90, 17);
             this.label4.TabIndex = 110;
@@ -87,7 +87,7 @@ namespace FrbaHotel.AbmUsuario
             // 
             // deptoInput
             // 
-            this.deptoInput.Location = new System.Drawing.Point(545, 141);
+            this.deptoInput.Location = new System.Drawing.Point(545, 190);
             this.deptoInput.Name = "deptoInput";
             this.deptoInput.Size = new System.Drawing.Size(49, 20);
             this.deptoInput.TabIndex = 109;
@@ -96,7 +96,7 @@ namespace FrbaHotel.AbmUsuario
             // 
             this.lblDpto.AutoSize = true;
             this.lblDpto.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lblDpto.Location = new System.Drawing.Point(430, 141);
+            this.lblDpto.Location = new System.Drawing.Point(430, 190);
             this.lblDpto.Name = "lblDpto";
             this.lblDpto.Size = new System.Drawing.Size(98, 17);
             this.lblDpto.TabIndex = 108;
@@ -104,7 +104,7 @@ namespace FrbaHotel.AbmUsuario
             // 
             // pisoInput
             // 
-            this.pisoInput.Location = new System.Drawing.Point(545, 170);
+            this.pisoInput.Location = new System.Drawing.Point(545, 233);
             this.pisoInput.Name = "pisoInput";
             this.pisoInput.Size = new System.Drawing.Size(49, 20);
             this.pisoInput.TabIndex = 107;
@@ -113,7 +113,7 @@ namespace FrbaHotel.AbmUsuario
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label2.Location = new System.Drawing.Point(430, 171);
+            this.label2.Location = new System.Drawing.Point(430, 234);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(35, 17);
             this.label2.TabIndex = 106;
@@ -141,7 +141,7 @@ namespace FrbaHotel.AbmUsuario
             // btnCancelar
             // 
             this.btnCancelar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.btnCancelar.Location = new System.Drawing.Point(33, 391);
+            this.btnCancelar.Location = new System.Drawing.Point(33, 474);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(150, 50);
             this.btnCancelar.TabIndex = 103;
@@ -152,7 +152,7 @@ namespace FrbaHotel.AbmUsuario
             // btnAceptar
             // 
             this.btnAceptar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.btnAceptar.Location = new System.Drawing.Point(545, 391);
+            this.btnAceptar.Location = new System.Drawing.Point(545, 474);
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(150, 50);
             this.btnAceptar.TabIndex = 102;
@@ -163,7 +163,7 @@ namespace FrbaHotel.AbmUsuario
             // cboTipoDoc
             // 
             this.cboTipoDoc.FormattingEnabled = true;
-            this.cboTipoDoc.Location = new System.Drawing.Point(200, 171);
+            this.cboTipoDoc.Location = new System.Drawing.Point(200, 241);
             this.cboTipoDoc.Name = "cboTipoDoc";
             this.cboTipoDoc.Size = new System.Drawing.Size(121, 21);
             this.cboTipoDoc.TabIndex = 101;
@@ -171,42 +171,42 @@ namespace FrbaHotel.AbmUsuario
             // 
             // telefonoInput
             // 
-            this.telefonoInput.Location = new System.Drawing.Point(200, 261);
+            this.telefonoInput.Location = new System.Drawing.Point(200, 377);
             this.telefonoInput.Name = "telefonoInput";
             this.telefonoInput.Size = new System.Drawing.Size(100, 20);
             this.telefonoInput.TabIndex = 100;
             // 
             // localidadInput
             // 
-            this.localidadInput.Location = new System.Drawing.Point(545, 51);
+            this.localidadInput.Location = new System.Drawing.Point(545, 66);
             this.localidadInput.Name = "localidadInput";
             this.localidadInput.Size = new System.Drawing.Size(100, 20);
             this.localidadInput.TabIndex = 99;
             // 
             // calleInput
             // 
-            this.calleInput.Location = new System.Drawing.Point(545, 81);
+            this.calleInput.Location = new System.Drawing.Point(545, 108);
             this.calleInput.Name = "calleInput";
             this.calleInput.Size = new System.Drawing.Size(100, 20);
             this.calleInput.TabIndex = 98;
             // 
             // mailInput
             // 
-            this.mailInput.Location = new System.Drawing.Point(200, 291);
+            this.mailInput.Location = new System.Drawing.Point(200, 420);
             this.mailInput.Name = "mailInput";
             this.mailInput.Size = new System.Drawing.Size(100, 20);
             this.mailInput.TabIndex = 97;
             // 
             // nroDocumentoInput
             // 
-            this.nroDocumentoInput.Location = new System.Drawing.Point(200, 201);
+            this.nroDocumentoInput.Location = new System.Drawing.Point(200, 286);
             this.nroDocumentoInput.Name = "nroDocumentoInput";
             this.nroDocumentoInput.Size = new System.Drawing.Size(100, 20);
             this.nroDocumentoInput.TabIndex = 96;
             // 
             // apellidoInput
             // 
-            this.apellidoInput.Location = new System.Drawing.Point(200, 141);
+            this.apellidoInput.Location = new System.Drawing.Point(200, 197);
             this.apellidoInput.Name = "apellidoInput";
             this.apellidoInput.Size = new System.Drawing.Size(100, 20);
             this.apellidoInput.TabIndex = 95;
@@ -214,7 +214,7 @@ namespace FrbaHotel.AbmUsuario
             // cboRol
             // 
             this.cboRol.FormattingEnabled = true;
-            this.cboRol.Location = new System.Drawing.Point(200, 81);
+            this.cboRol.Location = new System.Drawing.Point(200, 108);
             this.cboRol.Name = "cboRol";
             this.cboRol.Size = new System.Drawing.Size(121, 21);
             this.cboRol.TabIndex = 94;
@@ -222,7 +222,7 @@ namespace FrbaHotel.AbmUsuario
             // 
             // nombreInput
             // 
-            this.nombreInput.Location = new System.Drawing.Point(200, 111);
+            this.nombreInput.Location = new System.Drawing.Point(200, 151);
             this.nombreInput.Name = "nombreInput";
             this.nombreInput.Size = new System.Drawing.Size(100, 20);
             this.nombreInput.TabIndex = 93;
@@ -238,7 +238,7 @@ namespace FrbaHotel.AbmUsuario
             // 
             this.lblLocalidad.AutoSize = true;
             this.lblLocalidad.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lblLocalidad.Location = new System.Drawing.Point(430, 51);
+            this.lblLocalidad.Location = new System.Drawing.Point(430, 66);
             this.lblLocalidad.Name = "lblLocalidad";
             this.lblLocalidad.Size = new System.Drawing.Size(69, 17);
             this.lblLocalidad.TabIndex = 91;
@@ -248,7 +248,7 @@ namespace FrbaHotel.AbmUsuario
             // 
             this.lblCalle.AutoSize = true;
             this.lblCalle.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lblCalle.Location = new System.Drawing.Point(430, 81);
+            this.lblCalle.Location = new System.Drawing.Point(430, 108);
             this.lblCalle.Name = "lblCalle";
             this.lblCalle.Size = new System.Drawing.Size(39, 17);
             this.lblCalle.TabIndex = 90;
@@ -258,7 +258,7 @@ namespace FrbaHotel.AbmUsuario
             // 
             this.lblFN.AutoSize = true;
             this.lblFN.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lblFN.Location = new System.Drawing.Point(30, 231);
+            this.lblFN.Location = new System.Drawing.Point(30, 329);
             this.lblFN.Name = "lblFN";
             this.lblFN.Size = new System.Drawing.Size(141, 17);
             this.lblFN.TabIndex = 89;
@@ -268,7 +268,7 @@ namespace FrbaHotel.AbmUsuario
             // 
             this.lblTel.AutoSize = true;
             this.lblTel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lblTel.Location = new System.Drawing.Point(30, 261);
+            this.lblTel.Location = new System.Drawing.Point(30, 377);
             this.lblTel.Name = "lblTel";
             this.lblTel.Size = new System.Drawing.Size(64, 17);
             this.lblTel.TabIndex = 88;
@@ -278,7 +278,7 @@ namespace FrbaHotel.AbmUsuario
             // 
             this.lblMail.AutoSize = true;
             this.lblMail.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lblMail.Location = new System.Drawing.Point(30, 291);
+            this.lblMail.Location = new System.Drawing.Point(30, 420);
             this.lblMail.Name = "lblMail";
             this.lblMail.Size = new System.Drawing.Size(33, 17);
             this.lblMail.TabIndex = 87;
@@ -288,7 +288,7 @@ namespace FrbaHotel.AbmUsuario
             // 
             this.lblNId.AutoSize = true;
             this.lblNId.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lblNId.Location = new System.Drawing.Point(30, 201);
+            this.lblNId.Location = new System.Drawing.Point(30, 286);
             this.lblNId.Name = "lblNId";
             this.lblNId.Size = new System.Drawing.Size(141, 17);
             this.lblNId.TabIndex = 86;
@@ -298,7 +298,7 @@ namespace FrbaHotel.AbmUsuario
             // 
             this.lblTipo.AutoSize = true;
             this.lblTipo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lblTipo.Location = new System.Drawing.Point(30, 171);
+            this.lblTipo.Location = new System.Drawing.Point(30, 241);
             this.lblTipo.Name = "lblTipo";
             this.lblTipo.Size = new System.Drawing.Size(142, 17);
             this.lblTipo.TabIndex = 85;
@@ -308,7 +308,7 @@ namespace FrbaHotel.AbmUsuario
             // 
             this.lblApellido.AutoSize = true;
             this.lblApellido.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lblApellido.Location = new System.Drawing.Point(30, 141);
+            this.lblApellido.Location = new System.Drawing.Point(30, 197);
             this.lblApellido.Name = "lblApellido";
             this.lblApellido.Size = new System.Drawing.Size(58, 17);
             this.lblApellido.TabIndex = 84;
@@ -318,7 +318,7 @@ namespace FrbaHotel.AbmUsuario
             // 
             this.lblNombre.AutoSize = true;
             this.lblNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lblNombre.Location = new System.Drawing.Point(30, 111);
+            this.lblNombre.Location = new System.Drawing.Point(30, 151);
             this.lblNombre.Name = "lblNombre";
             this.lblNombre.Size = new System.Drawing.Size(58, 17);
             this.lblNombre.TabIndex = 83;
@@ -328,7 +328,7 @@ namespace FrbaHotel.AbmUsuario
             // 
             this.lblRol.AutoSize = true;
             this.lblRol.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lblRol.Location = new System.Drawing.Point(30, 81);
+            this.lblRol.Location = new System.Drawing.Point(30, 109);
             this.lblRol.Name = "lblRol";
             this.lblRol.Size = new System.Drawing.Size(92, 17);
             this.lblRol.TabIndex = 82;
@@ -336,14 +336,14 @@ namespace FrbaHotel.AbmUsuario
             // 
             // passwordInput
             // 
-            this.passwordInput.Location = new System.Drawing.Point(200, 51);
+            this.passwordInput.Location = new System.Drawing.Point(200, 66);
             this.passwordInput.Name = "passwordInput";
             this.passwordInput.Size = new System.Drawing.Size(100, 20);
             this.passwordInput.TabIndex = 81;
             // 
             // fechaNacInput
             // 
-            this.fechaNacInput.Location = new System.Drawing.Point(200, 231);
+            this.fechaNacInput.Location = new System.Drawing.Point(200, 329);
             this.fechaNacInput.Name = "fechaNacInput";
             this.fechaNacInput.Size = new System.Drawing.Size(200, 20);
             this.fechaNacInput.TabIndex = 80;
@@ -352,7 +352,7 @@ namespace FrbaHotel.AbmUsuario
             // 
             this.lblPassword.AutoSize = true;
             this.lblPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lblPassword.Location = new System.Drawing.Point(30, 51);
+            this.lblPassword.Location = new System.Drawing.Point(30, 66);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(69, 17);
             this.lblPassword.TabIndex = 79;
@@ -371,7 +371,7 @@ namespace FrbaHotel.AbmUsuario
             // btnLimpiar
             // 
             this.btnLimpiar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.btnLimpiar.Location = new System.Drawing.Point(349, 391);
+            this.btnLimpiar.Location = new System.Drawing.Point(349, 474);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(150, 50);
             this.btnLimpiar.TabIndex = 112;
@@ -383,7 +383,7 @@ namespace FrbaHotel.AbmUsuario
             // 
             this.activoCheck.AutoSize = true;
             this.activoCheck.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.activoCheck.Location = new System.Drawing.Point(603, 291);
+            this.activoCheck.Location = new System.Drawing.Point(603, 373);
             this.activoCheck.Name = "activoCheck";
             this.activoCheck.Size = new System.Drawing.Size(65, 21);
             this.activoCheck.TabIndex = 113;
@@ -393,7 +393,7 @@ namespace FrbaHotel.AbmUsuario
             // cboHotel
             // 
             this.cboHotel.FormattingEnabled = true;
-            this.cboHotel.Location = new System.Drawing.Point(545, 201);
+            this.cboHotel.Location = new System.Drawing.Point(545, 279);
             this.cboHotel.Name = "cboHotel";
             this.cboHotel.Size = new System.Drawing.Size(150, 21);
             this.cboHotel.TabIndex = 114;
@@ -403,7 +403,7 @@ namespace FrbaHotel.AbmUsuario
             // 
             this.lblHotel.AutoSize = true;
             this.lblHotel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lblHotel.Location = new System.Drawing.Point(430, 202);
+            this.lblHotel.Location = new System.Drawing.Point(430, 280);
             this.lblHotel.Name = "lblHotel";
             this.lblHotel.Size = new System.Drawing.Size(41, 17);
             this.lblHotel.TabIndex = 115;
@@ -412,7 +412,7 @@ namespace FrbaHotel.AbmUsuario
             // AltaModificar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.ClientSize = new System.Drawing.Size(731, 470);
+            this.ClientSize = new System.Drawing.Size(731, 546);
             this.Controls.Add(this.lblHotel);
             this.Controls.Add(this.cboHotel);
             this.Controls.Add(this.activoCheck);
