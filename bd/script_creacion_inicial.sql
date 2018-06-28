@@ -193,7 +193,6 @@ CREATE TABLE [MMEL].[Hotel](
 	[CantidadEstrellas] [int] NULL,
 	[FechaDeCreacion] [smalldatetime] NULL,
 	[Nombre] [varchar](200) NULL,
-	[Inhabilitado] [bit] NULL,
 	[RecargaEstrellas] int,
 	CONSTRAINT [PK_idHotel] PRIMARY  key(idHotel )
  )
@@ -1275,7 +1274,6 @@ CREATE PROC [MMEL].[HotelCrear]
     @CantidadEstrellas int,
     @Nombre varchar(100),
 	@idAdmin int,
-    @Inhabilitado bit = NULL,
 	@RecargaEstrellas int
 
 AS
@@ -1296,8 +1294,8 @@ AS
 	IF @rol != 'administrador'
 		THROW 51000, 'El usuario no es administrador', 1;
 
-INSERT INTO [MMEL].[Hotel] ([Mail], [idDireccion], [Telefono], [CantidadEstrellas], [FechaDeCreacion], [Nombre], [Inhabilitado], RecargaEstrellas )
-	SELECT @Mail, @idDireccion, @Telefono, @CantidadEstrellas, GETDATE(), @Nombre, @Inhabilitado, @RecargaEstrellas
+INSERT INTO [MMEL].[Hotel] ([Mail], [idDireccion], [Telefono], [CantidadEstrellas], [FechaDeCreacion], [Nombre],  RecargaEstrellas )
+	SELECT @Mail, @idDireccion, @Telefono, @CantidadEstrellas, GETDATE(), @Nombre, @RecargaEstrellas
 
 
 	DECLARE @idHotel int  =  SCOPE_IDENTITY();
@@ -1314,35 +1312,6 @@ INSERT INTO [MMEL].[Hotel] ([Mail], [idDireccion], [Telefono], [CantidadEstrella
 
 	COMMIT
 GO
-
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[HotelDelete]'))
-	DROP PROCEDURE [MMEL].HotelDelete
-go
-
-/****** Object:  StoredProcedure [MMEL].[HotelDelete]    Script Date: 16/6/2018 16:56:43 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE PROC [MMEL].[HotelDelete]
-    @idHotel int
-AS
-	SET NOCOUNT ON
-	SET XACT_ABORT ON
-
-	BEGIN TRAN
-
-	UPDATE [MMEL].[Hotel]
-	SET    [Hotel].Inhabilitado = 1
-	WHERE  [idHotel] = @idHotel
-
-	COMMIT
-GO
-
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[HotelesDeUsuario]'))
-	DROP PROCEDURE [MMEL].HotelesDeUsuario
-go
-
 
 /****** Object:  StoredProcedure [MMEL].[HotelesDeUsuario]    Script Date: 16/6/2018 16:56:43 ******/
 SET ANSI_NULLS ON
@@ -1415,7 +1384,6 @@ CREATE PROC [MMEL].[HotelUpdate]
     @Ciudad nvarchar(150) = NULL,
     @CantidadEstrellas int = NULL,
     @Nombre varchar(100) = NULL,
-    @Inhabilitado bit = NULL,
 	@RecargaEstrellas int
 AS
 	SET NOCOUNT ON
@@ -1424,7 +1392,7 @@ AS
 	BEGIN TRAN
 
 UPDATE [MMEL].[Hotel]
-	SET    [Mail] = @Mail, [Telefono] = @Telefono, [CantidadEstrellas] = @CantidadEstrellas, [Nombre] = @Nombre, [Inhabilitado] = @Inhabilitado, RecargaEstrellas = @RecargaEstrellas
+	SET    [Mail] = @Mail, [Telefono] = @Telefono, [CantidadEstrellas] = @CantidadEstrellas, [Nombre] = @Nombre,  RecargaEstrellas = @RecargaEstrellas
 	WHERE  [idHotel] = @idHotel
 
 	UPDATE [MMEL].[Direccion]
