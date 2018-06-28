@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.usuarioInput = new System.Windows.Forms.TextBox();
-            this.contraseniaInput = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.loginErrorLbl = new System.Windows.Forms.Label();
             this.guestBtn = new System.Windows.Forms.Button();
+            this.contraseniaInput = new System.Windows.Forms.MaskedTextBox();
             this.SuspendLayout();
             // 
             // usuarioInput
@@ -44,13 +44,6 @@
             this.usuarioInput.Name = "usuarioInput";
             this.usuarioInput.Size = new System.Drawing.Size(223, 20);
             this.usuarioInput.TabIndex = 0;
-            // 
-            // contraseniaInput
-            // 
-            this.contraseniaInput.Location = new System.Drawing.Point(98, 49);
-            this.contraseniaInput.Name = "contraseniaInput";
-            this.contraseniaInput.Size = new System.Drawing.Size(223, 20);
-            this.contraseniaInput.TabIndex = 1;
             // 
             // button1
             // 
@@ -111,18 +104,26 @@
             this.guestBtn.UseVisualStyleBackColor = true;
             this.guestBtn.Click += new System.EventHandler(this.guestBtn_Click);
             // 
+            // contraseniaInput
+            // 
+            this.contraseniaInput.Location = new System.Drawing.Point(98, 49);
+            this.contraseniaInput.Name = "contraseniaInput";
+            this.contraseniaInput.PasswordChar = '*';
+            this.contraseniaInput.Size = new System.Drawing.Size(223, 20);
+            this.contraseniaInput.TabIndex = 4;
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(332, 140);
+            this.Controls.Add(this.contraseniaInput);
             this.Controls.Add(this.loginErrorLbl);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.guestBtn);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.contraseniaInput);
             this.Controls.Add(this.usuarioInput);
             this.Name = "Login";
             this.Text = "Login";
@@ -136,12 +137,12 @@
         #endregion
 
         private System.Windows.Forms.TextBox usuarioInput;
-        private System.Windows.Forms.TextBox contraseniaInput;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label loginErrorLbl;
         private System.Windows.Forms.Button guestBtn;
+        private System.Windows.Forms.MaskedTextBox contraseniaInput;
     }
 }
