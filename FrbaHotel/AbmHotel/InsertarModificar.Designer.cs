@@ -47,8 +47,6 @@
             this.ciudadInput = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.habilitadoCheck = new System.Windows.Forms.CheckBox();
-            this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.recEstrellasInput = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.cantidadEstrellasInput)).BeginInit();
@@ -189,7 +187,6 @@
             this.nroInput.Name = "nroInput";
             this.nroInput.Size = new System.Drawing.Size(85, 20);
             this.nroInput.TabIndex = 18;
-            this.nroInput.TextChanged += new System.EventHandler(this.nroInput_TextChanged);
             // 
             // label7
             // 
@@ -199,7 +196,6 @@
             this.label7.Size = new System.Drawing.Size(44, 13);
             this.label7.TabIndex = 17;
             this.label7.Text = "Numero";
-            this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
             // calleInput
             // 
@@ -207,7 +203,6 @@
             this.calleInput.Name = "calleInput";
             this.calleInput.Size = new System.Drawing.Size(158, 20);
             this.calleInput.TabIndex = 15;
-            this.calleInput.TextChanged += new System.EventHandler(this.calleInput_TextChanged);
             // 
             // ciudadInput
             // 
@@ -224,7 +219,6 @@
             this.label5.Size = new System.Drawing.Size(30, 13);
             this.label5.TabIndex = 13;
             this.label5.Text = "Calle";
-            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // label6
             // 
@@ -234,26 +228,6 @@
             this.label6.Size = new System.Drawing.Size(40, 13);
             this.label6.TabIndex = 14;
             this.label6.Text = "Ciudad";
-            // 
-            // habilitadoCheck
-            // 
-            this.habilitadoCheck.AutoSize = true;
-            this.habilitadoCheck.Checked = true;
-            this.habilitadoCheck.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.habilitadoCheck.Location = new System.Drawing.Point(322, 184);
-            this.habilitadoCheck.Name = "habilitadoCheck";
-            this.habilitadoCheck.Size = new System.Drawing.Size(15, 14);
-            this.habilitadoCheck.TabIndex = 21;
-            this.habilitadoCheck.UseVisualStyleBackColor = true;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(260, 184);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(54, 13);
-            this.label9.TabIndex = 13;
-            this.label9.Text = "Habilitado";
             // 
             // label10
             // 
@@ -278,14 +252,12 @@
             this.ClientSize = new System.Drawing.Size(494, 262);
             this.Controls.Add(this.recEstrellasInput);
             this.Controls.Add(this.label10);
-            this.Controls.Add(this.habilitadoCheck);
             this.Controls.Add(this.paisCombo);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.nroInput);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.calleInput);
             this.Controls.Add(this.ciudadInput);
-            this.Controls.Add(this.label9);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.cantidadEstrellasInput);
@@ -327,8 +299,6 @@
         private System.Windows.Forms.TextBox ciudadInput;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.CheckBox habilitadoCheck;
-        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox recEstrellasInput;
     }

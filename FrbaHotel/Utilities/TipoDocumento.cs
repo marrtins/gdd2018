@@ -8,7 +8,7 @@
         public TipoDocumento(int id, string descripcion)
         {
             idTipoDocumento = id;
-            Descripcion = descripcion;
+            //Descripcion = descripcion;
         }
 
         public TipoDocumento()

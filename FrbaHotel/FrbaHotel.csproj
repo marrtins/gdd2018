@@ -163,6 +163,8 @@
     <Compile Include="AbmUsuario\ListadoUsuarios.Designer.cs">
       <DependentUpon>ListadoUsuarios.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmUsuario\Model\Hotel.cs" />
+    <Compile Include="AbmUsuario\Model\Hoteles.cs" />
     <Compile Include="AbmUsuario\Model\Usuario.cs" />
     <Compile Include="AbmUsuario\Model\UsuarioFiltros.cs" />
     <Compile Include="CancelarReserva\CancelarReserva.cs">
@@ -176,6 +178,18 @@
     </Compile>
     <Compile Include="CancelarReserva\MainCancelReserva.Designer.cs">
       <DependentUpon>MainCancelReserva.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Facturar\FacturaExistente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Facturar\FacturaExistente.Designer.cs">
+      <DependentUpon>FacturaExistente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Facturar\NuevaFactura.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Facturar\NuevaFactura.Designer.cs">
+      <DependentUpon>NuevaFactura.cs</DependentUpon>
     </Compile>
     <Compile Include="GenerarModificacionReserva\CodigoReserva.cs">
       <SubType>Form</SubType>
@@ -244,6 +258,31 @@
     </Compile>
     <Compile Include="Login\Seleccion.Designer.cs">
       <DependentUpon>Seleccion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RegistrarConsumible\Consumible.cs" />
+    <Compile Include="RegistrarConsumible\ListarConsumibles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegistrarConsumible\ListarConsumibles.Designer.cs">
+      <DependentUpon>ListarConsumibles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RegistrarConsumible\MainRegCons.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegistrarConsumible\MainRegCons.Designer.cs">
+      <DependentUpon>MainRegCons.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RegistrarConsumible\NuevoConsumible.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegistrarConsumible\NuevoConsumible.Designer.cs">
+      <DependentUpon>NuevoConsumible.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RegistrarConsumible\VerConsumibles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegistrarConsumible\VerConsumibles.Designer.cs">
+      <DependentUpon>VerConsumibles.cs</DependentUpon>
     </Compile>
     <Compile Include="RegistrarEstadia\MainRegEstadia.cs">
       <SubType>Form</SubType>
@@ -364,6 +403,12 @@
     <EmbeddedResource Include="CancelarReserva\MainCancelReserva.resx">
       <DependentUpon>MainCancelReserva.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Facturar\FacturaExistente.resx">
+      <DependentUpon>FacturaExistente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Facturar\NuevaFactura.resx">
+      <DependentUpon>NuevaFactura.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -406,6 +451,18 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="RegistrarConsumible\ListarConsumibles.resx">
+      <DependentUpon>ListarConsumibles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegistrarConsumible\MainRegCons.resx">
+      <DependentUpon>MainRegCons.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegistrarConsumible\NuevoConsumible.resx">
+      <DependentUpon>NuevoConsumible.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegistrarConsumible\VerConsumibles.resx">
+      <DependentUpon>VerConsumibles.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RegistrarEstadia\MainRegEstadia.resx">
       <DependentUpon>MainRegEstadia.cs</DependentUpon>
     </EmbeddedResource>
@@ -464,9 +521,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="RegistrarConsumible\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="AbmUsuario\script_abm_usuario.sql" />
   </ItemGroup>

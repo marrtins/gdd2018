@@ -1,4 +1,8 @@
 ﻿using FrbaHotel.AbmCliente;
+using FrbaHotel.CancelarReserva;
+using FrbaHotel.GenerarModificacionReserva;
+using FrbaHotel.RegistrarConsumible;
+using FrbaHotel.RegistrarEstadia;
 using FrbaHotel.Utilities;
 using System;
 using System.Collections.Generic;
@@ -67,6 +71,40 @@ namespace FrbaHotel
             AbmUsuario.ListadoUsuarios usuarios = new AbmUsuario.ListadoUsuarios();
             usuarios.ShowDialog();
             this.Hide();
+        }
+
+        private void btnGenRes_Click(object sender, EventArgs e)
+        {
+            GenModReserva gmr = new GenModReserva();
+            gmr.Show();
+            this.Hide();
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            MainCancelReserva mcr = new MainCancelReserva();
+            mcr.Show();
+            this.Hide();
+
+        }
+
+        private void btnEstadia_Click(object sender, EventArgs e)
+        {
+            MainRegEstadia mre = new MainRegEstadia();
+            mre.Show();
+            this.Hide();
+        }
+
+        private void btnConsumible_Click(object sender, EventArgs e)
+        {
+            MainRegCons mrc = new MainRegCons();
+            mrc.Show();
+            this.Hide();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

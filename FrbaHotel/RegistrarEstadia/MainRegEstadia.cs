@@ -201,5 +201,9 @@ namespace FrbaHotel.RegistrarEstadia
 
         }
 
+        private void MainRegEstadia_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

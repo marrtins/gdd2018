@@ -193,7 +193,6 @@ CREATE TABLE [MMEL].[Hotel](
 	[CantidadEstrellas] [int] NULL,
 	[FechaDeCreacion] [smalldatetime] NULL,
 	[Nombre] [varchar](200) NULL,
-	[Inhabilitado] [bit] NULL,
 	[RecargaEstrellas] int,
 	CONSTRAINT [PK_idHotel] PRIMARY  key(idHotel )
  )
@@ -278,7 +277,8 @@ Create Table [MMEL].[Reserva](
 	FechaDeReserva datetime ,
 	FechaDesde datetime ,
 	FechaHasta datetime ,
-	idHabitacion int references MMEL.Habitacion(idHabitacion),
+	--idHabitacion int references MMEL.Habitacion(idHabitacion),
+	
 	idRegimen int references MMEL.Regimen(idRegimen),
 	idHuesped int references MMEL.Huesped(idHuesped),
 	EstadoReserva char(6) ,
@@ -290,7 +290,7 @@ Create Table [MMEL].[Reserva](
 	idRPH int identity(1,1) not null,
 	idReserva int references MMEL.Reserva(idReserva),
 	idHabitacion int references MMEL.Habitacion(idHabitacion),
-	constraint PK_RPH primary key(idHabitacion)
+	constraint PK_RPH primary key(idRPH)
 	)
 
 Create Table [MMEL].[Estadia](
@@ -575,7 +575,7 @@ update mmel.Reserva
 set
 FechaDesde = ot1.Reserva_Fecha_Inicio,
 FechaHasta=ot1.Reserva_Fecha_Inicio+ot1.Reserva_Cant_Noches,
-idHabitacion = ha.idHabitacion,
+--idHabitacion = ha.idHabitacion,
 idRegimen=re.idRegimen,
 idHuesped=pe.idPersona,
 idHotel = ho.idHotel
@@ -591,7 +591,12 @@ and pe.Apellido=ot1.Cliente_Apellido
 and pe.NroDocumento=ot1.Cliente_Pasaporte_Nro
 and pe.Mail=ot1.Cliente_Mail
 
-
+insert into mmel.ReservaPorHabitacion(idReserva,idHabitacion) 
+select distinct re.idReserva,ha.idHabitacion from gd_esquema.Maestra ot,mmel.Reserva re,mmel.Habitacion ha,mmel.Hotel ho where 
+re.CodigoReserva=ot.Reserva_Codigo 
+and re.idHotel=ho.idHotel
+and ha.idHotel=ho.idHotel
+and ha.NumeroHabitacion=ot.Habitacion_Numero
 
 --hay campos en q fehca inicio y cant noches son nulos , no los pongo pero revisar...
 insert into mmel.Estadia (idReserva,FechaCheckIN,FechaCheckOUT)
@@ -867,7 +872,8 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROC [MMEL].[TiposDocumentoListar] 
+CREATE PROC [MMEL].[TiposDocumentoListar]
+	@idTipoDocumento int
 AS 
 	SET NOCOUNT ON 
 	SET XACT_ABORT ON  
@@ -876,6 +882,7 @@ AS
 
 	SELECT [idTipoDocumento], [detalle]
 	FROM   [MMEL].[TipoDocumento]
+	WHERE  ([idTipoDocumento] = @idTipoDocumento OR @idTipoDocumento IS NULL)
 
 	COMMIT
 GO
@@ -889,7 +896,8 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROC [MMEL].[HotelesDisponibles] 
+CREATE PROC [MMEL].[HotelesDisponibles]
+	@idHotel int
 AS 
 	SET NOCOUNT ON 
 	SET XACT_ABORT ON  
@@ -898,10 +906,10 @@ AS
 
 	SELECT [idHotel], [Nombre]
 	FROM   [MMEL].[Hotel]
+	WHERE  ([idHotel] = @idHotel OR @idHotel IS NULL)
 
 	COMMIT
 GO
-
 
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[ReservasNoCanceladas]'))
@@ -1259,11 +1267,6 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[Hote
 	DROP PROCEDURE [MMEL].HotelCrear
 go
 
-/****** Object:  StoredProcedure [MMEL].[HotelCrear]    Script Date: 16/6/2018 16:56:43 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
 
 CREATE PROC [MMEL].[HotelCrear]
     @Mail varchar(200),
@@ -1275,7 +1278,6 @@ CREATE PROC [MMEL].[HotelCrear]
     @CantidadEstrellas int,
     @Nombre varchar(100),
 	@idAdmin int,
-    @Inhabilitado bit = NULL,
 	@RecargaEstrellas int
 
 AS
@@ -1296,8 +1298,8 @@ AS
 	IF @rol != 'administrador'
 		THROW 51000, 'El usuario no es administrador', 1;
 
-INSERT INTO [MMEL].[Hotel] ([Mail], [idDireccion], [Telefono], [CantidadEstrellas], [FechaDeCreacion], [Nombre], [Inhabilitado], RecargaEstrellas )
-	SELECT @Mail, @idDireccion, @Telefono, @CantidadEstrellas, GETDATE(), @Nombre, @Inhabilitado, @RecargaEstrellas
+INSERT INTO [MMEL].[Hotel] ([Mail], [idDireccion], [Telefono], [CantidadEstrellas], [FechaDeCreacion], [Nombre],  RecargaEstrellas )
+	SELECT @Mail, @idDireccion, @Telefono, @CantidadEstrellas, GETDATE(), @Nombre, @RecargaEstrellas
 
 
 	DECLARE @idHotel int  =  SCOPE_IDENTITY();
@@ -1315,40 +1317,10 @@ INSERT INTO [MMEL].[Hotel] ([Mail], [idDireccion], [Telefono], [CantidadEstrella
 	COMMIT
 GO
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[HotelDelete]'))
-	DROP PROCEDURE [MMEL].HotelDelete
-go
-
-/****** Object:  StoredProcedure [MMEL].[HotelDelete]    Script Date: 16/6/2018 16:56:43 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE PROC [MMEL].[HotelDelete]
-    @idHotel int
-AS
-	SET NOCOUNT ON
-	SET XACT_ABORT ON
-
-	BEGIN TRAN
-
-	UPDATE [MMEL].[Hotel]
-	SET    [Hotel].Inhabilitado = 1
-	WHERE  [idHotel] = @idHotel
-
-	COMMIT
-GO
-
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[HotelesDeUsuario]'))
 	DROP PROCEDURE [MMEL].HotelesDeUsuario
 go
 
-
-/****** Object:  StoredProcedure [MMEL].[HotelesDeUsuario]    Script Date: 16/6/2018 16:56:43 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
 CREATE PROC [MMEL].[HotelesDeUsuario]
     @idUsuario int
 AS
@@ -1415,7 +1387,6 @@ CREATE PROC [MMEL].[HotelUpdate]
     @Ciudad nvarchar(150) = NULL,
     @CantidadEstrellas int = NULL,
     @Nombre varchar(100) = NULL,
-    @Inhabilitado bit = NULL,
 	@RecargaEstrellas int
 AS
 	SET NOCOUNT ON
@@ -1424,7 +1395,7 @@ AS
 	BEGIN TRAN
 
 UPDATE [MMEL].[Hotel]
-	SET    [Mail] = @Mail, [Telefono] = @Telefono, [CantidadEstrellas] = @CantidadEstrellas, [Nombre] = @Nombre, [Inhabilitado] = @Inhabilitado, RecargaEstrellas = @RecargaEstrellas
+	SET    [Mail] = @Mail, [Telefono] = @Telefono, [CantidadEstrellas] = @CantidadEstrellas, [Nombre] = @Nombre,  RecargaEstrellas = @RecargaEstrellas
 	WHERE  [idHotel] = @idHotel
 
 	UPDATE [MMEL].[Direccion]
@@ -1616,6 +1587,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROC [MMEL].[RolesListar]
+	@idRol int
 AS
 	SET NOCOUNT ON
 	SET XACT_ABORT ON
@@ -1624,6 +1596,7 @@ AS
 
 	SELECT [idRol], [Nombre], [Activo]
 	FROM   [MMEL].[Rol]
+	WHERE  ([idRol] = @idRol OR @idRol IS NULL)
 
 	COMMIT
 GO
@@ -2320,19 +2293,28 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[actu
 go
 
 
-create procedure mmel.actualizarCheckIn (@idEstadia int, @fechaCheckIn datetime,@iduserQueModifica varchar(200))
+create procedure mmel.actualizarCheckIn (@idEstadia int, @fechaCheckIn datetime,@iduserQueModifica int,@rta int output)
 as
 begin
 	declare @idRecepQueModifica int
+	declare @reschin datetime
+	declare @idRes int
 	set @idRecepQueModifica=@iduserQueModifica
-	update mmel.Estadia
-	set FechaCheckIN = @fechaCheckIn,
-	idRecepcionistaCheckIN=@idRecepQueModifica,
-	FechaCheckOUT= case
-		when Consistente = 'N' then null else FechaCheckOUT
-	end,
-	Consistente='S'
-	where idEstadia=@idEstadia
+	select @reschin = re.FechaDesde  from mmel.Reserva re,mmel.Estadia e where e.idReserva=re.idReserva
+	if(@reschin=@fechaCheckIn)
+		begin
+		update mmel.Estadia
+		set FechaCheckIN = @fechaCheckIn,
+		idRecepcionistaCheckIN=@idRecepQueModifica,
+		FechaCheckOUT= case
+			when Consistente = 'N' then null else FechaCheckOUT
+		end,
+		Consistente='S'
+		where idEstadia=@idEstadia
+		set @rta=1
+		end
+	else
+		set @rta=0
 end
 
 go
@@ -2342,13 +2324,13 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[real
 go
 
 
-create procedure mmel.realizarCheckIn(@codigoRes int, @fechaCheckIn datetime,@userQueModifica varchar(200))
+create procedure mmel.realizarCheckIn(@codigoRes int, @fechaCheckIn datetime,@idRecepQueModifica int)
 as
 begin
 
-	declare @idRecepQueModifica int
+	
 	declare @idReserva int
-	set @idRecepQueModifica=3 --cambiar!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	
 	select @idReserva=idReserva from mmel.Reserva where CodigoReserva=@codigoRes
 	insert into mmel.Estadia(FechaCheckIN,idRecepcionistaCheckIN,idReserva,Consistente)
 	values(@fechaCheckIn,@idRecepQueModifica,@idReserva,'S')
@@ -2421,11 +2403,11 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[actu
 go
 
 
-create procedure MMEL.actualizarCheckOut (@idEstadia int,@fechaCheckOut datetime,@userQueModifica varchar(200))
+create procedure MMEL.actualizarCheckOut (@idEstadia int,@fechaCheckOut datetime,@iduserQueModifica int)
 as
 begin
 	declare @idRecepQueModificaCOUT int
-	set @idRecepQueModificaCOUT=3 --cambiar!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	set @idRecepQueModificaCOUT=@iduserQueModifica
 
 
 	update mmel.Estadia
