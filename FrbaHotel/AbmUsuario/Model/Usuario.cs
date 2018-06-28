@@ -25,6 +25,7 @@ namespace FrbaHotel.AbmUsuario.Model
         private int idUsuario; // PK
         private int idRol; // FK
         private int idPersona; // FK
+        private int idHotel; // Fk
         private DateTime fechaNac;
         private int idTipoDocumento; // FK
         private string nroDocumento; 
@@ -151,7 +152,7 @@ namespace FrbaHotel.AbmUsuario.Model
             }
         }
 
-        public Usuario(int id, string username, string password, string nombre, string apellido, int idTipoDocumento, string nroDocumento, DateTime fechaNac, string mail, string telefono, int idPais, string calle, string nroCalle, string localidad, string depto, string piso)
+        public Usuario(int id, string username, string password, int idRol, string nombre, string apellido, int idTipoDocumento, string nroDocumento, DateTime fechaNac, string mail, string telefono, int idPais, int idHotel, string calle, string nroCalle, string localidad, string depto, string piso)
         {
             // Dirección
             NroCalle = nroCalle;
@@ -165,6 +166,8 @@ namespace FrbaHotel.AbmUsuario.Model
             Username = username;
             Password = password;
             IdUsuario = id;
+            IdRol = idRol;
+            IdHotel = idHotel;
 
             // Persona
             Nombre = nombre;
@@ -338,6 +341,19 @@ namespace FrbaHotel.AbmUsuario.Model
             {
                 idPersona = value;
             }
+        }
+
+        public int IdHotel
+        {
+            get
+            {
+                return idHotel;
+            }
+            set
+            {
+                idHotel = value;
+            }
+
         }
 
 

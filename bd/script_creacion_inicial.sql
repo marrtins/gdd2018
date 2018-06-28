@@ -162,7 +162,7 @@ CREATE TABLE [MMEL].[PersonasInconsistentes](
 
 CREATE TABLE [MMEL].[Usuarios](
 	[idUsuario] [int] IDENTITY(1,1) NOT NULL,
-	[Contraseña] [varchar](75) NULL,
+	[Password] [nvarchar](200) NULL,
 	[idPersona] [int] NULL,
 	[Activo] [char](1) NULL,
 	[Username] [nvarchar](200) NULL,
@@ -642,7 +642,266 @@ select fa.idFactura,fa.idEstadia,'VALOR CONSUMIBLE',co.idConsumible,ot.Item_Fact
  inner join mmel.ConsumiblePorEstadia cpe on cpe.idEstadia = es.idEstadia
  inner join mmel.Consumible co on co.idConsumible=cpe.idConsumible
  where ot.Consumible_Codigo is not null and ot.Factura_Fecha is not null
+
+
 -----fin migracion
+
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[UsuarioListar]'))
+	DROP PROCEDURE [MMEL].UsuarioListar
+GO
+
+/****** Object:  StoredProcedure [MMEL].[UsuarioListar]    Script Date: 13/6/2018 22:27:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [MMEL].[UsuarioListar]  
+    @Username nvarchar(200),
+	@Nombre nvarchar(50),
+	@Apellido nvarchar(50),
+	@Mail nvarchar(200),
+	@NroDocumento int,
+	@idTipoDocumento int,
+	@idRol int
+AS   
+
+    SET NOCOUNT ON;  
+
+    SELECT * 
+    FROM MMEL.Usuarios us
+    JOIN MMEL.Persona pe on us.idPersona = pe.idPersona
+	JOIN MMEL.RolesPorUsuario rpu on us.idUsuario = rpu.idUsuario
+	JOIN MMEL.Rol ro on rpu.idRol = ro.idRol
+    WHERE (@Username is null or us.Username LIKE '%' + @Username + '%')
+            and (@Nombre is null or pe.Nombre LIKE '%' + @Nombre + '%')
+            and (@Apellido is null or pe.Apellido LIKE '%' + @Nombre + '%')
+            and (@idTipoDocumento is null or pe.idTipoDocumento = @idTipoDocumento)
+			and (@NroDocumento is null or pe.NroDocumento = @NroDocumento)
+			and (@idRol is null or ro.idRol = @idRol)
+			and (@Mail is null or pe.Mail LIKE '%' + @Mail + '%')
+GO
+
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[UsuarioDelete]'))
+	DROP PROCEDURE [MMEL].UsuarioDelete
+GO
+
+/****** Object:  StoredProcedure [MMEL].[UsuarioDelete]    Script Date: 13/6/2018 22:27:10 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [MMEL].[UsuarioDelete] 
+    @idUsuario int
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
+
+	UPDATE [MMEL].[Usuarios]
+	SET    [Usuarios].Activo = 'N'
+	WHERE  [Usuarios].idUsuario = @idUsuario
+
+	COMMIT
+GO
+
+
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[UsuarioCrear]'))
+	DROP PROCEDURE [MMEL].UsuarioCrear
+GO
+
+/****** Object:  StoredProcedure [MMEL].[UsuarioCrear]    Script Date: 13/6/2018 22:26:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROC [MMEL].[UsuarioCrear] 
+    @idAdmin int,
+	@Username nvarchar(200),
+	@Password nvarchar(200),
+	@idRol int,
+	@idHotel int,
+	@Nombre nvarchar(50),
+	@Apellido nvarchar(50),
+    @Mail nvarchar(200),
+	@idTipoDocumento int,
+	@NroDocumento int,
+	@dirIdPais int = NULL,
+	@dirCalle nvarchar(150) = NULL,
+    @dirNroCalle int = NULL,
+	@FechaDeNacimiento datetime,
+	@dirDepto char(2) = NULL,
+	@dirPiso smallint = NULL,
+	@dirLocalidad nvarchar(150) = NULL,
+    @Telefono varchar(20) = NULL,
+	@Activo char = NULL
+
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
+
+	DECLARE @nombreRol [varchar](50);
+
+	SELECT @nombreRol = Nombre FROM Rol r JOIN UsuariosPorRoles upr on upr.idRol = r.idRol WHERE upr.idUsuario = @idAdmin
+
+	IF @nombreRol != 'administrador'
+		THROW 51000, 'El usuario no es administrador', 1;
+
+	INSERT INTO [MMEL].[Persona] ([Nombre], [Apellido], [idTipoDocumento], [NroDocumento], [Mail], [Telefono], [FechaDenacimiento], [dirCalle], [dirNroCalle], [dirIdPais], [dirPiso], [dirDepto], [dirLocalidad])
+	SELECT @Nombre, @Apellido, @idTipoDocumento, @NroDocumento, @Mail, @Telefono, @FechaDeNacimiento, @dirCalle, @dirNroCalle, @dirIdPais, @dirPiso, @dirDepto, @dirLocalidad
+	
+	DECLARE @idPersona int = SCOPE_IDENTITY();
+
+	DECLARE @PasswordHasheada varchar(200) = CONVERT(nvarchar(200), HASHBYTES('SHA256', @Password));
+
+
+	INSERT INTO [MMEL].[Usuarios] ([Username], [Password], [idPersona], [Activo])
+	SELECT @Username, @PasswordHasheada, @idPersona, @Activo
+
+	DECLARE @idUsuario int  =  SCOPE_IDENTITY();
+
+	INSERT INTO [MMEL].[UsuariosPorRoles] ([idRol], [idUsuario])
+	SELECT @idRol, @idUsuario
+
+	DECLARE @idUPR int = SCOPE_IDENTITY();
+
+	INSERT INTO [MMEL].[HotelesPorUsuarios] ([idUsuario], [idHotel])
+    SELECT @idUsuario, @idHotel
+
+	DECLARE @idHPU int = SCOPE_IDENTITY();
+
+               
+	COMMIT
+GO
+
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[UsuarioUpdate]'))
+	DROP PROCEDURE [MMEL].UsuarioUpdate
+GO
+
+/****** Object:  StoredProcedure [MMEL].[UsuarioUpdate]    Script Date: 13/6/2018 22:26:00 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROC [MMEL].[UsuarioUpdate] 
+	@idAdmin int,
+	@idUsuario int,
+	@Username nvarchar(200),
+	@Password nvarchar(200),
+	@idRol int,
+	@idHotel int,
+	@Nombre nvarchar(50),
+	@Apellido nvarchar(50),
+    @Mail nvarchar(200),
+	@idTipoDocumento int,
+	@NroDocumento int,
+	@dirIdPais int = NULL,
+	@dirCalle nvarchar(150) = NULL,
+    @dirNroCalle int = NULL,
+	@FechaDeNacimiento datetime,
+	@dirDepto char(2) = NULL,
+	@dirPiso smallint = NULL,
+	@dirLocalidad nvarchar(150) = NULL,
+    @Telefono varchar(20) = NULL,
+	@Activo char = NULL
+
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
+
+	DECLARE @nombreRol [varchar](50);
+
+	SELECT @nombreRol = Nombre FROM Rol r JOIN UsuariosPorRoles upr on upr.idRol = r.idRol WHERE upr.idUsuario = @idAdmin
+
+	IF @nombreRol != 'administrador'
+		THROW 51000, 'El usuario no es administrador', 1;
+	
+	DECLARE @PasswordHasheada varchar(200) = CONVERT(nvarchar(200), HASHBYTES('SHA256', @Password));
+
+
+	UPDATE [MMEL].[Usuarios]
+	SET    [Username] = @Username, [Password] = @PasswordHasheada, [Activo] = @Activo
+	WHERE  [idUsuario] = @idUsuario
+
+	UPDATE [MMEL].[UsuariosPorRoles]
+	SET [idRol] = @idRol
+	WHERE [idUsuario] = @idUsuario
+
+	UPDATE [MMEL].[HotelesPorUsuarios]
+	SET [idHotel] = @idHotel
+	WHERE [idUsuario] = @idUsuario
+
+	DECLARE @idPersona int;
+	SELECT @idPersona FROM Usuarios U WHERE U.idUsuario = @idUsuario
+	
+	UPDATE [MMEL].[Persona]
+	SET    [Nombre] = @Nombre, [Apellido] = @Apellido, [idTipoDocumento] = @idTipoDocumento, [NroDocumento] = @NroDocumento, [FechaDenacimiento] = @FechaDeNacimiento, [Mail] = @Mail, [Telefono] = @Telefono, [dirCalle] = @dirCalle, [dirNroCalle] = @dirNroCalle, [dirPiso] = @dirPiso, [dirDepto] = @dirDepto, [dirIdPais] = @dirIdPais, [dirLocalidad] = @dirLocalidad
+	WHERE  [idPersona] = @idPersona
+
+	
+
+	SELECT [idUsuario]
+	FROM   [MMEL].[Usuarios]
+	WHERE  [idUsuario] = @idUsuario
+
+	COMMIT
+GO
+
+
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[TiposDocumentoListar]'))
+	DROP PROCEDURE [MMEL].TiposDocumentoListar
+GO
+
+/****** Object:  StoredProcedure [MMEL].[TiposDocumentoListar]    Script Date: 26/6/2018 17:22:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [MMEL].[TiposDocumentoListar] 
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+
+	BEGIN TRAN
+
+	SELECT [idTipoDocumento], [detalle]
+	FROM   [MMEL].[TipoDocumento]
+
+	COMMIT
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[HotelesDisponibles]'))
+	DROP PROCEDURE [MMEL].HotelesDisponibles
+GO
+
+/****** Object:  StoredProcedure [MMEL].[HotelesDisponibles]    Script Date: 26/6/2018 17:22:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [MMEL].[HotelesDisponibles] 
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+
+	BEGIN TRAN
+
+	SELECT [idHotel], [Nombre]
+	FROM   [MMEL].[Hotel]
+
+	COMMIT
+GO
+
 
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[ReservasNoCanceladas]'))
@@ -1197,7 +1456,7 @@ GO
 CREATE PROCEDURE [MMEL].[Logear]
 	-- Add the parameters for the stored procedure here
 	@usuario nvarchar(200),
-	@contrasenia nvarchar(200)
+	@password nvarchar(200)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -1210,12 +1469,12 @@ BEGIN
 	DECLARE @rightPassword nvarchar(200)
 	DECLARE @habilitado char(1)
 
-	SELECT @rightPassword = Contraseña, @habilitado = Activo FROM MMEL.Usuarios WHERE Username = @usuario
+	SELECT @rightPassword = Password, @habilitado = Activo FROM MMEL.Usuarios WHERE Username = @usuario
 
 	IF @habilitado = 'N'
 		SELECT @noHabilitadoReturn AS id
 	ELSE
-		IF @rightPassword != @contrasenia
+		IF @rightPassword != @password
 			BEGIN
 
 				DECLARE @ingresosFallidos int

@@ -22,6 +22,7 @@ namespace FrbaHotel.AbmUsuario
         private Action<Usuario> accion;
         private List<TipoDocumento> tiposDocumento;
         private List<Rol> roles;
+        private List<Hotel> hoteles;
 
         public DialogResult Result
         {
@@ -42,6 +43,7 @@ namespace FrbaHotel.AbmUsuario
             this.idUsuario = idUsuario;
             this.roles = Roles.GetAll();
             this.tiposDocumento = TiposDocumento.GetAll();
+            this.hoteles = Hoteles.GetAll();
             this.Text = "Crear";
 
             CargarDefaults(this.Model as Usuario);
@@ -57,6 +59,7 @@ namespace FrbaHotel.AbmUsuario
             usuario.IdTipoDocumento = 1;
             usuario.IdPais = 1;
             usuario.IdRol = 1;
+            usuario.IdHotel = 1;
         }
 
         public AltaModificar(int idUsuario, Usuario usuario)
@@ -66,6 +69,7 @@ namespace FrbaHotel.AbmUsuario
             this.idUsuario = idUsuario;
             this.roles = Roles.GetAll();
             this.tiposDocumento = TiposDocumento.GetAll();
+            this.hoteles = Hoteles.GetAll();
             this.Text = "Modificar";
 
             RegistrarInputs();
@@ -112,6 +116,9 @@ namespace FrbaHotel.AbmUsuario
 
             cboTipoDoc.DataSource = tiposDocumento;
             cboTipoDoc.DataBindings.Add(new Binding("SelectedValue", this.Model, "IdTipoDocumento"));
+
+            cboHotel.DataSource = hoteles;
+            cboHotel.DataBindings.Add(new Binding("SelectedValue", this.Model, "IdHotel"));
 
             fechaNacInput.DataBindings.Add(new Binding("SelectedValue", this.Model, "FechaDeNacimiento"));
 
@@ -162,10 +169,11 @@ namespace FrbaHotel.AbmUsuario
                     cmd.Parameters.AddWithValue("@Username", SqlDbType.VarChar).Value = usuario.Username;
                     cmd.Parameters.AddWithValue("@Password", SqlDbType.VarChar).Value = usuario.Password;
                     cmd.Parameters.AddWithValue("@idRol", SqlDbType.Int).Value = usuario.IdRol;
+                    cmd.Parameters.AddWithValue("@idHotel", SqlDbType.Int).Value = usuario.IdHotel;
                     cmd.Parameters.AddWithValue("@Nombre", SqlDbType.VarChar).Value = usuario.Nombre;
                     cmd.Parameters.AddWithValue("@Apellido", SqlDbType.VarChar).Value = usuario.Apellido;
                     cmd.Parameters.AddWithValue("@Mail", SqlDbType.VarChar).Value = usuario.Mail;
-                    cmd.Parameters.AddWithValue("@TipoDocumento", SqlDbType.VarChar).Value = usuario.IdTipoDocumento;
+                    cmd.Parameters.AddWithValue("@idTipoDocumento", SqlDbType.VarChar).Value = usuario.IdTipoDocumento;
                     cmd.Parameters.AddWithValue("@NroDocumento", SqlDbType.Int).Value = usuario.NroDocumento;
                     cmd.Parameters.AddWithValue("@dirIdPais", SqlDbType.Int).Value = usuario.IdPais;
                     cmd.Parameters.AddWithValue("@dirCalle", SqlDbType.VarChar).Value = usuario.Calle;
@@ -201,10 +209,11 @@ namespace FrbaHotel.AbmUsuario
                     cmd.Parameters.AddWithValue("@Username", SqlDbType.VarChar).Value = usuario.Username;
                     cmd.Parameters.AddWithValue("@Password", SqlDbType.VarChar).Value = usuario.Password;
                     cmd.Parameters.AddWithValue("@idRol", SqlDbType.Int).Value = usuario.IdRol;
+                    cmd.Parameters.AddWithValue("@idHotel", SqlDbType.Int).Value = usuario.IdHotel;
                     cmd.Parameters.AddWithValue("@Nombre", SqlDbType.VarChar).Value = usuario.Nombre;
                     cmd.Parameters.AddWithValue("@Apellido", SqlDbType.VarChar).Value = usuario.Apellido;
                     cmd.Parameters.AddWithValue("@Mail", SqlDbType.VarChar).Value = usuario.Mail;
-                    cmd.Parameters.AddWithValue("@TipoDocumento", SqlDbType.VarChar).Value = usuario.IdTipoDocumento;
+                    cmd.Parameters.AddWithValue("@idTipoDocumento", SqlDbType.VarChar).Value = usuario.IdTipoDocumento;
                     cmd.Parameters.AddWithValue("@NroDocumento", SqlDbType.Int).Value = usuario.NroDocumento;
                     cmd.Parameters.AddWithValue("@dirIdPais", SqlDbType.Int).Value = usuario.IdPais;
                     cmd.Parameters.AddWithValue("@dirCalle", SqlDbType.VarChar).Value = usuario.Calle;

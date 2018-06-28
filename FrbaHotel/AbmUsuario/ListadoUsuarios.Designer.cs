@@ -262,9 +262,9 @@ namespace FrbaHotel.AbmUsuario
             this.lblNro.AutoSize = true;
             this.lblNro.Location = new System.Drawing.Point(510, 63);
             this.lblNro.Name = "lblNro";
-            this.lblNro.Size = new System.Drawing.Size(142, 17);
+            this.lblNro.Size = new System.Drawing.Size(141, 17);
             this.lblNro.TabIndex = 6;
-            this.lblNro.Text = "Nro. de Identificaci�n";
+            this.lblNro.Text = "Nro. de Identificacion";
             // 
             // cboTipoDoc
             // 
@@ -280,9 +280,9 @@ namespace FrbaHotel.AbmUsuario
             this.lblTipoId.AutoSize = true;
             this.lblTipoId.Location = new System.Drawing.Point(510, 33);
             this.lblTipoId.Name = "lblTipoId";
-            this.lblTipoId.Size = new System.Drawing.Size(143, 17);
+            this.lblTipoId.Size = new System.Drawing.Size(142, 17);
             this.lblTipoId.TabIndex = 4;
-            this.lblTipoId.Text = "Tipo de Identificaci�n";
+            this.lblTipoId.Text = "Tipo de Identificacion";
             // 
             // apellidoInput
             // 

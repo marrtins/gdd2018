@@ -64,6 +64,8 @@ namespace FrbaHotel.AbmUsuario
             this.lblUsername = new System.Windows.Forms.Label();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.activoCheck = new System.Windows.Forms.CheckBox();
+            this.cboHotel = new System.Windows.Forms.ComboBox();
+            this.lblHotel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // nroCalleInput
@@ -268,7 +270,7 @@ namespace FrbaHotel.AbmUsuario
             this.lblTel.Name = "lblTel";
             this.lblTel.Size = new System.Drawing.Size(64, 17);
             this.lblTel.TabIndex = 88;
-            this.lblTel.Text = "Tel�fono";
+            this.lblTel.Text = "Telefono";
             // 
             // lblMail
             // 
@@ -288,7 +290,7 @@ namespace FrbaHotel.AbmUsuario
             this.lblNId.Name = "lblNId";
             this.lblNId.Size = new System.Drawing.Size(141, 17);
             this.lblNId.TabIndex = 86;
-            this.lblNId.Text = "Nro. de Identificaci�n";
+            this.lblNId.Text = "Nro. de Identificacion";
             // 
             // lblTipo
             // 
@@ -298,7 +300,7 @@ namespace FrbaHotel.AbmUsuario
             this.lblTipo.Name = "lblTipo";
             this.lblTipo.Size = new System.Drawing.Size(142, 17);
             this.lblTipo.TabIndex = 85;
-            this.lblTipo.Text = "Tipo de Identificaci�n";
+            this.lblTipo.Text = "Tipo de Identificacion";
             // 
             // lblApellido
             // 
@@ -385,10 +387,31 @@ namespace FrbaHotel.AbmUsuario
             this.activoCheck.Text = "Activo";
             this.activoCheck.UseVisualStyleBackColor = true;
             // 
+            // cboHotel
+            // 
+            this.cboHotel.FormattingEnabled = true;
+            this.cboHotel.Location = new System.Drawing.Point(545, 201);
+            this.cboHotel.Name = "cboHotel";
+            this.cboHotel.Size = new System.Drawing.Size(150, 21);
+            this.cboHotel.TabIndex = 114;
+            this.cboHotel.Text = "Seleccionar";
+            // 
+            // lblHotel
+            // 
+            this.lblHotel.AutoSize = true;
+            this.lblHotel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.lblHotel.Location = new System.Drawing.Point(430, 202);
+            this.lblHotel.Name = "lblHotel";
+            this.lblHotel.Size = new System.Drawing.Size(41, 17);
+            this.lblHotel.TabIndex = 115;
+            this.lblHotel.Text = "Hotel";
+            // 
             // AltaModificar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.ClientSize = new System.Drawing.Size(731, 470);
+            this.Controls.Add(this.lblHotel);
+            this.Controls.Add(this.cboHotel);
             this.Controls.Add(this.activoCheck);
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.nroCalleInput);
@@ -470,6 +493,8 @@ namespace FrbaHotel.AbmUsuario
         private System.Windows.Forms.Label lblUsername;
         private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.CheckBox activoCheck;
+        private System.Windows.Forms.ComboBox cboHotel;
+        private System.Windows.Forms.Label lblHotel;
         
     }
 }
