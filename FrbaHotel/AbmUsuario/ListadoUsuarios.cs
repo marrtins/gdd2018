@@ -38,13 +38,16 @@ namespace FrbaHotel.AbmUsuario
 
             nroDocumentoInput.DataBindings.Add(new TextBinding(this.Model, "NroDocumento"));
 
-            cboRol.DataSource = Roles.GetAll();
+            cboRol.DisplayMember = "Nombre";
+            cboRol.ValueMember = "idRol";
+            cboRol.DataSource = Roles.GetAllWithDefault();
+            //cboRol.DataBindings.Add(new Binding("SelectedValue", this.Model, "idRol"));
 
-            cboRol.DataBindings.Add(new Binding("SelectedValue", this.Model, "IdRol"));
+            cboTipoDoc.DisplayMember = "detalle";
+            cboTipoDoc.ValueMember = "idTipoDocumento";
+            cboTipoDoc.DataSource = TiposDocumento.GetAllWithDefault();
 
-            cboTipoDoc.DataSource = TiposDocumento.GetAll();
-
-            cboTipoDoc.DataBindings.Add(new Binding("SelectedValue", this.Model, "IdTipoDocumento"));
+            //cboTipoDoc.DataBindings.Add(new Binding("SelectedValue", this.Model, "idTipoDocumento"));
         }
 
         private void btnAlta_Click(object sender, System.EventArgs e)

@@ -20,6 +20,7 @@ namespace FrbaHotel.AbmUsuario
         private int idUsuario;
         private DialogResult result;
         private Action<Usuario> accion;
+        private List<Pais> paises;
         private List<TipoDocumento> tiposDocumento;
         private List<Rol> roles;
         private List<Hotel> hoteles;
@@ -41,6 +42,7 @@ namespace FrbaHotel.AbmUsuario
         {
             InitializeComponent();
             this.idUsuario = idUsuario;
+            this.paises = Paises.GetAll();
             this.roles = Roles.GetAll();
             this.tiposDocumento = TiposDocumento.GetAll();
             this.hoteles = Hoteles.GetAll();
@@ -67,6 +69,7 @@ namespace FrbaHotel.AbmUsuario
         {
             InitializeComponent();
             this.idUsuario = idUsuario;
+            this.paises = Paises.GetAll();
             this.roles = Roles.GetAll();
             this.tiposDocumento = TiposDocumento.GetAll();
             this.hoteles = Hoteles.GetAll();
@@ -109,16 +112,26 @@ namespace FrbaHotel.AbmUsuario
             nroDocumentoInput.DataBindings.Add(new TextBinding(this.Model, "nroDocumentoInput"));
             Register(ErrorLabel.For(nroDocumentoInput, Alignment.Bottom, 2));
 
-
-            // No se si le está pasando el ID o todo el tipo rol, que incluye la descripcion. Asumo ID.
+            cboPaisDir.DisplayMember = "Nombre";
+            cboPaisDir.ValueMember = "idPais";
+            cboPaisDir.DataSource = paises;
+            //cboPaisDir.DataBindings.Add(new Binding("SelectedValue", this.Model, "IdPais"));
+            
+            cboRol.DisplayMember = "Nombre";
+            cboRol.ValueMember = "idPais";
             cboRol.DataSource = roles;
-            cboRol.DataBindings.Add(new Binding("SelectedValue", this.Model, "IdRol"));
+            //cboRol.DataBindings.Add(new Binding("SelectedValue", this.Model, "IdRol"));
 
+
+            cboTipoDoc.DisplayMember = "detalle";
+            cboTipoDoc.ValueMember = "idTipoDocumento";
             cboTipoDoc.DataSource = tiposDocumento;
-            cboTipoDoc.DataBindings.Add(new Binding("SelectedValue", this.Model, "IdTipoDocumento"));
+            //cboTipoDoc.DataBindings.Add(new Binding("SelectedValue", this.Model, "IdTipoDocumento"));
 
+            cboTipoDoc.DisplayMember = "Nombre";
+            cboTipoDoc.ValueMember = "idHotel";
             cboHotel.DataSource = hoteles;
-            cboHotel.DataBindings.Add(new Binding("SelectedValue", this.Model, "IdHotel"));
+            //cboHotel.DataBindings.Add(new Binding("SelectedValue", this.Model, "IdHotel"));
 
             fechaNacInput.DataBindings.Add(new Binding("SelectedValue", this.Model, "FechaDeNacimiento"));
 

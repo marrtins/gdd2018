@@ -2,13 +2,14 @@
 {
     public class TipoDocumento
     {
-        public int idTipoDocumento { get; set; }
-        public string descripcion { get; set; }
 
-        public TipoDocumento(int id, string descripcion)
+        public int idTipoDocumento { get; set; }
+        public string Detalle  { get; set; }
+
+        public TipoDocumento(int id, string detalle)
         {
             idTipoDocumento = id;
-            //Descripcion = descripcion;
+            Detalle = detalle;
         }
 
         public TipoDocumento()

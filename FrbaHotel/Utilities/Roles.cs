@@ -55,5 +55,12 @@ namespace FrbaHotel.Utilities
             return GetOne(null);
         }
 
+        public static List<Rol> GetAllWithDefault()
+        {
+            var roles = GetOne(null);
+            roles.Insert(0, new Rol(0, "Todos", "S"));
+            return roles;
+        }
+
     }
 }
