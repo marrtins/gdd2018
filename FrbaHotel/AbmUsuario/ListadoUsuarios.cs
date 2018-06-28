@@ -78,8 +78,8 @@ namespace FrbaHotel.AbmUsuario
                     cmd.Parameters.AddWithValue("@Apellido", SqlDbType.NVarChar).Value = filtros.Apellido ?? Convert.DBNull;
                     cmd.Parameters.AddWithValue("@Mail", SqlDbType.NVarChar).Value = filtros.Mail ?? Convert.DBNull;
                     cmd.Parameters.AddWithValue("@NroDocumento", SqlDbType.NVarChar).Value = filtros.NroDocumento ?? Convert.DBNull;
-                    cmd.Parameters.AddWithValue("@IdTipoDocumento", SqlDbType.Int).Value = filtros.IdTipoDocumento;
-                    cmd.Parameters.AddWithValue("@IdRol", SqlDbType.Int).Value = filtros.IdRol;
+                    cmd.Parameters.AddWithValue("@idTipoDocumento", SqlDbType.Int).Value = filtros.IdTipoDocumento;
+                    cmd.Parameters.AddWithValue("@idRol", SqlDbType.Int).Value = filtros.IdRol;
 
                     con.Open();
                     var dr = cmd.ExecuteReader();
@@ -128,6 +128,11 @@ namespace FrbaHotel.AbmUsuario
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
             ControlResetter.ResetAllControls(this.gpoFiltros);
+        }
+
+        private void usuariosGridView_CellClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

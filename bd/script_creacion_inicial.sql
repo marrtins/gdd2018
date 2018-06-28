@@ -162,7 +162,7 @@ CREATE TABLE [MMEL].[PersonasInconsistentes](
 
 CREATE TABLE [MMEL].[Usuarios](
 	[idUsuario] [int] IDENTITY(1,1) NOT NULL,
-	[Password] [nvarchar](200) NULL,
+	[Password] [varbinary](4000) NULL,
 	[idPersona] [int] NULL,
 	[Activo] [char](1) NULL,
 	[Username] [nvarchar](200) NULL,
@@ -767,7 +767,7 @@ AS
 	
 	DECLARE @idPersona int = SCOPE_IDENTITY();
 
-	DECLARE @PasswordHasheada varchar(200) = CONVERT(nvarchar(200), HASHBYTES('SHA256', @Password));
+	DECLARE @PasswordHasheada varbinary(4000) = HASHBYTES('SHA2_256', @Password);
 
 
 	INSERT INTO [MMEL].[Usuarios] ([Username], [Password], [idPersona], [Activo])
@@ -834,7 +834,7 @@ AS
 	IF @nombreRol != 'administrador'
 		THROW 51000, 'El usuario no es administrador', 1;
 	
-	DECLARE @PasswordHasheada varchar(200) = CONVERT(nvarchar(200), HASHBYTES('SHA256', @Password));
+	DECLARE @PasswordHasheada varbinary(4000) = HASHBYTES('SHA2_256', @Password);
 
 
 	UPDATE [MMEL].[Usuarios]

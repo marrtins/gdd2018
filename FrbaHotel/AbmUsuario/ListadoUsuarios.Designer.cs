@@ -81,6 +81,7 @@ namespace FrbaHotel.AbmUsuario
             this.usuariosGridView.RowHeadersWidth = 40;
             this.usuariosGridView.Size = new System.Drawing.Size(842, 290);
             this.usuariosGridView.TabIndex = 4;
+            this.usuariosGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.usuariosGridView_CellClick_1);
             // 
             // UsernameCol
             // 

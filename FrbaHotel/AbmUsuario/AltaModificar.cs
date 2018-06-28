@@ -200,7 +200,7 @@ namespace FrbaHotel.AbmUsuario
                     cmd.Parameters.AddWithValue("@FechaDeNacimiento", SqlDbType.DateTime).Value = usuario.FechaNac;
                     cmd.Parameters.AddWithValue("@dirDepto", SqlDbType.VarChar).Value = usuario.Depto;
                     cmd.Parameters.AddWithValue("@dirPiso", SqlDbType.VarChar).Value = usuario.Piso;
-                    cmd.Parameters.AddWithValue("@Localidad", SqlDbType.VarChar).Value = usuario.Localidad;
+                    cmd.Parameters.AddWithValue("@dirLocalidad", SqlDbType.VarChar).Value = usuario.Localidad;
                     cmd.Parameters.AddWithValue("@Telefono", SqlDbType.VarChar).Value = usuario.Telefono;
                     cmd.Parameters.AddWithValue("@Activo", SqlDbType.Char).Value = usuario.Activo;
 
@@ -240,7 +240,7 @@ namespace FrbaHotel.AbmUsuario
                     cmd.Parameters.AddWithValue("@FechaDeNacimiento", SqlDbType.DateTime).Value = usuario.FechaNac;
                     cmd.Parameters.AddWithValue("@dirDepto", SqlDbType.VarChar).Value = usuario.Depto;
                     cmd.Parameters.AddWithValue("@dirPiso", SqlDbType.VarChar).Value = usuario.Piso;
-                    cmd.Parameters.AddWithValue("@Localidad", SqlDbType.VarChar).Value = usuario.Localidad;
+                    cmd.Parameters.AddWithValue("@dirLocalidad", SqlDbType.VarChar).Value = usuario.Localidad;
                     cmd.Parameters.AddWithValue("@Telefono", SqlDbType.VarChar).Value = usuario.Telefono;
                     cmd.Parameters.AddWithValue("@Activo", SqlDbType.Char).Value = usuario.Activo;
 
