@@ -29,6 +29,14 @@ namespace FrbaHotel.AbmUsuario
         private void InitializeComponent()
         {   
             this.usuariosGridView = new System.Windows.Forms.DataGridView();
+            this.UsernameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NombreCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ApellidoCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MailCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NroDocumentoCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TipoDocumentoCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NombreRolCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SeleccionarCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gpoFiltros = new System.Windows.Forms.GroupBox();
             this.btnAlta = new System.Windows.Forms.Button();
             this.cboRol = new System.Windows.Forms.ComboBox();
@@ -47,14 +55,6 @@ namespace FrbaHotel.AbmUsuario
             this.lblApellido = new System.Windows.Forms.Label();
             this.nombreInput = new System.Windows.Forms.TextBox();
             this.lblNombre = new System.Windows.Forms.Label();
-            this.UsernameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NombreCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ApellidoCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MailCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NroDocumentoCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TipoDocumentoCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NombreRolCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SeleccionarCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.usuariosGridView)).BeginInit();
             this.gpoFiltros.SuspendLayout();
             this.SuspendLayout();
@@ -81,6 +81,61 @@ namespace FrbaHotel.AbmUsuario
             this.usuariosGridView.RowHeadersWidth = 40;
             this.usuariosGridView.Size = new System.Drawing.Size(842, 290);
             this.usuariosGridView.TabIndex = 4;
+            // 
+            // UsernameCol
+            // 
+            this.UsernameCol.DataPropertyName = "Username";
+            this.UsernameCol.HeaderText = "Username";
+            this.UsernameCol.Name = "UsernameCol";
+            this.UsernameCol.ReadOnly = true;
+            // 
+            // NombreCol
+            // 
+            this.NombreCol.DataPropertyName = "Nombre";
+            this.NombreCol.HeaderText = "Nombre";
+            this.NombreCol.Name = "NombreCol";
+            this.NombreCol.ReadOnly = true;
+            // 
+            // ApellidoCol
+            // 
+            this.ApellidoCol.DataPropertyName = "Apellido";
+            this.ApellidoCol.HeaderText = "Apellido";
+            this.ApellidoCol.Name = "ApellidoCol";
+            this.ApellidoCol.ReadOnly = true;
+            // 
+            // MailCol
+            // 
+            this.MailCol.DataPropertyName = "Mail";
+            this.MailCol.HeaderText = "Mail";
+            this.MailCol.Name = "MailCol";
+            this.MailCol.ReadOnly = true;
+            // 
+            // NroDocumentoCol
+            // 
+            this.NroDocumentoCol.DataPropertyName = "NroDocumento";
+            this.NroDocumentoCol.HeaderText = "Numero de Documento";
+            this.NroDocumentoCol.Name = "NroDocumentoCol";
+            this.NroDocumentoCol.ReadOnly = true;
+            // 
+            // TipoDocumentoCol
+            // 
+            this.TipoDocumentoCol.DataPropertyName = "TipoDocumento";
+            this.TipoDocumentoCol.HeaderText = "Tipo Documento";
+            this.TipoDocumentoCol.Name = "TipoDocumentoCol";
+            this.TipoDocumentoCol.ReadOnly = true;
+            // 
+            // NombreRolCol
+            // 
+            this.NombreRolCol.DataPropertyName = "NombreRol";
+            this.NombreRolCol.HeaderText = "Rol";
+            this.NombreRolCol.Name = "NombreRolCol";
+            this.NombreRolCol.ReadOnly = true;
+            // 
+            // SeleccionarCol
+            // 
+            this.SeleccionarCol.HeaderText = "Seleccionar";
+            this.SeleccionarCol.Name = "SeleccionarCol";
+            this.SeleccionarCol.ReadOnly = true;
             // 
             // gpoFiltros
             // 
@@ -117,6 +172,7 @@ namespace FrbaHotel.AbmUsuario
             this.btnAlta.TabIndex = 16;
             this.btnAlta.Text = "Alta";
             this.btnAlta.UseVisualStyleBackColor = true;
+            this.btnAlta.Click += new System.EventHandler(this.btnAlta_Click);
             // 
             // cboRol
             // 
@@ -160,6 +216,7 @@ namespace FrbaHotel.AbmUsuario
             this.btnLimpiar.TabIndex = 11;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.UseVisualStyleBackColor = true;
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
             // btnBuscar
             // 
@@ -169,6 +226,7 @@ namespace FrbaHotel.AbmUsuario
             this.btnBuscar.TabIndex = 10;
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // mailInput
             // 
@@ -251,61 +309,6 @@ namespace FrbaHotel.AbmUsuario
             this.lblNombre.Size = new System.Drawing.Size(58, 17);
             this.lblNombre.TabIndex = 0;
             this.lblNombre.Text = "Nombre";
-            // 
-            // UsernameCol
-            // 
-            this.UsernameCol.DataPropertyName = "Username";
-            this.UsernameCol.HeaderText = "Username";
-            this.UsernameCol.Name = "UsernameCol";
-            this.UsernameCol.ReadOnly = true;
-            // 
-            // NombreCol
-            // 
-            this.NombreCol.DataPropertyName = "Nombre";
-            this.NombreCol.HeaderText = "Nombre";
-            this.NombreCol.Name = "NombreCol";
-            this.NombreCol.ReadOnly = true;
-            // 
-            // ApellidoCol
-            // 
-            this.ApellidoCol.DataPropertyName = "Apellido";
-            this.ApellidoCol.HeaderText = "Apellido";
-            this.ApellidoCol.Name = "ApellidoCol";
-            this.ApellidoCol.ReadOnly = true;
-            // 
-            // MailCol
-            // 
-            this.MailCol.DataPropertyName = "Mail";
-            this.MailCol.HeaderText = "Mail";
-            this.MailCol.Name = "MailCol";
-            this.MailCol.ReadOnly = true;
-            // 
-            // NroDocumentoCol
-            // 
-            this.NroDocumentoCol.DataPropertyName = "NroDocumento";
-            this.NroDocumentoCol.HeaderText = "Numero de Documento";
-            this.NroDocumentoCol.Name = "NroDocumentoCol";
-            this.NroDocumentoCol.ReadOnly = true;
-            // 
-            // TipoDocumentoCol
-            // 
-            this.TipoDocumentoCol.DataPropertyName = "TipoDocumento";
-            this.TipoDocumentoCol.HeaderText = "Tipo Documento";
-            this.TipoDocumentoCol.Name = "TipoDocumentoCol";
-            this.TipoDocumentoCol.ReadOnly = true;
-            // 
-            // NombreRolCol
-            // 
-            this.NombreRolCol.DataPropertyName = "NombreRol";
-            this.NombreRolCol.HeaderText = "Rol";
-            this.NombreRolCol.Name = "NombreRolCol";
-            this.NombreRolCol.ReadOnly = true;
-            // 
-            // SeleccionarCol
-            // 
-            this.SeleccionarCol.HeaderText = "Seleccionar";
-            this.SeleccionarCol.Name = "SeleccionarCol";
-            this.SeleccionarCol.ReadOnly = true;
             // 
             // ListadoUsuarios
             // 
