@@ -32,10 +32,7 @@
             this.modificarBtn = new System.Windows.Forms.Button();
             this.numHabInput = new System.Windows.Forms.TextBox();
             this.habilitadoInput = new System.Windows.Forms.CheckBox();
-            this.visExtInput = new System.Windows.Forms.ComboBox();
-            this.pisoInput = new System.Windows.Forms.ComboBox();
             this.hotelInput = new System.Windows.Forms.ComboBox();
-            this.tipoHabInput = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.descripcionInput = new System.Windows.Forms.RichTextBox();
@@ -44,6 +41,9 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.pisoInput = new System.Windows.Forms.TextBox();
+            this.tipoHabInput = new System.Windows.Forms.TextBox();
+            this.visExtInput = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -83,22 +83,6 @@
             this.habilitadoInput.TabIndex = 29;
             this.habilitadoInput.UseVisualStyleBackColor = true;
             // 
-            // visExtInput
-            // 
-            this.visExtInput.FormattingEnabled = true;
-            this.visExtInput.Location = new System.Drawing.Point(127, 131);
-            this.visExtInput.Name = "visExtInput";
-            this.visExtInput.Size = new System.Drawing.Size(121, 21);
-            this.visExtInput.TabIndex = 28;
-            // 
-            // pisoInput
-            // 
-            this.pisoInput.FormattingEnabled = true;
-            this.pisoInput.Location = new System.Drawing.Point(127, 100);
-            this.pisoInput.Name = "pisoInput";
-            this.pisoInput.Size = new System.Drawing.Size(121, 21);
-            this.pisoInput.TabIndex = 27;
-            // 
             // hotelInput
             // 
             this.hotelInput.FormattingEnabled = true;
@@ -106,14 +90,6 @@
             this.hotelInput.Name = "hotelInput";
             this.hotelInput.Size = new System.Drawing.Size(121, 21);
             this.hotelInput.TabIndex = 26;
-            // 
-            // tipoHabInput
-            // 
-            this.tipoHabInput.FormattingEnabled = true;
-            this.tipoHabInput.Location = new System.Drawing.Point(127, 36);
-            this.tipoHabInput.Name = "tipoHabInput";
-            this.tipoHabInput.Size = new System.Drawing.Size(121, 21);
-            this.tipoHabInput.TabIndex = 25;
             // 
             // label7
             // 
@@ -187,19 +163,40 @@
             this.label1.TabIndex = 18;
             this.label1.Text = "Numero Habitacion";
             // 
+            // pisoInput
+            // 
+            this.pisoInput.Location = new System.Drawing.Point(127, 100);
+            this.pisoInput.Name = "pisoInput";
+            this.pisoInput.Size = new System.Drawing.Size(121, 20);
+            this.pisoInput.TabIndex = 43;
+            // 
+            // tipoHabInput
+            // 
+            this.tipoHabInput.Location = new System.Drawing.Point(127, 41);
+            this.tipoHabInput.Name = "tipoHabInput";
+            this.tipoHabInput.Size = new System.Drawing.Size(121, 20);
+            this.tipoHabInput.TabIndex = 44;
+            // 
+            // visExtInput
+            // 
+            this.visExtInput.Location = new System.Drawing.Point(127, 134);
+            this.visExtInput.Name = "visExtInput";
+            this.visExtInput.Size = new System.Drawing.Size(121, 20);
+            this.visExtInput.TabIndex = 45;
+            // 
             // ModificarHabitacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(267, 361);
+            this.Controls.Add(this.visExtInput);
+            this.Controls.Add(this.tipoHabInput);
+            this.Controls.Add(this.pisoInput);
             this.Controls.Add(this.limpiarBtn);
             this.Controls.Add(this.modificarBtn);
             this.Controls.Add(this.numHabInput);
             this.Controls.Add(this.habilitadoInput);
-            this.Controls.Add(this.visExtInput);
-            this.Controls.Add(this.pisoInput);
             this.Controls.Add(this.hotelInput);
-            this.Controls.Add(this.tipoHabInput);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label6);
@@ -221,10 +218,7 @@
         private System.Windows.Forms.Button modificarBtn;
         private System.Windows.Forms.TextBox numHabInput;
         private System.Windows.Forms.CheckBox habilitadoInput;
-        private System.Windows.Forms.ComboBox visExtInput;
-        private System.Windows.Forms.ComboBox pisoInput;
         private System.Windows.Forms.ComboBox hotelInput;
-        private System.Windows.Forms.ComboBox tipoHabInput;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RichTextBox descripcionInput;
@@ -233,5 +227,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox pisoInput;
+        private System.Windows.Forms.TextBox tipoHabInput;
+        private System.Windows.Forms.TextBox visExtInput;
     }
 }

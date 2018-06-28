@@ -43,7 +43,7 @@
             this.tipoHabInput = new System.Windows.Forms.TextBox();
             this.vistaExtInput = new System.Windows.Forms.TextBox();
             this.hotelInput = new System.Windows.Forms.ComboBox();
-            this.pisoInput = new System.Windows.Forms.ComboBox();
+            this.pisoInput = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -179,10 +179,9 @@
             // 
             // pisoInput
             // 
-            this.pisoInput.FormattingEnabled = true;
-            this.pisoInput.Location = new System.Drawing.Point(127, 100);
+            this.pisoInput.Location = new System.Drawing.Point(126, 100);
             this.pisoInput.Name = "pisoInput";
-            this.pisoInput.Size = new System.Drawing.Size(121, 21);
+            this.pisoInput.Size = new System.Drawing.Size(121, 20);
             this.pisoInput.TabIndex = 53;
             // 
             // AltaHabitacion
@@ -230,6 +229,6 @@
         private System.Windows.Forms.TextBox tipoHabInput;
         private System.Windows.Forms.TextBox vistaExtInput;
         private System.Windows.Forms.ComboBox hotelInput;
-        private System.Windows.Forms.ComboBox pisoInput;
+        private System.Windows.Forms.TextBox pisoInput;
     }
 }
