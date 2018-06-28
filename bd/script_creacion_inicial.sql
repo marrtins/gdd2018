@@ -922,7 +922,7 @@ go
 
 CREATE VIEW [MMEL].[ReservasNoCanceladas]
 AS
-SELECT        idReserva, idUsuarioQueProcesoReserva, idHotel, FechaDeReserva, FechaDesde, FechaHasta, idHabitacion, idRegimen, idHuesped, EstadoReserva, CodigoReserva
+SELECT        idReserva, idUsuarioQueProcesoReserva, idHotel, FechaDeReserva, FechaDesde, FechaHasta, idRegimen, idHuesped, EstadoReserva, CodigoReserva
 FROM            MMEL.Reserva AS r
 WHERE        (EstadoReserva <> 'CXR') AND (EstadoReserva <> 'CXC') AND (EstadoReserva <> 'CXNS')
 GO
@@ -2584,11 +2584,13 @@ GO
 
 CREATE VIEW [MMEL].[ReservasPorHotelYHabitacion]
 AS
-SELECT        MMEL.Habitacion.idHabitacion, MMEL.Hotel.idHotel, MMEL.Reserva.idReserva, MMEL.Reserva.FechaDesde, MMEL.Reserva.FechaHasta, MMEL.Habitacion.NumeroHabitacion, MMEL.Habitacion.Piso, MMEL.Hotel.Nombre,
-                         MMEL.Reserva.EstadoReserva, DATEDIFF(day, MMEL.Reserva.FechaDesde,MMEL.Reserva.FechaHasta) as Dias
-FROM            MMEL.Habitacion INNER JOIN
-                         MMEL.Hotel ON MMEL.Habitacion.idHotel = MMEL.Hotel.idHotel INNER JOIN
-                         MMEL.Reserva ON MMEL.Habitacion.idHabitacion = MMEL.Reserva.idHabitacion AND MMEL.Hotel.idHotel = MMEL.Reserva.idHotel
+SELECT        h.idHabitacion, ho.idHotel, r.idReserva, r.FechaDesde, r.FechaHasta, h.NumeroHabitacion, h.Piso,ho.Nombre,
+                         r.EstadoReserva, DATEDIFF(day, r.FechaDesde,r.FechaHasta) as Dias
+FROM            MMEL.Habitacion h  INNER JOIN
+                         MMEL.Hotel ho ON h.idHotel = ho.idHotel INNER JOIN
+						 MMEL.ReservaPorHabitacion rph on rph.idHabitacion = h.idHabitacion JOIN
+                        MMEL.Reserva r ON rph.idReserva = r.idReserva 
+						 AND ho.idHotel = r.idHotel
 GO
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[HabitacionesConMayorCantidadDeVecesOcupadas]'))
@@ -2734,7 +2736,8 @@ begin
 	begin
 		select top 5 hot.idHotel, hot.Nombre,
 		COUNT(*) as Cantidad from mmel.CancelacionReserva cr join mmel.reserva r on cr.idReserva = r.idReserva
-											 join mmel.Habitacion h on r.idHabitacion = h.idHabitacion
+											 join mmel.ReservaPorHabitacion rph on rph.idReserva = r.idReserva
+											 join mmel.Habitacion h on rph.idHabitacion = h.idHabitacion
 											 join mmel.Hotel hot on h.idHotel = hot.idHotel
 											  where  year(cr.FechaDeCancelacion)= @anio and (month(cr.FechaDeCancelacion) = 1 OR month(cr.FechaDeCancelacion) = 2 OR month(cr.FechaDeCancelacion)=3)
 											GROUP BY hot.idHotel, hot.Nombre
@@ -2745,7 +2748,8 @@ begin
 	begin
 			select top 5 hot.idHotel, hot.Nombre,
 		COUNT(*) as Cantidad from mmel.CancelacionReserva cr join mmel.reserva r on cr.idReserva = r.idReserva
-											 join mmel.Habitacion h on r.idHabitacion = h.idHabitacion
+											 join mmel.ReservaPorHabitacion rph on rph.idReserva = r.idReserva
+											 join mmel.Habitacion h on rph.idHabitacion = h.idHabitacion
 											 join mmel.Hotel hot on h.idHotel = hot.idHotel
 											  where  year(cr.FechaDeCancelacion)= @anio and (month(cr.FechaDeCancelacion) = 4 OR month(cr.FechaDeCancelacion) = 5 OR month(cr.FechaDeCancelacion)=6)
 											GROUP BY hot.idHotel, hot.Nombre
@@ -2755,7 +2759,8 @@ begin
 	begin
 			select top 5 hot.idHotel, hot.Nombre,
 		COUNT(*) as Cantidad from mmel.CancelacionReserva cr join mmel.reserva r on cr.idReserva = r.idReserva
-											 join mmel.Habitacion h on r.idHabitacion = h.idHabitacion
+											 join mmel.ReservaPorHabitacion rph on rph.idReserva = r.idReserva
+											 join mmel.Habitacion h on rph.idHabitacion = h.idHabitacion
 											 join mmel.Hotel hot on h.idHotel = hot.idHotel
 											  where  year(cr.FechaDeCancelacion)= @anio and (month(cr.FechaDeCancelacion) = 7 OR month(cr.FechaDeCancelacion) = 8 OR month(cr.FechaDeCancelacion)=9)
 											GROUP BY hot.idHotel, hot.Nombre
@@ -2765,7 +2770,8 @@ begin
  	begin
 		select top 5 hot.idHotel, hot.Nombre,
 		COUNT(*) as Cantidad from mmel.CancelacionReserva cr join mmel.reserva r on cr.idReserva = r.idReserva
-											 join mmel.Habitacion h on r.idHabitacion = h.idHabitacion
+											 join mmel.ReservaPorHabitacion rph on rph.idReserva = r.idReserva
+											 join mmel.Habitacion h on rph.idHabitacion = h.idHabitacion
 											 join mmel.Hotel hot on h.idHotel = hot.idHotel
 											  where  year(cr.FechaDeCancelacion)= @anio and (month(cr.FechaDeCancelacion) = 10 OR month(cr.FechaDeCancelacion) = 11 OR month(cr.FechaDeCancelacion)=12)
 											GROUP BY hot.idHotel, hot.Nombre
