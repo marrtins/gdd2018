@@ -159,7 +159,7 @@ namespace FrbaHotel.AbmUsuario
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            //if (!this.ValidateChildren()) return;
+            if (!this.ValidateChildren()) return;
 
             var usuario = (Usuario)this.Model;
             if(activoCheck.Checked){
