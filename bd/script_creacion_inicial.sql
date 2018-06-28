@@ -2806,3 +2806,64 @@ END
 GO
 
 
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[DiasDeBajaPorBajaPorHotel]'))
+	DROP VIEW [MMEL].[DiasDeBajaPorBajaPorHotel]
+GO
+
+
+CREATE VIEW [MMEL].[DiasDeBajaPorBajaPorHotel]
+AS
+SELECT        MMEL.Hotel.idHotel, MMEL.Hotel.Nombre, MMEL.HotelBajas.idBaja, DATEDIFF(day, MMEL.HotelBajas.FechaDesde, MMEL.HotelBajas.FechaHasta) AS Dias, MMEL.HotelBajas.FechaDesde, 
+                         MMEL.HotelBajas.FechaHasta
+FROM            MMEL.Hotel INNER JOIN
+                         MMEL.HotelBajas ON MMEL.Hotel.idHotel = MMEL.HotelBajas.idHotel
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[HotelesConMayorCantidadDeDiasFueraDeServicio]'))
+	DROP PROCEDURE [MMEL].[HotelesConMayorCantidadDeDiasFueraDeServicio]
+GO
+
+CREATE PROCEDURE [MMEL].[HotelesConMayorCantidadDeDiasFueraDeServicio]
+	@anio int, 
+	@trimestre int
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	select *
+	into #DiasDeBajaPorBajaPorHotelPorAnio
+	from MMEL.DiasDeBajaPorBajaPorHotel dbbh
+	WHERE year(dbbh.FechaDesde) = @anio OR year(dbbh.FechaHasta) = @anio
+
+	DECLARE @firstMonth int;
+
+	IF @trimestre = 1
+		SET @firstMonth = 1;
+	ELSE IF @trimestre = 2
+		SET @firstMonth = 4;
+	ELSE IF @trimestre = 3
+		SET @firstMonth = 7;
+
+	DECLARE @secondMonth int;
+	DECLARE @thirdMonth int;
+
+	SET @secondMonth = @firstMonth + 1;
+	SET @thirdMonth = @firstMonth + 2;
+
+	select *
+	into #DiasDeBajaPorBajaPorHotelEnTrimestreEnAnio
+	from #DiasDeBajaPorBajaPorHotelPorAnio rhh
+	WHERE	(month(rhh.FechaDesde) = @firstMonth OR month(rhh.FechaHasta) = @firstMonth)
+			OR (month(rhh.FechaDesde) = @secondMonth OR month(rhh.FechaHasta) = @secondMonth)
+			OR (month(rhh.FechaDesde) = @thirdMonth OR month(rhh.FechaHasta) = @thirdMonth) -- O bien arrancaron o terminaron en el trimestre, o estan totalmente contenidas (arrancaron Y terminaron)
+
+
+	select top 5 dbb.idHotel, dbb.Nombre, SUM(dbb.Dias) as Cantidad
+	from #DiasDeBajaPorBajaPorHotelEnTrimestreEnAnio dbb
+	GROUP BY dbb.idHotel, dbb.Nombre
+	ORDER BY Cantidad DESC
+END
+GO
+
+
+

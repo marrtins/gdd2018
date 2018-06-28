@@ -95,7 +95,25 @@ namespace FrbaHotel.AbmHotel
             if (e.ColumnIndex == this.hotelesGridView.Columns["SeleccionarCol"].DisplayIndex)
             {
                 AbrirModificar(targetHotel);
-            } 
+            }
+
+            if (e.ColumnIndex == this.hotelesGridView.Columns["BajaCol"].DisplayIndex)
+            {
+                AbrirBaja(targetHotel);
+            }
+        }
+
+        private void AbrirBaja(Hotel targetHotel)
+        {
+            Baja ins = new Baja(targetHotel.IdHotel);
+            this.Hide();
+
+            ins.ShowDialog();
+
+            this.Show();
+
+            if (ins.Result == DialogResult.OK)
+                RefreshData();
         }
 
         private void AbrirModificar(Hotel hotel)

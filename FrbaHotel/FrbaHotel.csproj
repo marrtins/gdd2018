@@ -119,6 +119,12 @@
     <Compile Include="AbmHabitacion\ModificarHabitacion.Designer.cs">
       <DependentUpon>ModificarHabitacion.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmHotel\Baja.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmHotel\Baja.Designer.cs">
+      <DependentUpon>Baja.cs</DependentUpon>
+    </Compile>
     <Compile Include="AbmHotel\InsertarModificar.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,6 +137,7 @@
     <Compile Include="AbmHotel\Listado.Designer.cs">
       <DependentUpon>Listado.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmHotel\Model\HotelBaja.cs" />
     <Compile Include="AbmRol\InsertarModifica.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -329,6 +336,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AbmHabitacion\ModificarHabitacion.resx">
       <DependentUpon>ModificarHabitacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmHotel\Baja.resx">
+      <DependentUpon>Baja.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmHotel\InsertarModificar.resx">
       <DependentUpon>InsertarModificar.cs</DependentUpon>
