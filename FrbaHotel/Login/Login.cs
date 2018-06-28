@@ -32,7 +32,7 @@ namespace FrbaHotel.Login
             usuarioInput.DataBindings.Add(new TextBinding(this.Model, "Nombre"));
             Register(ErrorLabel.For(usuarioInput, Alignment.Bottom, 2));
 
-            contraseniaInput.DataBindings.Add(new TextBinding(this.Model, "Contrasenia"));
+            contraseniaInput.DataBindings.Add(new TextBinding(this.Model, "Password"));
             Register(ErrorLabel.For(contraseniaInput, Alignment.Bottom, 2));
         }
 
@@ -83,7 +83,7 @@ namespace FrbaHotel.Login
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.Parameters.AddWithValue("@Usuario", SqlDbType.NVarChar).Value = usuarioLogin.Nombre;
-                    cmd.Parameters.AddWithValue("@Contrasenia", SqlDbType.NVarChar).Value = usuarioLogin.Contrasenia;
+                    cmd.Parameters.AddWithValue("@Password", SqlDbType.NVarChar).Value = usuarioLogin.Password;
 
                     con.Open();
                     var dr = cmd.ExecuteReader();
@@ -131,7 +131,7 @@ namespace FrbaHotel.Login
             var usLog = (UsuarioLogin)this.Model;
 
             usLog.Nombre = ConfigurationManager.AppSettings["defaultUserName"];
-            usLog.Contrasenia = ConfigurationManager.AppSettings["defaultPassword"];
+            usLog.Password = ConfigurationManager.AppSettings["defaultPassword"];
 
             var autoLogin = ConfigurationManager.AppSettings["autoLogin"] != null ? Boolean.Parse(ConfigurationManager.AppSettings["autoLogin"]) : false;
 

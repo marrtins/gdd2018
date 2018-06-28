@@ -21,13 +21,13 @@ namespace FrbaHotel.Login.Model
             }
         }
 
-        private string contrasenia;
+        private string password;
 
         [CustomRequired]
-        public string Contrasenia
+        public string Password
         {
-            get { return contrasenia; }
-            set { contrasenia = value;
+            get { return password; }
+            set { password = value;
                 InvokePropertyChanged("");
             }
         }
