@@ -130,6 +130,9 @@ namespace FrbaHotel.Login
         {
             var usLog = (UsuarioLogin)this.Model;
 
+            DateTime value = Convert.ToDateTime(ConfigurationManager.AppSettings["DateKey"]);
+
+
             usLog.Nombre = ConfigurationManager.AppSettings["defaultUserName"];
             usLog.Password = ConfigurationManager.AppSettings["defaultPassword"];
 
@@ -149,6 +152,11 @@ namespace FrbaHotel.Login
             Form1 form = new Form1();
 
             form.Show();
+        }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

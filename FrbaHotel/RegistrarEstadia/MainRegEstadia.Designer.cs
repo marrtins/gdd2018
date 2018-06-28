@@ -92,6 +92,7 @@
             this.Controls.Add(this.txtCodigoRes);
             this.Name = "MainRegEstadia";
             this.Text = "MainRegEstadia";
+            this.Load += new System.EventHandler(this.MainRegEstadia_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

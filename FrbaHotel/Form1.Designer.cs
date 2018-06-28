@@ -34,6 +34,10 @@
             this.buttonHabitacion = new System.Windows.Forms.Button();
             this.buttonListadoEstadistico = new System.Windows.Forms.Button();
             this.abmUsuarioBtn = new System.Windows.Forms.Button();
+            this.btnGenRes = new System.Windows.Forms.Button();
+            this.btnCancelar = new System.Windows.Forms.Button();
+            this.btnEstadia = new System.Windows.Forms.Button();
+            this.btnConsumible = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCliente
@@ -96,11 +100,55 @@
             this.abmUsuarioBtn.UseVisualStyleBackColor = true;
             this.abmUsuarioBtn.Click += new System.EventHandler(this.abmUsuarioBtn_Click);
             // 
+            // btnGenRes
+            // 
+            this.btnGenRes.Location = new System.Drawing.Point(266, 12);
+            this.btnGenRes.Name = "btnGenRes";
+            this.btnGenRes.Size = new System.Drawing.Size(129, 47);
+            this.btnGenRes.TabIndex = 6;
+            this.btnGenRes.Text = "Generar/Modificar Reserva";
+            this.btnGenRes.UseVisualStyleBackColor = true;
+            this.btnGenRes.Click += new System.EventHandler(this.btnGenRes_Click);
+            // 
+            // btnCancelar
+            // 
+            this.btnCancelar.Location = new System.Drawing.Point(266, 67);
+            this.btnCancelar.Name = "btnCancelar";
+            this.btnCancelar.Size = new System.Drawing.Size(125, 44);
+            this.btnCancelar.TabIndex = 7;
+            this.btnCancelar.Text = "Cancelar Reserva";
+            this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
+            // 
+            // btnEstadia
+            // 
+            this.btnEstadia.Location = new System.Drawing.Point(266, 122);
+            this.btnEstadia.Name = "btnEstadia";
+            this.btnEstadia.Size = new System.Drawing.Size(125, 44);
+            this.btnEstadia.TabIndex = 8;
+            this.btnEstadia.Text = "Registrar Estadía";
+            this.btnEstadia.UseVisualStyleBackColor = true;
+            this.btnEstadia.Click += new System.EventHandler(this.btnEstadia_Click);
+            // 
+            // btnConsumible
+            // 
+            this.btnConsumible.Location = new System.Drawing.Point(263, 185);
+            this.btnConsumible.Name = "btnConsumible";
+            this.btnConsumible.Size = new System.Drawing.Size(128, 41);
+            this.btnConsumible.TabIndex = 9;
+            this.btnConsumible.Text = "Registrar Consumible y Facturar";
+            this.btnConsumible.UseVisualStyleBackColor = true;
+            this.btnConsumible.Click += new System.EventHandler(this.btnConsumible_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(240, 379);
+            this.ClientSize = new System.Drawing.Size(485, 379);
+            this.Controls.Add(this.btnConsumible);
+            this.Controls.Add(this.btnEstadia);
+            this.Controls.Add(this.btnCancelar);
+            this.Controls.Add(this.btnGenRes);
             this.Controls.Add(this.abmUsuarioBtn);
             this.Controls.Add(this.buttonListadoEstadistico);
             this.Controls.Add(this.buttonHabitacion);
@@ -109,6 +157,7 @@
             this.Controls.Add(this.btnCliente);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.Shown += new System.EventHandler(this.Form1_Shown);
             this.ResumeLayout(false);
 
@@ -122,6 +171,10 @@
         private System.Windows.Forms.Button buttonHabitacion;
         private System.Windows.Forms.Button buttonListadoEstadistico;
         private System.Windows.Forms.Button abmUsuarioBtn;
+        private System.Windows.Forms.Button btnGenRes;
+        private System.Windows.Forms.Button btnCancelar;
+        private System.Windows.Forms.Button btnEstadia;
+        private System.Windows.Forms.Button btnConsumible;
     }
 }
 
