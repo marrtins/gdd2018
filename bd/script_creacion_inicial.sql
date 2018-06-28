@@ -1910,6 +1910,98 @@ BEGIN
 END
 GO
 
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[eliminarHabitaciones]'))
+	DROP procedure [MMEL].eliminarHabitaciones
+go
+
+create procedure mmel.eliminarHabitaciones(@idReserva int)
+as
+begin
+	delete from mmel.ReservaPorHabitacion where idReserva=@idReserva
+end
+go
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[modificarReserva]'))
+	DROP procedure [MMEL].modificarReserva
+go
+
+create procedure mmel.modificarReserva(@idReserva int,@fechaDeReserva datetime,@idUsuarioQueReserva int,@fechaDesde datetime,@fechaHasta datetime,@idRegimen int)
+as
+begin
+
+	
+	
+	update mmel.Reserva
+	set
+	idUsuarioQueProcesoReserva=@idUsuarioQueReserva,
+	FechaDeReserva=@fechaDeReserva,
+	FechaDesde=@fechaDesde,
+	FechaHasta=@fechaHasta,
+	idRegimen=@idRegimen,
+	EstadoReserva='M'
+	where idReserva=@idReserva
+	
+	
+	
+	
+end
+go
+
+
+
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[hayDisponibilidadMod]'))
+	DROP procedure [MMEL].hayDisponibilidadMod
+go
+create PROCEDURE MMEL.hayDisponibilidadMod(@idReserva int,@fechaDesde datetime, @fechaHasta datetime,@idHotel int,@tipoHabDesc nvarchar(200),@rta int output)
+AS
+BEGIN
+
+	
+	create table mmel.#rp (idReserva int, idHabitacion int)
+	insert into mmel.#rp (idReserva,idHabitacion)
+	select idReserva,idHabitacion from mmel.ReservaPorHabitacion where idReserva<>@idReserva
+	
+	declare @idRegimen int
+	declare @idTipoHab int
+	set @idTipoHab = (select top 1 idTipoHabitacion from mmel.TipoHabitacion where Descripcion=@tipoHabDesc)
+
+		if exists(
+			select * from mmel.habitacion where idHabitacion not in
+				(SELECT h.idHabitacion  FROM MMEL.Habitacion h
+				join mmel.Reserva r on h.idHotel=r.idHotel
+				join mmel.#rp rph on rph.idReserva=r.idReserva and rph.idHabitacion=h.idHabitacion
+				WHERE	h.idHotel=@idHotel AND
+										(
+											( FechaDesde<=@fechaDesde and @fechaDesde<FechaHasta) OR
+											( FechaDesde<@fechaHasta and @fechaHasta<=FechaHasta) OR
+											( @fechaDesde<=FechaDesde and @fechaHasta>=FechaHasta)
+
+										)
+			) and idHotel = @idHotel and idTipoHabitacion=@idTipoHab
+		) begin
+			select @rta=count(*) from mmel.habitacion where idHabitacion not in
+				(SELECT h.idHabitacion  FROM MMEL.Habitacion h
+				join mmel.Reserva r on h.idHotel=r.idHotel
+				join mmel.#rp rph on rph.idReserva=r.idReserva and rph.idHabitacion=h.idHabitacion
+				WHERE	h.idHotel=@idHotel AND
+										(
+											( FechaDesde<=@fechaDesde and @fechaDesde<FechaHasta) OR
+											( FechaDesde<@fechaHasta and @fechaHasta<=FechaHasta) OR
+											( @fechaDesde<=FechaDesde and @fechaHasta>=FechaHasta)
+
+										)
+			) and idHotel = @idHotel and idTipoHabitacion=@idTipoHab
+		 end
+		else begin set @rta=0 end
+
+		drop table mmel.#rp
+
+
+END
+GO
+
+
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[hayDisponibilidad]'))
 	DROP procedure [MMEL].hayDisponibilidad
 go

@@ -18,13 +18,10 @@ namespace FrbaHotel.GenerarModificacionReserva
             this.idHotel = idHotel;
             InitializeComponent();
             
-            cboTipo.Text = "Seleccionar";
-            cboT2.Text = "Seleccionar";
-            cboT3.Text = "Seleccionar";
-            cboT4.Text = "Seleccionar";
+           
             cboRegimen.Text = "Seleccionar";
             cargarRegimenes();
-            cargarTipoHabitaciones();
+            
             dgPrecios.Visible = false;
             btnReservar.Enabled = false;
             cboHotel.Text = "1";
@@ -33,6 +30,7 @@ namespace FrbaHotel.GenerarModificacionReserva
             txtC2.Text = "0";
             txtC3.Text = "0";
             txtC4.Text = "0";
+            txtC5.Text = "0";
 
 
 
@@ -86,39 +84,7 @@ namespace FrbaHotel.GenerarModificacionReserva
 
             
         }
-        private void cargarTipoHabitaciones()
-        {
-
-            
-            string consultaBusqueda = String.Format("select distinct * from mmel.TipoHabitacion ");
-            string strCo = ConfigurationManager.AppSettings["stringConexion"];
-            SqlConnection con = new SqlConnection(strCo);
-            SqlCommand cmd = new SqlCommand(consultaBusqueda, con);
-            con.Open();
-            if (cmd.Connection.State == ConnectionState.Closed)
-            {
-                cmd.Connection.Open();
-            }
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            while (reader.Read())
-            {
-                TipoHabitacion th = new TipoHabitacion();
-                int idTH = Int32.Parse(reader["idTipoHabitacion"].ToString());
-              
-                string descr = (reader["Descripcion"].ToString());
-                cboTipo.Items.Add(descr);
-                cboT2.Items.Add(descr);
-                cboT3.Items.Add(descr);
-                cboT4.Items.Add(descr);
-
-            }
-            reader.Close();
-            con.Close();
-
-
-
-        }
+       
 
         private bool validarCampos()
         {
@@ -144,12 +110,12 @@ namespace FrbaHotel.GenerarModificacionReserva
                 return false;
             }
 
-            if(cboTipo.Text=="Seleccionar" || txtC1.Text=="0" || !int.TryParse(txtC1.Text, out i))
+           /* if(cboTipo.Text=="Seleccionar" || txtC1.Text=="0" || !int.TryParse(txtC1.Text, out i))
             {
                 MessageBox.Show("Seleccione el primer campo de tipo habitacion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
-            }
-            if(!int.TryParse(txtC1.Text, out i) || !int.TryParse(txtC2.Text, out i) || !int.TryParse(txtC3.Text, out i))
+            }*/
+            if(!int.TryParse(txtC1.Text, out i) || !int.TryParse(txtC2.Text, out i) || !int.TryParse(txtC3.Text, out i) || !int.TryParse(txtC4.Text, out i) || !int.TryParse(txtC5.Text, out i))
             {
                 MessageBox.Show("Ingrese cantidad valida de habitaciones", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
@@ -168,30 +134,38 @@ namespace FrbaHotel.GenerarModificacionReserva
             else
             {
 
-                if (txtC1.Text != "0" && cboTipo.Text!="Seleccionar")
+                if (txtC1.Text != "0" )
                 {
-                    if (!haydispo(cboTipo.Text, Int32.Parse(txtC1.Text))){
+                    if (!haydispo("BASE SIMPLE", Int32.Parse(txtC1.Text))){
                         MessageBox.Show(string.Format("No hay disponibilidad para las fechas indicadas"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
                 }
-                if (txtC2.Text != "0" && cboT2.Text != "Seleccionar")
+                if (txtC2.Text != "0" )
                 {
-                    if (!haydispo(cboT2.Text, Int32.Parse(txtC2.Text))){
+                    if (!haydispo("BASE DOBLE", Int32.Parse(txtC2.Text))){
                         MessageBox.Show(string.Format("No hay disponibilidad para las fechas indicadas"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
                 }
-                if (txtC3.Text != "0" && cboT3.Text != "Seleccionar")
+                if (txtC3.Text != "0" )
                 {
-                    if (!haydispo(cboT3.Text, Int32.Parse(txtC3.Text))){
+                    if (!haydispo("BASE TRIPLE", Int32.Parse(txtC3.Text))){
                         MessageBox.Show(string.Format("No hay disponibilidad para las fechas indicadas"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
                 }
-                if (txtC4.Text != "0" && cboT4.Text != "Seleccionar")
+                if (txtC4.Text != "0" )
                 {
-                    if (!haydispo(cboT2.Text, Int32.Parse(txtC2.Text))){
+                    if (!haydispo("BASE CUADRUPLE", Int32.Parse(txtC2.Text))){
+                        MessageBox.Show(string.Format("No hay disponibilidad para las fechas indicadas"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+                if (txtC5.Text != "0")
+                {
+                    if (!haydispo("KING", Int32.Parse(txtC2.Text)))
+                    {
                         MessageBox.Show(string.Format("No hay disponibilidad para las fechas indicadas"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
@@ -204,16 +178,15 @@ namespace FrbaHotel.GenerarModificacionReserva
                 dtHasta.Enabled = false;
                 cboHotel.Enabled = false;
                 cboRegimen.Enabled = true;
-                cboTipo.Enabled = false;
+                
                 button1.Enabled = false;
                 btnReservar.Enabled = true;
-                cboT2.Enabled = false;
-                cboT3.Enabled = false;
-                cboT4.Enabled = false;
+                
                 txtC1.Enabled = false;
                 txtC2.Enabled = false;
                 txtC3.Enabled = false;
                 txtC4.Enabled = false;
+                txtC5.Enabled = false;
             }
 
 
@@ -282,7 +255,7 @@ namespace FrbaHotel.GenerarModificacionReserva
             int cantPersonas = getCantPersonas();
 
             string consultaBusqueda = String.Format("select (r.precio * {0} + ho.RecargaEstrellas * ho.CantidadEstrellas) \"Precio por Noche\", Descripcion \"Tipo de Regimen\" from mmel.Regimen r, mmel.hotel ho where ho.idHotel={1}", cantPersonas,idHotel);
-            if (cboRegimen.Text != "Seleccionar") consultaBusqueda = consultaBusqueda + String.Format(" and r.Descripcion='{0}'", cboTipo.Text);
+            if (cboRegimen.Text != "Seleccionar") consultaBusqueda = consultaBusqueda + String.Format(" and r.Descripcion='{0}'", cboRegimen.Text);
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
             SqlDataAdapter dataAdapter = new SqlDataAdapter(consultaBusqueda, strCo);
@@ -314,22 +287,16 @@ namespace FrbaHotel.GenerarModificacionReserva
         {
 
             int cant = 0;
-            if (cboTipo.Text != "Seleccionar")
-            {
-                cant += getTipoCant(cboTipo)* Int32.Parse(txtC1.Text);
-            }
-            if (cboT2.Text != "Seleccionar")
-            {
-                cant += getTipoCant(cboT2) * Int32.Parse(txtC2.Text);
-            }
-            if (cboT3.Text != "Seleccionar")
-            {
-                cant += getTipoCant(cboT3) * Int32.Parse(txtC3.Text);
-            }
-            if (cboT4.Text != "Seleccionar")
-            {
-                cant += getTipoCant(cboT4) * Int32.Parse(txtC4.Text);
-            }
+            
+                cant += 1* Int32.Parse(txtC1.Text);
+            
+                cant += 2 * Int32.Parse(txtC2.Text);
+            
+                cant += 3 * Int32.Parse(txtC3.Text);
+            
+                cant += 4 * Int32.Parse(txtC4.Text);
+            cant += 5 * Int32.Parse(txtC4.Text);
+
 
             return cant;
             
@@ -348,35 +315,41 @@ namespace FrbaHotel.GenerarModificacionReserva
             
             List<TipoCant> tcs = new List<TipoCant>();
 
-            if (cboTipo.Text != "Seleccionar" && Int32.Parse(txtC1.Text) > 0)
+            if ( Int32.Parse(txtC1.Text) > 0)
             {
                 TipoCant tc = new TipoCant();
                 tc.cant = Int32.Parse(txtC1.Text);
-                tc.desc = cboTipo.Text;
+                tc.desc = "BASE SIMPLE";
                 tcs.Add(tc);
             }
-            if (cboT2.Text != "Seleccionar" && Int32.Parse(txtC2.Text) > 0)
+            if ( Int32.Parse(txtC2.Text) > 0)
             {
                 TipoCant tc = new TipoCant();
                 tc.cant = Int32.Parse(txtC2.Text);
-                tc.desc = cboT2.Text;
+                tc.desc = "BASE DOBLE";
                 tcs.Add(tc);
             }
-            if (cboT3.Text != "Seleccionar" && Int32.Parse(txtC3.Text) > 0)
+            if ( Int32.Parse(txtC3.Text) > 0)
             {
                 TipoCant tc = new TipoCant();
                 tc.cant = Int32.Parse(txtC3.Text);
-                tc.desc = cboT3.Text;
+                tc.desc = "BASE TRIPLE";
                 tcs.Add(tc);
             }
-            if (cboT4.Text != "Seleccionar" && Int32.Parse(txtC4.Text) > 0)
+            if ( Int32.Parse(txtC4.Text) > 0)
             {
                 TipoCant tc = new TipoCant();
                 tc.cant = Int32.Parse(txtC4.Text);
-                tc.desc = cboT4.Text;
+                tc.desc = "BASE CUADRUPLE";
                 tcs.Add(tc);
             }
-
+            if (Int32.Parse(txtC5.Text) > 0)
+            {
+                TipoCant tc = new TipoCant();
+                tc.cant = Int32.Parse(txtC4.Text);
+                tc.desc = "KING";
+                tcs.Add(tc);
+            }
 
 
 

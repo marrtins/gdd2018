@@ -85,10 +85,13 @@ namespace FrbaHotel.Utilities
             DataTable dataTable = new DataTable();
             dataAdapter.Fill(dataTable);
             this.dataGridView1.DataSource = dataTable;
-            label1.Text = String.Format("Cant resultados: {0}", dataTable.Rows.Count);
+            //label1.Text = String.Format("Cant resultados: {0}", dataTable.Rows.Count);
 
         }
 
-        
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

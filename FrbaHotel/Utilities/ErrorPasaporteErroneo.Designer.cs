@@ -42,6 +42,7 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "El cliente seleccionado posee inconsistencias en el Nro de Pasaporte. Seleccione " +
     " el usuario cuyos datos sean correctos";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // dataGridView1
             // 

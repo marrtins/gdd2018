@@ -35,7 +35,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.cboRegimen = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.cboTipo = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.cboHotel = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
@@ -43,19 +42,19 @@
             this.btnReservar = new System.Windows.Forms.Button();
             this.txtC1 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.cboT2 = new System.Windows.Forms.ComboBox();
             this.txtC2 = new System.Windows.Forms.TextBox();
             this.txtC4 = new System.Windows.Forms.TextBox();
-            this.cboT4 = new System.Windows.Forms.ComboBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.txtC3 = new System.Windows.Forms.TextBox();
-            this.cboT3 = new System.Windows.Forms.ComboBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtC5 = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgPrecios)).BeginInit();
             this.SuspendLayout();
             // 
@@ -116,14 +115,6 @@
             this.label4.Size = new System.Drawing.Size(49, 13);
             this.label4.TabIndex = 6;
             this.label4.Text = "Regimen";
-            // 
-            // cboTipo
-            // 
-            this.cboTipo.FormattingEnabled = true;
-            this.cboTipo.Location = new System.Drawing.Point(100, 250);
-            this.cboTipo.Name = "cboTipo";
-            this.cboTipo.Size = new System.Drawing.Size(137, 21);
-            this.cboTipo.TabIndex = 7;
             // 
             // label5
             // 
@@ -188,94 +179,42 @@
             this.label6.TabIndex = 14;
             this.label6.Text = "Cant:";
             // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(55, 253);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(28, 13);
-            this.label7.TabIndex = 15;
-            this.label7.Text = "Tipo";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(55, 295);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(28, 13);
-            this.label8.TabIndex = 17;
-            this.label8.Text = "Tipo";
-            // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(253, 295);
+            this.label9.Location = new System.Drawing.Point(253, 279);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(32, 13);
             this.label9.TabIndex = 16;
             this.label9.Text = "Cant:";
             // 
-            // cboT2
-            // 
-            this.cboT2.FormattingEnabled = true;
-            this.cboT2.Location = new System.Drawing.Point(100, 287);
-            this.cboT2.Name = "cboT2";
-            this.cboT2.Size = new System.Drawing.Size(137, 21);
-            this.cboT2.TabIndex = 18;
-            // 
             // txtC2
             // 
-            this.txtC2.Location = new System.Drawing.Point(291, 288);
+            this.txtC2.Location = new System.Drawing.Point(291, 276);
             this.txtC2.Name = "txtC2";
             this.txtC2.Size = new System.Drawing.Size(48, 20);
             this.txtC2.TabIndex = 19;
             // 
             // txtC4
             // 
-            this.txtC4.Location = new System.Drawing.Point(291, 366);
+            this.txtC4.Location = new System.Drawing.Point(291, 326);
             this.txtC4.Name = "txtC4";
             this.txtC4.Size = new System.Drawing.Size(48, 20);
             this.txtC4.TabIndex = 27;
             // 
-            // cboT4
-            // 
-            this.cboT4.FormattingEnabled = true;
-            this.cboT4.Location = new System.Drawing.Point(100, 365);
-            this.cboT4.Name = "cboT4";
-            this.cboT4.Size = new System.Drawing.Size(137, 21);
-            this.cboT4.TabIndex = 26;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(55, 373);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(28, 13);
-            this.label10.TabIndex = 25;
-            this.label10.Text = "Tipo";
-            // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(253, 373);
+            this.label11.Location = new System.Drawing.Point(253, 329);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(32, 13);
             this.label11.TabIndex = 24;
             this.label11.Text = "Cant:";
             // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(55, 331);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(28, 13);
-            this.label12.TabIndex = 23;
-            this.label12.Text = "Tipo";
-            // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(253, 331);
+            this.label13.Location = new System.Drawing.Point(253, 307);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(32, 13);
             this.label13.TabIndex = 22;
@@ -283,37 +222,90 @@
             // 
             // txtC3
             // 
-            this.txtC3.Location = new System.Drawing.Point(291, 328);
+            this.txtC3.Location = new System.Drawing.Point(291, 300);
             this.txtC3.Name = "txtC3";
             this.txtC3.Size = new System.Drawing.Size(48, 20);
             this.txtC3.TabIndex = 21;
             // 
-            // cboT3
+            // label14
             // 
-            this.cboT3.FormattingEnabled = true;
-            this.cboT3.Location = new System.Drawing.Point(100, 328);
-            this.cboT3.Name = "cboT3";
-            this.cboT3.Size = new System.Drawing.Size(137, 21);
-            this.cboT3.TabIndex = 20;
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(182, 253);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(65, 13);
+            this.label14.TabIndex = 28;
+            this.label14.Text = "Base Simple";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(253, 355);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(32, 13);
+            this.label7.TabIndex = 29;
+            this.label7.Text = "Cant:";
+            // 
+            // txtC5
+            // 
+            this.txtC5.Location = new System.Drawing.Point(291, 352);
+            this.txtC5.Name = "txtC5";
+            this.txtC5.Size = new System.Drawing.Size(48, 20);
+            this.txtC5.TabIndex = 30;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(182, 279);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(62, 13);
+            this.label8.TabIndex = 31;
+            this.label8.Text = "Base Doble";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(182, 307);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(60, 13);
+            this.label10.TabIndex = 32;
+            this.label10.Text = "Base Triple";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(165, 329);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(82, 13);
+            this.label12.TabIndex = 33;
+            this.label12.Text = "Base Cuadruple";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(196, 352);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(28, 13);
+            this.label15.TabIndex = 34;
+            this.label15.Text = "King";
             // 
             // GenerarReserva
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(614, 396);
-            this.Controls.Add(this.txtC4);
-            this.Controls.Add(this.cboT4);
-            this.Controls.Add(this.label10);
-            this.Controls.Add(this.label11);
+            this.Controls.Add(this.label15);
             this.Controls.Add(this.label12);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.txtC5);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.txtC4);
+            this.Controls.Add(this.label11);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.txtC3);
-            this.Controls.Add(this.cboT3);
             this.Controls.Add(this.txtC2);
-            this.Controls.Add(this.cboT2);
-            this.Controls.Add(this.label8);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.txtC1);
             this.Controls.Add(this.btnReservar);
@@ -321,7 +313,6 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.cboHotel);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.cboTipo);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.cboRegimen);
             this.Controls.Add(this.label3);
@@ -347,7 +338,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cboRegimen;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox cboTipo;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox cboHotel;
         private System.Windows.Forms.Button button1;
@@ -355,18 +345,18 @@
         private System.Windows.Forms.Button btnReservar;
         private System.Windows.Forms.TextBox txtC1;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox cboT2;
         private System.Windows.Forms.TextBox txtC2;
         private System.Windows.Forms.TextBox txtC4;
-        private System.Windows.Forms.ComboBox cboT4;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox txtC3;
-        private System.Windows.Forms.ComboBox cboT3;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txtC5;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label15;
     }
 }

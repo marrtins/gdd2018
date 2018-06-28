@@ -22,7 +22,8 @@ namespace FrbaHotel.GenerarModificacionReserva
         private void button1_Click(object sender, EventArgs e)
         {
 
-            if (textBox1.Text == "")
+            int i;
+            if (textBox1.Text == "" || !int.TryParse(textBox1.Text, out i))
             {
                 MessageBox.Show("Complete el codigo de la reserva");
                 return;
@@ -54,7 +55,7 @@ namespace FrbaHotel.GenerarModificacionReserva
                     res.idHuesped = Int32.Parse(reader["idHuesped"].ToString());
                     res.EstadoReserva = (reader["idHuesped"].ToString())[0];
                     res.CodigoReserva = Int32.Parse(reader["CodigoReserva"].ToString());
-
+                    
                 }
                 reader.Close();
                 con.Close();
@@ -67,13 +68,14 @@ namespace FrbaHotel.GenerarModificacionReserva
                 MessageBox.Show("Error. El codigo no existe");
                 reader.Close();
                 con.Close();
+                return;
             }
             
         }
         private Reserva llenarHabitaciones(Reserva res)
         {
             int idReserva = res.idReserva;
-            string consultaBusqueda = String.Format("select * from mmel.ReservaPorHabitacion where idReserva = {0}",idReserva);
+            string consultaBusqueda = String.Format("select idReserva,idHabitacion from mmel.ReservaPorHabitacion where idReserva = {0}",idReserva);
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
             SqlCommand cmd = new SqlCommand(consultaBusqueda, con);
@@ -83,7 +85,7 @@ namespace FrbaHotel.GenerarModificacionReserva
                 cmd.Connection.Open();
             }
             SqlDataReader reader = cmd.ExecuteReader();
-
+            res.idHabitaciones = new List<int>();
             if (reader.HasRows)
             {
                 
