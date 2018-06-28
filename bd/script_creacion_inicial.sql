@@ -2692,13 +2692,14 @@ GO
 
 CREATE VIEW [MMEL].[ConsumiblesFacturadosPorHotel]
 AS
-SELECT        MMEL.Hotel.idHotel, MMEL.Facturacion.idFactura, MMEL.Facturacion.idEstadia, MMEL.Estadia.idReserva, MMEL.Reserva.idHabitacion, MMEL.ItemFactura.idItemFactura, MMEL.ItemFactura.itemDescripcion, 
+SELECT        MMEL.Hotel.idHotel, MMEL.Facturacion.idFactura, MMEL.Facturacion.idEstadia, MMEL.Estadia.idReserva, MMEL.ReservaPorHabitacion.idHabitacion, MMEL.ItemFactura.idItemFactura, MMEL.ItemFactura.itemDescripcion, 
                          MMEL.ItemFactura.idConsumible, MMEL.ItemFactura.itemFacturaCantidad, MMEL.ItemFactura.itemFacturaMonto, MMEL.Facturacion.FacturaFecha, MMEL.Hotel.Nombre
 FROM            MMEL.Estadia INNER JOIN
                          MMEL.Facturacion ON MMEL.Estadia.idEstadia = MMEL.Facturacion.idEstadia INNER JOIN
                          MMEL.Reserva ON MMEL.Estadia.idReserva = MMEL.Reserva.idReserva INNER JOIN
-                         MMEL.Hotel ON MMEL.Reserva.idHotel = MMEL.Hotel.idHotel INNER JOIN
-                         MMEL.Habitacion ON MMEL.Reserva.idHabitacion = MMEL.Habitacion.idHabitacion AND MMEL.Hotel.idHotel = MMEL.Habitacion.idHotel INNER JOIN
+						 MMEL.ReservaPorHabitacion on MMEL.ReservaPorHabitacion.idReserva = MMEL.Reserva.idReserva JOIN
+                         MMEL.Habitacion ON MMEL.ReservaPorHabitacion.idHabitacion = MMEL.Habitacion.idHabitacion INNER JOIN
+                         MMEL.Hotel ON MMEL.Habitacion.idHotel = MMEL.Hotel.idHotel INNER JOIN
                          MMEL.ItemFactura ON MMEL.Estadia.idEstadia = MMEL.ItemFactura.idEstadia AND MMEL.Facturacion.idFactura = MMEL.ItemFactura.idFactura
 WHERE        (MMEL.ItemFactura.idConsumible IS NOT NULL)
 GO
