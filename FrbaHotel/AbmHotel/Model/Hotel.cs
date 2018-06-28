@@ -15,7 +15,25 @@ namespace FrbaHotel.AbmHotel.Model
         private string _telefono;
         private string _mail;
         private string _ciudad;
-  
+        DateTime fechaDeCreacion;
+
+        [CustomRequired]
+
+        public DateTime FechaDeCreacion
+        {
+            get
+            {
+                return fechaDeCreacion;
+            }
+
+            set
+            {
+                fechaDeCreacion = value;
+                InvokePropertyChanged("");
+
+            }
+        }
+
         int idHotel;
         string nombre;
 
@@ -101,11 +119,12 @@ namespace FrbaHotel.AbmHotel.Model
             Telefono = telefono;
             CantidadEstrellas = cantidadEstrellas;
             Ciudad = ciudad;
-            
+            FechaDeCreacion = new DateTime();
         }
 
         public Hotel()
         {
+            FechaDeCreacion = new DateTime();
         }
 
         [CustomRequired]
