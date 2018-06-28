@@ -277,7 +277,8 @@ Create Table [MMEL].[Reserva](
 	FechaDeReserva datetime ,
 	FechaDesde datetime ,
 	FechaHasta datetime ,
-	idHabitacion int references MMEL.Habitacion(idHabitacion),
+	--idHabitacion int references MMEL.Habitacion(idHabitacion),
+	
 	idRegimen int references MMEL.Regimen(idRegimen),
 	idHuesped int references MMEL.Huesped(idHuesped),
 	EstadoReserva char(6) ,
@@ -289,7 +290,7 @@ Create Table [MMEL].[Reserva](
 	idRPH int identity(1,1) not null,
 	idReserva int references MMEL.Reserva(idReserva),
 	idHabitacion int references MMEL.Habitacion(idHabitacion),
-	constraint PK_RPH primary key(idHabitacion)
+	constraint PK_RPH primary key(idRPH)
 	)
 
 Create Table [MMEL].[Estadia](
@@ -574,7 +575,7 @@ update mmel.Reserva
 set
 FechaDesde = ot1.Reserva_Fecha_Inicio,
 FechaHasta=ot1.Reserva_Fecha_Inicio+ot1.Reserva_Cant_Noches,
-idHabitacion = ha.idHabitacion,
+--idHabitacion = ha.idHabitacion,
 idRegimen=re.idRegimen,
 idHuesped=pe.idPersona,
 idHotel = ho.idHotel
@@ -590,7 +591,12 @@ and pe.Apellido=ot1.Cliente_Apellido
 and pe.NroDocumento=ot1.Cliente_Pasaporte_Nro
 and pe.Mail=ot1.Cliente_Mail
 
-
+insert into mmel.ReservaPorHabitacion(idReserva,idHabitacion) 
+select distinct re.idReserva,ha.idHabitacion from gd_esquema.Maestra ot,mmel.Reserva re,mmel.Habitacion ha,mmel.Hotel ho where 
+re.CodigoReserva=ot.Reserva_Codigo 
+and re.idHotel=ho.idHotel
+and ha.idHotel=ho.idHotel
+and ha.NumeroHabitacion=ot.Habitacion_Numero
 
 --hay campos en q fehca inicio y cant noches son nulos , no los pongo pero revisar...
 insert into mmel.Estadia (idReserva,FechaCheckIN,FechaCheckOUT)
@@ -2282,19 +2288,28 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[actu
 go
 
 
-create procedure mmel.actualizarCheckIn (@idEstadia int, @fechaCheckIn datetime,@iduserQueModifica varchar(200))
+create procedure mmel.actualizarCheckIn (@idEstadia int, @fechaCheckIn datetime,@iduserQueModifica int,@rta int output)
 as
 begin
 	declare @idRecepQueModifica int
+	declare @reschin datetime
+	declare @idRes int
 	set @idRecepQueModifica=@iduserQueModifica
-	update mmel.Estadia
-	set FechaCheckIN = @fechaCheckIn,
-	idRecepcionistaCheckIN=@idRecepQueModifica,
-	FechaCheckOUT= case
-		when Consistente = 'N' then null else FechaCheckOUT
-	end,
-	Consistente='S'
-	where idEstadia=@idEstadia
+	select @reschin = re.FechaDesde  from mmel.Reserva re,mmel.Estadia e where e.idReserva=re.idReserva
+	if(@reschin=@fechaCheckIn)
+		begin
+		update mmel.Estadia
+		set FechaCheckIN = @fechaCheckIn,
+		idRecepcionistaCheckIN=@idRecepQueModifica,
+		FechaCheckOUT= case
+			when Consistente = 'N' then null else FechaCheckOUT
+		end,
+		Consistente='S'
+		where idEstadia=@idEstadia
+		set @rta=1
+		end
+	else
+		set @rta=0
 end
 
 go
@@ -2304,13 +2319,13 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[real
 go
 
 
-create procedure mmel.realizarCheckIn(@codigoRes int, @fechaCheckIn datetime,@userQueModifica varchar(200))
+create procedure mmel.realizarCheckIn(@codigoRes int, @fechaCheckIn datetime,@idRecepQueModifica int)
 as
 begin
 
-	declare @idRecepQueModifica int
+	
 	declare @idReserva int
-	set @idRecepQueModifica=3 --cambiar!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	
 	select @idReserva=idReserva from mmel.Reserva where CodigoReserva=@codigoRes
 	insert into mmel.Estadia(FechaCheckIN,idRecepcionistaCheckIN,idReserva,Consistente)
 	values(@fechaCheckIn,@idRecepQueModifica,@idReserva,'S')
@@ -2383,11 +2398,11 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[actu
 go
 
 
-create procedure MMEL.actualizarCheckOut (@idEstadia int,@fechaCheckOut datetime,@userQueModifica varchar(200))
+create procedure MMEL.actualizarCheckOut (@idEstadia int,@fechaCheckOut datetime,@iduserQueModifica int)
 as
 begin
 	declare @idRecepQueModificaCOUT int
-	set @idRecepQueModificaCOUT=3 --cambiar!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	set @idRecepQueModificaCOUT=@iduserQueModifica
 
 
 	update mmel.Estadia
