@@ -1,16 +1,9 @@
 ﻿using FrbaHotel.AbmHabitacion.Model;
-using FrbaHotel.AbmRegimen;
-using FrbaHotel.Utilities;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FrbaHotel.GenerarModificacionReserva
@@ -24,15 +17,22 @@ namespace FrbaHotel.GenerarModificacionReserva
         {
             this.idHotel = idHotel;
             InitializeComponent();
-            cboRegimen.Items.Add("Seleccionar");
-            cboRegimen.Text = "Seleccionar";
+            
             cboTipo.Text = "Seleccionar";
+            cboT2.Text = "Seleccionar";
+            cboT3.Text = "Seleccionar";
+            cboT4.Text = "Seleccionar";
+            cboRegimen.Text = "Seleccionar";
             cargarRegimenes();
             cargarTipoHabitaciones();
             dgPrecios.Visible = false;
             btnReservar.Enabled = false;
             cboHotel.Text = "1";
-
+            this.idHotel = idHotel;
+            txtC1.Text = "0";
+            txtC2.Text = "0";
+            txtC3.Text = "0";
+            txtC4.Text = "0";
 
 
 
@@ -40,15 +40,7 @@ namespace FrbaHotel.GenerarModificacionReserva
         }
         public GenerarReserva()
         {
-            InitializeComponent();
-            cboRegimen.Items.Add("Seleccionar");
-            cboRegimen.Text = "Seleccionar";
-            cboTipo.Text = "Seleccionar";
-            cargarRegimenes();
-            cargarTipoHabitaciones();
-            dgPrecios.Visible = false;
-            btnReservar.Enabled = false;
-            this.idHotel = idHotel;
+            
         }
 
         private void label5_Click(object sender, EventArgs e)
@@ -116,6 +108,9 @@ namespace FrbaHotel.GenerarModificacionReserva
               
                 string descr = (reader["Descripcion"].ToString());
                 cboTipo.Items.Add(descr);
+                cboT2.Items.Add(descr);
+                cboT3.Items.Add(descr);
+                cboT4.Items.Add(descr);
 
             }
             reader.Close();
@@ -125,65 +120,159 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         }
 
+        private bool validarCampos()
+        {
+            int i;
+            if (cboHotel.Text == "Seleccionar")
+            {
+                MessageBox.Show("Seleccione un hotel", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            DateTime value = Convert.ToDateTime(ConfigurationManager.AppSettings["DateKey"]);
+
+            int result = DateTime.Compare(dtDesde.Value, dtHasta.Value);
+            int result2= DateTime.Compare(value,dtDesde.Value);
+
+            if (result>=0 )
+            {
+                MessageBox.Show("Seleccione fechas validas", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            if(result2>0)
+            {
+                MessageBox.Show("Seleccione fechas validas", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if(cboTipo.Text=="Seleccionar" || txtC1.Text=="0" || !int.TryParse(txtC1.Text, out i))
+            {
+                MessageBox.Show("Seleccione el primer campo de tipo habitacion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            if(!int.TryParse(txtC1.Text, out i) || !int.TryParse(txtC2.Text, out i) || !int.TryParse(txtC3.Text, out i))
+            {
+                MessageBox.Show("Ingrese cantidad valida de habitaciones", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            return true;
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
-            
-            if (cboHotel.Text == "Seleccionar"){ MessageBox.Show("Seleccione un hotel", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
-            else if (cboTipo.Text == "Seleccionar") { MessageBox.Show("Seleccione Tipo de Habitacion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
-            else if(dtDesde.Value >= dtHasta.Value | dtDesde.Value.Day<System.DateTime.Now.Day | dtHasta.Value < System.DateTime.Now) { MessageBox.Show("Seleccione fechas validas", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+
+            if (!validarCampos())
+            {
+                return;
+            }
 
             else
             {
-                string strCo = ConfigurationManager.AppSettings["stringConexion"];
-                SqlConnection con = new SqlConnection(strCo);
 
-                SqlCommand cmd;
-                cmd = new SqlCommand("MMEL.hayDisponibilidad", con);
-
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@fechaDesde", SqlDbType.DateTime).Value = dtDesde.Value;
-                cmd.Parameters.Add("@fechaHasta", SqlDbType.DateTime).Value = dtHasta.Value;
-                cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = cboHotel.Text;
-                cmd.Parameters.Add("@tipoHabDesc", SqlDbType.VarChar, 150).Value = cboTipo.Text;
-            
-                
-                cmd.Parameters.Add("@rta", SqlDbType.Int).Direction = ParameterDirection.Output; //1->hay dispo. 0>no hay dispo
-
-                if (cmd.Connection.State == ConnectionState.Closed)
+                if (txtC1.Text != "0" && cboTipo.Text!="Seleccionar")
                 {
-                    cmd.Connection.Open();
+                    if (!haydispo(cboTipo.Text, Int32.Parse(txtC1.Text))){
+                        MessageBox.Show(string.Format("No hay disponibilidad para las fechas indicadas"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
                 }
-                cmd.ExecuteNonQuery();
-
-                int codigoRet = int.Parse(cmd.Parameters["@rta"].Value.ToString());
-                
-                if (codigoRet == 0)
+                if (txtC2.Text != "0" && cboT2.Text != "Seleccionar")
                 {
-                    MessageBox.Show(string.Format("No hay disponibilidad para las fechas indicadas"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (!haydispo(cboT2.Text, Int32.Parse(txtC2.Text))){
+                        MessageBox.Show(string.Format("No hay disponibilidad para las fechas indicadas"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
                 }
-                else if (codigoRet == 1)
+                if (txtC3.Text != "0" && cboT3.Text != "Seleccionar")
                 {
-                    MessageBox.Show("Hay disponibilidad para las fechas indicadas.", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    dgPrecios.Visible = true;
-                    llenarDataGridDePrecios();
-                    dtDesde.Enabled = false;
-                    dtHasta.Enabled = false;
-                    cboHotel.Enabled = false;
-                    cboTipo.Enabled = false;
-                    cboRegimen.Enabled = false;
-                    button1.Enabled = false;
-                    btnReservar.Enabled = true;
-                    
-
-
+                    if (!haydispo(cboT3.Text, Int32.Parse(txtC3.Text))){
+                        MessageBox.Show(string.Format("No hay disponibilidad para las fechas indicadas"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
                 }
-                
+                if (txtC4.Text != "0" && cboT4.Text != "Seleccionar")
+                {
+                    if (!haydispo(cboT2.Text, Int32.Parse(txtC2.Text))){
+                        MessageBox.Show(string.Format("No hay disponibilidad para las fechas indicadas"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+
+                MessageBox.Show("Hay disponibilidad para las fechas indicadas.", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                dgPrecios.Visible = true;
+                llenarDataGridDePrecios();
+                dtDesde.Enabled = false;
+                dtHasta.Enabled = false;
+                cboHotel.Enabled = false;
+                cboRegimen.Enabled = true;
+                cboTipo.Enabled = false;
+                button1.Enabled = false;
+                btnReservar.Enabled = true;
+                cboT2.Enabled = false;
+                cboT3.Enabled = false;
+                cboT4.Enabled = false;
+                txtC1.Enabled = false;
+                txtC2.Enabled = false;
+                txtC3.Enabled = false;
+                txtC4.Enabled = false;
+            }
+
+
+
+        }
+
+        private bool haydispo(string tipoHabDesc,int cant)
+        {
+
+
+            string strCo = ConfigurationManager.AppSettings["stringConexion"];
+            SqlConnection con = new SqlConnection(strCo);
+
+            SqlCommand cmd;
+            cmd = new SqlCommand("MMEL.hayDisponibilidad", con);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@fechaDesde", SqlDbType.DateTime).Value = dtDesde.Value;
+            cmd.Parameters.Add("@fechaHasta", SqlDbType.DateTime).Value = dtHasta.Value;
+            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = cboHotel.Text;
+            cmd.Parameters.Add("@tipoHabDesc", SqlDbType.VarChar, 150).Value = tipoHabDesc;
+
+
+            cmd.Parameters.Add("@rta", SqlDbType.Int).Direction = ParameterDirection.Output; //1->hay dispo. 0>no hay dispo
+
+            if (cmd.Connection.State == ConnectionState.Closed)
+            {
+                cmd.Connection.Open();
+            }
+            cmd.ExecuteNonQuery();
+
+            int codigoRet = int.Parse(cmd.Parameters["@rta"].Value.ToString());
+
+            if (codigoRet == 0 || codigoRet<cant)
+            {
+                return false;
+                //MessageBox.Show(string.Format("No hay disponibilidad para las fechas indicadas"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else 
+            {
+                /*MessageBox.Show("Hay disponibilidad para las fechas indicadas.", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                dgPrecios.Visible = true;
+                llenarDataGridDePrecios();
+                dtDesde.Enabled = false;
+                dtHasta.Enabled = false;
+                cboHotel.Enabled = false;
+                cboRegimen.Enabled = false;
+                cboTipo.Enabled = false;
+                button1.Enabled = false;
+                btnReservar.Enabled = true;*/
+                return true;
+
 
 
             }
 
 
 
+            
         }
 
         private void llenarDataGridDePrecios()
@@ -192,8 +281,8 @@ namespace FrbaHotel.GenerarModificacionReserva
 
             int cantPersonas = getCantPersonas();
 
-            string consultaBusqueda = String.Format("select (r.precio * {0} + 25 * ho.CantidadEstrellas) \"Precio por Noche\", Descripcion \"Tipo de Regimen\" from mmel.Regimen r, mmel.hotel ho where ho.idHotel={1}", cantPersonas,idHotel);
-            if (cboRegimen.Text != "Seleccionar") consultaBusqueda = consultaBusqueda + String.Format(" and r.Descripcion='{0}'", cboRegimen.Text);
+            string consultaBusqueda = String.Format("select (r.precio * {0} + ho.RecargaEstrellas * ho.CantidadEstrellas) \"Precio por Noche\", Descripcion \"Tipo de Regimen\" from mmel.Regimen r, mmel.hotel ho where ho.idHotel={1}", cantPersonas,idHotel);
+            if (cboRegimen.Text != "Seleccionar") consultaBusqueda = consultaBusqueda + String.Format(" and r.Descripcion='{0}'", cboTipo.Text);
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
             SqlDataAdapter dataAdapter = new SqlDataAdapter(consultaBusqueda, strCo);
@@ -212,14 +301,38 @@ namespace FrbaHotel.GenerarModificacionReserva
         {
 
         }
+        private int getTipoCant(ComboBox cbo)
+        {
+            if (cbo.Text == "Base Simple") return 1;
+            if (cbo.Text == "Base Doble") return 2;
+            if (cbo.Text == "Base Triple") return 3;
+            if (cbo.Text == "Base Cuadruple") return 4;
+            if (cbo.Text == "King") return 5;
+            return 0;
+        }
         private int getCantPersonas()
         {
-            if (cboTipo.Text == "Base Simple") return 1;
-            if (cboTipo.Text == "Base Doble") return 2;
-            if (cboTipo.Text == "Base Triple") return 3;
-            if (cboTipo.Text == "Base Cuadruple") return 4;
-            if (cboTipo.Text == "King") return 5;
-            return -1;
+
+            int cant = 0;
+            if (cboTipo.Text != "Seleccionar")
+            {
+                cant += getTipoCant(cboTipo)* Int32.Parse(txtC1.Text);
+            }
+            if (cboT2.Text != "Seleccionar")
+            {
+                cant += getTipoCant(cboT2) * Int32.Parse(txtC2.Text);
+            }
+            if (cboT3.Text != "Seleccionar")
+            {
+                cant += getTipoCant(cboT3) * Int32.Parse(txtC3.Text);
+            }
+            if (cboT4.Text != "Seleccionar")
+            {
+                cant += getTipoCant(cboT4) * Int32.Parse(txtC4.Text);
+            }
+
+            return cant;
+            
 
         }
 
@@ -232,7 +345,42 @@ namespace FrbaHotel.GenerarModificacionReserva
             }
             float precio;
             precio = getPrecio();
-            ConfirmarReserva cr = new ConfirmarReserva(dtDesde.Value,dtHasta.Value,cboHotel.Text,cboTipo.Text,cboRegimen.Text,precio);
+            
+            List<TipoCant> tcs = new List<TipoCant>();
+
+            if (cboTipo.Text != "Seleccionar" && Int32.Parse(txtC1.Text) > 0)
+            {
+                TipoCant tc = new TipoCant();
+                tc.cant = Int32.Parse(txtC1.Text);
+                tc.desc = cboTipo.Text;
+                tcs.Add(tc);
+            }
+            if (cboT2.Text != "Seleccionar" && Int32.Parse(txtC2.Text) > 0)
+            {
+                TipoCant tc = new TipoCant();
+                tc.cant = Int32.Parse(txtC2.Text);
+                tc.desc = cboT2.Text;
+                tcs.Add(tc);
+            }
+            if (cboT3.Text != "Seleccionar" && Int32.Parse(txtC3.Text) > 0)
+            {
+                TipoCant tc = new TipoCant();
+                tc.cant = Int32.Parse(txtC3.Text);
+                tc.desc = cboT3.Text;
+                tcs.Add(tc);
+            }
+            if (cboT4.Text != "Seleccionar" && Int32.Parse(txtC4.Text) > 0)
+            {
+                TipoCant tc = new TipoCant();
+                tc.cant = Int32.Parse(txtC4.Text);
+                tc.desc = cboT4.Text;
+                tcs.Add(tc);
+            }
+
+
+
+
+            ConfirmarReserva cr = new ConfirmarReserva(idHotel,dtDesde.Value,dtHasta.Value,cboHotel.Text,cboRegimen.Text,precio,tcs);
             cr.Show();
             this.Hide();
               

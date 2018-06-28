@@ -1905,7 +1905,8 @@ BEGIN
 
 		select * from mmel.habitacion where idHabitacion not in
 		(SELECT h.idHabitacion  FROM MMEL.Habitacion h
-		join mmel.Reserva r on h.idHotel=r.idHotel and h.idHabitacion=r.idHabitacion
+		join mmel.Reserva r on h.idHotel=r.idHotel  
+		join mmel.ReservaPorHabitacion rph on rph.idReserva=r.idReserva and rph.idHabitacion=h.idHabitacion
 		WHERE	h.idHotel=@idHotel AND
 								(
 									( FechaDesde<=@fechaDesde and @fechaDesde<FechaHasta) OR
@@ -1936,7 +1937,8 @@ BEGIN
 		if exists(
 			select * from mmel.habitacion where idHabitacion not in
 				(SELECT h.idHabitacion  FROM MMEL.Habitacion h
-				join mmel.Reserva r on h.idHotel=r.idHotel and h.idHabitacion=r.idHabitacion
+				join mmel.Reserva r on h.idHotel=r.idHotel
+				join mmel.ReservaPorHabitacion rph on rph.idReserva=r.idReserva and rph.idHabitacion=h.idHabitacion
 				WHERE	h.idHotel=@idHotel AND
 										(
 											( FechaDesde<=@fechaDesde and @fechaDesde<FechaHasta) OR
@@ -1945,7 +1947,20 @@ BEGIN
 
 										)
 			) and idHotel = @idHotel and idTipoHabitacion=@idTipoHab
-		) begin set @rta = 1 end
+		) begin
+			select @rta=count(*) from mmel.habitacion where idHabitacion not in
+				(SELECT h.idHabitacion  FROM MMEL.Habitacion h
+				join mmel.Reserva r on h.idHotel=r.idHotel
+				join mmel.ReservaPorHabitacion rph on rph.idReserva=r.idReserva and rph.idHabitacion=h.idHabitacion
+				WHERE	h.idHotel=@idHotel AND
+										(
+											( FechaDesde<=@fechaDesde and @fechaDesde<FechaHasta) OR
+											( FechaDesde<@fechaHasta and @fechaHasta<=FechaHasta) OR
+											( @fechaDesde<=FechaDesde and @fechaHasta>=FechaHasta)
+
+										)
+			) and idHotel = @idHotel and idTipoHabitacion=@idTipoHab
+		 end
 		else begin set @rta=0 end
 
 
@@ -2022,40 +2037,83 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[rese
 go
 
 
-create procedure mmel.reservar(@fechaDeReserva datetime,@idUsuarioQueReserva int,@fechaDesde datetime,@fechaHasta datetime,@idHotel int,@tipoHabDesc varchar(100),@tipoRegimenDesc varchar(100),@idPersona int, @codReserva int output)
+create procedure mmel.reservar(@fechaDeReserva datetime,@idUsuarioQueReserva int,@fechaDesde datetime,@fechaHasta datetime,@idHotel int,@tipoRegimenDesc varchar(100),@idPersona int)
 as
 begin
 
-	declare @idHabitacion int
+	
 	declare @idRegimen int
 	declare @idHuesped int
-
+	declare @cant int
 	declare @idTipoHab int
-	set @idUsuarioQueReserva = 1 --todo
-	set @idTipoHab = (select top 1 idTipoHabitacion from mmel.TipoHabitacion where Descripcion=@tipoHabDesc)
+	declare @codReserva2 int
+	
+	
 	set @idRegimen = (select top 1 idRegimen from mmel.Regimen where Descripcion=@tipoRegimenDesc)
-	set @codReserva = mmel.getCodigoReserva()
+	--set @codReserva = mmel.getCodigoReserva()
+	select @codReserva2=max(CodigoReserva)+1 from mmel.Reserva
 	set @idHuesped=(select top 1 idHuesped from mmel.Huesped where idPersona=@idPersona)
-	set @idHabitacion =
-		(select top 1 idHabitacion from mmel.habitacion where idHabitacion not in
-				(SELECT h.idHabitacion  FROM MMEL.Habitacion h
-					join mmel.Reserva r on h.idHotel=r.idHotel and h.idHabitacion=r.idHabitacion
-					WHERE	h.idHotel=@idHotel AND
-						(
-							( FechaDesde<=@fechaDesde and @fechaDesde<FechaHasta) OR
-							( FechaDesde<@fechaHasta and @fechaHasta<=FechaHasta) OR
-							( @fechaDesde<=FechaDesde and @fechaHasta>=FechaHasta)
-						)
-				)
-				and idHotel = @idHotel and idTipoHabitacion=@idTipoHab
-		)
+	
+	insert into mmel.Reserva(idUsuarioQueProcesoReserva,idHotel,FechaDeReserva,FechaDesde,FechaHasta,idRegimen,idHuesped,CodigoReserva,EstadoReserva)
+	values(@idUsuarioQueReserva,@idHotel,@fechaDeReserva,@fechaDesde,@fechaHasta,@idRegimen,@idHuesped,@codReserva2,'C')
+	
+	
+	
+end
+go
 
-	insert into mmel.Reserva(idUsuarioQueProcesoReserva,idHotel,FechaDeReserva,FechaDesde,FechaHasta,idHabitacion,idRegimen,idHuesped,CodigoReserva,EstadoReserva)
-	values(@idUsuarioQueReserva,@idHotel,@fechaDeReserva,@fechaDesde,@fechaHasta,@idHabitacion,@idRegimen,@idHuesped,@codReserva,'C')
+
+
+
+
+
+
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[setearHabitaciones]'))
+	DROP procedure [MMEL].setearHabitaciones
+go
+
+create procedure mmel.setearHabitaciones(@codigoRes int,@cantHab int,@tipoHabDesc varchar(75),@fechaDesde datetime,@fechaHasta datetime,@idHotel int)
+as
+begin
+
+
+	declare @idReserva int
+	declare @idTipoHab int
+	select @idReserva=idReserva from mmel.Reserva where CodigoReserva=@codigoRes
+	select @idTipoHab=idTipoHabitacion from mmel.TipoHabitacion where Descripcion=@tipoHabDesc
+	
+	
+CREATE TABLE mmel.#tt (idHab int,idRes int)
+	insert into mmel.#tt(idHab,idRes)
+	select top (@cantHab) idHabitacion,@idReserva from mmel.habitacion where idHabitacion not in
+				(SELECT h.idHabitacion  FROM MMEL.Habitacion h
+				join mmel.Reserva r on h.idHotel=r.idHotel
+				join mmel.ReservaPorHabitacion rph on rph.idReserva=r.idReserva and rph.idHabitacion=h.idHabitacion
+				WHERE	h.idHotel=@idHotel AND
+										(
+											( FechaDesde<=@fechaDesde and @fechaDesde<FechaHasta) OR
+											( FechaDesde<@fechaHasta and @fechaHasta<=FechaHasta) OR
+											( @fechaDesde<=FechaDesde and @fechaHasta>=FechaHasta)
+
+										)
+			) and idHotel = @idHotel and idTipoHabitacion=@idTipoHab
+
+
+	insert into mmel.ReservaPorHabitacion(idHabitacion,idReserva)
+	select idHab,idRes from mmel.#tt
+	drop table mmel.#tt
+
+
+
+
 
 
 end
+
 go
+
+
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[resolverInconsistencia]'))
 	DROP procedure [MMEL].resolverInconsistencia
@@ -2237,7 +2295,10 @@ begin
 	declare @startdateEST datetime
 	declare @enddateEST datetime
 	
-	select @idHotel=r.idHotel,@idRegimen=r.idRegimen,@enddateEST=e.FechaCheckOUT,@startdateEST=e.FechaCheckIN,@enddate=(r.FechaHasta),@startdate=(r.FechaDesde),@thDesc = th.Descripcion from mmel.Estadia e,mmel.Reserva r,mmel.Habitacion h,mmel.TipoHabitacion th where e.idReserva=r.idReserva and e.idEstadia=@idEstadia and r.idHabitacion=h.idHabitacion and h.idTipoHabitacion=th.idTipoHabitacion
+	select @idHotel=r.idHotel,@idRegimen=r.idRegimen,@enddateEST=e.FechaCheckOUT,@startdateEST=e.FechaCheckIN,@enddate=(r.FechaHasta),@startdate=(r.FechaDesde),@thDesc = th.Descripcion 
+		from mmel.Estadia e,mmel.Reserva r,mmel.Habitacion h,mmel.TipoHabitacion th,mmel.ReservaPorHabitacion rph
+		where e.idReserva=r.idReserva and e.idEstadia=@idEstadia and rph.idHabitacion=h.idHabitacion and rph.idReserva=r.idReserva and h.idTipoHabitacion=th.idTipoHabitacion
+	
 	SELECT @cantDias=DATEDIFF(day, @startdate, @enddate);
 	set @chINEstadia=@startdateEST
 	set @chOUTEstadia=@enddateEST

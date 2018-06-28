@@ -25,11 +25,12 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         public int idReserva { get; set; }
         public int idHotel { get; set; }
+        public List<Int32> idHabitaciones { get; set; }
         public int idUsuarioQueProcesoReserva { get; set; }
         public DateTime FechaDeReserva { get; set; }
         public DateTime FechaDesde { get; set; }
         public DateTime FechaHasta { get; set; }
-        public int idHabitacion { get; set; }
+        
         public char EstadoReserva { get; set; }
         public int idRegimen { get; set; }
 
@@ -37,6 +38,10 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         public int CodigoReserva { get; set; }
 
-
+    }
+    public class TipoCant
+    {
+        public int cant { get; set; }
+        public string desc { get; set; }
     }
 }

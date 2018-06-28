@@ -21,6 +21,12 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         private void button1_Click(object sender, EventArgs e)
         {
+
+            if (textBox1.Text == "")
+            {
+                MessageBox.Show("Complete el codigo de la reserva");
+                return;
+            }
             string consultaBusqueda = String.Format("select * from mmel.reserva where CodigoReserva = {0}",textBox1.Text);
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
@@ -43,7 +49,7 @@ namespace FrbaHotel.GenerarModificacionReserva
                     res.FechaDeReserva = DateTime.Parse(reader["FechaDeReserva"].ToString());
                     res.FechaDesde = DateTime.Parse(reader["FechaDesde"].ToString());
                     res.FechaHasta = DateTime.Parse(reader["FechaHasta"].ToString());
-                    res.idHabitacion = Int32.Parse(reader["idHabitacion"].ToString());
+                    //res.idHabitacion = Int32.Parse(reader["idHabitacion"].ToString());
                     res.idRegimen = Int32.Parse(reader["idRegimen"].ToString());
                     res.idHuesped = Int32.Parse(reader["idHuesped"].ToString());
                     res.EstadoReserva = (reader["idHuesped"].ToString())[0];
@@ -52,6 +58,7 @@ namespace FrbaHotel.GenerarModificacionReserva
                 }
                 reader.Close();
                 con.Close();
+                res=llenarHabitaciones(res);
                 ModificarReserva mr = new ModificarReserva(res);
                 mr.Show();
             }
@@ -62,6 +69,42 @@ namespace FrbaHotel.GenerarModificacionReserva
                 con.Close();
             }
             
+        }
+        private Reserva llenarHabitaciones(Reserva res)
+        {
+            int idReserva = res.idReserva;
+            string consultaBusqueda = String.Format("select * from mmel.ReservaPorHabitacion where idReserva = {0}",idReserva);
+            string strCo = ConfigurationManager.AppSettings["stringConexion"];
+            SqlConnection con = new SqlConnection(strCo);
+            SqlCommand cmd = new SqlCommand(consultaBusqueda, con);
+            con.Open();
+            if (cmd.Connection.State == ConnectionState.Closed)
+            {
+                cmd.Connection.Open();
+            }
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                
+                while (reader.Read())
+                {
+                    res.idHabitaciones.Add(Int32.Parse(reader["idHabitacion"].ToString()));
+                }
+                reader.Close();
+                con.Close();
+                
+                
+                
+            }
+            else
+            {
+                MessageBox.Show("Error. El codigo no existe");
+                reader.Close();
+                con.Close();
+            }
+
+            return res;
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)

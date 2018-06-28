@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrbaHotel.Utilities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -14,7 +15,7 @@ namespace FrbaHotel.RegistrarEstadia
 {
     public partial class MainRegEstadia : Form
     {
-
+        int idEst;
         
         public MainRegEstadia()
         {
@@ -37,17 +38,20 @@ namespace FrbaHotel.RegistrarEstadia
 
         private void btnCheckOut_Click(object sender, EventArgs e)
         {
-            //chequeo txt en blanco
-            //chequeo q exista la reserva
-            //chequeo q la estadia no este inconsistente(la estadia debe existir y con check out nulo)
-            //registro el check out
+            
+            if (txtDatosOk())
+            {
+                registrarCheckOut();
+            }
+            
 
         }
         private bool txtDatosOk()
         {
-            if (txtCodigoRes.Text == "")
+            int i;
+            if (txtCodigoRes.Text == "" || !int.TryParse(txtCodigoRes.Text, out i))
             {
-                MessageBox.Show("Complete el codigo de reserva", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Complete el codigo de reserva correctamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             return true;
@@ -105,9 +109,9 @@ namespace FrbaHotel.RegistrarEstadia
                     idEstadia = Int32.Parse(reader["idEstadia"].ToString());
                     codRes = Int32.Parse(reader["CodigoReserva"].ToString());
                     DateTime fechaCheckIn = DateTime.Parse(reader["fechaCheckIn"].ToString());
-                    DateTime fechaCheckOut = DateTime.Parse(reader["fechaCheckOut"].ToString());
+                    
                     consistente = Char.Parse(reader["consistente"].ToString());
-
+                    idEst = idEstadia;
                     if (consistente == 'S')
                     {
                         ModificarCheckinConsistente mcc = new ModificarCheckinConsistente(fechaCheckIn, idEstadia, this);
@@ -117,6 +121,7 @@ namespace FrbaHotel.RegistrarEstadia
                     }
                     else if (consistente == 'N')
                     {
+                        DateTime fechaCheckOut = DateTime.Parse(reader["fechaCheckOut"].ToString());
                         ModificarCheckInInconsistente mic = new ModificarCheckInInconsistente(fechaCheckIn, fechaCheckOut, idEstadia,this);
                         mic.Show();
                         this.Hide();
@@ -132,12 +137,12 @@ namespace FrbaHotel.RegistrarEstadia
                 con = new SqlConnection(strCo);
                 
                 cmd = new SqlCommand("MMEL.realizarCheckIn", con);
-
+                DateTime value = Convert.ToDateTime(ConfigurationManager.AppSettings["DateKey"]);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@codigoRes", SqlDbType.Int).Value = Int32.Parse(txtCodigoRes.Text);
 
-                cmd.Parameters.Add("@fechaCheckIn", SqlDbType.Int).Value = DateTime.Today; //MODIFICAR!
-                cmd.Parameters.Add("@userQueModifica", SqlDbType.VarChar, 200).Value = "Juan"; //MODIFICArRRRrR
+                cmd.Parameters.Add("@fechaCheckIn", SqlDbType.DateTime).Value = value;
+                cmd.Parameters.Add("@userQueModifica", SqlDbType.Int).Value = LoginData.IdUsuario;
 
                 if (cmd.Connection.State == ConnectionState.Closed)
                 {
@@ -149,7 +154,32 @@ namespace FrbaHotel.RegistrarEstadia
             }
 
         }
+        private void realizarCheckOut()
+        {
+            string strCo = ConfigurationManager.AppSettings["stringConexion"];
+            SqlConnection con = new SqlConnection(strCo);
 
+            SqlCommand cmd;
+            cmd = new SqlCommand("MMEL.actualizarCheckOut", con);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@idEstadia", SqlDbType.Int).Value = idEst;
+            DateTime value = Convert.ToDateTime(ConfigurationManager.AppSettings["DateKey"]);
+
+            cmd.Parameters.Add("@fechaCheckOut", SqlDbType.DateTime).Value = value;
+            cmd.Parameters.Add("@iduserQueModifica", SqlDbType.Int).Value = LoginData.IdUsuario;
+
+
+            if (cmd.Connection.State == ConnectionState.Closed)
+            {
+                cmd.Connection.Open();
+            }
+            cmd.ExecuteNonQuery();
+
+
+            MessageBox.Show("Fecha check out modificada exitosamente", "OK", MessageBoxButtons.OK);
+            
+        }
         private void registrarCheckOut()
         {
             string consultaBusqueda = String.Format("select top 1 idEstadia,CodigoReserva,FechaCheckIN,FechaCheckOUT,Consistente from mmel.Estadia e,mmel.Reserva r where  CodigoReserva={0} and e.idReserva=r.idReserva", txtCodigoRes.Text);
@@ -172,12 +202,12 @@ namespace FrbaHotel.RegistrarEstadia
                 {
 
                     idEstadia = Int32.Parse(reader["idEstadia"].ToString());
-                    codRes = Int32.Parse(reader["codRes"].ToString());
+                    codRes = Int32.Parse(reader["CodigoReserva"].ToString());
                     DateTime fechaCheckIn = DateTime.Parse(reader["fechaCheckIn"].ToString());
-                    DateTime fechaCheckOut = DateTime.Parse(reader["fechaCheckOut"].ToString());
+                    //DateTime fechaCheckOut = DateTime.Parse(reader["fechaCheckOut"].ToString());
                     consistente = Char.Parse(reader["consistente"].ToString());
 
-                    if (consistente == 'S')
+                    /*if (consistente == 'S')
                     {
                         ModificarCheckOutConsistente mcc = new ModificarCheckOutConsistente(fechaCheckIn, idEstadia, this);
                         mcc.Show();
@@ -186,9 +216,14 @@ namespace FrbaHotel.RegistrarEstadia
                     }
                     else if (consistente == 'N')
                     {
-                        MessageBox.Show("No se pudo realizar la operación por fecha de check in inconsistente. Modifique el CHECK IN primero", "X", MessageBoxButtons.OK);
+                        //MessageBox.Show("No se pudo realizar la operación por fecha de check in inconsistente. Modifique el CHECK IN primero", "X", MessageBoxButtons.OK);
+                        ModificarCheckOutConsistente mcc = new ModificarCheckOutConsistente(fechaCheckIn, idEstadia, this);
+                        mcc.Show();
+                        this.Hide();
                         return;
-                    }
+                    }*/
+                    idEst = idEstadia;
+                    realizarCheckOut();
 
                 }
 
@@ -204,6 +239,13 @@ namespace FrbaHotel.RegistrarEstadia
         private void MainRegEstadia_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Form1 f1 = new Form1();
+            f1.Show();
         }
     }
 }

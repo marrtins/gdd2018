@@ -19,25 +19,24 @@ namespace FrbaHotel.GenerarModificacionReserva
         private DateTime dtDesde;
         private DateTime dtHasta;
         private string hotel;
-        private string tipohab;
+        
         private string regimen;
         private float precio;
         private int idCliente;
+        private int idHotel;
         private int idPersona;
-
-        public ConfirmarReserva()
-        {
-            
+        private int codigoRes;
+        private List<TipoCant> tcs;
 
 
-        }
 
-        public ConfirmarReserva(DateTime dtDesde, DateTime dtHasta, string hotel, string tipohab, string regimen, float precio)
+        public ConfirmarReserva(int idHotel,DateTime dtDesde, DateTime dtHasta, string hotel, string regimen, float precio,List<TipoCant>tcs)
         {
             this.dtDesde = dtDesde;
+            this.idHotel = idHotel;
             this.dtHasta = dtHasta;
             this.hotel = hotel;
-            this.tipohab = tipohab;
+            this.tcs = tcs;
             this.regimen = regimen;
             this.precio = precio;
 
@@ -45,7 +44,7 @@ namespace FrbaHotel.GenerarModificacionReserva
             lblDesde.Text = dtDesde.ToString();
             lblHasta.Text = dtHasta.ToString();
             lblHotel.Text = hotel;
-            lblHab.Text = tipohab;
+            //lblHab.Text = tipohab;
             lblReg.Text = regimen;
             float total = (precio * ((dtHasta- dtDesde)).Days);
             lblTot.Text = total.ToString();
@@ -116,7 +115,7 @@ namespace FrbaHotel.GenerarModificacionReserva
                         }
                         else
                         {
-                            
+                            return;
                         }
 
                     }
@@ -128,7 +127,7 @@ namespace FrbaHotel.GenerarModificacionReserva
                         }
                         else
                         {
-                            
+                            return;
                         }
                     }
                     else
@@ -248,26 +247,35 @@ namespace FrbaHotel.GenerarModificacionReserva
 
             SqlCommand cmd;
             cmd = new SqlCommand("MMEL.reservar", con);
+            DateTime value = Convert.ToDateTime(ConfigurationManager.AppSettings["DateKey"]);
 
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@fechaDesde", SqlDbType.Date).Value = dtDesde;
             cmd.Parameters.Add("@fechaHasta", SqlDbType.Date).Value = dtHasta;
-            cmd.Parameters.Add("@fechaDeReserva", SqlDbType.Date).Value = DateTime.Today;//cambairrrrrrrrrrrrrrrr
-            cmd.Parameters.Add("@idUsuarioQueReserva", SqlDbType.Int).Value = 1; //cambiaaaaaaaaaaaaaaaaaaaaaar
-            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = 1; //cambiaaaaaaaaaaaaaaaaaaaaaar
-            cmd.Parameters.Add("@tipoHabDesc", SqlDbType.VarChar, 100).Value = tipohab;
+            cmd.Parameters.Add("@fechaDeReserva", SqlDbType.DateTime).Value = value;
+            cmd.Parameters.Add("@idUsuarioQueReserva", SqlDbType.Int).Value = LoginData.IdUsuario;
+            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel;
+            //cmd.Parameters.Add("@tipoHabDesc", SqlDbType.VarChar, 100).Value = tipohab;
             cmd.Parameters.Add("@tipoRegimenDesc", SqlDbType.VarChar, 100).Value = regimen;
             cmd.Parameters.Add("@idPersona", SqlDbType.Int).Value = idCliente;
             
-            cmd.Parameters.Add("@codReserva", SqlDbType.Int).Direction = ParameterDirection.Output;
+            
             
 
             if (cmd.Connection.State == ConnectionState.Closed)
             {
                 cmd.Connection.Open();
             }
+            cmd.ExecuteNonQuery();
 
-            var dr = cmd.ExecuteReader();
+
+            codigoRes = getCodigoRes();
+            MessageBox.Show(string.Format("Reserva Concretada. Codigo: {0}", codigoRes), "OK", MessageBoxButtons.OK);
+            setearHabitaciones();
+            this.Hide();
+            GenModReserva gmr = new GenModReserva();
+            gmr.Show();
+            /*var dr = cmd.ExecuteReader();
 
             var res = 0;
 
@@ -285,16 +293,70 @@ namespace FrbaHotel.GenerarModificacionReserva
                 {
 
                     int codigoReserva = int.Parse(cmd.Parameters["@codReserva"].Value.ToString());
+                    codigoRes = codigoReserva;
                     MessageBox.Show(string.Format("Reserva Concretada. Codigo: {0}", codigoReserva), "OK", MessageBoxButtons.OK);
-
+                    setearHabitaciones();
                     this.Hide();
                     GenModReserva gmr = new GenModReserva();
                     gmr.Show();
                 }
 
-            }      
+            }    */
+        }
+        private int getCodigoRes()
+        {
+          
+                string consultaBusqueda = String.Format("select max(CodigoReserva) Codigo from mmel.Reserva");
+                string strCo = ConfigurationManager.AppSettings["stringConexion"];
+                SqlConnection con = new SqlConnection(strCo);
+                SqlCommand cmd = new SqlCommand(consultaBusqueda, con);
+                con.Open();
+                if (cmd.Connection.State == ConnectionState.Closed)
+                {
+                    cmd.Connection.Open();
+                }
+                SqlDataReader reader = cmd.ExecuteReader();
+                int cod = 0;
+                while (reader.Read())
+                {
+                    cod = int.Parse(reader["Codigo"].ToString());
+                }
+                reader.Close();
+                con.Close();
+                return cod;
+            
         }
 
+        private void setearHabitaciones()
+        {
+
+            int i;
+            for (i = 0; i < tcs.Count; i++)
+            {
+
+                string strCo = ConfigurationManager.AppSettings["stringConexion"];
+                SqlConnection con = new SqlConnection(strCo);
+
+                SqlCommand cmd;
+                cmd = new SqlCommand("MMEL.setearHabitaciones", con);
+                DateTime value = Convert.ToDateTime(ConfigurationManager.AppSettings["DateKey"]);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@codigoRes", SqlDbType.Int).Value = codigoRes;
+                cmd.Parameters.Add("@cantHab", SqlDbType.Int).Value = tcs[i].cant;
+                cmd.Parameters.Add("@tipoHabDesc", SqlDbType.VarChar, 100).Value = tcs[i].desc;
+                cmd.Parameters.Add("@fechaDesde", SqlDbType.Date).Value = dtDesde;
+                cmd.Parameters.Add("@fechaHasta", SqlDbType.Date).Value = dtHasta;
+                cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel;
+
+
+                if (cmd.Connection.State == ConnectionState.Closed)
+                {
+                    cmd.Connection.Open();
+                }
+                cmd.ExecuteNonQuery();
+            }
+        }
 
         private void lblHab_Click(object sender, EventArgs e)
         {

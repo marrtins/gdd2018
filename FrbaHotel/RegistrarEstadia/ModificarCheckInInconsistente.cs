@@ -38,6 +38,12 @@ namespace FrbaHotel.RegistrarEstadia
             ftr.Show();
         }
 
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            ftr.Show();
+        }
+
         private void btnModificar_Click(object sender, EventArgs e)
         {
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
@@ -48,19 +54,27 @@ namespace FrbaHotel.RegistrarEstadia
 
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@idEstadia", SqlDbType.Int).Value = idest;
-            cmd.Parameters.Add("@fechaCheckIn", SqlDbType.DateTime).Value = DateTime.Today; //MODIFICAR!
+            DateTime value = Convert.ToDateTime(ConfigurationManager.AppSettings["DateKey"]);
+            cmd.Parameters.Add("@fechaCheckIn", SqlDbType.DateTime).Value = value; 
             cmd.Parameters.Add("@iduserQueModifica", SqlDbType.Int).Value = LoginData.IdUsuario;
-
+            cmd.Parameters.Add("@rta", SqlDbType.Int).Direction = ParameterDirection.Output;
             if (cmd.Connection.State == ConnectionState.Closed)
             {
                 cmd.Connection.Open();
             }
             cmd.ExecuteNonQuery();
 
-
-            MessageBox.Show("Fecha check in y check out modificada exitosamente.", "X", MessageBoxButtons.OK);
-            this.Hide();
-            ftr.Show();
+            int rta = int.Parse(cmd.Parameters["@rta"].Value.ToString());
+            if (rta == 1)
+            {
+                MessageBox.Show("Fecha check in modificada exitosamente", "X", MessageBoxButtons.OK);
+                this.Hide();
+                ftr.Show();
+            }
+            else
+            {
+                MessageBox.Show("Solo puede realizarse check in el día que fue reservado", "X", MessageBoxButtons.OK);
+            }
         }
     }
 }

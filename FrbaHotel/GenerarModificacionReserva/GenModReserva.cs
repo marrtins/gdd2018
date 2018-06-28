@@ -1,4 +1,5 @@
 ﻿using FrbaHotel.AbmHotel.Model;
+using FrbaHotel.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,11 +23,18 @@ namespace FrbaHotel.GenerarModificacionReserva
         {
             
             InitializeComponent();
-
+            if (LoginData.IdUsuario == 0) { 
             //if user=guest. pongo cbo d hoteles. sino{ 
             //label1.Text="Realizar/Modificar Reserva para el hotel {0}" y cboHoteles.visible=false
-            cboHoteles.Text = "Seleccionar";
-            cargarHoteles();
+                cboHoteles.Text = "Seleccionar";
+                cargarHoteles();
+            }
+            else
+            {
+                cboHoteles.Visible = false;
+                label1.Text = String.Format("Hotel: {0}",LoginData.Hotel.Nombre.ToUpper());
+                cboHoteles.Text = "not";
+            }
 
 
         }
@@ -74,9 +82,14 @@ namespace FrbaHotel.GenerarModificacionReserva
             }
             else
             {
-                int idHotel = Int32.Parse(cboHoteles.Text);
-                //ModificarReserva mr = new ModificarReserva(idHotel);//usuariod sesion
-                //mr.Show();
+                int idHotel;
+                if (cboHoteles.Text != "not")
+                    idHotel = Int32.Parse(cboHoteles.Text);
+                else
+                    idHotel = LoginData.Hotel.IdHotel;
+
+                CodigoReserva mr = new CodigoReserva();
+                mr.Show();
                 this.Hide();
             }
             
@@ -90,8 +103,12 @@ namespace FrbaHotel.GenerarModificacionReserva
             }
             else
             {
-                int idHotel = Int32.Parse(cboHoteles.Text);
-                GenerarReserva gr = new GenerarReserva(idHotel);//usuariod sesion
+                int idHotel;
+                if (cboHoteles.Text != "not")
+                    idHotel = Int32.Parse(cboHoteles.Text);
+                else
+                    idHotel = LoginData.Hotel.IdHotel;
+                GenerarReserva gr = new GenerarReserva(idHotel);
                 gr.Show();
                 this.Hide();
             }
