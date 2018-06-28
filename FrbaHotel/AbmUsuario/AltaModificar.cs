@@ -42,9 +42,9 @@ namespace FrbaHotel.AbmUsuario
         {
             InitializeComponent();
             this.idUsuario = idUsuario;
-            this.paises = Paises.GetAll();
-            this.roles = Roles.GetAll();
-            this.tiposDocumento = TiposDocumento.GetAll();
+            this.paises = Paises.GetAllWithDefault();
+            this.roles = Roles.GetAllWithDefault();
+            this.tiposDocumento = TiposDocumento.GetAllWithDefault();
             this.hoteles = Hoteles.GetAll();
             this.Text = "Crear";
 
@@ -152,8 +152,7 @@ namespace FrbaHotel.AbmUsuario
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            if (!this.ValidateChildren())
-                return;
+            //if (!this.ValidateChildren()) return;
 
             var usuario = (Usuario)this.Model;
             if(activoCheck.Checked){
