@@ -1258,11 +1258,6 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[Hote
 	DROP PROCEDURE [MMEL].HotelCrear
 go
 
-/****** Object:  StoredProcedure [MMEL].[HotelCrear]    Script Date: 16/6/2018 16:56:43 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
 
 CREATE PROC [MMEL].[HotelCrear]
     @Mail varchar(200),
@@ -1313,11 +1308,10 @@ INSERT INTO [MMEL].[Hotel] ([Mail], [idDireccion], [Telefono], [CantidadEstrella
 	COMMIT
 GO
 
-/****** Object:  StoredProcedure [MMEL].[HotelesDeUsuario]    Script Date: 16/6/2018 16:56:43 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[HotelesDeUsuario]'))
+	DROP PROCEDURE [MMEL].HotelesDeUsuario
+go
+
 CREATE PROC [MMEL].[HotelesDeUsuario]
     @idUsuario int
 AS
