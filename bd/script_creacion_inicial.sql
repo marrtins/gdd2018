@@ -2049,40 +2049,56 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[rese
 go
 
 
-create procedure mmel.reservar(@fechaDeReserva datetime,@idUsuarioQueReserva int,@fechaDesde datetime,@fechaHasta datetime,@idHotel int,@tipoHabDesc varchar(100),@tipoRegimenDesc varchar(100),@idPersona int, @codReserva int output)
+CREATE procedure [MMEL].[reservar](@fechaDeReserva datetime,@idUsuarioQueReserva int,@fechaDesde datetime,@fechaHasta datetime,@idHotel int,@tipoHabDesc varchar(100),@tipoRegimenDesc varchar(100),@idPersona int, @codReserva int output)
 as
 begin
 
-	declare @idHabitacion int
-	declare @idRegimen int
-	declare @idHuesped int
 
-	declare @idTipoHab int
-	set @idUsuarioQueReserva = 1 --todo
-	set @idTipoHab = (select top 1 idTipoHabitacion from mmel.TipoHabitacion where Descripcion=@tipoHabDesc)
-	set @idRegimen = (select top 1 idRegimen from mmel.Regimen where Descripcion=@tipoRegimenDesc)
-	set @codReserva = mmel.getCodigoReserva()
-	set @idHuesped=(select top 1 idHuesped from mmel.Huesped where idPersona=@idPersona)
-	set @idHabitacion =
-		(select top 1 idHabitacion from mmel.habitacion where idHabitacion not in
-				(SELECT h.idHabitacion  FROM MMEL.Habitacion h
-					join mmel.Reserva r on h.idHotel=r.idHotel and h.idHabitacion=r.idHabitacion
-					WHERE	h.idHotel=@idHotel AND
-						(
-							( FechaDesde<=@fechaDesde and @fechaDesde<FechaHasta) OR
-							( FechaDesde<@fechaHasta and @fechaHasta<=FechaHasta) OR
-							( @fechaDesde<=FechaDesde and @fechaHasta>=FechaHasta)
+	DECLARE @BajasEnIntervalo int;
+
+	SELECT @BajasEnIntervalo = count(*) 
+	FROM DiasDeBajaPorBajaPorHotel r
+	where r.idHotel = @idHotel AND
+			(r.FechaDesde <= @fechaDesde
+			AND r.FechaHasta >= @fechaHasta) -- existe overlap de fechas
+
+	IF @BajasEnIntervalo > 0
+				SELECT -1 as Resultado -- No se puede reservar si hay una baja, devuelvo error
+	ELSE
+		BEGIN
+			declare @idHabitacion int
+			declare @idRegimen int
+			declare @idHuesped int
+
+			declare @idTipoHab int
+			set @idUsuarioQueReserva = 1 --todo
+			set @idTipoHab = (select top 1 idTipoHabitacion from mmel.TipoHabitacion where Descripcion=@tipoHabDesc)
+			set @idRegimen = (select top 1 idRegimen from mmel.Regimen where Descripcion=@tipoRegimenDesc)
+			set @codReserva = mmel.getCodigoReserva()
+			set @idHuesped=(select top 1 idHuesped from mmel.Huesped where idPersona=@idPersona)
+			set @idHabitacion =
+				(select top 1 idHabitacion from mmel.habitacion where idHabitacion not in
+						(SELECT h.idHabitacion  FROM MMEL.Habitacion h
+							join mmel.Reserva r on h.idHotel=r.idHotel and h.idHabitacion=r.idHabitacion
+							WHERE	h.idHotel=@idHotel AND
+								(
+									( FechaDesde<=@fechaDesde and @fechaDesde<FechaHasta) OR
+									( FechaDesde<@fechaHasta and @fechaHasta<=FechaHasta) OR
+									( @fechaDesde<=FechaDesde and @fechaHasta>=FechaHasta)
+								)
 						)
+						and idHotel = @idHotel and idTipoHabitacion=@idTipoHab
 				)
-				and idHotel = @idHotel and idTipoHabitacion=@idTipoHab
-		)
 
-	insert into mmel.Reserva(idUsuarioQueProcesoReserva,idHotel,FechaDeReserva,FechaDesde,FechaHasta,idHabitacion,idRegimen,idHuesped,CodigoReserva,EstadoReserva)
-	values(@idUsuarioQueReserva,@idHotel,@fechaDeReserva,@fechaDesde,@fechaHasta,@idHabitacion,@idRegimen,@idHuesped,@codReserva,'C')
+			insert into mmel.Reserva(idUsuarioQueProcesoReserva,idHotel,FechaDeReserva,FechaDesde,FechaHasta,idHabitacion,idRegimen,idHuesped,CodigoReserva,EstadoReserva)
+			values(@idUsuarioQueReserva,@idHotel,@fechaDeReserva,@fechaDesde,@fechaHasta,@idHabitacion,@idRegimen,@idHuesped,@codReserva,'C')
 
-
+			SELECT SCOPE_IDENTITY() as Resultado
+		END
 end
-go
+GO
+
+
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[resolverInconsistencia]'))
 	DROP procedure [MMEL].resolverInconsistencia

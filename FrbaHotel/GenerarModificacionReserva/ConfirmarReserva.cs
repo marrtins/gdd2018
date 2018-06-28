@@ -266,16 +266,33 @@ namespace FrbaHotel.GenerarModificacionReserva
             {
                 cmd.Connection.Open();
             }
-            cmd.ExecuteNonQuery();
 
-            int codigoReserva = int.Parse(cmd.Parameters["@codReserva"].Value.ToString());
-            MessageBox.Show(string.Format("Reserva Concretada. Codigo: {0}", codigoReserva), "OK", MessageBoxButtons.OK);
+            var dr = cmd.ExecuteReader();
 
-            this.Hide();
-            GenModReserva gmr = new GenModReserva();
-            gmr.Show();
-        
-            
+            var res = 0;
+
+            if (dr.HasRows)
+            {
+                dr.Read();
+
+                res = int.Parse(dr["Resultado"].ToString()); //si res = -1 es fallido
+
+                if (res == -1)
+                {
+                    MessageBox.Show("No se puede realizar la reserva ya que existen fechas de baja superpuestas");
+                }
+                else
+                {
+
+                    int codigoReserva = int.Parse(cmd.Parameters["@codReserva"].Value.ToString());
+                    MessageBox.Show(string.Format("Reserva Concretada. Codigo: {0}", codigoReserva), "OK", MessageBoxButtons.OK);
+
+                    this.Hide();
+                    GenModReserva gmr = new GenModReserva();
+                    gmr.Show();
+                }
+
+            }      
         }
 
 
