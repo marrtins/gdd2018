@@ -872,7 +872,8 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROC [MMEL].[TiposDocumentoListar] 
+CREATE PROC [MMEL].[TiposDocumentoListar]
+	@idTipoDocumento int
 AS 
 	SET NOCOUNT ON 
 	SET XACT_ABORT ON  
@@ -881,6 +882,7 @@ AS
 
 	SELECT [idTipoDocumento], [detalle]
 	FROM   [MMEL].[TipoDocumento]
+	WHERE  ([idTipoDocumento] = @idTipoDocumento OR @idTipoDocumento IS NULL)
 
 	COMMIT
 GO
@@ -894,7 +896,8 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROC [MMEL].[HotelesDisponibles] 
+CREATE PROC [MMEL].[HotelesDisponibles]
+	@idHotel int
 AS 
 	SET NOCOUNT ON 
 	SET XACT_ABORT ON  
@@ -903,10 +906,10 @@ AS
 
 	SELECT [idHotel], [Nombre]
 	FROM   [MMEL].[Hotel]
+	WHERE  ([idHotel] = @idHotel OR @idHotel IS NULL)
 
 	COMMIT
 GO
-
 
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[ReservasNoCanceladas]'))
@@ -1584,6 +1587,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROC [MMEL].[RolesListar]
+	@idRol int
 AS
 	SET NOCOUNT ON
 	SET XACT_ABORT ON
@@ -1592,6 +1596,7 @@ AS
 
 	SELECT [idRol], [Nombre], [Activo]
 	FROM   [MMEL].[Rol]
+	WHERE  ([idRol] = @idRol OR @idRol IS NULL)
 
 	COMMIT
 GO
