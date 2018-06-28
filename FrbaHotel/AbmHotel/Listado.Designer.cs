@@ -50,7 +50,6 @@
             this.CiudadCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CalleCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NumeroCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HabilitadoCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SeleccionarCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BajaCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.filtrosGroup.SuspendLayout();
@@ -191,7 +190,6 @@
             this.CiudadCol,
             this.CalleCol,
             this.NumeroCol,
-            this.HabilitadoCol,
             this.SeleccionarCol,
             this.BajaCol});
             this.hotelesGridView.Location = new System.Drawing.Point(9, 109);
@@ -275,13 +273,6 @@
             this.NumeroCol.Name = "NumeroCol";
             this.NumeroCol.ReadOnly = true;
             // 
-            // HabilitadoCol
-            // 
-            this.HabilitadoCol.DataPropertyName = "HabilitadoTexto";
-            this.HabilitadoCol.HeaderText = "Habilitado";
-            this.HabilitadoCol.Name = "HabilitadoCol";
-            this.HabilitadoCol.ReadOnly = true;
-            // 
             // SeleccionarCol
             // 
             this.SeleccionarCol.HeaderText = "Seleccionar";
@@ -338,7 +329,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn CiudadCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn CalleCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn NumeroCol;
-        private System.Windows.Forms.DataGridViewTextBoxColumn HabilitadoCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn SeleccionarCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn BajaCol;
     }

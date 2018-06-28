@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
 
 namespace FrbaHotel.AbmHotel.Model
 {
@@ -16,8 +15,7 @@ namespace FrbaHotel.AbmHotel.Model
         private string _telefono;
         private string _mail;
         private string _ciudad;
-        private bool _inhabilitado;
-
+  
         int idHotel;
         string nombre;
 
@@ -151,23 +149,6 @@ namespace FrbaHotel.AbmHotel.Model
         public string NombrePais { get { return nombrePais; } set { nombrePais = value; } }
         private int idDireccion;
         private string recargaEstrellas;
-
-        public bool Inhabilitado
-        {
-            get { return _inhabilitado; } set
-            {
-                _inhabilitado = value;
-                InvokePropertyChanged("");
-            }
-        }
-
-        public string HabilitadoTexto
-        {
-            get
-            {
-                return Inhabilitado ? "NH" : "H";
-            }
-        }
 
         public int IdDireccion
         {

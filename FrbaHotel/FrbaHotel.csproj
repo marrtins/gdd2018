@@ -163,6 +163,8 @@
     <Compile Include="AbmUsuario\ListadoUsuarios.Designer.cs">
       <DependentUpon>ListadoUsuarios.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmUsuario\Model\Hotel.cs" />
+    <Compile Include="AbmUsuario\Model\Hoteles.cs" />
     <Compile Include="AbmUsuario\Model\Usuario.cs" />
     <Compile Include="AbmUsuario\Model\UsuarioFiltros.cs" />
     <Compile Include="CancelarReserva\CancelarReserva.cs">
