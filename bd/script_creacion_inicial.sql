@@ -372,7 +372,6 @@ GO
 
 
 
-
 --------------------MIGRACION DE DATOS-------
 
 
@@ -436,12 +435,12 @@ insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(3,1)
 
 --el admin
 insert into mmel.Persona(Nombre) values('Administrador General')
-insert into mmel.Usuarios(Activo,Username,Password,IngresosFallidos,idPersona) values('S','admin','w23e',0,1) --hashear
+insert into mmel.Usuarios(Activo,Username,Password,IngresosFallidos,idPersona) values('S','admin',HASHBYTES('SHA2_256','w23e'),0,1) --hashear
 insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(1,2)
 
 --recepcionsta
 insert into mmel.Persona(Nombre) values('Recep Generico')
-insert into mmel.Usuarios(Activo,Username,Password,IngresosFallidos,idPersona) values('S','rg','12',0,2) --hashear
+insert into mmel.Usuarios(Activo,Username,Password,IngresosFallidos,idPersona) values('S','rg',HASHBYTES('SHA2_256','12'),0,2) --hashear
 insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(2,3)
 
 
@@ -664,8 +663,6 @@ select fa.idFactura,fa.idEstadia,'VALOR CONSUMIBLE',co.idConsumible,ot.Item_Fact
 
 
 -----fin migracion
-
-
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[UsuarioListar]'))
 	DROP PROCEDURE [MMEL].UsuarioListar
 GO
