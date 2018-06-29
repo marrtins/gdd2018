@@ -437,22 +437,6 @@ insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(3,1)
 insert into mmel.Persona(Nombre) values('Administrador General')
 insert into mmel.Usuarios(Activo,Username,Password,IngresosFallidos,idPersona) values('S','admin',HASHBYTES('SHA2_256','w23e'),0,1) --hashear
 insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(1,2)
-insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,1)
-insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,2)
-insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,3)
-insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,4)
-insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,5)
-insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,5)
-insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,6)
-insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,7)
-insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,8)
-insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,9)
-insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,10)
-insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,11)
-insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,12)
-insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,13)
-insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,14)
-insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,15)
 
 --recepcionsta
 insert into mmel.Persona(Nombre) values('Recep Generico')
@@ -608,9 +592,10 @@ insert into mmel.Reserva(CodigoReserva,EstadoReserva)
 select distinct ot.Reserva_Codigo,'CXNS' from gd_esquema.Maestra ot
 where Reserva_Fecha_Inicio < GETDATE() and Estadia_Fecha_Inicio is null and ot.Reserva_Codigo not in( select distinct ot2.Reserva_Codigo from gd_esquema.Maestra ot2 where ot2.Factura_Nro is not null )
 
-insert into mmel.Reserva(CodigoReserva,EstadoReserva)
+/*insert into mmel.Reserva(CodigoReserva,EstadoReserva)
 select distinct ot.Reserva_Codigo,'RCI' from gd_esquema.Maestra ot
 where Estadia_Fecha_Inicio < GETDATE() and (Estadia_Fecha_Inicio+Estadia_Cant_Noches+1)>GETDATE() and ot.Reserva_Codigo not in( select distinct ot2.Reserva_Codigo from gd_esquema.Maestra ot2 where ot2.Factura_Nro is not null )
+*/
 
 insert into mmel.Reserva(CodigoReserva,EstadoReserva)
 select distinct  ot.Reserva_Codigo,'RCICF' from gd_esquema.Maestra ot
@@ -934,7 +919,7 @@ begin
 	 hpu.idHotel=ho.idHotel and hpu.idUsuario=us.idUsuario and us.idUsuario=@idUsuario
 end
 
-
+go
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[modificarUsuario]'))
 	DROP PROCEDURE [MMEL].modificarUsuario
 GO
@@ -1969,12 +1954,26 @@ begin
 end
 
 
+go
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[cancelNoShow]'))
+	DROP procedure [MMEL].cancelNoShow
+go
 
+create procedure mmel.cancelNoShow(@fechaHoy datetime)
+as
+begin
+	update mmel.Reserva 
+	set EstadoReserva = 'CXNS'
+	from mmel.Estadia es
+	where FechaDesde < @fechaHoy and  es.FechaCheckIN is null and mmel.Reserva.idReserva=es.idReserva
 
+	delete mmel.ReservaPorHabitacion from mmel.Reserva re
+	where mmel.ReservaPorHabitacion.idReserva=re.idReserva and (re.EstadoReserva='CXNS' or re.EstadoReserva='CPR' or re.EstadoReserva='CPC') 
+end
+go
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[existeUsuarioMod]'))
 	DROP function [MMEL].existeUsuarioMod
 go
-
 
 create function mmel.existeUsuarioMod(@tipodoc varchar(15),@nrodoc int,@mail varchar(200),@username varchar(200),@idUsuario int,@idPersona int)
 returns int
