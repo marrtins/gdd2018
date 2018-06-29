@@ -26,6 +26,7 @@ namespace FrbaHotel.AbmHabitacion
         {
             InitializeComponent();
             cargarHoteles();
+            cargarTipo();
         }
 
         private void cargarHoteles()
@@ -54,6 +55,32 @@ namespace FrbaHotel.AbmHabitacion
             con.Close();
 
         }
+        private void cargarTipo()
+        {
+           
+                var connection = ConfigurationManager.ConnectionStrings["GD1C2018ConnectionString"].ConnectionString;
+
+                string consultaBusqueda = String.Format("select distinct * from mmel.TipoHabitacion ");
+
+                SqlConnection con = new SqlConnection(connection);
+                SqlCommand cmd = new SqlCommand(consultaBusqueda, con);
+                con.Open();
+                if (cmd.Connection.State == ConnectionState.Closed)
+                {
+                    cmd.Connection.Open();
+                }
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    string tipo = (reader["Descripcion"].ToString());
+                    cboTipo.Items.Add(tipo);
+
+                }
+                reader.Close();
+                con.Close();
+            
+        }
 
         private void modificarBtn_Click(object sender, EventArgs e)
         {
@@ -65,11 +92,20 @@ namespace FrbaHotel.AbmHabitacion
                 {
 
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@IdTipoHabitacion", SqlDbType.Int).Value = tipoHabInput.Text;
-                    cmd.Parameters.AddWithValue("@NumeroHabitacion", SqlDbType.Int).Value = numHabInput.Text;
-                    cmd.Parameters.AddWithValue("@IdHotel", SqlDbType.Char).Value = hotelInput.Text;
-                    cmd.Parameters.AddWithValue("@Piso", SqlDbType.Int).Value = pisoInput.Text;
-                    cmd.Parameters.AddWithValue("@VistaAlExterior", SqlDbType.Char).Value = vistaExtInput.Text;
+                    cmd.Parameters.AddWithValue("@IdTipoHabitacion", SqlDbType.Int).Value = getTipo();
+                    cmd.Parameters.AddWithValue("@NumeroHabitacion", SqlDbType.Int).Value = Int32.Parse(numHabInput.Text);
+                    cmd.Parameters.AddWithValue("@IdHotel", SqlDbType.Int).Value =hotelInput.SelectedIndex+1;
+                    cmd.Parameters.AddWithValue("@Piso", SqlDbType.Int).Value = Int32.Parse(pisoInput.Text);
+                    char vista;
+                    if (btnSi.Checked)
+                    {
+                        vista = 'S';
+                    }
+                    else
+                    {
+                        vista = 'N';
+                    }
+                    cmd.Parameters.AddWithValue("@VistaAlExterior", SqlDbType.Char).Value = vista;
                     cmd.Parameters.AddWithValue("@Descripcion", SqlDbType.Char).Value = descripcionInput.Text;
                     cmd.Parameters.Add("@MESSAGE", SqlDbType.Int).Direction = ParameterDirection.Output;
                     if (habilitadoInput.Checked)
@@ -89,7 +125,7 @@ namespace FrbaHotel.AbmHabitacion
                         if (MENSAJE == 0)
                         {
                             MessageBox.Show("La habitacion no se puede dar de alta porque ya existe");
-                            this.Hide();
+                            //this.Hide();
                         }
                         else
                         {
@@ -106,7 +142,20 @@ namespace FrbaHotel.AbmHabitacion
                 }
             }
         }
-
+        private int getTipo()
+        {
+            if (cboTipo.SelectedIndex == 0)
+                return 1001;
+            if (cboTipo.SelectedIndex == 1)
+                return 1002;
+            if (cboTipo.SelectedIndex == 2)
+                return 1003;
+            if (cboTipo.SelectedIndex == 3)
+                return 1004;
+            if (cboTipo.SelectedIndex == 5)
+                return 1005;
+            return 1001;
+        }
         private void limpiarBtn_Click(object sender, EventArgs e)
         {
             ControlResetter.ResetAllControls(this);
@@ -115,8 +164,7 @@ namespace FrbaHotel.AbmHabitacion
         private void button1_Click(object sender, EventArgs e)
         {
             this.Hide();
-            InicioHabitacion f = new InicioHabitacion();
-            f.Show();
+            
         }
     }
 }

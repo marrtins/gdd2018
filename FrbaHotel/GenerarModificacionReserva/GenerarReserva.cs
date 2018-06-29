@@ -93,6 +93,11 @@ namespace FrbaHotel.GenerarModificacionReserva
         private bool validarCampos()
         {
             int i;
+            if(txtC1.Text=="0" && txtC2.Text == "0" && txtC3.Text == "0" && txtC4.Text == "0" && txtC5.Text == "0" )
+            {
+                MessageBox.Show("Seleccione al menos un tipo de habitacion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
             if (cboHotel.Text == "Seleccionar")
             {
                 MessageBox.Show("Seleccione un hotel", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

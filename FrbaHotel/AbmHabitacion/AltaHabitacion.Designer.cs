@@ -40,11 +40,12 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.tipoHabInput = new System.Windows.Forms.TextBox();
-            this.vistaExtInput = new System.Windows.Forms.TextBox();
             this.hotelInput = new System.Windows.Forms.ComboBox();
             this.pisoInput = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.cboTipo = new System.Windows.Forms.ComboBox();
+            this.btnSi = new System.Windows.Forms.RadioButton();
+            this.btnNo = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -156,20 +157,6 @@
             this.label1.TabIndex = 33;
             this.label1.Text = "Numero Habitacion";
             // 
-            // tipoHabInput
-            // 
-            this.tipoHabInput.Location = new System.Drawing.Point(127, 39);
-            this.tipoHabInput.Name = "tipoHabInput";
-            this.tipoHabInput.Size = new System.Drawing.Size(121, 20);
-            this.tipoHabInput.TabIndex = 48;
-            // 
-            // vistaExtInput
-            // 
-            this.vistaExtInput.Location = new System.Drawing.Point(127, 131);
-            this.vistaExtInput.Name = "vistaExtInput";
-            this.vistaExtInput.Size = new System.Drawing.Size(121, 20);
-            this.vistaExtInput.TabIndex = 51;
-            // 
             // hotelInput
             // 
             this.hotelInput.FormattingEnabled = true;
@@ -195,16 +182,47 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // cboTipo
+            // 
+            this.cboTipo.FormattingEnabled = true;
+            this.cboTipo.Location = new System.Drawing.Point(126, 36);
+            this.cboTipo.Name = "cboTipo";
+            this.cboTipo.Size = new System.Drawing.Size(121, 21);
+            this.cboTipo.TabIndex = 55;
+            // 
+            // btnSi
+            // 
+            this.btnSi.AutoSize = true;
+            this.btnSi.Location = new System.Drawing.Point(126, 134);
+            this.btnSi.Name = "btnSi";
+            this.btnSi.Size = new System.Drawing.Size(34, 17);
+            this.btnSi.TabIndex = 56;
+            this.btnSi.TabStop = true;
+            this.btnSi.Text = "Si";
+            this.btnSi.UseVisualStyleBackColor = true;
+            // 
+            // btnNo
+            // 
+            this.btnNo.AutoSize = true;
+            this.btnNo.Location = new System.Drawing.Point(166, 134);
+            this.btnNo.Name = "btnNo";
+            this.btnNo.Size = new System.Drawing.Size(39, 17);
+            this.btnNo.TabIndex = 57;
+            this.btnNo.TabStop = true;
+            this.btnNo.Text = "No";
+            this.btnNo.UseVisualStyleBackColor = true;
+            // 
             // AltaHabitacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(263, 387);
+            this.Controls.Add(this.btnNo);
+            this.Controls.Add(this.btnSi);
+            this.Controls.Add(this.cboTipo);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pisoInput);
             this.Controls.Add(this.hotelInput);
-            this.Controls.Add(this.vistaExtInput);
-            this.Controls.Add(this.tipoHabInput);
             this.Controls.Add(this.limpiarBtn);
             this.Controls.Add(this.modificarBtn);
             this.Controls.Add(this.numHabInput);
@@ -238,10 +256,11 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox tipoHabInput;
-        private System.Windows.Forms.TextBox vistaExtInput;
         private System.Windows.Forms.ComboBox hotelInput;
         private System.Windows.Forms.TextBox pisoInput;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ComboBox cboTipo;
+        private System.Windows.Forms.RadioButton btnSi;
+        private System.Windows.Forms.RadioButton btnNo;
     }
 }

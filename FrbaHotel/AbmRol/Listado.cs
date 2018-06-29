@@ -45,7 +45,7 @@ namespace FrbaHotel.AbmRol
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     //cmd.Parameters.AddWithValue("@Nombre", SqlDbType.NVarChar).Value = filtros.Nombre ?? Convert.DBNull;
-
+                    cmd.Parameters.AddWithValue("@idRol", SqlDbType.NVarChar).Value = LoginData.Rol.idRol;
                     con.Open();
                     var dr = cmd.ExecuteReader();
 
@@ -140,6 +140,13 @@ namespace FrbaHotel.AbmRol
 
             RefreshFuncionalidadesData(selectedItem.idRol);
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Form1 f = new Form1();
+            f.Show();
         }
     }
 }

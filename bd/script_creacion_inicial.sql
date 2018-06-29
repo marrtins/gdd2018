@@ -447,17 +447,18 @@ insert into mmel.RolesPorFuncionalidades values(8,3) --abm rese
 insert into mmel.RolesPorFuncionalidades values(9,3) --cancelar rese
 
 --agrego el rol guest
-insert into mmel.Usuarios(Activo,Username)values('S','GUEST')
+insert into mmel.Persona(Nombre) values('GuestGen')
+insert into mmel.Usuarios(Activo,Username,idPersona)values('S','GUEST',1)
 insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(3,1)
 
 --el admin
 insert into mmel.Persona(Nombre) values('Administrador General')
-insert into mmel.Usuarios(Activo,Username,Password,IngresosFallidos,idPersona) values('S','admin',HASHBYTES('SHA2_256','w23e'),0,1) --hashear
+insert into mmel.Usuarios(Activo,Username,Password,IngresosFallidos,idPersona) values('S','admin',HASHBYTES('SHA2_256','w23e'),0,2)
 insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(1,2)
 
 --recepcionsta
 insert into mmel.Persona(Nombre) values('Recep Generico')
-insert into mmel.Usuarios(Activo,Username,Password,IngresosFallidos,idPersona) values('S','rg',HASHBYTES('SHA2_256','123'),0,2) --hashear
+insert into mmel.Usuarios(Activo,Username,Password,IngresosFallidos,idPersona) values('S','rg',HASHBYTES('SHA2_256','123'),0,3) 
 
 
 insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(2,3)
@@ -518,8 +519,8 @@ go
 
 
 
-insert into mmel.Habitacion(NumeroHabitacion,Piso,idHotel,VistaAlExterior,idTipoHabitacion)
-select distinct ot.Habitacion_Numero,ot.Habitacion_Piso,ho.idHotel,ot.Habitacion_Frente,th.idTipoHabitacion
+insert into mmel.Habitacion(NumeroHabitacion,Piso,idHotel,VistaAlExterior,idTipoHabitacion,Habilitado)
+select distinct ot.Habitacion_Numero,ot.Habitacion_Piso,ho.idHotel,ot.Habitacion_Frente,th.idTipoHabitacion,'S'
 from gd_esquema.Maestra ot
 inner join mmel.Direccion d on d.calle=ot.Hotel_Calle and d.nroCalle = ot.Hotel_Nro_Calle
 inner join mmel.Hotel ho on d.idDireccion=ho.idDireccion
@@ -844,7 +845,7 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[crea
 GO
 create procedure mmel.crearUsuario(   
 	@Username nvarchar(200),
-	@Password nvarchar(200),
+	@Password varchar(200),
 	@idRol int,
 	@idHotel int,
 	@Nombre nvarchar(50),
@@ -900,9 +901,9 @@ begin
 				@dirDepto,@dirLocalidad)
 		set @idNuevo=SCOPE_IDENTITY()
 		
-
+		
 		insert into mmel.Usuarios(idPersona,Activo,IngresosFallidos,Password,Username) values(@idNuevo,@habilitado,0,HASHBYTES('SHA2_256',@Password),UPPER(@Username))
-		set @idNuevo=SCOPE_IDENTITY()
+		set @idNuevo=SCOPE_IDENTITY() 
 		if(@idRol=1)
 			insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(1,@idNuevo)
 		else
@@ -943,7 +944,7 @@ GO
 
 create procedure mmel.modificarUsuario(
 	@Username nvarchar(200),
-	@Password nvarchar(200),
+	@Password varchar(200),
 	@idRol int,
 	@idHotel int,
 	@Nombre nvarchar(50),
@@ -1167,7 +1168,8 @@ create PROCEDURE [MMEL].[HabitacionesListar]
     @NumeroHabitacion int,
     @IdHotel varchar(60),
     @Piso int,
-    @VistaAlExterior char(1)
+    @VistaAlExterior char(1),
+	@hab int
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -1181,6 +1183,8 @@ BEGIN
 
 	DECLARE @HOTEL int
 
+	if(@hab=1)
+	begin
 	select @HOTEL = idHotel from mmel.Hotel where Nombre=@IdHotel
 
 	SELECT idHabitacion,
@@ -1199,6 +1203,29 @@ BEGIN
  (@NumeroHabitacion is NULL OR (@NumeroHabitacion = hab.NumeroHabitacion)) and
  (@HOTEL is NULL OR (@HOTEL = hab.IdHotel))  and
 (@IdTipoHabitacion is NULL OR( @IdTipoHabitacion = hab.idTipoHabitacion))
+	end
+	else
+	begin
+	
+	select @HOTEL = idHotel from mmel.Hotel where Nombre=@IdHotel
+
+	SELECT idHabitacion,
+	[NumeroHabitacion],
+	[Piso],
+	hab.[idHotel],
+	[VistaAlExterior],
+	hab.[idTipoHabitacion],
+	Descripcion,
+	Habilitado
+	FROM [MMEL].[Habitacion] hab
+
+	WHERE
+ (@Piso is NULL OR (@Piso = piso))and
+  (@VistaAlExterior is NULL OR           (@VistaAlExterior = VistaAlExterior))and
+ (@NumeroHabitacion is NULL OR (@NumeroHabitacion = hab.NumeroHabitacion)) and
+ (@HOTEL is NULL OR (@HOTEL = hab.IdHotel))  and
+(@IdTipoHabitacion is NULL OR( @IdTipoHabitacion = hab.idTipoHabitacion)) and Habilitado='S'
+	end
 END
 
 go
@@ -1212,7 +1239,7 @@ go
 create PROCEDURE [MMEL].[HabitacionesAlta]
 					@IdTipoHabitacion int,
                     @NumeroHabitacion int,
-                    @IdHotel varchar(80),
+                    @IdHotel int,
                     @Piso int,
                     @VistaAlExterior char(1),
                     @Descripcion nvarchar(80),
@@ -1221,22 +1248,24 @@ create PROCEDURE [MMEL].[HabitacionesAlta]
 AS
     SET NOCOUNT ON
 	SET XACT_ABORT ON
-		DECLARE @HOTEL int
+	
 
-	select @HOTEL = idHotel from mmel.Hotel where Nombre=@IdHotel
+	
 	DECLARE @ExisteHotel int
 	DECLARE @ExisteTipoHabitacion int
+	DECLARE @ExisteNroHab int
+	select @ExisteNroHab = count(NumeroHabitacion) from mmel.Habitacion where NumeroHabitacion=@NumeroHabitacion and idHotel=@IdHotel
 	SELECT @ExisteTipoHabitacion = idTipoHabitacion FROM mmel.TipoHabitacion where @IdTipoHabitacion=idTipoHabitacion
-	SELECT @ExisteHotel = hot.idHotel FROM mmel.Hotel hot where  @HOTEL = hot.idHotel
+	SELECT @ExisteHotel = hot.idHotel FROM mmel.Hotel hot where  @IdHotel = hot.idHotel
 	DECLARE @AUX int
 	PRINT @ExisteHotel
 	PRINT @ExisteTipoHabitacion
 	print @AUX
-	IF @ExisteHotel != 0 AND @ExisteTipoHabitacion!=0
+	IF @ExisteHotel != 0 AND @ExisteTipoHabitacion!=0 and @ExisteNroHab=0
 	BEGIN
 		if NOT exists (SELECT idHabitacion FROM mmel.Habitacion where @IdTipoHabitacion = [idTipoHabitacion] AND
 	 @NumeroHabitacion = [NumeroHabitacion] AND
-	  @HOTEL=[idHotel] AND
+	  @IdHotel=[idHotel] AND
 	 @Piso= [Piso] AND
 	 @VistaAlExterior= [VistaAlExterior] AND
 	 @Habilitado = [Habilitado] AND
@@ -1248,7 +1277,7 @@ AS
 	INSERT INTO [MMEL].[Habitacion] ([idTipoHabitacion], [NumeroHabitacion],[idHotel], [Piso],[VistaAlExterior],[Descripcion],[Habilitado])
 	SELECT @IdTipoHabitacion,
                    @NumeroHabitacion ,
-                   @HOTEL ,
+                   @IdHotel ,
                    @Piso ,
                    @VistaAlExterior ,
                    @Descripcion ,
@@ -1275,12 +1304,14 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[Habi
 GO
 create PROCEDURE [MMEL].[HabitacionesBaja]
 					@IdHabitacion int,
-					@Descripcion nvarchar(200),
+					--@Descripcion nvarchar(200),
 					@MESSAGE int output
    
 AS
 	BEGIN TRAN
-	update [MMEL].[Habitacion] set Habilitado='N',Descripcion=@Descripcion WHERE idHabitacion=@IdHabitacion
+	update [MMEL].[Habitacion] set Habilitado='N'
+	--Descripcion=@Descripcion
+	 WHERE idHabitacion=@IdHabitacion
 		SET @MESSAGE = 1
 	COMMIT
 GO
@@ -1979,11 +2010,11 @@ as
 begin
 	update mmel.Reserva 
 	set EstadoReserva = 'CXNS'
-	from mmel.Estadia es
-	where FechaDesde < @fechaHoy and  es.FechaCheckIN is null and mmel.Reserva.idReserva=es.idReserva
+	
+	where FechaDesde < @fechaHoy and idReserva not in(select idReserva from mmel.Estadia)
 
 	delete mmel.ReservaPorHabitacion from mmel.Reserva re
-	where mmel.ReservaPorHabitacion.idReserva=re.idReserva and (re.EstadoReserva='CXNS' or re.EstadoReserva='CPR' or re.EstadoReserva='CPC') 
+	where mmel.ReservaPorHabitacion.idReserva=re.idReserva and re.idReserva not in(select idReserva from mmel.Estadia) and (re.EstadoReserva='CXNS' or re.EstadoReserva='CPR' or re.EstadoReserva='CPC') 
 end
 go
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[existeUsuarioMod]'))
@@ -2234,9 +2265,26 @@ begin
 	
 end
 go
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[hotelDispo]'))
+	DROP function [MMEL].hotelDispo
+go
 
-
-
+create  function mmel.hotelDispo(@fechaDesde datetime,@fechaHasta datetime,@idHotel int)
+ returns int
+ as
+ begin
+ 
+	if exists(select idHotel from mmel.Hotel where idHotel not in(select idHotel from mmel.HotelBajas where 
+											(FechaDesde<=@fechaDesde and @fechaDesde<FechaHasta) OR
+											( FechaDesde<@fechaHasta and @fechaHasta<=FechaHasta) OR
+											( @fechaDesde<=FechaDesde and @fechaHasta>=FechaHasta)) and idHotel=@idHotel)
+		return 1 
+	
+	return 0
+											
+ end
+ go
+ 
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[hayDisponibilidadMod]'))
 	DROP procedure [MMEL].hayDisponibilidadMod
@@ -2254,36 +2302,45 @@ BEGIN
 	declare @idTipoHab int
 	set @idTipoHab = (select top 1 idTipoHabitacion from mmel.TipoHabitacion where Descripcion=@tipoHabDesc)
 
-		if exists(
-			select * from mmel.habitacion where idHabitacion not in
-				(SELECT h.idHabitacion  FROM MMEL.Habitacion h
-				join mmel.Reserva r on h.idHotel=r.idHotel
-				join mmel.#rp rph on rph.idReserva=r.idReserva and rph.idHabitacion=h.idHabitacion
-				WHERE	h.idHotel=@idHotel AND
-										(
-											( FechaDesde<=@fechaDesde and @fechaDesde<FechaHasta) OR
-											( FechaDesde<@fechaHasta and @fechaHasta<=FechaHasta) OR
-											( @fechaDesde<=FechaDesde and @fechaHasta>=FechaHasta)
 
-										)
-			) and idHotel = @idHotel and idTipoHabitacion=@idTipoHab
-		) begin
-			select @rta=count(*) from mmel.habitacion where idHabitacion not in
-				(SELECT h.idHabitacion  FROM MMEL.Habitacion h
-				join mmel.Reserva r on h.idHotel=r.idHotel
-				join mmel.#rp rph on rph.idReserva=r.idReserva and rph.idHabitacion=h.idHabitacion
-				WHERE	h.idHotel=@idHotel AND
-										(
-											( FechaDesde<=@fechaDesde and @fechaDesde<FechaHasta) OR
-											( FechaDesde<@fechaHasta and @fechaHasta<=FechaHasta) OR
-											( @fechaDesde<=FechaDesde and @fechaHasta>=FechaHasta)
+	declare @aux int
+	set @aux=mmel.hotelDispo(@fechaDesde,@fechaHasta,@idHotel)
+	if(@aux=1)
+		begin
 
-										)
-			) and idHotel = @idHotel and idTipoHabitacion=@idTipoHab
-		 end
-		else begin set @rta=0 end
+			if exists(
+				select * from mmel.habitacion where idHabitacion not in
+					(SELECT h.idHabitacion  FROM MMEL.Habitacion h
+					join mmel.Reserva r on h.idHotel=r.idHotel
+					join mmel.#rp rph on rph.idReserva=r.idReserva and rph.idHabitacion=h.idHabitacion
+					WHERE	h.idHotel=@idHotel AND
+											(
+												( FechaDesde<=@fechaDesde and @fechaDesde<FechaHasta) OR
+												( FechaDesde<@fechaHasta and @fechaHasta<=FechaHasta) OR
+												( @fechaDesde<=FechaDesde and @fechaHasta>=FechaHasta)
 
-		drop table mmel.#rp
+											)
+				) and idHotel = @idHotel and idTipoHabitacion=@idTipoHab and Habilitado='S'
+			) begin
+				select @rta=count(*) from mmel.habitacion where idHabitacion not in
+					(SELECT h.idHabitacion  FROM MMEL.Habitacion h
+					join mmel.Reserva r on h.idHotel=r.idHotel
+					join mmel.#rp rph on rph.idReserva=r.idReserva and rph.idHabitacion=h.idHabitacion
+					WHERE	h.idHotel=@idHotel AND
+											(
+												( FechaDesde<=@fechaDesde and @fechaDesde<FechaHasta) OR
+												( FechaDesde<@fechaHasta and @fechaHasta<=FechaHasta) OR
+												( @fechaDesde<=FechaDesde and @fechaHasta>=FechaHasta)
+
+											)
+				) and idHotel = @idHotel and idTipoHabitacion=@idTipoHab and Habilitado='S'
+			 end
+			else begin set @rta=0 end
+
+			drop table mmel.#rp
+		end
+		else
+		set @rta = 0
 
 
 END
@@ -2303,36 +2360,41 @@ BEGIN
 	declare @idRegimen int
 	declare @idTipoHab int
 	set @idTipoHab = (select top 1 idTipoHabitacion from mmel.TipoHabitacion where Descripcion=@tipoHabDesc)
+	declare @aux int
+	set @aux=mmel.hotelDispo(@fechaDesde,@fechaHasta,@idHotel)
+	if(@aux=1)
+		begin
+			if exists(
+				select * from mmel.habitacion where idHabitacion not in
+					(SELECT h.idHabitacion  FROM MMEL.Habitacion h
+					join mmel.Reserva r on h.idHotel=r.idHotel
+					join mmel.ReservaPorHabitacion rph on rph.idReserva=r.idReserva and rph.idHabitacion=h.idHabitacion
+					WHERE	h.idHotel=@idHotel AND
+											(
+												( FechaDesde<=@fechaDesde and @fechaDesde<FechaHasta) OR
+												( FechaDesde<@fechaHasta and @fechaHasta<=FechaHasta) OR
+												( @fechaDesde<=FechaDesde and @fechaHasta>=FechaHasta)
 
-		if exists(
-			select * from mmel.habitacion where idHabitacion not in
-				(SELECT h.idHabitacion  FROM MMEL.Habitacion h
-				join mmel.Reserva r on h.idHotel=r.idHotel
-				join mmel.ReservaPorHabitacion rph on rph.idReserva=r.idReserva and rph.idHabitacion=h.idHabitacion
-				WHERE	h.idHotel=@idHotel AND
-										(
-											( FechaDesde<=@fechaDesde and @fechaDesde<FechaHasta) OR
-											( FechaDesde<@fechaHasta and @fechaHasta<=FechaHasta) OR
-											( @fechaDesde<=FechaDesde and @fechaHasta>=FechaHasta)
+											)
+				) and idHotel = @idHotel and idTipoHabitacion=@idTipoHab and Habilitado='S'
+			) begin
+				select @rta=count(*) from mmel.habitacion where idHabitacion not in
+					(SELECT h.idHabitacion  FROM MMEL.Habitacion h
+					join mmel.Reserva r on h.idHotel=r.idHotel
+					join mmel.ReservaPorHabitacion rph on rph.idReserva=r.idReserva and rph.idHabitacion=h.idHabitacion
+					WHERE	h.idHotel=@idHotel AND
+											(
+												( FechaDesde<=@fechaDesde and @fechaDesde<FechaHasta) OR
+												( FechaDesde<@fechaHasta and @fechaHasta<=FechaHasta) OR
+												( @fechaDesde<=FechaDesde and @fechaHasta>=FechaHasta)
 
-										)
-			) and idHotel = @idHotel and idTipoHabitacion=@idTipoHab
-		) begin
-			select @rta=count(*) from mmel.habitacion where idHabitacion not in
-				(SELECT h.idHabitacion  FROM MMEL.Habitacion h
-				join mmel.Reserva r on h.idHotel=r.idHotel
-				join mmel.ReservaPorHabitacion rph on rph.idReserva=r.idReserva and rph.idHabitacion=h.idHabitacion
-				WHERE	h.idHotel=@idHotel AND
-										(
-											( FechaDesde<=@fechaDesde and @fechaDesde<FechaHasta) OR
-											( FechaDesde<@fechaHasta and @fechaHasta<=FechaHasta) OR
-											( @fechaDesde<=FechaDesde and @fechaHasta>=FechaHasta)
-
-										)
-			) and idHotel = @idHotel and idTipoHabitacion=@idTipoHab
-		 end
-		else begin set @rta=0 end
-
+											)
+				) and idHotel = @idHotel and idTipoHabitacion=@idTipoHab and Habilitado='S'
+			 end
+			else begin set @rta=0 end
+		end
+		else
+		set @rta=0
 
 
 END

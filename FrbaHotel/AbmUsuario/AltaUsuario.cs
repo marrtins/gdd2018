@@ -183,7 +183,7 @@ namespace FrbaHotel.AbmUsuario
 
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@username", SqlDbType.NVarChar, 200).Value = txtUserName.Text;
-                cmd.Parameters.Add("@password", SqlDbType.NVarChar, 200).Value = txtPassword.Text;
+                cmd.Parameters.Add("@password", SqlDbType.VarChar, 200).Value = txtPassword.Text;
                 int idRol;
                 if (cboRol.Text == "administrador")
                     idRol = 1;

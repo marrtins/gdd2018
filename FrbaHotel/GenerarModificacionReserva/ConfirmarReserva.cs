@@ -254,8 +254,9 @@ namespace FrbaHotel.GenerarModificacionReserva
             cmd.Parameters.Add("@fechaHasta", SqlDbType.Date).Value = dtHasta;
             cmd.Parameters.Add("@fechaDeReserva", SqlDbType.DateTime).Value = value;
             int idusuario;
-            if (LoginData.IdUsuario == 0) idusuario = 3;
-            else idusuario = LoginData.IdUsuario;
+            if (LoginData.IdUsuario == 0)
+                idusuario = 1;
+                else idusuario = LoginData.IdUsuario;
             cmd.Parameters.Add("@idUsuarioQueReserva", SqlDbType.Int).Value = LoginData.IdUsuario;
             cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel;
             //cmd.Parameters.Add("@tipoHabDesc", SqlDbType.VarChar, 100).Value = tipohab;

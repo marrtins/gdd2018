@@ -21,7 +21,12 @@ namespace FrbaHotel.CancelarReserva
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            int i;
+            if (textBox1.Text == "" || !int.TryParse(textBox1.Text, out i))
+            {
+                MessageBox.Show("Complete el codigo de la reserva");
+                return;
+            }
             if (textBox1.Text != "")
             {
 
