@@ -31,6 +31,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.hotelInput = new System.Windows.Forms.ComboBox();
             this.numHabInput = new System.Windows.Forms.TextBox();
             this.vistaExtInput = new System.Windows.Forms.TextBox();
             this.pisoInput = new System.Windows.Forms.TextBox();
@@ -44,7 +45,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.button4 = new System.Windows.Forms.Button();
-            this.hotelInput = new System.Windows.Forms.ComboBox();
+            this.button5 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -84,6 +85,14 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros de busqueda";
+            // 
+            // hotelInput
+            // 
+            this.hotelInput.FormattingEnabled = true;
+            this.hotelInput.Location = new System.Drawing.Point(457, 53);
+            this.hotelInput.Name = "hotelInput";
+            this.hotelInput.Size = new System.Drawing.Size(219, 21);
+            this.hotelInput.TabIndex = 9;
             // 
             // numHabInput
             // 
@@ -197,19 +206,22 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
-            // hotelInput
+            // button5
             // 
-            this.hotelInput.FormattingEnabled = true;
-            this.hotelInput.Location = new System.Drawing.Point(457, 53);
-            this.hotelInput.Name = "hotelInput";
-            this.hotelInput.Size = new System.Drawing.Size(219, 21);
-            this.hotelInput.TabIndex = 9;
+            this.button5.Location = new System.Drawing.Point(24, 453);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(91, 24);
+            this.button5.TabIndex = 6;
+            this.button5.Text = "Volver";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // InicioHabitacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(774, 450);
+            this.ClientSize = new System.Drawing.Size(774, 491);
+            this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.button3);
@@ -245,5 +257,6 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.ComboBox hotelInput;
+        private System.Windows.Forms.Button button5;
     }
 }

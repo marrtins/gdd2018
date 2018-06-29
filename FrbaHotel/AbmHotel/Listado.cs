@@ -133,5 +133,12 @@ namespace FrbaHotel.AbmHotel
         {
             ControlResetter.ResetAllControls(this.filtrosGroup);
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Form1 f = new Form1();
+            f.Show();
+        }
     }
 }

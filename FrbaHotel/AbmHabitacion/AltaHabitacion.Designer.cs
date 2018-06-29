@@ -44,12 +44,13 @@
             this.vistaExtInput = new System.Windows.Forms.TextBox();
             this.hotelInput = new System.Windows.Forms.ComboBox();
             this.pisoInput = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // limpiarBtn
             // 
-            this.limpiarBtn.Location = new System.Drawing.Point(11, 325);
+            this.limpiarBtn.Location = new System.Drawing.Point(20, 325);
             this.limpiarBtn.Name = "limpiarBtn";
             this.limpiarBtn.Size = new System.Drawing.Size(75, 23);
             this.limpiarBtn.TabIndex = 47;
@@ -184,11 +185,22 @@
             this.pisoInput.Size = new System.Drawing.Size(121, 20);
             this.pisoInput.TabIndex = 53;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(20, 354);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(69, 27);
+            this.button1.TabIndex = 54;
+            this.button1.Text = "Volver";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // AltaHabitacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(263, 357);
+            this.ClientSize = new System.Drawing.Size(263, 387);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.pisoInput);
             this.Controls.Add(this.hotelInput);
             this.Controls.Add(this.vistaExtInput);
@@ -230,5 +242,6 @@
         private System.Windows.Forms.TextBox vistaExtInput;
         private System.Windows.Forms.ComboBox hotelInput;
         private System.Windows.Forms.TextBox pisoInput;
+        private System.Windows.Forms.Button button1;
     }
 }

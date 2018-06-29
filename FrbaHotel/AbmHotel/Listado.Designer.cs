@@ -40,7 +40,6 @@
             this.limpiarBtn = new System.Windows.Forms.Button();
             this.buscarBtn = new System.Windows.Forms.Button();
             this.hotelesGridView = new System.Windows.Forms.DataGridView();
-            this.button3 = new System.Windows.Forms.Button();
             this.NombreCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RecargaEstrellasCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CantidadEstrellasCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -53,6 +52,8 @@
             this.FechaCreacionCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SeleccionarCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BajaCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.filtrosGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cantidadEstrellasInput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hotelesGridView)).BeginInit();
@@ -202,16 +203,6 @@
             this.hotelesGridView.TabIndex = 3;
             this.hotelesGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.hotelesGridView_CellClick);
             // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(799, 79);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 4;
-            this.button3.Text = "Alta";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
             // NombreCol
             // 
             this.NombreCol.DataPropertyName = "Nombre";
@@ -294,11 +285,32 @@
             this.BajaCol.Name = "BajaCol";
             this.BajaCol.ReadOnly = true;
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(799, 79);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 4;
+            this.button3.Text = "Alta";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(14, 409);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(96, 23);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "Volver";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Listado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(977, 406);
+            this.ClientSize = new System.Drawing.Size(977, 435);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.hotelesGridView);
             this.Controls.Add(this.buscarBtn);
@@ -341,5 +353,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn FechaCreacionCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn SeleccionarCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn BajaCol;
+        private System.Windows.Forms.Button button1;
     }
 }

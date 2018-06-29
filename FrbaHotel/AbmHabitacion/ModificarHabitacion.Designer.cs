@@ -44,6 +44,7 @@
             this.pisoInput = new System.Windows.Forms.TextBox();
             this.tipoHabInput = new System.Windows.Forms.TextBox();
             this.visExtInput = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -184,11 +185,22 @@
             this.visExtInput.Size = new System.Drawing.Size(121, 20);
             this.visExtInput.TabIndex = 45;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(14, 361);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 24);
+            this.button1.TabIndex = 46;
+            this.button1.Text = "Volver";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // ModificarHabitacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(267, 361);
+            this.ClientSize = new System.Drawing.Size(267, 389);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.visExtInput);
             this.Controls.Add(this.tipoHabInput);
             this.Controls.Add(this.pisoInput);
@@ -230,5 +242,6 @@
         private System.Windows.Forms.TextBox pisoInput;
         private System.Windows.Forms.TextBox tipoHabInput;
         private System.Windows.Forms.TextBox visExtInput;
+        private System.Windows.Forms.Button button1;
     }
 }

@@ -95,5 +95,13 @@ namespace FrbaHotel.AbmHabitacion
                 }
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            this.Hide();
+            InicioHabitacion f = new InicioHabitacion();
+            f.Show();
+        }
     }
 }
