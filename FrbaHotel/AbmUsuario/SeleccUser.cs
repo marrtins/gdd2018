@@ -31,6 +31,7 @@ namespace FrbaHotel.AbmUsuario
             dataGridView1.Columns.Add(bcol);
             cboTipoId.Items.Add("Seleccionar");
             cargarTipoID();
+            buscar();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -207,42 +208,44 @@ namespace FrbaHotel.AbmUsuario
             DateTime fechanac,string nacionalidad,string dircalle,int dirnrocalle,string pais,int dirpiso,
             string dirdepto,string dirlocalidad, string habilitado
             */
-                DataGridViewRow row = this.dataGridView1.Rows[e.RowIndex];
-                int idUsuario = Int32.Parse(row.Cells["idUsuario"].Value.ToString());
-                string nombre = row.Cells["Nombre"].Value.ToString();
-                string apellido = row.Cells["Apellido"].Value.ToString();
-                string tipodoc = row.Cells["TipoDocumento"].Value.ToString();
-                string nrodoc = row.Cells["NroDocumento"].Value.ToString();
-                string rol = row.Cells["rol"].Value.ToString();
-                string nombreHotel = row.Cells["NombreHotel"].Value.ToString();
-
-                if (modo == 1)
+                if (e.RowIndex >= 0)
                 {
-                    ModificarUsuario mu = new ModificarUsuario(idUsuario);
-                    mu.Show();
-                    this.Hide();
-                }
-                else
-                {
-                    if (String.IsNullOrEmpty(LoginData.Hotel.Nombre))
-                        puedeModificar = true;
-                    else if (LoginData.Hotel.Nombre == nombreHotel)
-                        puedeModificar = true;
+                    DataGridViewRow row = this.dataGridView1.Rows[e.RowIndex];
+                    int idUsuario = Int32.Parse(row.Cells["idUsuario"].Value.ToString());
+                    string nombre = row.Cells["Nombre"].Value.ToString();
+                    string apellido = row.Cells["Apellido"].Value.ToString();
+                    string tipodoc = row.Cells["TipoDocumento"].Value.ToString();
+                    string nrodoc = row.Cells["NroDocumento"].Value.ToString();
+                    string rol = row.Cells["rol"].Value.ToString();
+                    string nombreHotel = row.Cells["NombreHotel"].Value.ToString();
 
-                    if (puedeModificar)
+                    if (modo == 1)
                     {
-                        inhabilitarUsuario(idUsuario);
-                        MessageBox.Show("Cliente inhabilitado", "Ok", MessageBoxButtons.OK);
-                        buscar();
+                        ModificarUsuario mu = new ModificarUsuario(idUsuario);
+                        mu.Show();
+                        this.Hide();
                     }
                     else
                     {
-                        MessageBox.Show("Solo puede eliminar a clientes del mismo hotel", "Ok", MessageBoxButtons.OK);
+                        if (String.IsNullOrEmpty(LoginData.Hotel.Nombre))
+                            puedeModificar = true;
+                        else if (LoginData.Hotel.Nombre == nombreHotel)
+                            puedeModificar = true;
+
+                        if (puedeModificar)
+                        {
+                            inhabilitarUsuario(idUsuario);
+                            MessageBox.Show("Cliente inhabilitado", "Ok", MessageBoxButtons.OK);
+                            buscar();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Solo puede eliminar a clientes del mismo hotel", "Ok", MessageBoxButtons.OK);
+                        }
                     }
+
+
                 }
-
-               
-
 
                 
             }

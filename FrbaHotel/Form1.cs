@@ -22,12 +22,9 @@ namespace FrbaHotel
         public Form1()
         {
             InitializeComponent();
-            if (LoginData.IdUsuario == 3)
-            {
-                btnEstadia.Visible = false;
-                btnConsumible.Visible = false;
-            }
+            hide();
         }
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -70,6 +67,40 @@ namespace FrbaHotel
             ListadoEstadistico.ListadoEstadistico listado = new ListadoEstadistico.ListadoEstadistico();
             listado.ShowDialog();
             this.Hide();
+        }
+        private void hide()
+        {
+            if (LoginData.IdUsuario == 3)
+            {
+                btnEstadia.Visible = false;
+                btnConsumible.Visible = false;
+            }
+            if (LoginData.IdUsuario == 1) //para guest
+            {
+                btnCliente.Visible = false;
+                abmHotelBtn.Visible = false;
+                rolButton.Visible = false;
+                buttonHabitacion.Visible = false;
+                buttonListadoEstadistico.Visible = false;
+                abmUsuarioBtn.Visible = false;
+                btnEstadia.Visible = false;
+                btnConsumible.Visible = false;
+            }
+            if (LoginData.Rol.idRol == 1)
+            {
+                btnCliente.Visible = false;
+                btnGenRes.Visible = false;
+                btnCancelar.Visible = false;
+                btnEstadia.Visible = false;
+                btnConsumible.Visible = false;
+            }
+            if (LoginData.Rol.idRol == 2)
+            {
+                abmUsuarioBtn.Visible = false;
+                abmHotelBtn.Visible = false;
+                buttonHabitacion.Visible = false;
+                rolButton.Visible = false;
+            }
         }
 
         private void abmUsuarioBtn_Click(object sender, EventArgs e)
