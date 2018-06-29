@@ -43,6 +43,7 @@ namespace FrbaHotel.AbmHotel
         {
             hotel.CantidadEstrellas = 1; //si fuera cero romperia
             hotel.IdPais = 1;
+            hotel.FechaDeCreacion = DateTime.Today;
         }
 
         public InsertarModificar(int idUsuario, Hotel hotel)
@@ -55,6 +56,7 @@ namespace FrbaHotel.AbmHotel
 
             RegistrarInputs();
 
+            FechaCreacionDtp.Enabled = false;
             accion = Modificar;
         }
 
@@ -86,6 +88,8 @@ namespace FrbaHotel.AbmHotel
             recEstrellasInput.DataBindings.Add(new TextBinding(this.Model, "RecargaEstrellas"));
             Register(ErrorLabel.For(recEstrellasInput, Alignment.Bottom, 2));
 
+            FechaCreacionDtp.DataBindings.Add(new Binding("Text", this.Model, "FechaDeCreacion"));
+            Register(ErrorLabel.For(FechaCreacionDtp, Alignment.Bottom, 2));
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -128,7 +132,7 @@ namespace FrbaHotel.AbmHotel
                     cmd.Parameters.AddWithValue("@Nombre", SqlDbType.VarChar).Value = hotel.Nombre;
                     cmd.Parameters.AddWithValue("@idAdmin", SqlDbType.Int).Value = LoginData.IdUsuario;
                     cmd.Parameters.AddWithValue("@RecargaEstrellas", SqlDbType.Int).Value = hotel.RecargaEstrellas;
-
+                    cmd.Parameters.AddWithValue("@FechaCreacion", SqlDbType.SmallDateTime).Value = hotel.FechaDeCreacion;
 
 
                     con.Open();

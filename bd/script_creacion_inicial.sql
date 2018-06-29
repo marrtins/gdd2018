@@ -162,7 +162,7 @@ CREATE TABLE [MMEL].[PersonasInconsistentes](
 
 CREATE TABLE [MMEL].[Usuarios](
 	[idUsuario] [int] IDENTITY(1,1) NOT NULL,
-	[Password] [nvarchar](200) NULL,
+	[Password] [varbinary](4000) NULL,
 	[idPersona] [int] NULL,
 	[Activo] [char](1) NULL,
 	[Username] [nvarchar](200) NULL,
@@ -777,7 +777,7 @@ AS
 	
 	DECLARE @idPersona int = SCOPE_IDENTITY();
 
-	DECLARE @PasswordHasheada varchar(200) = CONVERT(nvarchar(200), HASHBYTES('SHA256', @Password));
+	DECLARE @PasswordHasheada varbinary(4000) = HASHBYTES('SHA2_256', @Password);
 
 
 	INSERT INTO [MMEL].[Usuarios] ([Username], [Password], [idPersona], [Activo])
@@ -844,7 +844,7 @@ AS
 	IF @nombreRol != 'administrador'
 		THROW 51000, 'El usuario no es administrador', 1;
 	
-	DECLARE @PasswordHasheada varchar(200) = CONVERT(nvarchar(200), HASHBYTES('SHA256', @Password));
+	DECLARE @PasswordHasheada varbinary(4000) = HASHBYTES('SHA2_256', @Password);
 
 
 	UPDATE [MMEL].[Usuarios]
@@ -1282,8 +1282,8 @@ CREATE PROC [MMEL].[HotelCrear]
     @CantidadEstrellas int,
     @Nombre varchar(100),
 	@idAdmin int,
-	@RecargaEstrellas int
-
+	@RecargaEstrellas int,
+	@FechaCreacion smalldatetime
 AS
 	SET NOCOUNT ON
 	SET XACT_ABORT ON
@@ -1302,8 +1302,8 @@ AS
 	IF @rol != 'administrador'
 		THROW 51000, 'El usuario no es administrador', 1;
 
-INSERT INTO [MMEL].[Hotel] ([Mail], [idDireccion], [Telefono], [CantidadEstrellas], [FechaDeCreacion], [Nombre],  RecargaEstrellas )
-	SELECT @Mail, @idDireccion, @Telefono, @CantidadEstrellas, GETDATE(), @Nombre, @RecargaEstrellas
+INSERT INTO [MMEL].[Hotel] ([Mail], [idDireccion], [Telefono], [CantidadEstrellas],[Nombre],  RecargaEstrellas, FechaDeCreacion )
+	SELECT @Mail, @idDireccion, @Telefono, @CantidadEstrellas, @Nombre, @RecargaEstrellas,@FechaCreacion
 
 
 	DECLARE @idHotel int  =  SCOPE_IDENTITY();
@@ -1320,6 +1320,7 @@ INSERT INTO [MMEL].[Hotel] ([Mail], [idDireccion], [Telefono], [CantidadEstrella
 
 	COMMIT
 GO
+
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[HotelesDeUsuario]'))
 	DROP PROCEDURE [MMEL].HotelesDeUsuario
@@ -1444,12 +1445,12 @@ BEGIN
 	DECLARE @rightPassword nvarchar(200)
 	DECLARE @habilitado char(1)
 
-	SELECT @rightPassword = Password, @habilitado = Activo FROM MMEL.Usuarios WHERE Username = @usuario
+	SELECT @rightPassword = u.Password, @habilitado = u.Activo FROM MMEL.Usuarios u WHERE Username = @usuario
 
 	IF @habilitado = 'N'
 		SELECT @noHabilitadoReturn AS id
 	ELSE
-		IF @rightPassword != @password
+		IF @rightPassword != HASHBYTES('SHA2_256',@password)
 			BEGIN
 
 				DECLARE @ingresosFallidos int
@@ -1468,6 +1469,7 @@ BEGIN
 			SELECT idUsuario AS id FROM MMEL.Usuarios WHERE Username = @usuario
 END
 GO
+
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[PaisListar]'))
 	DROP PROCEDURE [MMEL].PaisListar
 go
@@ -2722,13 +2724,14 @@ GO
 
 CREATE VIEW [MMEL].[ConsumiblesFacturadosPorHotel]
 AS
-SELECT        MMEL.Hotel.idHotel, MMEL.Facturacion.idFactura, MMEL.Facturacion.idEstadia, MMEL.Estadia.idReserva, MMEL.Reserva.idHabitacion, MMEL.ItemFactura.idItemFactura, MMEL.ItemFactura.itemDescripcion, 
+SELECT        MMEL.Hotel.idHotel, MMEL.Facturacion.idFactura, MMEL.Facturacion.idEstadia, MMEL.Estadia.idReserva, MMEL.ReservaPorHabitacion.idHabitacion, MMEL.ItemFactura.idItemFactura, MMEL.ItemFactura.itemDescripcion, 
                          MMEL.ItemFactura.idConsumible, MMEL.ItemFactura.itemFacturaCantidad, MMEL.ItemFactura.itemFacturaMonto, MMEL.Facturacion.FacturaFecha, MMEL.Hotel.Nombre
 FROM            MMEL.Estadia INNER JOIN
                          MMEL.Facturacion ON MMEL.Estadia.idEstadia = MMEL.Facturacion.idEstadia INNER JOIN
                          MMEL.Reserva ON MMEL.Estadia.idReserva = MMEL.Reserva.idReserva INNER JOIN
-                         MMEL.Hotel ON MMEL.Reserva.idHotel = MMEL.Hotel.idHotel INNER JOIN
-                         MMEL.Habitacion ON MMEL.Reserva.idHabitacion = MMEL.Habitacion.idHabitacion AND MMEL.Hotel.idHotel = MMEL.Habitacion.idHotel INNER JOIN
+						 MMEL.ReservaPorHabitacion on MMEL.ReservaPorHabitacion.idReserva = MMEL.Reserva.idReserva JOIN
+                         MMEL.Habitacion ON MMEL.ReservaPorHabitacion.idHabitacion = MMEL.Habitacion.idHabitacion INNER JOIN
+                         MMEL.Hotel ON MMEL.Habitacion.idHotel = MMEL.Hotel.idHotel INNER JOIN
                          MMEL.ItemFactura ON MMEL.Estadia.idEstadia = MMEL.ItemFactura.idEstadia AND MMEL.Facturacion.idFactura = MMEL.ItemFactura.idFactura
 WHERE        (MMEL.ItemFactura.idConsumible IS NOT NULL)
 GO

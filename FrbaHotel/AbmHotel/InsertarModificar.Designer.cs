@@ -49,6 +49,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.recEstrellasInput = new System.Windows.Forms.TextBox();
+            this.FechaCreacionDtp = new System.Windows.Forms.DateTimePicker();
+            this.label9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.cantidadEstrellasInput)).BeginInit();
             this.SuspendLayout();
             // 
@@ -245,16 +247,36 @@
             this.recEstrellasInput.Size = new System.Drawing.Size(85, 20);
             this.recEstrellasInput.TabIndex = 23;
             // 
+            // FechaCreacionDtp
+            // 
+            this.FechaCreacionDtp.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.FechaCreacionDtp.Location = new System.Drawing.Point(397, 181);
+            this.FechaCreacionDtp.Name = "FechaCreacionDtp";
+            this.FechaCreacionDtp.Size = new System.Drawing.Size(85, 20);
+            this.FechaCreacionDtp.TabIndex = 24;
+            this.FechaCreacionDtp.Value = new System.DateTime(2018, 6, 28, 0, 0, 0, 0);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(260, 184);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(96, 13);
+            this.label9.TabIndex = 17;
+            this.label9.Text = "Fecha de creacion";
+            // 
             // InsertarModificar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(494, 262);
+            this.Controls.Add(this.FechaCreacionDtp);
             this.Controls.Add(this.recEstrellasInput);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.paisCombo);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.nroInput);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.calleInput);
             this.Controls.Add(this.ciudadInput);
@@ -301,5 +323,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox recEstrellasInput;
+        private System.Windows.Forms.DateTimePicker FechaCreacionDtp;
+        private System.Windows.Forms.Label label9;
     }
 }
