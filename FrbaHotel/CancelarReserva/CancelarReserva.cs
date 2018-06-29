@@ -36,11 +36,12 @@ namespace FrbaHotel.CancelarReserva
 
             SqlCommand cmd;
             cmd = new SqlCommand("MMEL.cancelarReserva", con);
+            DateTime value = Convert.ToDateTime(ConfigurationManager.AppSettings["DateKey"]);
 
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@motivo", SqlDbType.VarChar, 300).Value = textBox1.Text;
             cmd.Parameters.Add("@idUsuarioQueCancelo", SqlDbType.Int).Value = LoginData.IdUsuario;
-            cmd.Parameters.Add("@fecha", SqlDbType.DateTime).Value = DateTime.Now;
+            cmd.Parameters.Add("@fecha", SqlDbType.DateTime).Value =value;
             cmd.Parameters.Add("@codigoRes", SqlDbType.Int).Value = codigoRes;
             
             

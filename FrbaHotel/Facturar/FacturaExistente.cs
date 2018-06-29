@@ -233,11 +233,12 @@ namespace FrbaHotel.Facturar
 
             SqlCommand cmd;
             cmd = new SqlCommand("MMEL.modificarFactura", con);
+            DateTime value = Convert.ToDateTime(ConfigurationManager.AppSettings["DateKey"]);
 
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@idEstadia", SqlDbType.Int).Value = idEstadia;
             cmd.Parameters.Add("@FactTotal", SqlDbType.Int).Value = Int32.Parse(lblTotalAct.Text);
-            cmd.Parameters.Add("@FacturaFecha", SqlDbType.DateTime).Value = (DateTime.Now); //CAMBIAR
+            cmd.Parameters.Add("@FacturaFecha", SqlDbType.DateTime).Value = value;
             cmd.Parameters.Add("@formaDePago", SqlDbType.Int).Value = cboFormaDePago.Text;
 
 

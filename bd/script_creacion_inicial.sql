@@ -431,8 +431,18 @@ insert into mmel.RolesPorFuncionalidades values(8,3) --abm rese
 insert into mmel.RolesPorFuncionalidades values(9,3) --cancelar rese
 
 --agrego el rol guest
-insert into mmel.Usuarios(Activo)values('S')
+insert into mmel.Usuarios(Activo,Username)values('S','GUEST')
 insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(3,1)
+
+--el admin
+insert into mmel.Persona(Nombre) values('Administrador General')
+insert into mmel.Usuarios(Activo,Username,Password,IngresosFallidos,idPersona) values('S','admin','w23e',0,1) --hashear
+insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(1,2)
+
+--recepcionsta
+insert into mmel.Persona(Nombre) values('Recep Generico')
+insert into mmel.Usuarios(Activo,Username,Password,IngresosFallidos,idPersona) values('S','rg','12',0,2) --hashear
+insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(2,3)
 
 
 insert into mmel.Pais values('ARGENTINA')
@@ -2778,7 +2788,7 @@ begin
 											ORDER BY Cantidad DESC
 	end
 end
-
+go
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[FacturasPorCliente]'))
 	DROP VIEW [MMEL].[FacturasPorCliente]
