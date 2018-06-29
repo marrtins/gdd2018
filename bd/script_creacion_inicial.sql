@@ -1185,10 +1185,11 @@ BEGIN
 	hab.[idHotel],
 	[VistaAlExterior],
 	hab.[idTipoHabitacion],
-	Descripcion,
+	hab.Descripcion as HabitacionDesc,
+	th.Descripcion as TipoHabitacionDesc,
 	Habilitado
 	FROM [MMEL].[Habitacion] hab
-
+	JOIN TipoHabitacion th on hab.idTipoHabitacion = th.idTipoHabitacion
 	WHERE
  (@Piso is NULL OR (@Piso = piso))and
   (@VistaAlExterior is NULL OR           (@VistaAlExterior = VistaAlExterior))and
@@ -1197,8 +1198,7 @@ BEGIN
 (@IdTipoHabitacion is NULL OR( @IdTipoHabitacion = hab.idTipoHabitacion))
 	
 END
-
-go
+GO
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[HabitacionesAlta]'))
 	DROP PROCEDURE [MMEL].[HabitacionesAlta]

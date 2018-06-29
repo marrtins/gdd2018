@@ -35,7 +35,6 @@
             this.numHabInput = new System.Windows.Forms.TextBox();
             this.vistaExtInput = new System.Windows.Forms.TextBox();
             this.pisoInput = new System.Windows.Forms.TextBox();
-            this.tipoHabInput = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -48,6 +47,16 @@
             this.button5 = new System.Windows.Forms.Button();
             this.optModificar = new System.Windows.Forms.RadioButton();
             this.optBorrar = new System.Windows.Forms.RadioButton();
+            this.cboTipo = new System.Windows.Forms.ComboBox();
+            this.NumeroHabitacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.idHabitacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.idTipoHabitacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.idHotel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Piso = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.VistaAlExterior = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Descripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Habilitado = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -71,11 +80,11 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cboTipo);
             this.groupBox1.Controls.Add(this.hotelInput);
             this.groupBox1.Controls.Add(this.numHabInput);
             this.groupBox1.Controls.Add(this.vistaExtInput);
             this.groupBox1.Controls.Add(this.pisoInput);
-            this.groupBox1.Controls.Add(this.tipoHabInput);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
@@ -116,13 +125,6 @@
             this.pisoInput.Name = "pisoInput";
             this.pisoInput.Size = new System.Drawing.Size(100, 20);
             this.pisoInput.TabIndex = 7;
-            // 
-            // tipoHabInput
-            // 
-            this.tipoHabInput.Location = new System.Drawing.Point(109, 19);
-            this.tipoHabInput.Name = "tipoHabInput";
-            this.tipoHabInput.Size = new System.Drawing.Size(100, 20);
-            this.tipoHabInput.TabIndex = 6;
             // 
             // label6
             // 
@@ -191,7 +193,19 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.NumeroHabitacion,
+            this.idHabitacion,
+            this.idTipoHabitacion,
+            this.idHotel,
+            this.Piso,
+            this.VistaAlExterior,
+            this.Column4,
+            this.Descripcion,
+            this.Habilitado});
             this.dataGridView1.Location = new System.Drawing.Point(15, 159);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(748, 279);
@@ -241,6 +255,81 @@
             this.optBorrar.Text = "Borrar";
             this.optBorrar.UseVisualStyleBackColor = true;
             // 
+            // cboTipo
+            // 
+            this.cboTipo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboTipo.FormattingEnabled = true;
+            this.cboTipo.Location = new System.Drawing.Point(110, 22);
+            this.cboTipo.Name = "cboTipo";
+            this.cboTipo.Size = new System.Drawing.Size(121, 21);
+            this.cboTipo.TabIndex = 56;
+            // 
+            // NumeroHabitacion
+            // 
+            this.NumeroHabitacion.DataPropertyName = "NumeroHabitacion";
+            this.NumeroHabitacion.HeaderText = "Numero";
+            this.NumeroHabitacion.Name = "NumeroHabitacion";
+            this.NumeroHabitacion.ReadOnly = true;
+            // 
+            // idHabitacion
+            // 
+            this.idHabitacion.DataPropertyName = "idHabitacion";
+            this.idHabitacion.HeaderText = "idHabitacion";
+            this.idHabitacion.Name = "idHabitacion";
+            this.idHabitacion.ReadOnly = true;
+            this.idHabitacion.Visible = false;
+            // 
+            // idTipoHabitacion
+            // 
+            this.idTipoHabitacion.DataPropertyName = "idTipoHabitacion";
+            this.idTipoHabitacion.HeaderText = "idTipoHabitacion";
+            this.idTipoHabitacion.Name = "idTipoHabitacion";
+            this.idTipoHabitacion.ReadOnly = true;
+            this.idTipoHabitacion.Visible = false;
+            // 
+            // idHotel
+            // 
+            this.idHotel.DataPropertyName = "idHotel";
+            this.idHotel.HeaderText = "idHotel";
+            this.idHotel.Name = "idHotel";
+            this.idHotel.ReadOnly = true;
+            this.idHotel.Visible = false;
+            // 
+            // Piso
+            // 
+            this.Piso.DataPropertyName = "Piso";
+            this.Piso.HeaderText = "Piso";
+            this.Piso.Name = "Piso";
+            this.Piso.ReadOnly = true;
+            // 
+            // VistaAlExterior
+            // 
+            this.VistaAlExterior.DataPropertyName = "VistaAlExterior";
+            this.VistaAlExterior.HeaderText = "Vista al exterior";
+            this.VistaAlExterior.Name = "VistaAlExterior";
+            this.VistaAlExterior.ReadOnly = true;
+            // 
+            // Column4
+            // 
+            this.Column4.DataPropertyName = "TipoHabitacionDesc";
+            this.Column4.HeaderText = "Tipo de habitacion";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            // 
+            // Descripcion
+            // 
+            this.Descripcion.DataPropertyName = "HabitacionDesc";
+            this.Descripcion.HeaderText = "Descripcion";
+            this.Descripcion.Name = "Descripcion";
+            this.Descripcion.ReadOnly = true;
+            // 
+            // Habilitado
+            // 
+            this.Habilitado.DataPropertyName = "Habilitado";
+            this.Habilitado.HeaderText = "Habilitado";
+            this.Habilitado.Name = "Habilitado";
+            this.Habilitado.ReadOnly = true;
+            // 
             // InicioHabitacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -282,12 +371,21 @@
         private System.Windows.Forms.TextBox numHabInput;
         private System.Windows.Forms.TextBox vistaExtInput;
         private System.Windows.Forms.TextBox pisoInput;
-        private System.Windows.Forms.TextBox tipoHabInput;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.ComboBox hotelInput;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.RadioButton optModificar;
         private System.Windows.Forms.RadioButton optBorrar;
+        private System.Windows.Forms.ComboBox cboTipo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NumeroHabitacion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idHabitacion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idTipoHabitacion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idHotel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Piso;
+        private System.Windows.Forms.DataGridViewTextBoxColumn VistaAlExterior;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Descripcion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Habilitado;
     }
 }
