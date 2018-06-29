@@ -1,4 +1,4 @@
-Curso: K3014
+﻿Curso: K3014
 
 Número del grupo: 3
 
@@ -13,3 +13,5 @@ Legajo: 1559205
 
 Nombre y Apellido: Lucas Dell' Arciprete
 Legajo: 1563038
+
+Mail del Responsable del grupo: eliasgabrielkim@gmail.com
