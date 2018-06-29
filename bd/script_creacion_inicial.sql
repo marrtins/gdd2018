@@ -2756,6 +2756,8 @@ begin
 	declare @cantiDiasReservados int
 	declare @startdate datetime
 	declare @enddate datetime
+	declare @enddateEST date
+	declare @startdateEST date
 
 	declare @idReserva int
 	
