@@ -437,6 +437,22 @@ insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(3,1)
 insert into mmel.Persona(Nombre) values('Administrador General')
 insert into mmel.Usuarios(Activo,Username,Password,IngresosFallidos,idPersona) values('S','admin',HASHBYTES('SHA2_256','w23e'),0,1) --hashear
 insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(1,2)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,1)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,2)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,3)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,4)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,5)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,5)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,6)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,7)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,8)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,9)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,10)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,11)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,12)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,13)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,14)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,15)
 
 --recepcionsta
 insert into mmel.Persona(Nombre) values('Recep Generico')
@@ -462,6 +478,30 @@ select
 	distinct di.idDireccion,ot.Hotel_CantEstrella,ot.Hotel_Recarga_Estrella,concat(ot.Hotel_Calle,' ',ot.Hotel_Nro_Calle)
 	from gd_esquema.Maestra ot
 	join mmel.Direccion di on di.calle=ot.Hotel_Calle and di.nroCalle = ot.Hotel_Nro_Calle
+
+
+---hxu del admin gral
+
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,1)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,2)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,3)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,4)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,5)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,5)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,6)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,7)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,8)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,9)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,10)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,11)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,12)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,13)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,14)
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(2,15)
+
+--hotel del recep generico
+insert into mmel.HotelesPorUsuarios(idUsuario,idHotel) values(3,1)
+
 
 
 
@@ -876,6 +916,26 @@ begin
 end
 
 go
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[getInfoUsuario]'))
+	DROP PROCEDURE [MMEL].getInfoUsuario
+GO
+
+create procedure mmel.getInfoUsuario(@nombre varchar(50) output,@apellido varchar(50) output,@tipoid varchar(50) output,@nroDoc varchar(25) output,@fechanac datetime output,@nacionalidad varchar(50) output,@email varchar(200) output,
+	@telefono varchar(30) output,@calle varchar(150)output,@nro int output,@piso int output,@dpto char(2)output,@localidad varchar(150)output,@pais varchar(150)output,@activo char(1) output,
+	@username varchar(75) output,@rol varchar(30)output,@hotel varchar(200)output,@idUsuario int)
+as
+begin
+
+	select @nombre = pe.nombre,@apellido=pe.Apellido,@tipoid=td.detalle,@nroDoc=pe.NroDocumento,@fechanac=pe.FechaDeNacimiento,@nacionalidad=p1.Nombre,@email=pe.Mail,
+	@telefono=pe.Telefono,@calle=pe.dirCalle,@nro=pe.dirNroCalle,@piso=pe.dirPiso,@dpto=pe.dirDepto,@localidad=pe.dirLocalidad,@pais=p2.Nombre,@activo=us.Activo,@username=us.Username,@rol=ro.Nombre,
+	@hotel=ho.Nombre
+	 from mmel.Persona pe,mmel.Usuarios us,mmel.Hotel ho,mmel.TipoDocumento td,mmel.Pais p1,mmel.Pais p2,mmel.Rol ro,mmel.UsuariosPorRoles upr,mmel.HotelesPorUsuarios hpu where
+	 pe.idPersona=us.idPersona and pe.idTipoDocumento=td.idTipoDocumento and p1.idPais=pe.idNacionalidad and p2.idPais=pe.dirIdPais and upr.idRol=ro.idRol and upr.idUsuario=us.idUsuario and
+	 hpu.idHotel=ho.idHotel and hpu.idUsuario=us.idUsuario and us.idUsuario=@idUsuario
+end
+
+
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[modificarUsuario]'))
 	DROP PROCEDURE [MMEL].modificarUsuario
 GO
@@ -1898,6 +1958,17 @@ begin
 	return 0 --no existe
 end
 go
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[borrarUsuario]'))
+	DROP procedure [MMEL].borrarUsuario
+go
+
+create procedure mmel.borrarUsuario(@idUsuario int)
+as
+begin
+	update mmel.Usuarios set Activo='N' where idUsuario=@idUsuario
+end
+
 
 
 

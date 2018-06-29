@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrbaHotel.Utilities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -15,12 +16,14 @@ namespace FrbaHotel.AbmUsuario
     public partial class ModificarUsuario : Form
     {
         int idUsuario;
+        bool puedeModificar=false;
         public ModificarUsuario(int idUsuario)
         {
             InitializeComponent();
             cargarPaises();
             cargarTipoID();
             cargarHoteles();
+            
             cboRol.Items.Add("ADMINISTRADOR");
             cboRol.Items.Add("RECEPCIONISTA");
             this.idUsuario = idUsuario;
@@ -108,6 +111,11 @@ namespace FrbaHotel.AbmUsuario
             txtUserName.Text = username;
             cboRol.Text = rol;
             cboHotel.Text = hotel;
+            if (String.IsNullOrEmpty(LoginData.Hotel.Nombre))
+                puedeModificar = true;
+            else if (LoginData.Hotel.Nombre == hotel)
+                puedeModificar = true;
+        
         }
 
         private void ModificarUsuario_Load(object sender, EventArgs e)
@@ -123,6 +131,10 @@ namespace FrbaHotel.AbmUsuario
         private void btnCrear_Click(object sender, EventArgs e)
         {
             //modif
+            if (!puedeModificar) { 
+                MessageBox.Show("Usuario no modificado. Solo puede modificar a empleados del mismo hotel", "X", MessageBoxButtons.OK);
+                return;
+            }
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
 

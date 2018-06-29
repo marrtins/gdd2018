@@ -151,23 +151,11 @@
       <DependentUpon>Listado.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmRol\Model\Funcionalidad.cs" />
-    <Compile Include="AbmUsuario\AltaModificar.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AbmUsuario\AltaModificar.Designer.cs">
-      <DependentUpon>AltaModificar.cs</DependentUpon>
-    </Compile>
     <Compile Include="AbmUsuario\AltaUsuario.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="AbmUsuario\AltaUsuario.Designer.cs">
       <DependentUpon>AltaUsuario.cs</DependentUpon>
-    </Compile>
-    <Compile Include="AbmUsuario\ListadoUsuarios.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AbmUsuario\ListadoUsuarios.Designer.cs">
-      <DependentUpon>ListadoUsuarios.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmUsuario\MainAbmUsuario.cs">
       <SubType>Form</SubType>
@@ -409,14 +397,8 @@
     <EmbeddedResource Include="AbmRol\Listado.resx">
       <DependentUpon>Listado.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AbmUsuario\AltaModificar.resx">
-      <DependentUpon>AltaModificar.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="AbmUsuario\AltaUsuario.resx">
       <DependentUpon>AltaUsuario.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AbmUsuario\ListadoUsuarios.resx">
-      <DependentUpon>ListadoUsuarios.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmUsuario\MainAbmUsuario.resx">
       <DependentUpon>MainAbmUsuario.cs</DependentUpon>

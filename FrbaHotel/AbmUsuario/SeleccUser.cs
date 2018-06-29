@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrbaHotel.Utilities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -15,6 +16,7 @@ namespace FrbaHotel.AbmUsuario
     public partial class SeleccUser : Form
     {
         int modo;
+        bool puedeModificar = false;
         public SeleccUser(int modo)
         {
             InitializeComponent();
@@ -222,9 +224,21 @@ namespace FrbaHotel.AbmUsuario
                 }
                 else
                 {
-                    inhabilitarUsuario(idUsuario);
-                    MessageBox.Show("Cliente inhabilitado", "Ok" ,MessageBoxButtons.OK);
-                    buscar();
+                    if (String.IsNullOrEmpty(LoginData.Hotel.Nombre))
+                        puedeModificar = true;
+                    else if (LoginData.Hotel.Nombre == nombreHotel)
+                        puedeModificar = true;
+
+                    if (puedeModificar)
+                    {
+                        inhabilitarUsuario(idUsuario);
+                        MessageBox.Show("Cliente inhabilitado", "Ok", MessageBoxButtons.OK);
+                        buscar();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Solo puede eliminar a clientes del mismo hotel", "Ok", MessageBoxButtons.OK);
+                    }
                 }
 
                
