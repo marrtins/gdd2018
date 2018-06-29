@@ -69,12 +69,13 @@ namespace FrbaHotel.GenerarModificacionReserva
                 reader.Close();
                 con.Close();
                 res=llenarHabitaciones(res);
+                this.Hide();
                 ModificarReserva mr = new ModificarReserva(res);
                 mr.Show();
             }
             else
             {
-                MessageBox.Show("Error. El codigo no existe");
+                MessageBox.Show("Error. El codigo no existe/ya expiró");
                 reader.Close();
                 con.Close();
                 return;
@@ -110,7 +111,7 @@ namespace FrbaHotel.GenerarModificacionReserva
             }
             else
             {
-                MessageBox.Show("Error. El codigo no existe");
+                MessageBox.Show("Error. El codigo no existe/ya expiró");
                 reader.Close();
                 con.Close();
             }
