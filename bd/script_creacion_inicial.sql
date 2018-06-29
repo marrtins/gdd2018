@@ -234,6 +234,7 @@ Create Table [MMEL].[UsuariosPorRoles](
 Create Table [MMEL].[Funcionalidades](
 	idFuncionalidad int identity(1,1) not null,
 	Descripcion varchar(50) not null,
+	Codigo varchar(50) not null,
 	constraint PK_idFuncionalidad primary key(idFuncionalidad)
 	)
 Create Table [MMEL].[RolesPorFuncionalidades](
@@ -390,20 +391,36 @@ insert into MMEL.Rol values('guest','S')
 --Tabla Funcionalidades
 
 
-INSERT INTO MMEL.Funcionalidades VALUES('ABM de Rol')
-INSERT INTO MMEL.Funcionalidades VALUES('Login y Seguridad')
-INSERT INTO MMEL.Funcionalidades VALUES('ABM de Usuario')
-INSERT INTO MMEL.Funcionalidades VALUES('ABM de Hotel')
-INSERT INTO MMEL.Funcionalidades VALUES('ABM de Cliente')
-INSERT INTO MMEL.Funcionalidades VALUES('ABM de Habitacion')
-INSERT INTO MMEL.Funcionalidades VALUES('ABM de Regimen')
-INSERT INTO MMEL.Funcionalidades VALUES('ABM de Reserva')
-INSERT INTO MMEL.Funcionalidades VALUES('Cancelar Reserva')
-INSERT INTO MMEL.Funcionalidades VALUES('Registrar Estadía')
-INSERT INTO MMEL.Funcionalidades VALUES('Registrar Consumibles')
-INSERT INTO MMEL.Funcionalidades VALUES('Facturar Publicaciones')
-INSERT INTO MMEL.Funcionalidades VALUES('Listado Estadistico')
-
+SET IDENTITY_INSERT [MMEL].[Funcionalidades] ON 
+GO
+INSERT [MMEL].[Funcionalidades] ([idFuncionalidad], [Descripcion], [Codigo]) VALUES (1, N'ABM de Rol', N'rol')
+GO
+INSERT [MMEL].[Funcionalidades] ([idFuncionalidad], [Descripcion], [Codigo]) VALUES (2, N'Login y Seguridad', N'login')
+GO
+INSERT [MMEL].[Funcionalidades] ([idFuncionalidad], [Descripcion], [Codigo]) VALUES (3, N'ABM de Usuario', N'usuario')
+GO
+INSERT [MMEL].[Funcionalidades] ([idFuncionalidad], [Descripcion], [Codigo]) VALUES (4, N'ABM de Hotel', N'hotel')
+GO
+INSERT [MMEL].[Funcionalidades] ([idFuncionalidad], [Descripcion], [Codigo]) VALUES (5, N'ABM de Cliente', N'cliente')
+GO
+INSERT [MMEL].[Funcionalidades] ([idFuncionalidad], [Descripcion], [Codigo]) VALUES (6, N'ABM de Habitacion', N'habitacion')
+GO
+INSERT [MMEL].[Funcionalidades] ([idFuncionalidad], [Descripcion], [Codigo]) VALUES (7, N'ABM de Regimen', N'regimen')
+GO
+INSERT [MMEL].[Funcionalidades] ([idFuncionalidad], [Descripcion], [Codigo]) VALUES (8, N'ABM de Reserva', N'reservaAbm')
+GO
+INSERT [MMEL].[Funcionalidades] ([idFuncionalidad], [Descripcion], [Codigo]) VALUES (9, N'Cancelar Reserva', N'reservaCancel')
+GO
+INSERT [MMEL].[Funcionalidades] ([idFuncionalidad], [Descripcion], [Codigo]) VALUES (10, N'Registrar Estadía', N'estadia')
+GO
+INSERT [MMEL].[Funcionalidades] ([idFuncionalidad], [Descripcion], [Codigo]) VALUES (11, N'Registrar Consumibles', N'consumible')
+GO
+INSERT [MMEL].[Funcionalidades] ([idFuncionalidad], [Descripcion], [Codigo]) VALUES (12, N'Facturar Publicaciones', N'facturar')
+GO
+INSERT [MMEL].[Funcionalidades] ([idFuncionalidad], [Descripcion], [Codigo]) VALUES (13, N'Listado Estadistico', N'estadistico')
+GO
+SET IDENTITY_INSERT [MMEL].[Funcionalidades] OFF
+GO
 
 --Rol x Funcionalidades (funcionalidad,rol)
 
@@ -1469,7 +1486,7 @@ AS
 
 	BEGIN TRAN
 
-	SELECT f.idFuncionalidad, f.Descripcion
+	SELECT f.idFuncionalidad, f.Descripcion, f.Codigo
 	FROM   [MMEL].[RolesPorFuncionalidades] rpf
 	JOIN   [Funcionalidades] f on f.idFuncionalidad = rpf.idFuncionalidad
 	WHERE @idRol = rpf.idRol

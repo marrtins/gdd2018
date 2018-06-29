@@ -11,5 +11,7 @@ namespace FrbaHotel.AbmRol.Model
     {
         public int idFuncionalidad { get; set; }
         public string Descripcion { get; set; }
+        public string Codigo { get; set; }
+        
     }
 }
