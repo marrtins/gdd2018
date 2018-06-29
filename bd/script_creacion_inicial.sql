@@ -1803,7 +1803,6 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROC [MMEL].[RolesListar]
-	@idRol int
 AS
 	SET NOCOUNT ON
 	SET XACT_ABORT ON
@@ -1812,7 +1811,6 @@ AS
 
 	SELECT [idRol], [Nombre], [Activo]
 	FROM   [MMEL].[Rol]
-	WHERE  ([idRol] = @idRol OR @idRol IS NULL)
 
 	COMMIT
 GO
