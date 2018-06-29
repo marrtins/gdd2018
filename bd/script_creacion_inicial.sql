@@ -1418,21 +1418,10 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[Loge
 	DROP PROCEDURE [MMEL].Logear
 go
 
-/****** Object:  StoredProcedure [MMEL].[Logear]    Script Date: 16/6/2018 16:56:43 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-
--- =============================================
--- Author:		<Author,,Name>
--- Create date: <Create Date,,>
--- Description:	<Description,,>
--- =============================================
 CREATE PROCEDURE [MMEL].[Logear]
 	-- Add the parameters for the stored procedure here
 	@usuario nvarchar(200),
-	@password nvarchar(200)
+	@password varchar(200)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -1442,7 +1431,7 @@ BEGIN
 	DECLARE @wrongPasswordReturn int = -1
 	DECLARE @blockedReturn int = -2
 	DECLARE @noHabilitadoReturn int = -3
-	DECLARE @rightPassword nvarchar(200)
+	DECLARE @rightPassword varbinary(4000)
 	DECLARE @habilitado char(1)
 
 	SELECT @rightPassword = u.Password, @habilitado = u.Activo FROM MMEL.Usuarios u WHERE Username = @usuario
@@ -1450,7 +1439,9 @@ BEGIN
 	IF @habilitado = 'N'
 		SELECT @noHabilitadoReturn AS id
 	ELSE
-		IF @rightPassword != HASHBYTES('SHA2_256',@password)
+		IF @rightPassword = HASHBYTES('SHA2_256',@password)
+			SELECT idUsuario AS id FROM MMEL.Usuarios WHERE Username = @usuario
+		ELSE
 			BEGIN
 
 				DECLARE @ingresosFallidos int
@@ -1465,10 +1456,8 @@ BEGIN
 				ELSE
 					SELECT @wrongPasswordReturn AS id
 			END
-		ELSE
-			SELECT idUsuario AS id FROM MMEL.Usuarios WHERE Username = @usuario
 END
-GO
+
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[PaisListar]'))
 	DROP PROCEDURE [MMEL].PaisListar
