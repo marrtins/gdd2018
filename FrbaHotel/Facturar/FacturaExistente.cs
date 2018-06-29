@@ -17,9 +17,10 @@ namespace FrbaHotel.Facturar
         int idFactura; int FactTotal; int NroFactura; int idEstadia;
         DateTime FacturaFecha;
         bool dtoRegimenbool = false;
-        int nuevoValorVB;
+        float nuevoValorVB;
         int nuevoValorCons;
         int nuevoCantCons;
+        float valorActual;
         int nuevoDtoRegimen;
         private void label3_Click(object sender, EventArgs e)
         {
@@ -39,6 +40,7 @@ namespace FrbaHotel.Facturar
             cboFDPAnt.Text = "No especificada";
             cargarFormaDePago();
             cargarFormaDePagoAnt();
+            cargarFacturaNueva();
         }
 
         private void FacturaExistente_Load(object sender, EventArgs e)
@@ -96,7 +98,12 @@ namespace FrbaHotel.Facturar
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@idEstadia", SqlDbType.Int).Value = idEstadia;
 
-            cmd.Parameters.Add("@valorBaseHab", SqlDbType.Int).Direction = ParameterDirection.Output;
+            cmd.Parameters.Add("@rPrecio", SqlDbType.Int).Direction = ParameterDirection.Output;
+            cmd.Parameters.Add("@hcantEst", SqlDbType.Int).Direction = ParameterDirection.Output;
+            cmd.Parameters.Add("@hrEst", SqlDbType.Int).Direction = ParameterDirection.Output;
+            cmd.Parameters.Add("@cantPersonas", SqlDbType.Int).Direction = ParameterDirection.Output;
+            cmd.Parameters.Add("@cantDias", SqlDbType.Int).Direction = ParameterDirection.Output;
+
             cmd.Parameters.Add("@cantDiasUtilizados", SqlDbType.Int).Direction = ParameterDirection.Output;
             cmd.Parameters.Add("@cantDiasNoUtilizados", SqlDbType.Int).Direction = ParameterDirection.Output;
             cmd.Parameters.Add("@chINEstadia", SqlDbType.DateTime).Direction = ParameterDirection.Output;
@@ -113,43 +120,54 @@ namespace FrbaHotel.Facturar
             }
             cmd.ExecuteNonQuery();
 
-            int valorBaseHab = int.Parse(cmd.Parameters["valorBaseHab"].Value.ToString());
-            int cantDiasUtilizados = int.Parse(cmd.Parameters["@cantDiasUtilizados"].Value.ToString());
-            int cantDiasNoUtilizados = int.Parse(cmd.Parameters["@cantDiasNoUtilizados"].Value.ToString());
-            int cantidadConsumibles = int.Parse(cmd.Parameters["@cantidadConsumibles"].Value.ToString());
+            int rPrecio = int.Parse(cmd.Parameters["@rPrecio"].Value.ToString());
+            int hcantEst = int.Parse(cmd.Parameters["@hcantEst"].Value.ToString());
+            int hrEst = int.Parse(cmd.Parameters["@hrEst"].Value.ToString());
+            int cantPersonas = int.Parse(cmd.Parameters["@cantPersonas"].Value.ToString());
+            int cantDias = int.Parse(cmd.Parameters["@cantDias"].Value.ToString());
+
+            //int cantidadConsumibles = int.Parse(cmd.Parameters["@cantidadConsumibles"].Value.ToString());
             int valorConsumibles = int.Parse(cmd.Parameters["@valorConsumibles"].Value.ToString());
             DateTime chINEstadia = DateTime.Parse(cmd.Parameters["@chINEstadia"].Value.ToString());
             DateTime chOUTEstadia = DateTime.Parse(cmd.Parameters["@chOUTEstadia"].Value.ToString());
+            TimeSpan cdaux = chOUTEstadia.Date - chINEstadia.Date;
+            int cantDiasUtilizados = Convert.ToInt32(cdaux.TotalDays);
+
+            int cantDiasNoUtilizados = cantDias - cantDiasUtilizados;
+
             int dtoRegimen = int.Parse(cmd.Parameters["@dtoRegimen"].Value.ToString());
 
-            nuevoCantCons = cantidadConsumibles;
+
+            float valorBaseHab = (rPrecio * cantPersonas + hrEst * hcantEst) * cantDias * cantPersonas;
+
+            //nuevoCantCons = cantidadConsumibles;
             nuevoValorCons = valorConsumibles;
             nuevoValorVB = valorBaseHab;
-            
 
-            float valoractual = valorBaseHab + valorConsumibles;
-            if (dtoRegimen == 100)
+            valorActual = valorBaseHab + valorConsumibles-dtoRegimen;
+            /*if (dtoRegimen == 0)
             {
-                valoractual = valoractual - valorConsumibles;
+                
                 lblTotalAct.Text = lblTotalAct.Text + String.Format(" $-{0}",valorConsumibles );
                 dtoRegimenbool = true;
                 nuevoDtoRegimen = valorConsumibles;
             }
             else
             {
+                valorActual = valorActual - dtoRegimen;
                 lblTotalAct.Text = lblTotalAct.Text + String.Format(" $0");
-            }
+            }*/
 
 
             lblFCHIN.Text += String.Format(" {0}",chINEstadia);
-            lblFCHOUT.Text += String.Format(" {0}", lblFCHOUT);
+            lblFCHOUT.Text += String.Format(" {0}", chOUTEstadia);
 
             lblVBActual.Text = lblVBActual.Text + String.Format(" ${0}", valorBaseHab);
             lbldaloj.Text += String.Format(" {0}", cantDiasUtilizados);
             lbldnu.Text += String.Format(" {0}", cantDiasNoUtilizados);
             lblVCAct.Text+= String.Format(" ${0}", valorConsumibles);
-            lblDtoACt.Text+= String.Format(" $%{0}", dtoRegimen);
-
+            lblDtoACt.Text+= String.Format(" $-{0}", dtoRegimen);
+            lblTotalAct.Text = String.Format("Total: ${0}", valorActual);
 
             listarConsumiblesAct();
 
@@ -169,10 +187,11 @@ namespace FrbaHotel.Facturar
 
         private void cargarFormaDePagoAnt()
         {
-            cboFormaDePago.Items.Add("TARJETA DE CREDITO");
-            cboFormaDePago.Items.Add("TARJETA DE DEBITO");
-            cboFormaDePago.Items.Add("EFECTIVO");
-            cboFormaDePago.Items.Add("CHEQUE");
+
+            cboFDPAnt.Items.Add("TARJETA DE CREDITO");
+            cboFDPAnt.Items.Add("TARJETA DE DEBITO");
+            cboFDPAnt.Items.Add("EFECTIVO");
+            cboFDPAnt.Items.Add("CHEQUE");
 
         }
 
@@ -212,18 +231,12 @@ namespace FrbaHotel.Facturar
 
         private void button2_Click(object sender, EventArgs e)
         {
-            //actualizar itemvbase
-            //actualizar itemconsum
-            //actualizar itemdto
-
-
+                   
            
-            
-
-
             //factual
             if (cboFormaDePago.Text == "Seleccionar")
             {
+                MessageBox.Show("Seleccione forma de pago");
                 return;
             }
 
@@ -237,9 +250,10 @@ namespace FrbaHotel.Facturar
 
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@idEstadia", SqlDbType.Int).Value = idEstadia;
-            cmd.Parameters.Add("@FactTotal", SqlDbType.Int).Value = Int32.Parse(lblTotalAct.Text);
+            cmd.Parameters.Add("@FactTotal", SqlDbType.Int).Value = valorActual;
             cmd.Parameters.Add("@FacturaFecha", SqlDbType.DateTime).Value = value;
-            cmd.Parameters.Add("@formaDePago", SqlDbType.Int).Value = cboFormaDePago.Text;
+            int i2n = cboFormaDePago.SelectedIndex + 1; ;
+            cmd.Parameters.Add("@formaDePago", SqlDbType.Int).Value = i2n;
 
 
 
@@ -259,6 +273,8 @@ namespace FrbaHotel.Facturar
                 actualizardtoReg();
             }
             this.Hide();
+            Form1 f = new Form1();
+            f.Show();
         }
 
 
@@ -314,8 +330,9 @@ namespace FrbaHotel.Facturar
         {
             //f vieja. 
 
-            if (cboFormaDePago.Text == "No especificada")
+            if (cboFDPAnt.Text == "No especificada")
             {
+                MessageBox.Show("Seleccione forma de pago");
                 return;
             }
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
@@ -326,7 +343,7 @@ namespace FrbaHotel.Facturar
 
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@idEstadia", SqlDbType.Int).Value = idEstadia;
-            cmd.Parameters.Add("@formaDePago", SqlDbType.Int).Value = cboFDPAnt.Text;
+            cmd.Parameters.Add("@formaDePago", SqlDbType.Int).Value = cboFDPAnt.SelectedIndex+1;
 
 
 
@@ -339,6 +356,11 @@ namespace FrbaHotel.Facturar
             MessageBox.Show("Facturacion realizada exitosamente");
             this.Hide();
 
+
+        }
+
+        private void lblFCHOUT_Click(object sender, EventArgs e)
+        {
 
         }
     }

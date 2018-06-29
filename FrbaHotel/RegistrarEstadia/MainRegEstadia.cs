@@ -16,6 +16,7 @@ namespace FrbaHotel.RegistrarEstadia
     public partial class MainRegEstadia : Form
     {
         int idEst;
+        DateTime fechaDesde;
         
         public MainRegEstadia()
         {
@@ -68,7 +69,8 @@ namespace FrbaHotel.RegistrarEstadia
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@codigoRes", SqlDbType.Int).Value = Int32.Parse(txtCodigoRes.Text);
             cmd.Parameters.Add("@ret", SqlDbType.Int).Direction = ParameterDirection.Output; //1-> existe / 0-> no existe
-
+            cmd.Parameters.Add("@fechaDesde", SqlDbType.DateTime).Direction = ParameterDirection.Output;
+            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Direction = ParameterDirection.Output;
             if (cmd.Connection.State == ConnectionState.Closed)
             {
                 cmd.Connection.Open();
@@ -76,18 +78,34 @@ namespace FrbaHotel.RegistrarEstadia
             cmd.ExecuteNonQuery();
 
             int ret = int.Parse(cmd.Parameters["@ret"].Value.ToString());
+            
             if (ret == 0)
             {
-                MessageBox.Show("El codigo de reserva no existe. Intente nuevamente", "X", MessageBoxButtons.OK);
+                MessageBox.Show("El codigo de reserva no existe/La reserva no esta vigente. Intente nuevamente", "X", MessageBoxButtons.OK);
                 return false;
             }
+            int idHotel = int.Parse(cmd.Parameters["@idHotel"].Value.ToString());
+            DateTime value = Convert.ToDateTime(ConfigurationManager.AppSettings["DateKey"]);
+            fechaDesde = DateTime.Parse(cmd.Parameters["@fechaDesde"].Value.ToString());
+            if (fechaDesde != value)
+            {
+                MessageBox.Show("El check in solo puede realizarse el día estípulado en la reserva", "X", MessageBoxButtons.OK);
+                return false;
+            }
+            if (idHotel!= LoginData.Hotel.IdHotel)
+            {
+                MessageBox.Show("No puede realizarse la operación en este hotel. La reserva pertenece a otro establecimiento de la cadena", "X", MessageBoxButtons.OK);
+                return false;
+            }
+            
+            
             return true;
         }
 
 
         private void registrarCheckIn()
         {
-            string consultaBusqueda = String.Format("select top 1 idEstadia,CodigoReserva,FechaCheckIN,FechaCheckOUT,Consistente from mmel.Estadia e,mmel.Reserva r where  CodigoReserva={0} and e.idReserva=r.idReserva", txtCodigoRes.Text);
+            string consultaBusqueda = String.Format("select top 1 idEstadia,CodigoReserva,FechaCheckIN,FechaCheckOUT,Consistente,FechaDesde from mmel.Estadia e,mmel.Reserva r where  CodigoReserva={0} and e.idReserva=r.idReserva and (EstadoReserva='CO' or EstadoReserva='RINCF') ", txtCodigoRes.Text);
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
             SqlCommand cmd = new SqlCommand(consultaBusqueda, con);
@@ -182,7 +200,7 @@ namespace FrbaHotel.RegistrarEstadia
         }
         private void registrarCheckOut()
         {
-            string consultaBusqueda = String.Format("select top 1 idEstadia,CodigoReserva,FechaCheckIN,FechaCheckOUT,Consistente from mmel.Estadia e,mmel.Reserva r where  CodigoReserva={0} and e.idReserva=r.idReserva", txtCodigoRes.Text);
+            string consultaBusqueda = String.Format("select top 1 idEstadia,CodigoReserva,FechaCheckIN,FechaCheckOUT,Consistente from mmel.Estadia e,mmel.Reserva r where  CodigoReserva={0} and e.idReserva=r.idReserva and (r.EstadoReserva='RCICF' or r.EstadoReserva='RCI') ", txtCodigoRes.Text);
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
             SqlCommand cmd = new SqlCommand(consultaBusqueda, con);

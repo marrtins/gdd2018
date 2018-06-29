@@ -15,10 +15,12 @@ namespace FrbaHotel.RegistrarConsumible
     public partial class NuevoConsumible : Form
     {
         Form ftr;
-        public NuevoConsumible(Form ftr)
+        int codRes;
+        public NuevoConsumible(Form ftr,int codRes)
         {
             InitializeComponent();
             this.ftr = ftr;
+            this.codRes = codRes;
         }
 
         private void NuevoConsumible_Load(object sender, EventArgs e)
@@ -57,7 +59,8 @@ namespace FrbaHotel.RegistrarConsumible
                 {
                     MessageBox.Show("Consumible creado", "OK", MessageBoxButtons.OK);
                     this.Hide();
-                    ftr.Show();
+                    MainRegCons mrc = new MainRegCons(codRes);
+                    mrc.Show();
                 }
             }
         }

@@ -16,7 +16,7 @@ namespace FrbaHotel.Facturar
     {
         int idEstadia;
         bool dtoRegimenbool = false;
-        int nuevoValorVB;
+        float nuevoValorVB;
         int nuevoValorCons;
         int nuevoCantCons;
         int nuevoDtoRegimen;
@@ -49,7 +49,12 @@ namespace FrbaHotel.Facturar
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@idEstadia", SqlDbType.Int).Value = idEstadia;
 
-            cmd.Parameters.Add("@valorBaseHab", SqlDbType.Int).Direction = ParameterDirection.Output;
+            cmd.Parameters.Add("@rPrecio", SqlDbType.Int).Direction = ParameterDirection.Output;
+            cmd.Parameters.Add("@hcantEst", SqlDbType.Int).Direction = ParameterDirection.Output;
+            cmd.Parameters.Add("@hrEst", SqlDbType.Int).Direction = ParameterDirection.Output;
+            cmd.Parameters.Add("@cantPersonas", SqlDbType.Int).Direction = ParameterDirection.Output;
+            cmd.Parameters.Add("@cantDias", SqlDbType.Int).Direction = ParameterDirection.Output;
+
             cmd.Parameters.Add("@cantDiasUtilizados", SqlDbType.Int).Direction = ParameterDirection.Output;
             cmd.Parameters.Add("@cantDiasNoUtilizados", SqlDbType.Int).Direction = ParameterDirection.Output;
             cmd.Parameters.Add("@chINEstadia", SqlDbType.DateTime).Direction = ParameterDirection.Output;
@@ -66,14 +71,25 @@ namespace FrbaHotel.Facturar
             }
             cmd.ExecuteNonQuery();
 
-            int valorBaseHab = int.Parse(cmd.Parameters["@valorBaseHab"].Value.ToString());
-            int cantDiasUtilizados = int.Parse(cmd.Parameters["@cantDiasUtilizados"].Value.ToString());
-            int cantDiasNoUtilizados = int.Parse(cmd.Parameters["@cantDiasNoUtilizados"].Value.ToString());
+            int rPrecio = int.Parse(cmd.Parameters["@rPrecio"].Value.ToString());
+            int hcantEst = int.Parse(cmd.Parameters["@hcantEst"].Value.ToString());
+            int hrEst = int.Parse(cmd.Parameters["@hrEst"].Value.ToString());
+            int cantPersonas = int.Parse(cmd.Parameters["@cantPersonas"].Value.ToString());
+            int cantDias = int.Parse(cmd.Parameters["@cantDias"].Value.ToString());
+
             //int cantidadConsumibles = int.Parse(cmd.Parameters["@cantidadConsumibles"].Value.ToString());
             int valorConsumibles = int.Parse(cmd.Parameters["@valorConsumibles"].Value.ToString());
             DateTime chINEstadia = DateTime.Parse(cmd.Parameters["@chINEstadia"].Value.ToString());
             DateTime chOUTEstadia = DateTime.Parse(cmd.Parameters["@chOUTEstadia"].Value.ToString());
+            TimeSpan cdaux = chOUTEstadia.Date - chINEstadia.Date;
+            int cantDiasUtilizados = Convert.ToInt32(cdaux.TotalDays);
+
+            int cantDiasNoUtilizados = cantDias - cantDiasUtilizados;
+
             int dtoRegimen = int.Parse(cmd.Parameters["@dtoRegimen"].Value.ToString());
+
+
+            float valorBaseHab = (rPrecio * cantPersonas + hrEst * hcantEst) * cantDias * cantPersonas;
 
             //nuevoCantCons = cantidadConsumibles;
             nuevoValorCons = valorConsumibles;

@@ -19,12 +19,16 @@ namespace FrbaHotel.RegistrarConsumible
         int idEstadia=-1;
         List<Consumible> consumibles = new List<Consumible>();
         List<Habitacion> habitaciones = new List<Habitacion>();
-        public MainRegCons()        
+        public MainRegCons(int codRes)        
         {
             InitializeComponent();
             cboHabitaciones.Text = "Seleccionar";
             cboConsumibles.Text = "Seleccionar";
-            
+            if (codRes != 0)
+            {
+                txtCodRes.Text = String.Format("{0}", codRes);
+            }
+
             cargarConsumibles();
             
 
@@ -102,6 +106,13 @@ namespace FrbaHotel.RegistrarConsumible
 
                 int codigoRet = int.Parse(cmd.Parameters["@codigoRet"].Value.ToString());
                 idEstadia= int.Parse(cmd.Parameters["@idEstadia"].Value.ToString());
+
+                if (idEstadia == 0)
+                {
+                    MessageBox.Show("No se puede agregar un consumible a una reserva sin check-out realizado" ,"X", MessageBoxButtons.OK);
+                    return;
+                }
+
                 if (codigoRet == 0)
                 {
                     MessageBox.Show("Ninguna habitacion ha sido cerrada el dia de hoy.", "X", MessageBoxButtons.OK);
@@ -143,7 +154,13 @@ namespace FrbaHotel.RegistrarConsumible
 
         private void btnOtroConsumible_Click(object sender, EventArgs e)
         {
-            NuevoConsumible nc = new NuevoConsumible(this);
+            int cod;
+            int i;
+            if (txtCodRes.Text == "" || !int.TryParse(txtCodRes.Text, out i))
+                cod = 0;
+            else
+                cod = int.Parse(txtCodRes.Text);
+                NuevoConsumible nc = new NuevoConsumible(this,cod);
             nc.Show();
             this.Hide();
         }
@@ -156,7 +173,7 @@ namespace FrbaHotel.RegistrarConsumible
                 MessageBox.Show("Seleccionar codigo de reserva valido", "X", MessageBoxButtons.OK);
                 return;
             }
-            if (idEstadia == -1)
+            if (idEstadia == -1 || idEstadia==0)
             {
                 idEstadia = getEstadia();
                 if (idEstadia == -1)
@@ -164,6 +181,10 @@ namespace FrbaHotel.RegistrarConsumible
                     MessageBox.Show("Seleccionar codigo de reserva valido", "X", MessageBoxButtons.OK);
                     return;
                 }
+            }
+            if (idEstadia == -2)
+            {
+                return;
             }
             VerConsumibles vc = new VerConsumibles(idEstadia,this,int.Parse(txtCodRes.Text));
             vc.Show();
@@ -178,7 +199,7 @@ namespace FrbaHotel.RegistrarConsumible
         }
         private int getEstadia()
         {
-            string consultaBusqueda = String.Format("select idEstadia from mmel.Estadia e,mmel.Reserva r where r.idReserva=e.idReserva and r.CodigoReserva={0}",txtCodRes.Text);
+            string consultaBusqueda = String.Format("select idEstadia,EstadoReserva from mmel.Estadia e,mmel.Reserva r where r.idReserva=e.idReserva and r.CodigoReserva={0} and EstadoReserva ='RF' ",txtCodRes.Text);
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
             SqlCommand cmd = new SqlCommand(consultaBusqueda, con);
@@ -189,12 +210,19 @@ namespace FrbaHotel.RegistrarConsumible
             }
             SqlDataReader reader = cmd.ExecuteReader();
             int idEstadia = -1;
+            string estadoReserva = "";
             while (reader.Read())
             {
                 idEstadia = Int32.Parse(reader["idEstadia"].ToString());
+                estadoReserva = (reader["estadoReserva"].ToString());
             }
             reader.Close();
             con.Close();
+            /*if (estadoReserva != "RF")
+            {
+                MessageBox.Show("Solo puede registrar/facturar una estaia con el check out realizado", "X", MessageBoxButtons.OK);
+                idEstadia = -2;
+            }*/
             return idEstadia;
         }
     }

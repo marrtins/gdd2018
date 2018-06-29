@@ -45,8 +45,7 @@ namespace FrbaHotel.RegistrarConsumible
         {
             if (e.ColumnIndex == 0)
             {
-
-                
+                                
                 DataGridViewRow row = this.dataGridView1.Rows[e.RowIndex];
                 int idCPE = Int32.Parse(row.Cells["idCPE"].Value.ToString());
 
