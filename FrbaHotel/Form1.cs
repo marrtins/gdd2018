@@ -1,4 +1,5 @@
 ﻿using FrbaHotel.AbmCliente;
+using FrbaHotel.AbmRol.Model;
 using FrbaHotel.AbmUsuario;
 using FrbaHotel.CancelarReserva;
 using FrbaHotel.GenerarModificacionReserva;
@@ -8,7 +9,9 @@ using FrbaHotel.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -22,9 +25,12 @@ namespace FrbaHotel
         public Form1()
         {
             InitializeComponent();
-            hide();
         }
 
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            this.SetupSecurity();
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -34,11 +40,7 @@ namespace FrbaHotel
         }
 
 
-        private void Form1_Shown(object sender, EventArgs e)
-        {
-            //permisos
-            this.abmHotelBtn.Visible = LoginData.EsAdmin;
-        }
+       
 
         private void abmHotelBtn_Click(object sender, EventArgs e)
         {
@@ -68,38 +70,30 @@ namespace FrbaHotel
             listado.ShowDialog();
             this.Hide();
         }
-        private void hide()
+        
+        private void SetupSecurity()
         {
-            if (LoginData.IdUsuario == 3)
+            var connection = ConfigurationManager.ConnectionStrings["GD1C2018ConnectionString"].ConnectionString;
+
+            using (SqlConnection con = new SqlConnection(connection))
             {
-                btnEstadia.Visible = false;
-                btnConsumible.Visible = false;
-            }
-            if (LoginData.IdUsuario == 1) //para guest
-            {
-                btnCliente.Visible = false;
-                abmHotelBtn.Visible = false;
-                rolButton.Visible = false;
-                buttonHabitacion.Visible = false;
-                buttonListadoEstadistico.Visible = false;
-                abmUsuarioBtn.Visible = false;
-                btnEstadia.Visible = false;
-                btnConsumible.Visible = false;
-            }
-            if (LoginData.Rol.idRol == 1)
-            {
-                btnCliente.Visible = false;
-                btnGenRes.Visible = false;
-                btnCancelar.Visible = false;
-                btnEstadia.Visible = false;
-                btnConsumible.Visible = false;
-            }
-            if (LoginData.Rol.idRol == 2)
-            {
-                abmUsuarioBtn.Visible = false;
-                abmHotelBtn.Visible = false;
-                buttonHabitacion.Visible = false;
-                rolButton.Visible = false;
+                using (SqlCommand cmd = new SqlCommand("MMEL.FuncionalidadesDeRol", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@idRol", SqlDbType.Int).Value = LoginData.Rol.idRol;
+
+                    con.Open();
+                    var dr = cmd.ExecuteReader();
+
+                    var listaF = dr.MapToList<Funcionalidad>();
+                    var buttonsList = this.Controls.OfType<Button>().ToList();
+
+                    buttonsList.ForEach(b =>
+                    {
+                        b.Visible = listaF.Any(f => String.Equals(f.Codigo + "Btn", b.Name));
+                    });
+ 
+                }
             }
         }
 
