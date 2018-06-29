@@ -44,8 +44,6 @@ namespace FrbaHotel.AbmRol
                 using (SqlCommand cmd = new SqlCommand("MMEL.RolesListar", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    //cmd.Parameters.AddWithValue("@Nombre", SqlDbType.NVarChar).Value = filtros.Nombre ?? Convert.DBNull;
-                    cmd.Parameters.AddWithValue("@idRol", SqlDbType.NVarChar).Value = LoginData.Rol.idRol;
                     con.Open();
                     var dr = cmd.ExecuteReader();
 
