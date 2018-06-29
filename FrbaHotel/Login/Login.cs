@@ -148,7 +148,7 @@ namespace FrbaHotel.Login
         private void guestBtn_Click(object sender, EventArgs e)
         {
             LoginData.IdUsuario = 1; //Limpio toda la info del usuario anterior y cargo el usuario guest guest agregado en la tabla con user 1
-            LoginData.Rol = new Rol(0, "Guest", "Y");
+            LoginData.Rol = new Rol(3, "Guest", "Y");
 
             this.Hide();
 
