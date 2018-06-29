@@ -372,7 +372,6 @@ GO
 
 
 
-
 --------------------MIGRACION DE DATOS-------
 
 
@@ -442,6 +441,8 @@ insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(1,2)
 --recepcionsta
 insert into mmel.Persona(Nombre) values('Recep Generico')
 insert into mmel.Usuarios(Activo,Username,Password,IngresosFallidos,idPersona) values('S','rg',HASHBYTES('SHA2_256','123'),0,2) --hashear
+
+
 insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(2,3)
 
 
@@ -664,8 +665,6 @@ select fa.idFactura,fa.idEstadia,'VALOR CONSUMIBLE',co.idConsumible,ot.Item_Fact
 
 
 -----fin migracion
-
-
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[UsuarioListar]'))
 	DROP PROCEDURE [MMEL].UsuarioListar
 GO
@@ -797,7 +796,9 @@ AS
 
                
 	COMMIT
+
 GO
+
 
 /*create procedure mmel.crearUsuario(   
 	@Username nvarchar(200),
@@ -875,8 +876,7 @@ go
 
 
 
-
-end
+go
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[UsuarioUpdate]'))
 	DROP PROCEDURE [MMEL].UsuarioUpdate
@@ -1496,21 +1496,10 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[Loge
 	DROP PROCEDURE [MMEL].Logear
 go
 
-/****** Object:  StoredProcedure [MMEL].[Logear]    Script Date: 16/6/2018 16:56:43 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-
--- =============================================
--- Author:		<Author,,Name>
--- Create date: <Create Date,,>
--- Description:	<Description,,>
--- =============================================
 CREATE PROCEDURE [MMEL].[Logear]
 	-- Add the parameters for the stored procedure here
 	@usuario nvarchar(200),
-	@password nvarchar(200)
+	@password varchar(200)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -1520,7 +1509,7 @@ BEGIN
 	DECLARE @wrongPasswordReturn int = -1
 	DECLARE @blockedReturn int = -2
 	DECLARE @noHabilitadoReturn int = -3
-	DECLARE @rightPassword nvarchar(200)
+	DECLARE @rightPassword varbinary(4000)
 	DECLARE @habilitado char(1)
 
 	SELECT @rightPassword = u.Password, @habilitado = u.Activo FROM MMEL.Usuarios u WHERE Username = @usuario
@@ -1528,7 +1517,9 @@ BEGIN
 	IF @habilitado = 'N'
 		SELECT @noHabilitadoReturn AS id
 	ELSE
-		IF @rightPassword != HASHBYTES('SHA2_256',@password)
+		IF @rightPassword = HASHBYTES('SHA2_256',@password)
+			SELECT idUsuario AS id FROM MMEL.Usuarios WHERE Username = @usuario
+		ELSE
 			BEGIN
 
 				DECLARE @ingresosFallidos int
@@ -1543,11 +1534,9 @@ BEGIN
 				ELSE
 					SELECT @wrongPasswordReturn AS id
 			END
-		ELSE
-			SELECT idUsuario AS id FROM MMEL.Usuarios WHERE Username = @usuario
 END
-GO
 
+go
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[PaisListar]'))
 	DROP PROCEDURE [MMEL].PaisListar
 go
