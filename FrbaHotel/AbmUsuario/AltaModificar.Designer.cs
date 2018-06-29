@@ -454,6 +454,7 @@ namespace FrbaHotel.AbmUsuario
             this.Controls.Add(this.lblUsername);
             this.Name = "AltaModificar";
             this.Text = "Alta o Modificado";
+            this.Load += new System.EventHandler(this.AltaModificar_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

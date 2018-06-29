@@ -55,8 +55,10 @@ namespace FrbaHotel.AbmUsuario
             this.lblApellido = new System.Windows.Forms.Label();
             this.nombreInput = new System.Windows.Forms.TextBox();
             this.lblNombre = new System.Windows.Forms.Label();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.usuariosGridView)).BeginInit();
             this.gpoFiltros.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // usuariosGridView
@@ -82,6 +84,7 @@ namespace FrbaHotel.AbmUsuario
             this.usuariosGridView.Size = new System.Drawing.Size(842, 290);
             this.usuariosGridView.TabIndex = 4;
             this.usuariosGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.usuariosGridView_CellClick_1);
+            this.usuariosGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.usuariosGridView_CellContentClick);
             // 
             // UsernameCol
             // 
@@ -183,6 +186,7 @@ namespace FrbaHotel.AbmUsuario
             this.cboRol.Size = new System.Drawing.Size(107, 24);
             this.cboRol.TabIndex = 15;
             this.cboRol.Text = "Seleccionar";
+            this.cboRol.Visible = false;
             // 
             // idRol
             // 
@@ -192,6 +196,7 @@ namespace FrbaHotel.AbmUsuario
             this.idRol.Size = new System.Drawing.Size(29, 17);
             this.idRol.TabIndex = 14;
             this.idRol.Text = "Rol";
+            this.idRol.Visible = false;
             // 
             // usernameInput
             // 
@@ -311,10 +316,20 @@ namespace FrbaHotel.AbmUsuario
             this.lblNombre.TabIndex = 0;
             this.lblNombre.Text = "Nombre";
             // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(12, 217);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(841, 287);
+            this.dataGridView1.TabIndex = 6;
+            this.dataGridView1.Visible = false;
+            // 
             // ListadoUsuarios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.ClientSize = new System.Drawing.Size(870, 517);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.gpoFiltros);
             this.Controls.Add(this.usuariosGridView);
             this.Name = "ListadoUsuarios";
@@ -322,6 +337,7 @@ namespace FrbaHotel.AbmUsuario
             ((System.ComponentModel.ISupportInitialize)(this.usuariosGridView)).EndInit();
             this.gpoFiltros.ResumeLayout(false);
             this.gpoFiltros.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -355,6 +371,6 @@ namespace FrbaHotel.AbmUsuario
         private System.Windows.Forms.DataGridViewTextBoxColumn TipoDocumentoCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn NombreRolCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn SeleccionarCol;
-        
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }

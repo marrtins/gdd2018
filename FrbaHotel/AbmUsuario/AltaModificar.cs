@@ -259,5 +259,10 @@ namespace FrbaHotel.AbmUsuario
 
             this.activoCheck.Checked = true;
         }
+
+        private void AltaModificar_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

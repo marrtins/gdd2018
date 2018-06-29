@@ -1,4 +1,5 @@
 ﻿using FrbaHotel.AbmCliente;
+using FrbaHotel.AbmUsuario;
 using FrbaHotel.CancelarReserva;
 using FrbaHotel.GenerarModificacionReserva;
 using FrbaHotel.RegistrarConsumible;
@@ -73,8 +74,10 @@ namespace FrbaHotel
 
         private void abmUsuarioBtn_Click(object sender, EventArgs e)
         {
-            AbmUsuario.ListadoUsuarios usuarios = new AbmUsuario.ListadoUsuarios();
-            usuarios.ShowDialog();
+            /*AbmUsuario.ListadoUsuarios usuarios = new AbmUsuario.ListadoUsuarios();
+            usuarios.ShowDialog();*/
+            MainAbmUsuario mau = new MainAbmUsuario();
+            mau.Show();
             this.Hide();
         }
 

@@ -798,9 +798,10 @@ AS
 	COMMIT
 
 GO
-
-
-/*create procedure mmel.crearUsuario(   
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[crearUsuario]'))
+	DROP PROCEDURE [MMEL].crearUsuario
+GO
+create procedure mmel.crearUsuario(   
 	@Username nvarchar(200),
 	@Password nvarchar(200),
 	@idRol int,
@@ -818,7 +819,7 @@ GO
 	@dirPiso smallint = NULL,
 	@dirLocalidad nvarchar(150) = NULL,
     @Telefono varchar(20) = NULL,
-	@Activo char = NULL,
+	@habilitado char = NULL,
 	@idNacionalidad int,
 	@codigoRet int output)
 as
@@ -832,7 +833,7 @@ begin
 
 
 	--chequeo si ya existe el cliente.
-	set @aux= mmel.existeCliente(@tipoDocumento,@nroDocumento,@mail)
+	set @aux= mmel.existeUsuario(@tipoDocumento,@nroDocumento,@mail,@Username)
 	if(@aux=1)
 	begin
 		set @idNuevo = -1
@@ -842,6 +843,11 @@ begin
 	begin
 		set @idNuevo = -1
 		set @codigoRet =2 --ya existe el mail en la bdd
+	end
+	else if(@aux=3)
+	begin
+		set @idNuevo=-1
+		set @codigoRet=3 --existe el username en la bd
 	end
 	else if(@aux=0)
 	begin
@@ -854,7 +860,7 @@ begin
 		set @idNuevo=SCOPE_IDENTITY()
 		
 
-		insert into mmel.Usuarios(idPersona,Activo,IngresosFallidos,Password,Username) values(@idNuevo,@Activo,0,HASHBYTES('SHA2_256',@Password),@Username)
+		insert into mmel.Usuarios(idPersona,Activo,IngresosFallidos,Password,Username) values(@idNuevo,@habilitado,0,HASHBYTES('SHA2_256',@Password),UPPER(@Username))
 		set @idNuevo=SCOPE_IDENTITY()
 		if(@idRol=1)
 			insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(1,@idNuevo)
@@ -862,19 +868,94 @@ begin
 			insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(2,@idNuevo)
 		set @codigoRet = 0 --se creo ok el cliente
 
+		if(@idHotel > 0)
+		begin
+			insert into mmel.HotelesPorUsuarios(idHotel,idUsuario) values(@idHotel,@idNuevo)
+		end
 	end
 end
 
 go
-*/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[modificarUsuario]'))
+	DROP PROCEDURE [MMEL].modificarUsuario
+GO
+
+create procedure mmel.modificarUsuario(
+	@Username nvarchar(200),
+	@Password nvarchar(200),
+	@idRol int,
+	@idHotel int,
+	@Nombre nvarchar(50),
+	@Apellido nvarchar(50),
+    @Mail nvarchar(200),
+	@idTipoDocumento int,
+	@NroDocumento int,
+	@dirIdPais int = NULL,
+	@dirCalle nvarchar(150) = NULL,
+    @dirNroCalle int = NULL,
+	@FechaDeNacimiento datetime,
+	@dirDepto char(2) = NULL,
+	@dirPiso smallint = NULL,
+	@dirLocalidad nvarchar(150) = NULL,
+    @Telefono varchar(20) = NULL,
+	@habilitado char = NULL,
+	@idNacionalidad int,
+	@idUsuario int,
+	@codigoRet int output
+	)
+	
+as
+begin
 
 
+	declare @aux int
+	declare @idNuevo int
+	declare @idPersona int
+	declare @tipoDocumento varchar(15)
+	select @tipoDocumento=detalle from mmel.TipoDocumento where idTipoDocumento=@idTipoDocumento
+	select @idPersona=idPersona from mmel.Usuarios where idUsuario=@idUsuario
 
+	--chequeo si ya existe el cliente.
+	set @aux= mmel.existeUsuarioMod(@tipoDocumento,@nroDocumento,@mail,@Username,@idUsuario,@idPersona)
+	if(@aux=1)
+	begin
+		set @idNuevo = -1
+		set @codigoRet =1 --ya existe el tipoynro de doc en la bdd
+	end
+	else if(@aux=2)
+	begin
+		set @idNuevo = -1
+		set @codigoRet =2 --ya existe el mail en la bdd
+	end
+	else if(@aux=3)
+	begin
+		set @idNuevo=-1
+		set @codigoRet=3 --existe el username en la bd
+	end
+	else if(@aux=0)
+	begin
+		update mmel.Persona
+		set Telefono=@Telefono,Nombre=@nombre,Apellido=@aux,idTipoDocumento=@idTipoDocumento,NroDocumento=@NroDocumento,Mail=@Mail,FechaDeNacimiento=@FechaDeNacimiento,
+		idNacionalidad=@idNacionalidad,dirCalle=@dirCalle,dirNroCalle=@dirNroCalle,dirIdPais=@dirIdPais,dirPiso=@dirPiso,dirDepto=@dirDepto,dirLocalidad=@dirLocalidad
+		where idPersona=@idPersona
+		
 
+		--upd pw
+		update mmel.Usuarios set Activo=@habilitado,Username=UPPER(@Username) where idUsuario=@idUsuario
+		
+		if(@Password<>'nn22')
+		update mmel.usuarios set Password=HASHBYTES('SHA2_256',@Password) where idUsuario=@idUsuario
+		
+		if(@idRol=1)
+			update mmel.UsuariosPorRoles set idRol=1 where idUsuario=@idUsuario
+		else
+			update mmel.UsuariosPorRoles set idRol=2 where idUsuario=@idUsuario
+		set @codigoRet = 0 --se creo ok el cliente
 
+		update mmel.HotelesPorUsuarios set idHotel=@idHotel where idUsuario=@idUsuario
 
-
-
+		end
+	end
 
 go
 
@@ -1798,6 +1879,48 @@ begin
 end
 
 go
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[existeUsuario]'))
+	DROP function [MMEL].existeUsuario
+go
+
+
+create function mmel.existeUsuario(@tipodoc varchar(15),@nrodoc int,@mail varchar(200),@username varchar(200))
+returns int
+as
+begin
+
+	if exists (SELECT TOP 1 * FROM mmel.Persona, mmel.TipoDocumento ti WHERE NroDocumento=@nrodoc and ti.Detalle = @tipodoc)
+	begin return 1 end --existe el nro y tipodoc en la bdd
+	if exists(SELECT TOP 1 * FROM mmel.Persona WHERE Mail=@mail)
+	begin return 2 end --existe el mail en la bdd
+	if exists(select top 1 * from mmel.Usuarios where Username=@username)
+	begin return 3 end
+	return 0 --no existe
+end
+go
+
+
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[existeUsuarioMod]'))
+	DROP function [MMEL].existeUsuarioMod
+go
+
+
+create function mmel.existeUsuarioMod(@tipodoc varchar(15),@nrodoc int,@mail varchar(200),@username varchar(200),@idUsuario int,@idPersona int)
+returns int
+as
+begin
+
+	if exists (SELECT TOP 1 * FROM mmel.Persona, mmel.TipoDocumento ti WHERE NroDocumento=@nrodoc and ti.Detalle = @tipodoc  and idPersona<>@idPersona)
+	begin return 1 end --existe el nro y tipodoc en la bdd
+	if exists(SELECT TOP 1 * FROM mmel.Persona WHERE Mail=@mail and idPersona<>@idPersona)
+	begin return 2 end --existe el mail en la bdd
+	if exists(select top 1 * from mmel.Usuarios where Username=@username and idUsuario<>@idUsuario)
+	begin return 3 end
+	return 0 --no existe
+end
+go
+
 
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[existeCliente]'))

@@ -24,6 +24,19 @@ namespace FrbaHotel.AbmUsuario
             this.usuariosGridView.DataSource = usuarios;
 
             RegistrarInputs();
+
+
+
+            DataGridViewButtonColumn bcol = new DataGridViewButtonColumn();
+            bcol.HeaderText = "Accion";
+
+            bcol.Text = "Modificar "; 
+            
+            bcol.Name = "btnClickMe";
+            bcol.UseColumnTextForButtonValue = true;
+            dataGridView1.Columns.Add(bcol);
+
+
         }
 
         private void RegistrarInputs()
@@ -78,8 +91,8 @@ namespace FrbaHotel.AbmUsuario
                     cmd.Parameters.AddWithValue("@Apellido", SqlDbType.NVarChar).Value = filtros.Apellido ?? Convert.DBNull;
                     cmd.Parameters.AddWithValue("@Mail", SqlDbType.NVarChar).Value = filtros.Mail ?? Convert.DBNull;
                     cmd.Parameters.AddWithValue("@NroDocumento", SqlDbType.NVarChar).Value = filtros.NroDocumento ?? Convert.DBNull;
-                    cmd.Parameters.AddWithValue("@idTipoDocumento", SqlDbType.Int).Value = filtros.IdTipoDocumento;
-                    cmd.Parameters.AddWithValue("@idRol", SqlDbType.Int).Value = filtros.IdRol;
+                    cmd.Parameters.AddWithValue("@idTipoDocumento", SqlDbType.Int).Value = filtros.NroDocumento ?? Convert.DBNull; ;//filtros.IdTipoDocumento;
+                    cmd.Parameters.AddWithValue("@idRol", SqlDbType.Int).Value = filtros.NroDocumento ?? Convert.DBNull;// filtros.IdRol;
 
                     con.Open();
                     var dr = cmd.ExecuteReader();
@@ -92,6 +105,8 @@ namespace FrbaHotel.AbmUsuario
                         listaUsuarios.ForEach(lu => usuarios.Add(lu)); // lo hago asi para que no se pierda el binding
                 }
             }
+           
+
         }
 
         private void btnBuscar_Click(object sender, System.EventArgs e)
@@ -104,9 +119,9 @@ namespace FrbaHotel.AbmUsuario
             if (e.RowIndex == -1) //toco los headers
                 return;
 
-            var targetUsuario = this.usuariosGridView.Rows[e.RowIndex].DataBoundItem as Usuario;
+            var targetUsuario = this.dataGridView1.Rows[e.RowIndex].DataBoundItem as Usuario;
 
-            if (e.ColumnIndex == this.usuariosGridView.Columns["SeleccionarCol"].DisplayIndex)
+            if (e.ColumnIndex == this.dataGridView1.Columns["SeleccionarCol"].DisplayIndex)
             {
                 AbrirModificar(targetUsuario);
             } 
@@ -133,6 +148,42 @@ namespace FrbaHotel.AbmUsuario
         private void usuariosGridView_CellClick_1(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void usuariosGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 0)
+            {
+
+                /*string nombre,string apellido,string tipodoc,string nrodoc,string mail,string telefono,
+            DateTime fechanac,string nacionalidad,string dircalle,int dirnrocalle,string pais,int dirpiso,
+            string dirdepto,string dirlocalidad, string habilitado
+            */
+                DataGridViewRow row = this.dataGridView1.Rows[e.RowIndex];
+                int idPersona = Int32.Parse(row.Cells["idPersona"].Value.ToString());
+                string username = row.Cells["username"].Value.ToString();
+                string nombre = row.Cells["Nombre"].Value.ToString();
+                string apellido = row.Cells["Apellido"].Value.ToString();
+                string tipodoc = row.Cells["Tipo Identificacion"].Value.ToString();
+                string nrodoc = row.Cells["Nro de Identificacion"].Value.ToString();
+                string mail = row.Cells["Mail"].Value.ToString();
+                string telefono = row.Cells["Telefono"].Value.ToString();
+                DateTime fechanac = DateTime.Parse(row.Cells["Fecha de Nacimiento"].Value.ToString());
+                string nacionalidad = row.Cells["Nacionalidad"].Value.ToString();
+                string dircalle = row.Cells["Calle"].Value.ToString();
+                int dirnrocalle = Int32.Parse(row.Cells["Numero"].Value.ToString());
+                string pais = row.Cells["Pais del Domicilio"].Value.ToString();
+                int dirpiso = Int32.Parse(row.Cells["Piso"].Value.ToString());
+                string dirdepto = row.Cells["Dpto"].Value.ToString();
+                string dirloc = row.Cells["Localidad"].Value.ToString();
+                string habilitado = row.Cells["Habilitado"].Value.ToString();
+
+
+                //aca ir a modificar
+
+
+                //StateMents you Want to execute to Get Data 
+            }
         }
     }
 }
