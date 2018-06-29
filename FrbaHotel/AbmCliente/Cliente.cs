@@ -28,14 +28,16 @@ namespace FrbaHotel.AbmCliente
 
             SeleccionCliente sc = new SeleccionCliente(1);
             sc.ShowDialog();
-            
-            
+            this.Hide();
+
+
         }
 
         private void btnBorrar_Click(object sender, EventArgs e)
         {
             SeleccionCliente sc = new SeleccionCliente(2);
             sc.ShowDialog();
+            this.Hide();
 
         }
 
@@ -43,6 +45,7 @@ namespace FrbaHotel.AbmCliente
         {
             AltaCliente ac = new AltaCliente();
             ac.ShowDialog();
+            this.Hide();
             
         }
 
@@ -51,6 +54,7 @@ namespace FrbaHotel.AbmCliente
             this.Hide();
             Form1 f = new Form1();
             f.Show();
+            
         }
     }
 }

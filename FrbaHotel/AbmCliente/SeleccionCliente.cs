@@ -48,7 +48,13 @@ namespace FrbaHotel.AbmCliente
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
+            int i;
+            if (txtNroId.Text!= "" && !int.TryParse(txtNroId.Text, out i))
+            {
+                MessageBox.Show("Ingrese formato correcto de nro de identificación", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return ;
                 
+            }
             string consultaBusqueda = String.Format("select distinct pe.Nombre,pe.Apellido,td.Detalle \"Tipo Identificacion\",pe.NroDocumento \"Nro de Identificacion\",pe.Mail,pe.Telefono, pe.FechaDeNacimiento \"Fecha de Nacimiento\",pa.Nombre Nacionalidad, pe.dirCalle \"Calle\",pe.dirNroCalle Numero, pe.dirPiso Piso, pe.dirDepto Dpto,pe.dirLocalidad Localidad, pa2.Nombre \"Pais del Domicilio\",hu.Habilitado,pe.idPersona from mmel.Persona pe, mmel.huesped,mmel.Pais pa, mmel.Pais pa2,mmel.Huesped hu, mmel.TipoDocumento td where pa.idPais = pe.idNacionalidad and pa2.idPais = dirIdPais and pe.idPersona = hu.idPersona and td.idTipoDocumento = pe.idTipoDocumento ");
             if (modo == 2) consultaBusqueda = consultaBusqueda + " and hu.Habilitado = 'S'";
             if (txtNombre.Text != "")
@@ -66,6 +72,7 @@ namespace FrbaHotel.AbmCliente
                     consultaBusqueda = String.Format("{0} and td.detalle like '{1}'", consultaBusqueda, cboTipoId.Text);
                 
             }
+            
             if (txtNroId.Text != "")
             {
                 

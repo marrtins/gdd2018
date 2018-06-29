@@ -436,19 +436,19 @@ insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(3,1)
 
 --el admin
 insert into mmel.Persona(Nombre) values('Administrador General')
-insert into mmel.Usuarios(Activo,Username,Password,IngresosFallidos,idPersona) values('S','admin','w23e',0,1) --hashear
+insert into mmel.Usuarios(Activo,Username,Password,IngresosFallidos,idPersona) values('S','admin',HASHBYTES('SHA2_256','w23e'),0,1) --hashear
 insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(1,2)
 
 --recepcionsta
 insert into mmel.Persona(Nombre) values('Recep Generico')
-insert into mmel.Usuarios(Activo,Username,Password,IngresosFallidos,idPersona) values('S','rg','12',0,2) --hashear
+insert into mmel.Usuarios(Activo,Username,Password,IngresosFallidos,idPersona) values('S','rg',HASHBYTES('SHA2_256','123'),0,2) --hashear
 insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(2,3)
 
 
-insert into mmel.Pais values('ARGENTINA')
-insert into mmel.Pais values('BRASIL')
-insert into mmel.Pais values('CHILE')
-insert into mmel.Pais values('URUGUAY')
+insert into mmel.Pais(Nombre) values('ARGENTINA')
+insert into mmel.Pais(Nombre) values('BRASIL')
+insert into mmel.Pais(Nombre) values('CHILE')
+insert into mmel.Pais(Nombre) values('URUGUAY')
 
 insert into MMEL.Direccion(calle,nroCalle,idPais,Ciudad)
 select distinct Hotel_Calle,Hotel_Nro_Calle,1,Hotel_Ciudad from gd_esquema.Maestra
@@ -799,6 +799,84 @@ AS
 	COMMIT
 GO
 
+/*create procedure mmel.crearUsuario(   
+	@Username nvarchar(200),
+	@Password nvarchar(200),
+	@idRol int,
+	@idHotel int,
+	@Nombre nvarchar(50),
+	@Apellido nvarchar(50),
+    @Mail nvarchar(200),
+	@idTipoDocumento int,
+	@NroDocumento int,
+	@dirIdPais int = NULL,
+	@dirCalle nvarchar(150) = NULL,
+    @dirNroCalle int = NULL,
+	@FechaDeNacimiento datetime,
+	@dirDepto char(2) = NULL,
+	@dirPiso smallint = NULL,
+	@dirLocalidad nvarchar(150) = NULL,
+    @Telefono varchar(20) = NULL,
+	@Activo char = NULL,
+	@idNacionalidad int,
+	@codigoRet int output)
+as
+begin
+	
+	declare @aux int
+	declare @idNuevo int
+	
+	declare @tipoDocumento varchar(15)
+	select @tipoDocumento=detalle from mmel.TipoDocumento where idTipoDocumento=@idTipoDocumento
+
+
+	--chequeo si ya existe el cliente.
+	set @aux= mmel.existeCliente(@tipoDocumento,@nroDocumento,@mail)
+	if(@aux=1)
+	begin
+		set @idNuevo = -1
+		set @codigoRet =1 --ya existe el tipoynro de doc en la bdd
+	end
+	else if(@aux=2)
+	begin
+		set @idNuevo = -1
+		set @codigoRet =2 --ya existe el mail en la bdd
+	end
+	else if(@aux=0)
+	begin
+		
+		
+		
+		insert into mmel.Persona(Telefono,Nombre,Apellido,idTipoDocumento,NroDocumento,Mail,FechaDeNacimiento,idNacionalidad,dirCalle,dirNroCalle,dirIdPais,dirPiso,dirDepto,dirLocalidad)
+		values (@telefono,upper(@nombre),upper(@apellido),@idTipoDocumento,@nroDocumento,upper(@mail),@fechaDeNacimiento,@idNacionalidad,@dirCalle,@dirNroCalle,@dirIdPais,@dirPiso,
+				@dirDepto,@dirLocalidad)
+		set @idNuevo=SCOPE_IDENTITY()
+		
+
+		insert into mmel.Usuarios(idPersona,Activo,IngresosFallidos,Password,Username) values(@idNuevo,@Activo,0,HASHBYTES('SHA2_256',@Password),@Username)
+		set @idNuevo=SCOPE_IDENTITY()
+		if(@idRol=1)
+			insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(1,@idNuevo)
+		else
+			insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(2,@idNuevo)
+		set @codigoRet = 0 --se creo ok el cliente
+
+	end
+end
+
+go
+*/
+
+
+
+
+
+
+
+
+
+
+end
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[UsuarioUpdate]'))
 	DROP PROCEDURE [MMEL].UsuarioUpdate

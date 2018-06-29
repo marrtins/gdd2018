@@ -107,8 +107,8 @@ namespace FrbaHotel.AbmCliente
         private void button2_Click(object sender, EventArgs e)
         {
             this.Hide();
-            Cliente c = new Cliente();
-            c.Show();
+            //Cliente c = new Cliente();
+            //c.Show();
         }
 
         private void BorrarCliente_Load(object sender, EventArgs e)

@@ -26,6 +26,7 @@ namespace FrbaHotel.AbmCliente
             cboPaisDir.Text = "Seleccionar";
             cboNacionalidad.Text = "Seleccionar";
 
+
         }
 
         private void btnCrear_Click(object sender, EventArgs e)
@@ -183,9 +184,7 @@ namespace FrbaHotel.AbmCliente
             }
             reader.Close();
             con.Close();
-            cboPaisDir.Items.Add("Otro");
-            cboNacionalidad.Items.Add("Otro");
-
+            
 
         }
 
