@@ -130,7 +130,7 @@ namespace FrbaHotel
 
         private void btnConsumible_Click(object sender, EventArgs e)
         {
-            MainRegCons mrc = new MainRegCons();
+            MainRegCons mrc = new MainRegCons(1);
             mrc.Show();
             this.Hide();
         }
