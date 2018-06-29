@@ -21,13 +21,17 @@ namespace FrbaHotel.AbmHabitacion
         private int idHabitacion;
         private int numero;
         private int piso;
-        private int hotel;
+        private string hotel;
         private string vista;
         private int tipo;
+        private int idHotel;
         private string descripcion;
         private string habilitado;
-        public ModificarHabitacion(int id,int numero,int piso,int hotel,string vista, int tipo,string descripcion,string habilitado)
+        Form frt;
+        public ModificarHabitacion(Form frt,int idHotel,int id,int numero,int piso,string hotel,string vista, int tipo,string descripcion,string habilitado)
         {
+            this.frt = frt;
+            this.idHotel = idHotel;
             this.idHabitacion = id;
             this.numero = numero;
             this.piso = piso;
@@ -38,7 +42,8 @@ namespace FrbaHotel.AbmHabitacion
             this.habilitado = habilitado;
             InitializeComponent();
             llenarTextBox();
-
+            cboTipo.Enabled = false;
+            hotelInput.Enabled = false;
 
         }
 
@@ -46,11 +51,20 @@ namespace FrbaHotel.AbmHabitacion
         {
             this.numHabInput.Text = this.numero.ToString();
             this.pisoInput.Text = this.piso.ToString();
-            this.hotelInput.Text = this.hotel.ToString();
-            this.visExtInput.Text = this.vista;
-            this.tipoHabInput.Text = this.tipo.ToString();
+            this.hotelInput.Text = this.hotel;
+            
+            this.cboTipo.Text = getTipo();
             this.descripcionInput.Text = this.descripcion;
-            this.habilitadoInput.Text = this.habilitado;
+            //this.habilitadoInput.Text = this.habilitado;
+            if (habilitado == "S")
+            {
+                habilitadoInput.Checked = true;
+            }else
+                habilitadoInput.Checked = false;
+            if (vista == "S")
+                optSi.Checked = true;
+            else
+                optNo.Checked = true;
 
         }
         private DialogResult result;
@@ -60,14 +74,26 @@ namespace FrbaHotel.AbmHabitacion
         {
             ControlResetter.ResetAllControls(this);
         }
-
+        private string getTipo()
+        {
+            if (tipo == 1001)
+                return "Base Simple";
+            if (tipo == 1002)
+                return "Base Doble";
+            if (tipo == 1003)
+                return "Base Triple";
+            if (tipo == 1004)
+                return "Base Cuadruple";
+            else
+                return "King";
+        }
         private void modificarBtn_Click(object sender, EventArgs e)
         {
             if (numHabInput.Text == "") { MessageBox.Show("Falta completar la habitacion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return ; }
             if (pisoInput.Text == "") { MessageBox.Show("Falta completar el piso", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
             if (hotelInput.Text == "") { MessageBox.Show("Falta completar el hotel", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
-            if (visExtInput.Text == "") { MessageBox.Show("Falta completar la vista", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
-            if (tipoHabInput.Text == "") { MessageBox.Show("Falta completar el tipo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
+            
+            if (cboTipo.Text == "") { MessageBox.Show("Falta completar el tipo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
             if (descripcionInput.Text == "") { MessageBox.Show("Falta completar la descripcion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
            
 
@@ -81,14 +107,30 @@ namespace FrbaHotel.AbmHabitacion
 
                     cmd.CommandType = CommandType.StoredProcedure;
                    
-                    cmd.Parameters.AddWithValue("@IdTipoHabitacion", SqlDbType.Int).Value = tipoHabInput.Text;
+                    cmd.Parameters.AddWithValue("@IdTipoHabitacion", SqlDbType.Int).Value = tipo;
                     cmd.Parameters.AddWithValue("@NumeroHabitacion", SqlDbType.Int).Value = numHabInput.Text;
-                    cmd.Parameters.AddWithValue("@IdHotel", SqlDbType.Int).Value = hotelInput.Text;
+                    cmd.Parameters.AddWithValue("@IdHotel", SqlDbType.Int).Value = idHotel;
                     cmd.Parameters.AddWithValue("@Piso", SqlDbType.Int).Value = pisoInput.Text;
-                    cmd.Parameters.AddWithValue("@VistaAlExterior", SqlDbType.Char).Value = visExtInput.Text;
+                    
                     cmd.Parameters.AddWithValue("@Descripcion", SqlDbType.Char).Value = descripcionInput.Text;
                     cmd.Parameters.AddWithValue("@IdHabitacion", SqlDbType.Int).Value = this.idHabitacion;
-                   
+
+
+
+
+                    if (optSi.Checked)
+                    {
+                        cmd.Parameters.Add("@VistaAlExterior", SqlDbType.Char, 1).Value = 'S';
+                    }
+                    else
+                    {
+                        cmd.Parameters.Add("@VistaAlExterior", SqlDbType.Char, 1).Value = 'N';
+
+                    }
+
+
+
+
                     if (habilitadoInput.Checked)
                     {
                         cmd.Parameters.Add("@Habilitado", SqlDbType.Char, 1).Value = 'S';
@@ -108,12 +150,17 @@ namespace FrbaHotel.AbmHabitacion
                  
                             MessageBox.Show("La habitacion se pudo modificar con exito");
                         this.Hide();
+                        frt.Show();
+                        
+                        
+                            
+
 
                     }
                     else
                     {
                         MessageBox.Show("La habitacion no se puede modificar");
-                        this.Hide();
+                        //this.Hide();
                     }
 
 
@@ -127,8 +174,17 @@ namespace FrbaHotel.AbmHabitacion
         private void button1_Click(object sender, EventArgs e)
         {
             this.Hide();
-            InicioHabitacion f = new InicioHabitacion();
-            f.Show();
+            
+        }
+
+        private void ModificarHabitacion_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

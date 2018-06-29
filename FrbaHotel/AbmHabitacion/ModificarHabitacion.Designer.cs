@@ -42,9 +42,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.pisoInput = new System.Windows.Forms.TextBox();
-            this.tipoHabInput = new System.Windows.Forms.TextBox();
-            this.visExtInput = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.cboTipo = new System.Windows.Forms.ComboBox();
+            this.optSi = new System.Windows.Forms.RadioButton();
+            this.optNo = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -78,7 +79,7 @@
             // habilitadoInput
             // 
             this.habilitadoInput.AutoSize = true;
-            this.habilitadoInput.Location = new System.Drawing.Point(127, 169);
+            this.habilitadoInput.Location = new System.Drawing.Point(75, 168);
             this.habilitadoInput.Name = "habilitadoInput";
             this.habilitadoInput.Size = new System.Drawing.Size(15, 14);
             this.habilitadoInput.TabIndex = 29;
@@ -171,20 +172,6 @@
             this.pisoInput.Size = new System.Drawing.Size(121, 20);
             this.pisoInput.TabIndex = 43;
             // 
-            // tipoHabInput
-            // 
-            this.tipoHabInput.Location = new System.Drawing.Point(127, 41);
-            this.tipoHabInput.Name = "tipoHabInput";
-            this.tipoHabInput.Size = new System.Drawing.Size(121, 20);
-            this.tipoHabInput.TabIndex = 44;
-            // 
-            // visExtInput
-            // 
-            this.visExtInput.Location = new System.Drawing.Point(127, 134);
-            this.visExtInput.Name = "visExtInput";
-            this.visExtInput.Size = new System.Drawing.Size(121, 20);
-            this.visExtInput.TabIndex = 45;
-            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(14, 361);
@@ -195,14 +182,46 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // cboTipo
+            // 
+            this.cboTipo.FormattingEnabled = true;
+            this.cboTipo.Location = new System.Drawing.Point(126, 36);
+            this.cboTipo.Name = "cboTipo";
+            this.cboTipo.Size = new System.Drawing.Size(121, 21);
+            this.cboTipo.TabIndex = 47;
+            // 
+            // optSi
+            // 
+            this.optSi.AutoSize = true;
+            this.optSi.Location = new System.Drawing.Point(127, 137);
+            this.optSi.Name = "optSi";
+            this.optSi.Size = new System.Drawing.Size(34, 17);
+            this.optSi.TabIndex = 48;
+            this.optSi.TabStop = true;
+            this.optSi.Text = "Si";
+            this.optSi.UseVisualStyleBackColor = true;
+            this.optSi.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            // 
+            // optNo
+            // 
+            this.optNo.AutoSize = true;
+            this.optNo.Location = new System.Drawing.Point(167, 137);
+            this.optNo.Name = "optNo";
+            this.optNo.Size = new System.Drawing.Size(39, 17);
+            this.optNo.TabIndex = 49;
+            this.optNo.TabStop = true;
+            this.optNo.Text = "No";
+            this.optNo.UseVisualStyleBackColor = true;
+            // 
             // ModificarHabitacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(267, 389);
+            this.Controls.Add(this.optNo);
+            this.Controls.Add(this.optSi);
+            this.Controls.Add(this.cboTipo);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.visExtInput);
-            this.Controls.Add(this.tipoHabInput);
             this.Controls.Add(this.pisoInput);
             this.Controls.Add(this.limpiarBtn);
             this.Controls.Add(this.modificarBtn);
@@ -218,6 +237,7 @@
             this.Controls.Add(this.label1);
             this.Name = "ModificarHabitacion";
             this.Text = "ModificarHabitacion";
+            this.Load += new System.EventHandler(this.ModificarHabitacion_Load);
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -240,8 +260,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox pisoInput;
-        private System.Windows.Forms.TextBox tipoHabInput;
-        private System.Windows.Forms.TextBox visExtInput;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ComboBox cboTipo;
+        private System.Windows.Forms.RadioButton optSi;
+        private System.Windows.Forms.RadioButton optNo;
     }
 }

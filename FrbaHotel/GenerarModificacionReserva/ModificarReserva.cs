@@ -41,7 +41,7 @@ namespace FrbaHotel.GenerarModificacionReserva
             lblHotel.Text = getNombreHotel();
             dtDesde.Value = res.FechaDesde;
             dtHasta.Value = res.FechaHasta;
-            cboRegimen.SelectedIndex = res.idRegimen;
+            cboRegimen.SelectedIndex = res.idRegimen-1;
             
             txtC1.Text = "0";
             txtC2.Text = "0";
@@ -412,6 +412,11 @@ namespace FrbaHotel.GenerarModificacionReserva
                 MessageBox.Show("Seleccione un hotel", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }*/
+            if (txtC1.Text == "0" && txtC2.Text == "0" && txtC3.Text == "0" && txtC4.Text == "0" && txtC5.Text == "0")
+            {
+                MessageBox.Show("Seleccione al menos un tipo de habitacion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
             DateTime value = Convert.ToDateTime(ConfigurationManager.AppSettings["DateKey"]);
 
             int result = DateTime.Compare(dtDesde.Value, dtHasta.Value);

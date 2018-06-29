@@ -28,6 +28,7 @@ namespace FrbaHotel.GenerarModificacionReserva
             //label1.Text="Realizar/Modificar Reserva para el hotel {0}" y cboHoteles.visible=false
                 cboHoteles.Text = "Seleccionar";
                 cargarHoteles();
+
             }
             else
             {
@@ -36,8 +37,34 @@ namespace FrbaHotel.GenerarModificacionReserva
                 cboHoteles.Text = "not";
             }
 
+            cancelPorNoShow();
+        }
+
+        private void cancelPorNoShow()
+        {
+            string strCo = ConfigurationManager.AppSettings["stringConexion"];
+            SqlConnection con = new SqlConnection(strCo);
+
+            SqlCommand cmd;
+            cmd = new SqlCommand("MMEL.cancelNoShow", con);
+            DateTime value = Convert.ToDateTime(ConfigurationManager.AppSettings["DateKey"]);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@fechaHoy", SqlDbType.Date).Value = value;
+          
+            
+            
+
+
+
+            if (cmd.Connection.State == ConnectionState.Closed)
+            {
+                cmd.Connection.Open();
+            }
+            cmd.ExecuteNonQuery();
 
         }
+
 
         private void Form1_Load(object sender, EventArgs e)
         {

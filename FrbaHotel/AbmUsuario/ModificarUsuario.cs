@@ -28,6 +28,9 @@ namespace FrbaHotel.AbmUsuario
             cboRol.Items.Add("RECEPCIONISTA");
             this.idUsuario = idUsuario;
             llenarCamposUsuario();
+            txtPassword.Visible = false;
+            label6.Visible = false;
+
         }
 
         private void llenarCamposUsuario()
@@ -143,7 +146,7 @@ namespace FrbaHotel.AbmUsuario
 
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@username", SqlDbType.NVarChar, 200).Value = txtUserName.Text;
-            cmd.Parameters.Add("@password", SqlDbType.NVarChar, 200).Value = txtPassword.Text;
+            cmd.Parameters.Add("@password", SqlDbType.VarChar, 200).Value = txtPassword.Text;
             int idRol;
             if (cboRol.Text == "administrador")
                 idRol = 1;
@@ -323,6 +326,33 @@ namespace FrbaHotel.AbmUsuario
             this.Hide();
             MainAbmUsuario m = new MainAbmUsuario();
             m.Show();
+        }
+
+        private bool datosValidos()
+        {
+            int i;
+            if (txtNombre.Text == "") { MessageBox.Show("Falta completar el nombre", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
+            if (txtApellido.Text == "") { MessageBox.Show("Falta completar el apellido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
+            if (cboTipo.Text == "Seleccionar") { MessageBox.Show("Falta completar el tipo de identificacion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
+            if (txtNroId.Text == "" || !int.TryParse(txtNroCalle.Text, out i)) { MessageBox.Show("Error en el campo de numero de identificacion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
+            if (txtEmail.Text == "") { MessageBox.Show("Falta completar el mail", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
+            if (txtTel.Text == "" || !int.TryParse(txtTel.Text, out i)) { MessageBox.Show("Error en el campo telefono", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
+            if (txtCalle.Text == "") { MessageBox.Show("Falta completar la calle", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
+            if (txtNroCalle.Text == "" || !int.TryParse(txtNroCalle.Text, out i)) { MessageBox.Show("Error en el campo de numero de calle", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
+            if (txtPiso.Text == "") { MessageBox.Show("Falta completar el piso", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
+            if (txtDepto.Text == "") { MessageBox.Show("Falta completar el dpto", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
+            if (txtLocalidad.Text == "") { MessageBox.Show("Falta completar localidad", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
+            if (cboNacionalidad.Text == "Seleccionar") { MessageBox.Show("Falta completar nacionalidad", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
+            if (cboPaisDir.Text == "Seleccionar") { MessageBox.Show("Falta completar pais del domicilio", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
+            if (txtUserName.Text == "") { MessageBox.Show("Falta completar el username", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
+            if (chkModiPw.Checked)
+            {
+                if (txtPassword.Text == "") { MessageBox.Show("Falta completar el password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
+            }
+            return true;
+
+
+
         }
     }
     

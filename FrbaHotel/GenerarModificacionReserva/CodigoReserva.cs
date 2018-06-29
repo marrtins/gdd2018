@@ -28,7 +28,7 @@ namespace FrbaHotel.GenerarModificacionReserva
                 MessageBox.Show("Complete el codigo de la reserva");
                 return;
             }
-            string consultaBusqueda = String.Format("select * from mmel.reserva where CodigoReserva = {0}",textBox1.Text);
+            string consultaBusqueda = String.Format("select * from mmel.reserva where CodigoReserva = {0} and (EstadoReserva='CO' or EstadoReserva='MO' or EstadoReserva='RINSF' or EstadoReserva='RINCF'  )", textBox1.Text);
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
             SqlCommand cmd = new SqlCommand(consultaBusqueda, con);
@@ -45,9 +45,18 @@ namespace FrbaHotel.GenerarModificacionReserva
                 while (reader.Read())
                 {
                     res.idReserva = Int32.Parse(reader["idReserva"].ToString());
-                    res.idUsuarioQueProcesoReserva = Int32.Parse(reader["idUsuarioQueProcesoReserva"].ToString());
+                    int idU;
+                    if (!int.TryParse((reader["idUsuarioQueProcesoReserva"].ToString()), out idU))
+                        idU = 0;
+                    res.idUsuarioQueProcesoReserva = idU;
                     res.idHotel = Int32.Parse(reader["idHotel"].ToString());
-                    res.FechaDeReserva = DateTime.Parse(reader["FechaDeReserva"].ToString());
+                    DateTime dt;
+                    if (!DateTime.TryParse((reader["FechaDeReserva"].ToString()), out dt))
+                        dt = DateTime.Parse("1/1/1900");
+                    res.FechaDeReserva = dt;
+
+                    //res.FechaDeReserva = DateTime.Parse(reader["FechaDeReserva"].ToString());
+
                     res.FechaDesde = DateTime.Parse(reader["FechaDesde"].ToString());
                     res.FechaHasta = DateTime.Parse(reader["FechaHasta"].ToString());
                     //res.idHabitacion = Int32.Parse(reader["idHabitacion"].ToString());

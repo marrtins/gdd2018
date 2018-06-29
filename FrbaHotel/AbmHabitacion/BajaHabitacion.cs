@@ -100,8 +100,7 @@ namespace FrbaHotel.AbmHabitacion
         {
 
             this.Hide();
-            InicioHabitacion f = new InicioHabitacion();
-            f.Show();
+            
         }
     }
 }
