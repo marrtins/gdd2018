@@ -40,8 +40,6 @@ namespace FrbaHotel.Utilities
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@idRol", SqlDbType.NVarChar).Value = id ?? Convert.DBNull;
-
                     con.Open();
                     var dr = cmd.ExecuteReader();
 
