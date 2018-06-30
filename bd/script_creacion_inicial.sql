@@ -422,14 +422,14 @@ GO
 insert into mmel.RolesPorFuncionalidades values(1,1) --abm rol
 insert into mmel.RolesPorFuncionalidades values(2,1) --login y se
 insert into mmel.RolesPorFuncionalidades values(3,1) --abm user
-insert into mmel.RolesPorFuncionalidades values(5,1) --abm hotel
+insert into mmel.RolesPorFuncionalidades values(4,1) --abm hotel
 insert into mmel.RolesPorFuncionalidades values(6,1) --ab, habi
 insert into mmel.RolesPorFuncionalidades values(7,1) --ab, regimen
 insert into mmel.RolesPorFuncionalidades values(13,1) --list estadistico
 
 --para el recepcionista
 insert into mmel.RolesPorFuncionalidades values(2,2) --login y seg
-insert into mmel.RolesPorFuncionalidades values(4,2) --cliente
+insert into mmel.RolesPorFuncionalidades values(5,2) --cliente
 insert into mmel.RolesPorFuncionalidades values(8,2) --ab, rese
 insert into mmel.RolesPorFuncionalidades values(9,2) --cancela rese
 insert into mmel.RolesPorFuncionalidades values(10,2) --regis estadia
@@ -2605,15 +2605,15 @@ go
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[puedoCancelar]'))
 	DROP procedure [MMEL].puedoCancelar
 go
-create procedure mmel.puedoCancelar(@codigoRes int, @ret int output,@fechaHoy datetime)
+create procedure mmel.puedoCancelar(@codigoRes int, @ret int output,@fechaHoy datetime,@idHotel int output)
 as
 begin
 
 	if exists(select * from mmel.Reserva where CodigoReserva=@codigoRes and @fechaHoy<FechaDesde and 
 		(EstadoReserva = 'CO' or EstadoReserva = 'MO' or EstadoReserva = 'RINSF'or EstadoReserva = 'RINCF'))
-		set @ret=1
+		begin set @ret=1 select @idHotel=idhotel from mmel.Reserva where CodigoReserva=@codigoRes end
 	else
-		set @ret = 0
+		begin set @ret = 0 set @idHotel=0 end
 end
 go
 
@@ -2870,37 +2870,45 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[agre
 go
 
 
-create procedure mmel.agregarConsumibles(@codigoReserva varchar(50),@idConsumible int,@cantidad int,@codigoRet int output,@fechaCheckOut datetime,@idEstadia int output)
+create procedure mmel.agregarConsumibles(@idHotel int ,@codigoReserva varchar(50),@idConsumible int,@cantidad int,@codigoRet int output,@fechaCheckOut datetime,@idEstadia int output)
 as
 begin
 
 	
 	declare @idReserva int
 
-
-	if exists(select idEstadia from mmel.Estadia es,mmel.Reserva re 
-	where re.idReserva=es.idReserva and re.CodigoReserva=@codigoReserva and EstadoReserva='RF')
-	begin
-
-		select @idEstadia = es.idEstadia from mmel.Estadia es,mmel.Reserva re 
-	where re.idReserva=es.idReserva and re.CodigoReserva=@codigoReserva
+	if exists (select * from mmel.Reserva re where @codigoReserva=re.CodigoReserva and idHotel=@idHotel)
 
 
-		DECLARE @cnt INT = 0;
-
-		WHILE @cnt < @cantidad
-		BEGIN
-		   insert into mmel.ConsumiblePorEstadia(idEstadia,idConsumible)
-		   values(@idEstadia,@idConsumible)
-		   SET @cnt = @cnt + 1
-		END
-		set @codigoRet=1
-	end
-	else
+		if exists(select idEstadia from mmel.Estadia es,mmel.Reserva re 
+		where re.idReserva=es.idReserva and re.CodigoReserva=@codigoReserva and EstadoReserva='RF')
 		begin
-		set @codigoRet=0
-		set @idEstadia=0 --no hay habitacion ocupada en esta fecha
+
+			select @idEstadia = es.idEstadia from mmel.Estadia es,mmel.Reserva re 
+		where re.idReserva=es.idReserva and re.CodigoReserva=@codigoReserva
+
+
+			DECLARE @cnt INT = 0;
+
+			WHILE @cnt < @cantidad
+			BEGIN
+			   insert into mmel.ConsumiblePorEstadia(idEstadia,idConsumible)
+			   values(@idEstadia,@idConsumible)
+			   SET @cnt = @cnt + 1
+			END
+			set @codigoRet=1
 		end
+		else
+			begin
+			set @codigoRet=0
+			set @idEstadia=0
+			--no hay habitacion ocupada en esta fecha
+			end
+	else
+	begin
+			set @codigoRet=2
+			set @idEstadia=0
+	end
 end
 
 go

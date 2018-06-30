@@ -1,4 +1,5 @@
 ﻿using FrbaHotel.AbmHabitacion.Model;
+using FrbaHotel.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -91,13 +92,14 @@ namespace FrbaHotel.RegistrarConsumible
 
                 cmd.CommandType = CommandType.StoredProcedure;
                 //cmd.Parameters.Add("@idHabitacion", SqlDbType.Int).Value = getIdHab();
-                //cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel;
+                cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = LoginData.Hotel.IdHotel;
                 cmd.Parameters.Add("@codigoReserva", SqlDbType.VarChar,50).Value = txtCodRes.Text;
                 cmd.Parameters.Add("@idConsumible", SqlDbType.Int).Value = getIdConsumible();
                 cmd.Parameters.Add("@cantidad", SqlDbType.Int).Value = Int32.Parse(textBox1.Text);
                 cmd.Parameters.Add("@fechaCheckOut", SqlDbType.Date).Value = DateTime.Today; ///ARREGLARRR
                 cmd.Parameters.Add("@codigoRet", SqlDbType.Int).Direction = ParameterDirection.Output; //0->no existe la habitacion en esta fecha ; 1 -> ok
                 cmd.Parameters.Add("@idEstadia", SqlDbType.Int).Direction = ParameterDirection.Output;
+                
                 if (cmd.Connection.State == ConnectionState.Closed)
                 {
                     cmd.Connection.Open();
@@ -105,7 +107,15 @@ namespace FrbaHotel.RegistrarConsumible
                 cmd.ExecuteNonQuery();
 
                 int codigoRet = int.Parse(cmd.Parameters["@codigoRet"].Value.ToString());
-                idEstadia= int.Parse(cmd.Parameters["@idEstadia"].Value.ToString());
+                
+                idEstadia = int.Parse(cmd.Parameters["@idEstadia"].Value.ToString());
+
+                if (codigoRet == 2)
+                {
+                    MessageBox.Show("No se puede agregar un consumible a una reserva de otro hotel", "X", MessageBoxButtons.OK);
+                    return;
+                }
+
 
                 if (idEstadia == 0)
                 {
@@ -199,7 +209,7 @@ namespace FrbaHotel.RegistrarConsumible
         }
         private int getEstadia()
         {
-            string consultaBusqueda = String.Format("select idEstadia,EstadoReserva from mmel.Estadia e,mmel.Reserva r where r.idReserva=e.idReserva and r.CodigoReserva={0} and EstadoReserva ='RF' ",txtCodRes.Text);
+            string consultaBusqueda = String.Format("select idEstadia,EstadoReserva, r.idHotel from mmel.Estadia e,mmel.Reserva r where r.idReserva=e.idReserva and r.CodigoReserva={0} and EstadoReserva ='RF' ",txtCodRes.Text);
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
             SqlCommand cmd = new SqlCommand(consultaBusqueda, con);
@@ -210,11 +220,13 @@ namespace FrbaHotel.RegistrarConsumible
             }
             SqlDataReader reader = cmd.ExecuteReader();
             int idEstadia = -1;
+            int idHotel=0;
             string estadoReserva = "";
             while (reader.Read())
             {
                 idEstadia = Int32.Parse(reader["idEstadia"].ToString());
                 estadoReserva = (reader["estadoReserva"].ToString());
+                idHotel = Int32.Parse(reader["idHotel"].ToString());
             }
             reader.Close();
             con.Close();
@@ -223,6 +235,13 @@ namespace FrbaHotel.RegistrarConsumible
                 MessageBox.Show("Solo puede registrar/facturar una estaia con el check out realizado", "X", MessageBoxButtons.OK);
                 idEstadia = -2;
             }*/
+
+            if(idHotel!= LoginData.Hotel.IdHotel)
+            {
+                MessageBox.Show("No se puede facturar una estadía de otro hotel", "X", MessageBoxButtons.OK);
+                idEstadia = -2;
+            }
+
             return idEstadia;
         }
     }

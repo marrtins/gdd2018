@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrbaHotel.Utilities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -64,12 +65,24 @@ namespace FrbaHotel.GenerarModificacionReserva
                     res.idHuesped = Int32.Parse(reader["idHuesped"].ToString());
                     res.EstadoReserva = (reader["idHuesped"].ToString())[0];
                     res.CodigoReserva = Int32.Parse(reader["CodigoReserva"].ToString());
-                    
+
+                    if (LoginData.Rol.idRol == 2)
+                    {
+                        if (res.idHotel != LoginData.Hotel.IdHotel)
+                        {
+                            MessageBox.Show("La reserva no pertenece a este hotel", "X", MessageBoxButtons.OK);
+                            return;
+                        }
+                    }
+
                 }
                 reader.Close();
                 con.Close();
                 res=llenarHabitaciones(res);
                 this.Hide();
+
+                
+
                 ModificarReserva mr = new ModificarReserva(res);
                 mr.Show();
             }

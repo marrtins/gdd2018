@@ -355,6 +355,8 @@ namespace FrbaHotel.Facturar
 
             MessageBox.Show("Facturacion realizada exitosamente");
             this.Hide();
+            Form1 f = new Form1();
+            f.Show();
 
 
         }

@@ -93,6 +93,12 @@ namespace FrbaHotel.GenerarModificacionReserva
                 lblc4.Text = String.Format("{0}", bc);
                 lblc5.Text = String.Format("{0}", k);
 
+                txtC1.Text = String.Format("{0}", bs);
+                txtC2.Text = String.Format("{0}", bd);
+                txtC3.Text = String.Format("{0}", bt);
+                txtC4.Text = String.Format("{0}", bc);
+                txtC5.Text = String.Format("{0}", k);
+
 
             }
         }

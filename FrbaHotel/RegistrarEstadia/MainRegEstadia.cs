@@ -200,7 +200,7 @@ namespace FrbaHotel.RegistrarEstadia
         }
         private void registrarCheckOut()
         {
-            string consultaBusqueda = String.Format("select top 1 idEstadia,CodigoReserva,FechaCheckIN,FechaCheckOUT,Consistente from mmel.Estadia e,mmel.Reserva r where  CodigoReserva={0} and e.idReserva=r.idReserva and (r.EstadoReserva='RCICF' or r.EstadoReserva='RCI') ", txtCodigoRes.Text);
+            string consultaBusqueda = String.Format("select top 1 idHotel,idEstadia,CodigoReserva,FechaCheckIN,FechaCheckOUT,Consistente from mmel.Estadia e,mmel.Reserva r where  CodigoReserva={0} and e.idReserva=r.idReserva and (r.EstadoReserva='RCICF' or r.EstadoReserva='RCI') ", txtCodigoRes.Text);
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
             SqlCommand cmd = new SqlCommand(consultaBusqueda, con);
@@ -213,13 +213,14 @@ namespace FrbaHotel.RegistrarEstadia
 
             if (reader.HasRows)
             {
-                int idEstadia, codRes;
+                int idEstadia, codRes,idHotel;
 
                 char consistente = '\n';
                 while (reader.Read())
                 {
 
                     idEstadia = Int32.Parse(reader["idEstadia"].ToString());
+                    idHotel = Int32.Parse(reader["idHotel"].ToString());
                     codRes = Int32.Parse(reader["CodigoReserva"].ToString());
                     DateTime fechaCheckIn = DateTime.Parse(reader["fechaCheckIn"].ToString());
                     //DateTime fechaCheckOut = DateTime.Parse(reader["fechaCheckOut"].ToString());
@@ -241,6 +242,13 @@ namespace FrbaHotel.RegistrarEstadia
                         return;
                     }*/
                     idEst = idEstadia;
+
+                    if (idHotel != LoginData.Hotel.IdHotel)
+                    {
+                        MessageBox.Show("No puede registrarse la estadia de otro hotel");
+                        return;
+                    }
+
                     realizarCheckOut();
 
                 }

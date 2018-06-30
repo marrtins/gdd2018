@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrbaHotel.Utilities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -57,7 +58,7 @@ namespace FrbaHotel.CancelarReserva
             cmd.Parameters.Add("@codigoRes", SqlDbType.Int).Value = codigoRes;
             cmd.Parameters.Add("@fechaHoy", SqlDbType.DateTime).Value = value;
             cmd.Parameters.Add("@ret", SqlDbType.Int).Direction = ParameterDirection.Output; //0->no existe. 1->existe. 
-            
+            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Direction = ParameterDirection.Output;
 
             if (cmd.Connection.State == ConnectionState.Closed)
             {
@@ -71,6 +72,16 @@ namespace FrbaHotel.CancelarReserva
                 MessageBox.Show("La reserva no existe/no puede cancelarse", "X", MessageBoxButtons.OK);
                 return false;
             }
+            int idHotel = int.Parse(cmd.Parameters["@idHotel"].Value.ToString());
+            if (LoginData.Rol.idRol == 2)
+            {
+                if (idHotel != LoginData.Hotel.IdHotel)
+                {
+                    MessageBox.Show("La reserva no pertenece a este horel", "X", MessageBoxButtons.OK);
+                    return false;
+                }
+            }
+
 
             return true;
         }
