@@ -28,16 +28,17 @@ namespace FrbaHotel.AbmHabitacion
         {
             InitializeComponent();
 
+            this.dataGridView1.AutoGenerateColumns = false;
             
             bcol.HeaderText = "Accion";
             bcol.Text = "Modificar ";
             bcol.Name = "btnClickMe";
             bcol.UseColumnTextForButtonValue = true;
-            dataGridView1.Columns.Add(bcol);
+            dataGridView1.Columns.Insert(0,bcol);
             cargarHoteles();
             button4.Visible = false;
             optModificar.Checked=true;
-         
+            cargarTipo();
     
            
         }
@@ -70,7 +71,34 @@ namespace FrbaHotel.AbmHabitacion
 
 
         }
-        
+
+        private void cargarTipo()
+        {
+
+            var connection = ConfigurationManager.ConnectionStrings["GD1C2018ConnectionString"].ConnectionString;
+
+            string consultaBusqueda = String.Format("select distinct * from mmel.TipoHabitacion ");
+
+            SqlConnection con = new SqlConnection(connection);
+            SqlCommand cmd = new SqlCommand(consultaBusqueda, con);
+            con.Open();
+            if (cmd.Connection.State == ConnectionState.Closed)
+            {
+                cmd.Connection.Open();
+            }
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                string tipo = (reader["Descripcion"].ToString());
+                cboTipo.Items.Add(tipo);
+
+            }
+            reader.Close();
+            con.Close();
+
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
             AltaHabitacion alta = new AltaHabitacion();
@@ -87,13 +115,13 @@ namespace FrbaHotel.AbmHabitacion
         {
             var connection = ConfigurationManager.ConnectionStrings["GD1C2018ConnectionString"].ConnectionString;
 
-             var tipoHab = (tipoHabInput.Text.Trim() == "")?"null":tipoHabInput.Text;
+            var tipoHab = cboTipo.SelectedIndex + 1001; 
              var numHab = (numHabInput.Text.Trim() == "") ? "null" : numHabInput.Text;
                     var hotel = (hotelInput.Text.Trim() == "") ? "null" : hotelInput.Text;
                     var piso = (pisoInput.Text.Trim() == "") ? "null" : pisoInput.Text;
                     var vista = (vistaExtInput.Text.Trim() == "") ? "null" : vistaExtInput.Text;
 
-            var query = String.Format("exec [MMEL].[HabitacionesListar] {0} , {1} , '{2}' , {3} ,  {4}  ", tipoHab, numHab, hotel, piso, vista);
+            var query = String.Format("exec [MMEL].[HabitacionesListar] {0} , {1} , '{2}' , {3} ,  {4}  ", tipoHab == 1000 ? "null" : tipoHab.ToString(), numHab, hotel, piso, vista);
                     SqlDataAdapter dataAdapter = new SqlDataAdapter(query, connection);
                                  
                     DataTable dataTable = new DataTable();
