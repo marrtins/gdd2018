@@ -38,9 +38,7 @@ namespace FrbaHotel.Utilities
             {
                 using (SqlCommand cmd = new SqlCommand("MMEL.RolesListar", con))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@idRol", SqlDbType.NVarChar).Value = id ?? Convert.DBNull;
+                    cmd.CommandType = CommandType.StoredProcedure;            
 
                     con.Open();
                     var dr = cmd.ExecuteReader();
