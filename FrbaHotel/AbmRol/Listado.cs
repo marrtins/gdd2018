@@ -142,9 +142,7 @@ namespace FrbaHotel.AbmRol
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            Inicio f = new Inicio();
-            f.Show();
+            this.Close();
         }
     }
 }

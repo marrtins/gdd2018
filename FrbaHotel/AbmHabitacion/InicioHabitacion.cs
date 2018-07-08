@@ -265,9 +265,7 @@ namespace FrbaHotel.AbmHabitacion
         }
         private void button5_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            Inicio f = new Inicio();
-            f.Show();
+            this.Close();
         }
 
         private void InicioHabitacion_Load(object sender, EventArgs e)

@@ -24,7 +24,7 @@ namespace FrbaHotel.Login
 
             RegistrarInputs();
 
-
+            this.KeyPreview = true;
         }
 
         private void RegistrarInputs()
@@ -157,9 +157,10 @@ namespace FrbaHotel.Login
             form.Show();
         }
 
-        private void Login_Load(object sender, EventArgs e)
+        private void Login_KeyPress(object sender, KeyPressEventArgs e)
         {
-
+            if (e.KeyChar == (char)Keys.Enter)
+                button1_Click(null, null);
         }
     }
 }

@@ -141,9 +141,7 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         private void button3_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            Inicio f1 = new Inicio();
-            f1.Show();
+            this.Close();
         }
     }
 }

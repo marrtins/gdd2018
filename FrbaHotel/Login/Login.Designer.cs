@@ -50,7 +50,7 @@
             this.button1.Location = new System.Drawing.Point(246, 105);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
+            this.button1.TabIndex = 4;
             this.button1.Text = "Aceptar";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -110,7 +110,7 @@
             this.contraseniaInput.Name = "contraseniaInput";
             this.contraseniaInput.PasswordChar = '*';
             this.contraseniaInput.Size = new System.Drawing.Size(223, 20);
-            this.contraseniaInput.TabIndex = 4;
+            this.contraseniaInput.TabIndex = 1;
             // 
             // Login
             // 
@@ -127,8 +127,8 @@
             this.Controls.Add(this.usuarioInput);
             this.Name = "Login";
             this.Text = "Login";
-            this.Load += new System.EventHandler(this.Login_Load);
             this.Shown += new System.EventHandler(this.Login_Shown);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Login_KeyPress);
             this.ResumeLayout(false);
             this.PerformLayout();
 
