@@ -14,6 +14,9 @@ namespace FrbaHotel.AbmHotel
     {
         BindingList<Hotel> hoteles = new BindingList<Hotel>();
 
+        public DialogResult Resultado { get; set; } //utilizado en seleccion
+        public Hotel ObjetoResultado { get; set; }
+
         public Listado()
             :base(new HotelFiltros())
         {
@@ -24,6 +27,12 @@ namespace FrbaHotel.AbmHotel
             this.hotelesGridView.DataSource = hoteles;
 
             RegistrarInputs();
+        }
+
+        public Listado(bool seleccionar)
+            : this()
+        {
+            this.seleccionarBtn.Visible = seleccionar;
         }
 
         private void RegistrarInputs()
@@ -136,7 +145,26 @@ namespace FrbaHotel.AbmHotel
 
         private void button1_Click(object sender, EventArgs e)
         {
+            this.DialogResult = DialogResult.None;
+
             this.Close();
+        }
+
+        private void seleccionarBtn_Click(object sender, EventArgs e)
+        {
+            var hasObj = this.hotelesGridView.SelectedRows.Count > 0;
+
+            if (hasObj) {
+                this.DialogResult = DialogResult.OK;    
+                this.ObjetoResultado = (Hotel)this.hotelesGridView.SelectedRows[0].DataBoundItem;
+
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Por favor seleccione un hotel con el selector");
+            }
+
         }
     }
 }

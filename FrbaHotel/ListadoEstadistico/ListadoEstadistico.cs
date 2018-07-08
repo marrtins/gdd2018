@@ -35,6 +35,10 @@ namespace FrbaHotel.ListadoEstadistico
             this.top5Input.Items.Insert(5, "Cliente con mayor cantidad de puntos");
 
             RegistrarInputs();
+
+            dateTimePicker1.Format = DateTimePickerFormat.Custom;
+            dateTimePicker1.CustomFormat = "yyyy";
+            dateTimePicker1.ShowUpDown = true;
         }
 
         private void RegistrarInputs()
@@ -47,8 +51,8 @@ namespace FrbaHotel.ListadoEstadistico
             Register(ErrorLabel.For(top5Input, Alignment.Bottom, 2));
 
 
-            anioInput.DataBindings.Add(new TextBinding(this.Model, "Anio"));
-            Register(ErrorLabel.For(anioInput, Alignment.Bottom, 2));
+            dateTimePicker1.DataBindings.Add(new TextBinding(this.Model, "Anio"));
+            Register(ErrorLabel.For(dateTimePicker1, Alignment.Bottom, 2));
 
         }
 

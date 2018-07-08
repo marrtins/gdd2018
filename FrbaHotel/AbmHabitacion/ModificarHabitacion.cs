@@ -70,9 +70,12 @@ namespace FrbaHotel.AbmHabitacion
         private DialogResult result;
 
         public DialogResult Result { get { return result; } set { result = value; } }
+
         private void limpiarBtn_Click(object sender, EventArgs e)
         {
             ControlResetter.ResetAllControls(this);
+
+            this.hotel = null;
         }
         private string getTipo()
         {
@@ -89,13 +92,13 @@ namespace FrbaHotel.AbmHabitacion
         }
         private void modificarBtn_Click(object sender, EventArgs e)
         {
-            if (numHabInput.Text == "") { MessageBox.Show("Falta completar la habitacion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return ; }
-            if (pisoInput.Text == "") { MessageBox.Show("Falta completar el piso", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
             if (hotelInput.Text == "") { MessageBox.Show("Falta completar el hotel", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
             
-            if (cboTipo.Text == "") { MessageBox.Show("Falta completar el tipo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
             if (descripcionInput.Text == "") { MessageBox.Show("Falta completar la descripcion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
-           
+
+            int i;
+            if (pisoInput.Text == "" || !int.TryParse(pisoInput.Text, out i)) { MessageBox.Show("Error en el campo de piso", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
+            if (numHabInput.Text == "" || !int.TryParse(numHabInput.Text, out i)) { MessageBox.Show("Error en el campo de numero de habitacion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
 
 
             var connection = ConfigurationManager.ConnectionStrings["GD1C2018ConnectionString"].ConnectionString;
@@ -115,9 +118,6 @@ namespace FrbaHotel.AbmHabitacion
                     cmd.Parameters.AddWithValue("@Descripcion", SqlDbType.Char).Value = descripcionInput.Text;
                     cmd.Parameters.AddWithValue("@IdHabitacion", SqlDbType.Int).Value = this.idHabitacion;
 
-
-
-
                     if (optSi.Checked)
                     {
                         cmd.Parameters.Add("@VistaAlExterior", SqlDbType.Char, 1).Value = 'S';
@@ -127,9 +127,6 @@ namespace FrbaHotel.AbmHabitacion
                         cmd.Parameters.Add("@VistaAlExterior", SqlDbType.Char, 1).Value = 'N';
 
                     }
-
-
-
 
                     if (habilitadoInput.Checked)
                     {
@@ -144,47 +141,37 @@ namespace FrbaHotel.AbmHabitacion
                     var dr = cmd.ExecuteReader();
                     if (dr != null)
                     {
-                      
-                        
-                        
-                 
-                            MessageBox.Show("La habitacion se pudo modificar con exito");
-                        this.Hide();
+                        MessageBox.Show("La habitacion se pudo modificar con exito");
+                        this.Close();
                         frt.Show();
-                        
-                        
-                            
-
-
                     }
                     else
                     {
                         MessageBox.Show("La habitacion no se puede modificar");
                         //this.Hide();
                     }
-
-
                 }
             }
-
-
-
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            
+            this.Close(); 
         }
 
-        private void ModificarHabitacion_Load(object sender, EventArgs e)
+        private void seleccionarHotelBtn_Click(object sender, EventArgs e)
         {
+            var abmHotel = new AbmHotel.Listado(true);
 
-        }
+            abmHotel.ShowDialog();
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {
+            if (abmHotel.DialogResult == DialogResult.OK)
+            {
+                var hotelObj = abmHotel.ObjetoResultado;
 
+                this.idHotel = hotelObj.IdHotel;
+                this.hotelInput.Text = hotelObj.Nombre;
+            }
         }
     }
 }

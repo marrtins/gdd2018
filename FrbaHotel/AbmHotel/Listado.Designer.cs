@@ -54,6 +54,7 @@
             this.BajaCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.button3 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.seleccionarBtn = new System.Windows.Forms.Button();
             this.filtrosGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cantidadEstrellasInput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hotelesGridView)).BeginInit();
@@ -196,6 +197,7 @@
             this.SeleccionarCol,
             this.BajaCol});
             this.hotelesGridView.Location = new System.Drawing.Point(9, 109);
+            this.hotelesGridView.MultiSelect = false;
             this.hotelesGridView.Name = "hotelesGridView";
             this.hotelesGridView.ReadOnly = true;
             this.hotelesGridView.RowHeadersWidth = 40;
@@ -305,11 +307,22 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // seleccionarBtn
+            // 
+            this.seleccionarBtn.Location = new System.Drawing.Point(860, 405);
+            this.seleccionarBtn.Name = "seleccionarBtn";
+            this.seleccionarBtn.Size = new System.Drawing.Size(105, 23);
+            this.seleccionarBtn.TabIndex = 6;
+            this.seleccionarBtn.Text = "Seleccionar";
+            this.seleccionarBtn.UseVisualStyleBackColor = true;
+            this.seleccionarBtn.Click += new System.EventHandler(this.seleccionarBtn_Click);
+            // 
             // Listado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(977, 435);
+            this.Controls.Add(this.seleccionarBtn);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.hotelesGridView);
@@ -354,5 +367,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn SeleccionarCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn BajaCol;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button seleccionarBtn;
     }
 }

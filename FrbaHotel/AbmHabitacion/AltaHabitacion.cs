@@ -21,40 +21,15 @@ namespace FrbaHotel.AbmHabitacion
         private DialogResult result;
 
         public DialogResult Result { get { return result; } set { result = value; } }
+        private Hotel Hotel { get; set; }
+
 
         public AltaHabitacion()
         {
             InitializeComponent();
-            cargarHoteles();
             cargarTipo();
         }
 
-        private void cargarHoteles()
-        {
-
-            var connection = ConfigurationManager.ConnectionStrings["GD1C2018ConnectionString"].ConnectionString;
-
-            string consultaBusqueda = String.Format("select distinct * from mmel.Hotel ");
-
-            SqlConnection con = new SqlConnection(connection);
-            SqlCommand cmd = new SqlCommand(consultaBusqueda, con);
-            con.Open();
-            if (cmd.Connection.State == ConnectionState.Closed)
-            {
-                cmd.Connection.Open();
-            }
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            while (reader.Read())
-            {
-                string tipo = (reader["Nombre"].ToString());
-                hotelInput.Items.Add(tipo);
-
-            }
-            reader.Close();
-            con.Close();
-
-        }
         private void cargarTipo()
         {
            
@@ -84,6 +59,17 @@ namespace FrbaHotel.AbmHabitacion
 
         private void modificarBtn_Click(object sender, EventArgs e)
         {
+
+            if (hotelInput.Text == "") { MessageBox.Show("Falta completar el hotel", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
+
+            if (cboTipo.Text == "") { MessageBox.Show("Falta completar el tipo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
+            if (descripcionInput.Text == "") { MessageBox.Show("Falta completar la descripcion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
+
+            int i;
+            if (pisoInput.Text == "" || !int.TryParse(pisoInput.Text, out i)) { MessageBox.Show("Error en el campo de piso", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
+            if (numHabInput.Text == "" || !int.TryParse(numHabInput.Text, out i)) { MessageBox.Show("Error en el campo de numero de habitacion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
+
+
             var connection = ConfigurationManager.ConnectionStrings["GD1C2018ConnectionString"].ConnectionString;
 
             using (SqlConnection con = new SqlConnection(connection))
@@ -94,7 +80,7 @@ namespace FrbaHotel.AbmHabitacion
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@IdTipoHabitacion", SqlDbType.Int).Value = getTipo();
                     cmd.Parameters.AddWithValue("@NumeroHabitacion", SqlDbType.Int).Value = Int32.Parse(numHabInput.Text);
-                    cmd.Parameters.AddWithValue("@IdHotel", SqlDbType.Int).Value =hotelInput.SelectedIndex+1;
+                    cmd.Parameters.AddWithValue("@IdHotel", SqlDbType.Int).Value = Hotel.IdHotel;
                     cmd.Parameters.AddWithValue("@Piso", SqlDbType.Int).Value = Int32.Parse(pisoInput.Text);
                     char vista;
                     if (btnSi.Checked)
@@ -159,12 +145,28 @@ namespace FrbaHotel.AbmHabitacion
         private void limpiarBtn_Click(object sender, EventArgs e)
         {
             ControlResetter.ResetAllControls(this);
+
+            this.Hotel = null;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             this.Hide();
             
+        }
+
+        private void seleccionarHotelBtn_Click(object sender, EventArgs e)
+        {
+            var abmHotel = new AbmHotel.Listado(true);
+
+            abmHotel.ShowDialog();
+
+            if(abmHotel.DialogResult == DialogResult.OK)
+            {
+                Hotel = abmHotel.ObjetoResultado;
+
+                this.hotelInput.Text = Hotel.Nombre;
+            } 
         }
     }
 }
