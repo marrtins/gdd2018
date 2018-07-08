@@ -30,7 +30,7 @@ namespace Rubberduck.Winforms
             }
         }
 
-        public ErrorLabel ValidationSummary { get; }
+        public ErrorLabel ValidationSummary { get; set; }
 
         private readonly Dictionary<string, ErrorLabel> _errorLabels = new Dictionary<string, ErrorLabel>();
 
