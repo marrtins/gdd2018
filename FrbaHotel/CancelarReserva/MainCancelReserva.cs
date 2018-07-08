@@ -88,7 +88,7 @@ namespace FrbaHotel.CancelarReserva
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Form1 f = new Form1();
+            Inicio f = new Inicio();
             f.Show();
             this.Hide();
         }

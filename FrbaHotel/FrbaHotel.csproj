@@ -311,6 +311,19 @@
     <Compile Include="RegistrarEstadia\ModificarCheckOutConsistente.Designer.cs">
       <DependentUpon>ModificarCheckOutConsistente.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\AbmPais\Insertar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utilities\AbmPais\Insertar.Designer.cs">
+      <DependentUpon>Insertar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\AbmPais\Listado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utilities\AbmPais\Listado.Designer.cs">
+      <DependentUpon>Listado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\AbmPais\Model\Pais.cs" />
     <Compile Include="Utilities\ControlResetter.cs" />
     <Compile Include="Utilities\CustomRequiredAttribute.cs" />
     <Compile Include="AbmHotel\Model\Hotel.cs" />
@@ -321,11 +334,11 @@
     <Compile Include="AbmRegimen\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form1.cs">
+    <Compile Include="Inicio.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Inicio.Designer.cs">
+      <DependentUpon>Inicio.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -418,8 +431,8 @@
     <EmbeddedResource Include="Facturar\NuevaFactura.resx">
       <DependentUpon>NuevaFactura.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="Inicio.resx">
+      <DependentUpon>Inicio.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GenerarModificacionReserva\CodigoReserva.resx">
       <DependentUpon>CodigoReserva.cs</DependentUpon>
@@ -480,6 +493,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RegistrarEstadia\ModificarCheckOutConsistente.resx">
       <DependentUpon>ModificarCheckOutConsistente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utilities\AbmPais\Insertar.resx">
+      <DependentUpon>Insertar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utilities\AbmPais\Listado.resx">
+      <DependentUpon>Listado.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Utilities\ErrorPasaporteErroneo.resx">
       <DependentUpon>ErrorPasaporteErroneo.cs</DependentUpon>

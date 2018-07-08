@@ -61,7 +61,7 @@ namespace FrbaHotel.Login
 
                 this.Hide();
               
-                Form1 form = new Form1();
+                Inicio form = new Inicio();
 
                 form.Show();
             }
@@ -152,7 +152,7 @@ namespace FrbaHotel.Login
 
             this.Hide();
 
-            Form1 form = new Form1();
+            Inicio form = new Inicio();
 
             form.Show();
         }

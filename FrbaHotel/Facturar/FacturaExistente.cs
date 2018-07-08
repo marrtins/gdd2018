@@ -273,7 +273,7 @@ namespace FrbaHotel.Facturar
                 actualizardtoReg();
             }
             this.Hide();
-            Form1 f = new Form1();
+            Inicio f = new Inicio();
             f.Show();
         }
 
@@ -355,7 +355,7 @@ namespace FrbaHotel.Facturar
 
             MessageBox.Show("Facturacion realizada exitosamente");
             this.Hide();
-            Form1 f = new Form1();
+            Inicio f = new Inicio();
             f.Show();
 
 

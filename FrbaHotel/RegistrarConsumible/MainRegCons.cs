@@ -204,7 +204,7 @@ namespace FrbaHotel.RegistrarConsumible
         private void btnVolver_Click(object sender, EventArgs e)
         {
             this.Hide();
-            Form1 f1 = new Form1();
+            Inicio f1 = new Inicio();
             f1.Show();
         }
         private int getEstadia()

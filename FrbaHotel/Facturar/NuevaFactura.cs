@@ -202,7 +202,7 @@ namespace FrbaHotel.Facturar
 
 
             this.Hide();
-            Form1 f = new Form1();
+            Inicio f = new Inicio();
             f.Show();
         }
         private void actualizarVBAse()
