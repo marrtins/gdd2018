@@ -16,8 +16,9 @@ namespace FrbaHotel.AbmUsuario
 {
     public partial class AltaUsuario : Form
     {
-        public Hotel Hotel { get; private set; }
         public Rol Rol { get; private set; }
+        public List<Hotel> Hoteles { get; private set; }
+        public List<Rol> Roles { get; private set; }
 
         public AltaUsuario()
         {
@@ -45,8 +46,8 @@ namespace FrbaHotel.AbmUsuario
             if (txtLocalidad.Text == "") { MessageBox.Show("Falta completar localidad", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
             if (cboNacionalidad.Text == "Seleccionar") { MessageBox.Show("Falta completar nacionalidad", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
             if (cboPaisDir.Text == "Seleccionar") { MessageBox.Show("Falta completar pais del domicilio", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
-            if (Rol == null) { MessageBox.Show("Seleccionar rol", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
-            if (Hotel == null) { MessageBox.Show("Seleccionar hotel", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
+            if (Roles == null) { MessageBox.Show("Seleccionar rol", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
+            if (Hoteles == null) { MessageBox.Show("Seleccionar hotel", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
             if (txtUserName.Text == "") { MessageBox.Show("Falta completar username", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
             if (txtPassword.Text == "") { MessageBox.Show("Falta completar password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
 
@@ -130,7 +131,7 @@ namespace FrbaHotel.AbmUsuario
 
             func(Controls);
 
-            Hotel = null;
+            Hoteles = null;
             Rol = null;
         }
 
@@ -138,6 +139,15 @@ namespace FrbaHotel.AbmUsuario
         {
             if (datosValidos())
             {
+
+                var hotelesTable = new DataTable();
+                hotelesTable.Columns.Add("Id", typeof(int));
+                Hoteles.ForEach(h => hotelesTable.Rows.Add(h.IdHotel));
+
+
+                var rolesTable = new DataTable();
+                rolesTable.Columns.Add("Id", typeof(int));
+                Roles.ForEach(h => rolesTable.Rows.Add(h.idRol));
 
                 string strCo = ConfigurationManager.AppSettings["stringConexion"];
                 SqlConnection con = new SqlConnection(strCo);
@@ -148,11 +158,6 @@ namespace FrbaHotel.AbmUsuario
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@username", SqlDbType.NVarChar, 200).Value = txtUserName.Text;
                 cmd.Parameters.Add("@password", SqlDbType.VarChar, 200).Value = txtPassword.Text;
-                int idRol = Rol.idRol;
-                cmd.Parameters.Add("@idRol", SqlDbType.Int).Value = idRol;
-                int idHotel = Hotel.IdHotel;
-                cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel; //REVISAR
-
 
                 cmd.Parameters.Add("@nombre", SqlDbType.VarChar, 50).Value = txtNombre.Text;
                 cmd.Parameters.Add("@apellido", SqlDbType.VarChar, 50).Value = txtApellido.Text;
@@ -168,6 +173,18 @@ namespace FrbaHotel.AbmUsuario
                 cmd.Parameters.Add("@dirLocalidad", SqlDbType.NVarChar, 150).Value = txtLocalidad.Text;
                 cmd.Parameters.Add("@telefono", SqlDbType.VarChar, 20).Value = txtTel.Text;
                 cmd.Parameters.Add("@idNacionalidad", SqlDbType.VarChar, 50).Value = cboNacionalidad.SelectedIndex+1;//rev
+
+                var pList = new SqlParameter("@hoteles_ids", SqlDbType.Structured);
+                pList.TypeName = "MMEL.IdList";
+                pList.Value = hotelesTable;
+                cmd.Parameters.Add(pList);
+
+                var pList2 = new SqlParameter("@roles_ids", SqlDbType.Structured);
+                pList2.TypeName = "MMEL.IdList";
+                pList2.Value = rolesTable;
+                cmd.Parameters.Add(pList2);
+
+
                 if (chkHab.Checked)
                 {
                     cmd.Parameters.Add("@habilitado", SqlDbType.Char, 1).Value = 'S';
@@ -224,29 +241,31 @@ namespace FrbaHotel.AbmUsuario
 
         private void seleccionarHotelBtn_Click(object sender, EventArgs e)
         {
-            var abmHotel = new AbmHotel.Listado(true);
+            var abmHotel = new AbmHotel.Listado(TipoSeleccion.Multi);
 
             abmHotel.ShowDialog();
 
             if (abmHotel.DialogResult == DialogResult.OK)
             {
-                Hotel = abmHotel.ObjetoResultado;
+                Hoteles = abmHotel.ObjetosResultado;
 
-                this.hotelInput.Text = Hotel.Nombre;
+                this.hotelesLv.Items.Clear();
+                this.hotelesLv.Items.AddRange(Hoteles.Select(h => new ListViewItem(h.Nombre)).ToArray());
             }
         }
 
-        private void rolInput_TextChanged(object sender, EventArgs e)
+        private void seleccionarRolBtn_Click(object sender, EventArgs e)
         {
-            var abmRol = new AbmRol.Listado(true);
+            var abmRol = new AbmRol.Listado(TipoSeleccion.Multi);
 
             abmRol.ShowDialog();
 
             if (abmRol.DialogResult == DialogResult.OK)
             {
-                Rol = abmRol.ObjetoResultado;
+                Roles = abmRol.ObjetosResultado;
 
-                this.rolInput.Text = Rol.Nombre;
+                this.rolesLv.Items.Clear();
+                this.rolesLv.Items.AddRange(Roles.Select(h => new ListViewItem(h.Nombre)).ToArray());
             }
         }
     }

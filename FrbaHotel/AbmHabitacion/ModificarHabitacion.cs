@@ -161,7 +161,7 @@ namespace FrbaHotel.AbmHabitacion
 
         private void seleccionarHotelBtn_Click(object sender, EventArgs e)
         {
-            var abmHotel = new AbmHotel.Listado(true);
+            var abmHotel = new AbmHotel.Listado(TipoSeleccion.Single);
 
             abmHotel.ShowDialog();
 
