@@ -22,7 +22,30 @@ namespace FrbaHotel.AbmUsuario
             this.usuariosGridView.AutoGenerateColumns = false;
 
             this.usuariosGridView.DataSource = usuarios;
+
+            RegistrarInputs();
+
         }
+
+        private void RegistrarInputs()
+        {
+            usernameInput.DataBindings.Add(new TextBinding(this.Model, "Username"));
+
+            nombreInput.DataBindings.Add(new TextBinding(this.Model, "Nombre"));
+
+            apellidoInput.DataBindings.Add(new TextBinding(this.Model, "Apellido"));
+
+            mailInput.DataBindings.Add(new TextBinding(this.Model, "Mail"));
+
+            nroDocumentoInput.DataBindings.Add(new TextBinding(this.Model, "NroDocumento"));
+
+            cboTipoDoc.DisplayMember = "detalle";
+            cboTipoDoc.ValueMember = "idTipoDocumento";
+            cboTipoDoc.DataSource = TiposDocumento.GetAllWithDefault();
+
+            cboTipoDoc.DataBindings.Add(new Binding("SelectedValue", this.Model, "IdTipoDocumento"));
+        }
+
 
         private void btnAlta_Click(object sender, System.EventArgs e)
         {
@@ -39,6 +62,7 @@ namespace FrbaHotel.AbmUsuario
 
         private void RefreshData()
         {
+            var filtros = (UsuarioFiltros)this.Model;
             var connection = ConfigurationManager.ConnectionStrings["GD1C2018ConnectionString"].ConnectionString;
 
             using (SqlConnection con = new SqlConnection(connection))
@@ -46,7 +70,12 @@ namespace FrbaHotel.AbmUsuario
                 using (SqlCommand cmd = new SqlCommand("MMEL.UsuarioListar", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@idHotel", SqlDbType.Int).Value = LoginData.Hotel.IdHotel;
+                    cmd.Parameters.AddWithValue("@Username", SqlDbType.NVarChar).Value = filtros.Username ?? Convert.DBNull;
+                    cmd.Parameters.AddWithValue("@Nombre", SqlDbType.NVarChar).Value = filtros.Nombre ?? Convert.DBNull;
+                    cmd.Parameters.AddWithValue("@Apellido", SqlDbType.NVarChar).Value = filtros.Apellido ?? Convert.DBNull;
+                    cmd.Parameters.AddWithValue("@Mail", SqlDbType.NVarChar).Value = filtros.Mail ?? Convert.DBNull;
+                    cmd.Parameters.AddWithValue("@NroDocumento", SqlDbType.NVarChar).Value = filtros.NroDocumento ?? Convert.DBNull;
+                    cmd.Parameters.AddWithValue("@idTipoDocumento", SqlDbType.Int).Value = filtros.IdTipoDocumento == 0 ? Convert.DBNull : filtros.IdTipoDocumento;
 
                     con.Open();
                     var dr = cmd.ExecuteReader();
@@ -55,7 +84,7 @@ namespace FrbaHotel.AbmUsuario
 
                     usuarios.Clear();
 
-                    if(listaUsuarios != null)
+                    if (listaUsuarios != null)
                         listaUsuarios.ForEach(lu => usuarios.Add(lu)); // lo hago asi para que no se pierda el binding
                 }
             }
@@ -92,9 +121,15 @@ namespace FrbaHotel.AbmUsuario
             this.Close();
         }
 
-        private void ListadoUsuarios_Shown(object sender, EventArgs e)
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            ControlResetter.ResetAllControls(this.gpoFiltros);
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
         {
             RefreshData();
+
         }
     }
 }

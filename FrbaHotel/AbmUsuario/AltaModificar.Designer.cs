@@ -173,7 +173,7 @@ namespace FrbaHotel.AbmUsuario
             // 
             this.telefonoInput.Location = new System.Drawing.Point(200, 377);
             this.telefonoInput.Name = "telefonoInput";
-            this.telefonoInput.Size = new System.Drawing.Size(100, 20);
+            this.telefonoInput.Size = new System.Drawing.Size(189, 20);
             this.telefonoInput.TabIndex = 100;
             // 
             // localidadInput
@@ -194,21 +194,21 @@ namespace FrbaHotel.AbmUsuario
             // 
             this.mailInput.Location = new System.Drawing.Point(200, 420);
             this.mailInput.Name = "mailInput";
-            this.mailInput.Size = new System.Drawing.Size(100, 20);
+            this.mailInput.Size = new System.Drawing.Size(189, 20);
             this.mailInput.TabIndex = 97;
             // 
             // nroDocumentoInput
             // 
             this.nroDocumentoInput.Location = new System.Drawing.Point(200, 286);
             this.nroDocumentoInput.Name = "nroDocumentoInput";
-            this.nroDocumentoInput.Size = new System.Drawing.Size(100, 20);
+            this.nroDocumentoInput.Size = new System.Drawing.Size(189, 20);
             this.nroDocumentoInput.TabIndex = 96;
             // 
             // apellidoInput
             // 
             this.apellidoInput.Location = new System.Drawing.Point(200, 197);
             this.apellidoInput.Name = "apellidoInput";
-            this.apellidoInput.Size = new System.Drawing.Size(100, 20);
+            this.apellidoInput.Size = new System.Drawing.Size(189, 20);
             this.apellidoInput.TabIndex = 95;
             // 
             // cboRol
@@ -224,14 +224,14 @@ namespace FrbaHotel.AbmUsuario
             // 
             this.nombreInput.Location = new System.Drawing.Point(200, 151);
             this.nombreInput.Name = "nombreInput";
-            this.nombreInput.Size = new System.Drawing.Size(100, 20);
+            this.nombreInput.Size = new System.Drawing.Size(189, 20);
             this.nombreInput.TabIndex = 93;
             // 
             // usernameInput
             // 
             this.usernameInput.Location = new System.Drawing.Point(200, 21);
             this.usernameInput.Name = "usernameInput";
-            this.usernameInput.Size = new System.Drawing.Size(100, 20);
+            this.usernameInput.Size = new System.Drawing.Size(189, 20);
             this.usernameInput.TabIndex = 92;
             // 
             // lblLocalidad
@@ -339,14 +339,15 @@ namespace FrbaHotel.AbmUsuario
             this.passwordInput.Location = new System.Drawing.Point(200, 66);
             this.passwordInput.Name = "passwordInput";
             this.passwordInput.PasswordChar = '*';
-            this.passwordInput.Size = new System.Drawing.Size(100, 20);
+            this.passwordInput.Size = new System.Drawing.Size(189, 20);
             this.passwordInput.TabIndex = 81;
             // 
             // fechaNacInput
             // 
+            this.fechaNacInput.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.fechaNacInput.Location = new System.Drawing.Point(200, 329);
             this.fechaNacInput.Name = "fechaNacInput";
-            this.fechaNacInput.Size = new System.Drawing.Size(200, 20);
+            this.fechaNacInput.Size = new System.Drawing.Size(121, 20);
             this.fechaNacInput.TabIndex = 80;
             // 
             // lblPassword
