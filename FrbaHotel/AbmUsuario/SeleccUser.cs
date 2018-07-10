@@ -1,4 +1,5 @@
-﻿using FrbaHotel.Utilities;
+﻿using FrbaHotel.Login.Model;
+using FrbaHotel.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -32,6 +33,8 @@ namespace FrbaHotel.AbmUsuario
             cboTipoId.Items.Add("Seleccionar");
             cargarTipoID();
             buscar();
+
+            dataGridView1.MultiSelect = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -101,7 +104,7 @@ namespace FrbaHotel.AbmUsuario
                 return;
 
             }
-            string consultaBusqueda = String.Format("select pe.Nombre,pe.Apellido,us.Username,td.detalle TipoDocumento,pe.NroDocumento,pe.Mail,ro.Nombre Rol,ho.Nombre NombreHotel,us.idusuario from mmel.Usuarios us,mmel.Persona pe,mmel.TipoDocumento td,mmel.UsuariosPorRoles rpu,mmel.Rol ro,mmel.HotelesPorUsuarios hpu,mmel.Hotel ho where us.idPersona = pe.idPersona and pe.idTipoDocumento = td.idTipoDocumento and rpu.idUsuario = us.idUsuario and rpu.idRol = ro.idRol and hpu.idUsuario = us.idUsuario and ho.idHotel = hpu.idHotel");
+            string consultaBusqueda = String.Format("select pe.Nombre,pe.Apellido,us.Username,td.detalle TipoDocumento,pe.NroDocumento,pe.Mail, us.idusuario from mmel.Usuarios us,mmel.Persona pe,mmel.TipoDocumento td where us.idPersona = pe.idPersona and pe.idTipoDocumento = td.idTipoDocumento");
             if (modo == 2) consultaBusqueda = consultaBusqueda + " and us.activo = 'S'";
 
 
@@ -249,6 +252,7 @@ namespace FrbaHotel.AbmUsuario
 
                 
             }
+
         }
         private void inhabilitarUsuario(int idUsuario)
         {
@@ -278,6 +282,24 @@ namespace FrbaHotel.AbmUsuario
             this.Hide();
             MainAbmUsuario m = new MainAbmUsuario();
             m.Show();
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex == -1)
+                return;
+
+            var idUsuario = int.Parse(dataGridView1.Rows[e.RowIndex].Cells["idUsuario"].Value.ToString());
+
+            var roles = Roles.GetAllFor(idUsuario);
+            this.rolesDgv.DataSource = roles;
+            this.rolesDgv.Columns["idRol"].Visible = false;
+            this.rolesDgv.Columns["Activo"].Visible = false;
+
+
+            var hoteles = HotelesLogin.GetAllFor(idUsuario);
+            this.hotelesDgv.DataSource = hoteles;
+            this.hotelesDgv.Columns["IdHotel"].Visible = false;
         }
     }
 }

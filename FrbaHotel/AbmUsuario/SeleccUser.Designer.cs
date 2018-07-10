@@ -45,8 +45,14 @@
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.lblNombre = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
+            this.hotelesDgv = new System.Windows.Forms.DataGridView();
+            this.rolesDgv = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.hotelesDgv)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rolesDgv)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -57,6 +63,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(687, 270);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // groupBox1
@@ -202,7 +209,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 465);
+            this.button1.Location = new System.Drawing.Point(12, 697);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(72, 25);
             this.button1.TabIndex = 6;
@@ -210,11 +217,51 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
+            // hotelesDgv
+            // 
+            this.hotelesDgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.hotelesDgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.hotelesDgv.Location = new System.Drawing.Point(12, 478);
+            this.hotelesDgv.Name = "hotelesDgv";
+            this.hotelesDgv.Size = new System.Drawing.Size(356, 213);
+            this.hotelesDgv.TabIndex = 7;
+            // 
+            // rolesDgv
+            // 
+            this.rolesDgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.rolesDgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.rolesDgv.Location = new System.Drawing.Point(372, 478);
+            this.rolesDgv.Name = "rolesDgv";
+            this.rolesDgv.Size = new System.Drawing.Size(325, 213);
+            this.rolesDgv.TabIndex = 7;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 462);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(52, 13);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Hotel (es)";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(371, 462);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(43, 13);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Rol (es)";
+            // 
             // SeleccUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(718, 498);
+            this.ClientSize = new System.Drawing.Size(709, 736);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.rolesDgv);
+            this.Controls.Add(this.hotelesDgv);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dataGridView1);
@@ -224,7 +271,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.hotelesDgv)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rolesDgv)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -247,5 +297,9 @@
         private System.Windows.Forms.TextBox txtNombre;
         private System.Windows.Forms.Label lblNombre;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.DataGridView hotelesDgv;
+        private System.Windows.Forms.DataGridView rolesDgv;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label3;
     }
 }
