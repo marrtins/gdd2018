@@ -1,6 +1,7 @@
 ﻿using FrbaHotel.Login.Model;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,14 @@ namespace FrbaHotel.Utilities
             {
                 return Rol.Nombre == "administrador";
              
+            }
+        }
+
+        public static DateTime SystemDate
+        {
+            get
+            {
+                return DateTime.Parse(ConfigurationManager.AppSettings["DateKey"]);
             }
         }
     }
