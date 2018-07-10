@@ -142,34 +142,22 @@
       <DependentUpon>Listado.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmRol\Model\Funcionalidad.cs" />
-    <Compile Include="AbmUsuario\AltaUsuario.cs">
+    <Compile Include="AbmUsuario\AltaModificar.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AbmUsuario\AltaUsuario.Designer.cs">
-      <DependentUpon>AltaUsuario.cs</DependentUpon>
+    <Compile Include="AbmUsuario\AltaModificar.Designer.cs">
+      <DependentUpon>AltaModificar.cs</DependentUpon>
     </Compile>
-    <Compile Include="AbmUsuario\MainAbmUsuario.cs">
+    <Compile Include="AbmUsuario\ListadoUsuarios.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AbmUsuario\MainAbmUsuario.Designer.cs">
-      <DependentUpon>MainAbmUsuario.cs</DependentUpon>
+    <Compile Include="AbmUsuario\ListadoUsuarios.Designer.cs">
+      <DependentUpon>ListadoUsuarios.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmUsuario\Model\Hotel.cs" />
     <Compile Include="AbmUsuario\Model\Hoteles.cs" />
     <Compile Include="AbmUsuario\Model\Usuario.cs" />
     <Compile Include="AbmUsuario\Model\UsuarioFiltros.cs" />
-    <Compile Include="AbmUsuario\ModificarUsuario.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AbmUsuario\ModificarUsuario.Designer.cs">
-      <DependentUpon>ModificarUsuario.cs</DependentUpon>
-    </Compile>
-    <Compile Include="AbmUsuario\SeleccUser.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AbmUsuario\SeleccUser.Designer.cs">
-      <DependentUpon>SeleccUser.cs</DependentUpon>
-    </Compile>
     <Compile Include="CancelarReserva\CancelarReserva.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -398,17 +386,11 @@
     <EmbeddedResource Include="AbmRol\Listado.resx">
       <DependentUpon>Listado.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AbmUsuario\AltaUsuario.resx">
-      <DependentUpon>AltaUsuario.cs</DependentUpon>
+    <EmbeddedResource Include="AbmUsuario\AltaModificar.resx">
+      <DependentUpon>AltaModificar.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AbmUsuario\MainAbmUsuario.resx">
-      <DependentUpon>MainAbmUsuario.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AbmUsuario\ModificarUsuario.resx">
-      <DependentUpon>ModificarUsuario.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AbmUsuario\SeleccUser.resx">
-      <DependentUpon>SeleccUser.cs</DependentUpon>
+    <EmbeddedResource Include="AbmUsuario\ListadoUsuarios.resx">
+      <DependentUpon>ListadoUsuarios.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CancelarReserva\CancelarReserva.resx">
       <DependentUpon>CancelarReserva.cs</DependentUpon>

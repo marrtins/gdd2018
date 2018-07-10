@@ -1,0 +1,3 @@
+﻿Actualmente un usuario solo puede tener asignado un solo rol en un momento dado, pero no se descarta que pueda tener más de un rol.  
+
+Hay que ver esto, el sistema no lo permite

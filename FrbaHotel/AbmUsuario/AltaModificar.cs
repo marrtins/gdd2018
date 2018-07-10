@@ -57,7 +57,7 @@ namespace FrbaHotel.AbmUsuario
 
         private void CargarDefaults(Usuario usuario) //normalmente esto iria en el constructor, pero puede traer problemas con otras cosas
         {
-            usuario.Activo = 'S'; // Por defecto activo
+            usuario.Activo = "S";// Por defecto activo
             usuario.IdTipoDocumento = 1;
             usuario.IdPais = 1;
             usuario.IdRol = 1;
@@ -142,7 +142,7 @@ namespace FrbaHotel.AbmUsuario
             fechaNacInput.DataBindings.Add(new TextBinding(this.Model, "FechaNac"));
             Register(ErrorLabel.For(fechaNacInput, Alignment.Bottom, 2));
 
-            if((this.Model as Usuario).Activo == 'S') {
+            if((this.Model as Usuario).Activo == "S") {
                 activoCheck.Checked = true;
                 }
                 else {
@@ -163,9 +163,9 @@ namespace FrbaHotel.AbmUsuario
 
             var usuario = (Usuario)this.Model;
             if(activoCheck.Checked){
-                usuario.Activo = 'S';
+                usuario.Activo = "S";
             } else {
-                usuario.Activo = 'N';
+                usuario.Activo = "N";
             }
 
             accion(usuario);
@@ -258,11 +258,6 @@ namespace FrbaHotel.AbmUsuario
             ControlResetter.ResetAllControls(this);
 
             this.activoCheck.Checked = true;
-        }
-
-        private void AltaModificar_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

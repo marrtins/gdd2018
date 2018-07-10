@@ -65,7 +65,7 @@ namespace FrbaHotel
 
         private void abmUsuarioBtn_Click(object sender, EventArgs e)
         {
-            MainAbmUsuario mau = new MainAbmUsuario();
+            ListadoUsuarios mau = new ListadoUsuarios();
             ShowDialog(mau);
         }
 

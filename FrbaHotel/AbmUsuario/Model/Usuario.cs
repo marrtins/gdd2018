@@ -31,7 +31,7 @@ namespace FrbaHotel.AbmUsuario.Model
         private string nroDocumento; 
         private string telefono;
         private string mail;
-        private char activo;
+        private string activo;
 
 
         // direccion calle nro pais
@@ -318,7 +318,7 @@ namespace FrbaHotel.AbmUsuario.Model
             } 
 
 
-        public char Activo
+        public string Activo
         {
             get 
              {

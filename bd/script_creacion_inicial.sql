@@ -711,34 +711,16 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [MMEL].[UsuarioListar]  
-    @Username nvarchar(200),
-	@Nombre nvarchar(50),
-	@Apellido nvarchar(50),
-	@Mail nvarchar(200),
-	@NroDocumento int,
-	@idTipoDocumento int,
-	@idRol int
+	@idHotel int
 AS   
 
     SET NOCOUNT ON;  
 
-    SELECT * 
+    SELECT DISTINCT * 
     FROM MMEL.Usuarios us
     JOIN MMEL.Persona pe on us.idPersona = pe.idPersona
-	JOIN MMEL.RolesPorUsuario rpu on us.idUsuario = rpu.idUsuario
-	JOIN MMEL.Rol ro on rpu.idRol = ro.idRol
-    WHERE (@Username is null or us.Username LIKE '%' + @Username + '%')
-            and (@Nombre is null or pe.Nombre LIKE '%' + @Nombre + '%')
-            and (@Apellido is null or pe.Apellido LIKE '%' + @Nombre + '%')
-            and (@idTipoDocumento is null or pe.idTipoDocumento = @idTipoDocumento)
-			and (@NroDocumento is null or pe.NroDocumento = @NroDocumento)
-			and (@idRol is null or ro.idRol = @idRol)
-			and (@Mail is null or pe.Mail LIKE '%' + @Mail + '%')
-GO
-
-
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[UsuarioDelete]'))
-	DROP PROCEDURE [MMEL].UsuarioDelete
+	JOIN MMEl.HotelesPorUsuarios hpu on hpu.idUsuario = us.idUsuario
+    WHERE (@idHotel is null or @idHotel = hpu.idHotel)
 GO
 
 /****** Object:  StoredProcedure [MMEL].[UsuarioDelete]    Script Date: 13/6/2018 22:27:10 ******/
