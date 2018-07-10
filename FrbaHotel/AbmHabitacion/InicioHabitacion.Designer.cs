@@ -31,7 +31,9 @@
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.hotelInput = new System.Windows.Forms.ComboBox();
+            this.seleccionarHotelBtn = new System.Windows.Forms.Button();
+            this.hotelInput = new System.Windows.Forms.TextBox();
+            this.cboTipo = new System.Windows.Forms.ComboBox();
             this.numHabInput = new System.Windows.Forms.TextBox();
             this.vistaExtInput = new System.Windows.Forms.TextBox();
             this.pisoInput = new System.Windows.Forms.TextBox();
@@ -43,11 +45,6 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.optModificar = new System.Windows.Forms.RadioButton();
-            this.optBorrar = new System.Windows.Forms.RadioButton();
-            this.cboTipo = new System.Windows.Forms.ComboBox();
             this.NumeroHabitacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.idHabitacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.idTipoHabitacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -57,6 +54,9 @@
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Descripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Habilitado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button5 = new System.Windows.Forms.Button();
+            this.optModificar = new System.Windows.Forms.RadioButton();
+            this.optBorrar = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -80,8 +80,9 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.cboTipo);
+            this.groupBox1.Controls.Add(this.seleccionarHotelBtn);
             this.groupBox1.Controls.Add(this.hotelInput);
+            this.groupBox1.Controls.Add(this.cboTipo);
             this.groupBox1.Controls.Add(this.numHabInput);
             this.groupBox1.Controls.Add(this.vistaExtInput);
             this.groupBox1.Controls.Add(this.pisoInput);
@@ -97,13 +98,32 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros de busqueda";
             // 
+            // seleccionarHotelBtn
+            // 
+            this.seleccionarHotelBtn.Location = new System.Drawing.Point(644, 48);
+            this.seleccionarHotelBtn.Name = "seleccionarHotelBtn";
+            this.seleccionarHotelBtn.Size = new System.Drawing.Size(89, 23);
+            this.seleccionarHotelBtn.TabIndex = 61;
+            this.seleccionarHotelBtn.Text = "Seleccionar";
+            this.seleccionarHotelBtn.UseVisualStyleBackColor = true;
+            this.seleccionarHotelBtn.Click += new System.EventHandler(this.seleccionarHotelBtn_Click);
+            // 
             // hotelInput
             // 
-            this.hotelInput.FormattingEnabled = true;
-            this.hotelInput.Location = new System.Drawing.Point(457, 53);
+            this.hotelInput.Location = new System.Drawing.Point(457, 50);
             this.hotelInput.Name = "hotelInput";
-            this.hotelInput.Size = new System.Drawing.Size(219, 21);
-            this.hotelInput.TabIndex = 9;
+            this.hotelInput.ReadOnly = true;
+            this.hotelInput.Size = new System.Drawing.Size(181, 20);
+            this.hotelInput.TabIndex = 60;
+            // 
+            // cboTipo
+            // 
+            this.cboTipo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboTipo.FormattingEnabled = true;
+            this.cboTipo.Location = new System.Drawing.Point(110, 22);
+            this.cboTipo.Name = "cboTipo";
+            this.cboTipo.Size = new System.Drawing.Size(121, 21);
+            this.cboTipo.TabIndex = 56;
             // 
             // numHabInput
             // 
@@ -212,58 +232,6 @@
             this.dataGridView1.TabIndex = 4;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(587, 124);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(85, 29);
-            this.button4.TabIndex = 5;
-            this.button4.Text = "Baja";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(24, 453);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(91, 24);
-            this.button5.TabIndex = 6;
-            this.button5.Text = "Volver";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
-            // optModificar
-            // 
-            this.optModificar.AutoSize = true;
-            this.optModificar.Location = new System.Drawing.Point(176, 130);
-            this.optModificar.Name = "optModificar";
-            this.optModificar.Size = new System.Drawing.Size(68, 17);
-            this.optModificar.TabIndex = 7;
-            this.optModificar.TabStop = true;
-            this.optModificar.Text = "Modificar";
-            this.optModificar.UseVisualStyleBackColor = true;
-            this.optModificar.CheckedChanged += new System.EventHandler(this.optModificar_CheckedChanged);
-            // 
-            // optBorrar
-            // 
-            this.optBorrar.AutoSize = true;
-            this.optBorrar.Location = new System.Drawing.Point(255, 130);
-            this.optBorrar.Name = "optBorrar";
-            this.optBorrar.Size = new System.Drawing.Size(53, 17);
-            this.optBorrar.TabIndex = 8;
-            this.optBorrar.TabStop = true;
-            this.optBorrar.Text = "Borrar";
-            this.optBorrar.UseVisualStyleBackColor = true;
-            // 
-            // cboTipo
-            // 
-            this.cboTipo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboTipo.FormattingEnabled = true;
-            this.cboTipo.Location = new System.Drawing.Point(110, 22);
-            this.cboTipo.Name = "cboTipo";
-            this.cboTipo.Size = new System.Drawing.Size(121, 21);
-            this.cboTipo.TabIndex = 56;
-            // 
             // NumeroHabitacion
             // 
             this.NumeroHabitacion.DataPropertyName = "NumeroHabitacion";
@@ -330,6 +298,39 @@
             this.Habilitado.Name = "Habilitado";
             this.Habilitado.ReadOnly = true;
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(24, 453);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(91, 24);
+            this.button5.TabIndex = 6;
+            this.button5.Text = "Volver";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // optModificar
+            // 
+            this.optModificar.AutoSize = true;
+            this.optModificar.Location = new System.Drawing.Point(176, 130);
+            this.optModificar.Name = "optModificar";
+            this.optModificar.Size = new System.Drawing.Size(68, 17);
+            this.optModificar.TabIndex = 7;
+            this.optModificar.TabStop = true;
+            this.optModificar.Text = "Modificar";
+            this.optModificar.UseVisualStyleBackColor = true;
+            this.optModificar.CheckedChanged += new System.EventHandler(this.optModificar_CheckedChanged);
+            // 
+            // optBorrar
+            // 
+            this.optBorrar.AutoSize = true;
+            this.optBorrar.Location = new System.Drawing.Point(255, 130);
+            this.optBorrar.Name = "optBorrar";
+            this.optBorrar.Size = new System.Drawing.Size(53, 17);
+            this.optBorrar.TabIndex = 8;
+            this.optBorrar.TabStop = true;
+            this.optBorrar.Text = "Borrar";
+            this.optBorrar.UseVisualStyleBackColor = true;
+            // 
             // InicioHabitacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -338,7 +339,6 @@
             this.Controls.Add(this.optBorrar);
             this.Controls.Add(this.optModificar);
             this.Controls.Add(this.button5);
-            this.Controls.Add(this.button4);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -372,8 +372,6 @@
         private System.Windows.Forms.TextBox vistaExtInput;
         private System.Windows.Forms.TextBox pisoInput;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.ComboBox hotelInput;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.RadioButton optModificar;
         private System.Windows.Forms.RadioButton optBorrar;
@@ -387,5 +385,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Descripcion;
         private System.Windows.Forms.DataGridViewTextBoxColumn Habilitado;
+        private System.Windows.Forms.Button seleccionarHotelBtn;
+        private System.Windows.Forms.TextBox hotelInput;
     }
 }

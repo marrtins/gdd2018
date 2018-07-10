@@ -19,8 +19,10 @@ namespace FrbaHotel.AbmRol
         BindingList<Rol> roles = new BindingList<Rol>();
         BindingList<Funcionalidad> funcionalidades = new BindingList<Funcionalidad>();
 
+        public Rol ObjetoResultado { get; private set; }
 
-        public Listado()
+
+        public Listado(bool seleccionar)
         {
             InitializeComponent();
 
@@ -33,6 +35,14 @@ namespace FrbaHotel.AbmRol
             RefreshRolesData();
 
             this.rolesGridView.MultiSelect = false;
+
+            this.seleccionarBtn.Visible = seleccionar;
+        }
+
+        public Listado()
+            : this(false)
+        {
+
         }
 
         private void RefreshRolesData()
@@ -143,6 +153,24 @@ namespace FrbaHotel.AbmRol
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void seleccionarBtn_Click(object sender, EventArgs e)
+        {
+            var hasObj = this.rolesGridView.SelectedRows.Count > 0;
+
+            if (hasObj)
+            {
+                this.DialogResult = DialogResult.OK;
+                this.ObjetoResultado = (Rol)this.rolesGridView.SelectedRows[0].DataBoundItem;
+
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Por favor seleccione un rol con el selector");
+            }
+
         }
     }
 }

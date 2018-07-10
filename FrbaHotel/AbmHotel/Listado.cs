@@ -17,8 +17,8 @@ namespace FrbaHotel.AbmHotel
         public DialogResult Resultado { get; set; } //utilizado en seleccion
         public Hotel ObjetoResultado { get; set; }
 
-        public Listado()
-            :base(new HotelFiltros())
+        public Listado(bool seleccionar)
+            : base(new HotelFiltros())
         {
             InitializeComponent();
 
@@ -27,12 +27,14 @@ namespace FrbaHotel.AbmHotel
             this.hotelesGridView.DataSource = hoteles;
 
             RegistrarInputs();
+
+            this.seleccionarBtn.Visible = seleccionar;
         }
 
-        public Listado(bool seleccionar)
-            : this()
+        public Listado()
+            : this(false)
         {
-            this.seleccionarBtn.Visible = seleccionar;
+
         }
 
         private void RegistrarInputs()

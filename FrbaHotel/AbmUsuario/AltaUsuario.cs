@@ -9,29 +9,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FrbaHotel.AbmHotel.Model;
+using FrbaHotel.Utilities;
 
 namespace FrbaHotel.AbmUsuario
 {
     public partial class AltaUsuario : Form
     {
+        public Hotel Hotel { get; private set; }
+        public Rol Rol { get; private set; }
+
         public AltaUsuario()
         {
             InitializeComponent();
             cargarTipoID();
             cargarPaises();
-            cargarHoteles();
             cboTipo.Text = "Seleccionar";
             cboPaisDir.Text = "Seleccionar";
             cboNacionalidad.Text = "Seleccionar";
-            cboHotel.Text = "Seleccionar";
-            cboRol.Items.Add("Administrador");
-            cboRol.Items.Add("Recepcionista");
-
-        }
-
-        private void AltaUsuario_Load(object sender, EventArgs e)
-        {
-
         }
 
         public bool datosValidos()
@@ -50,8 +45,8 @@ namespace FrbaHotel.AbmUsuario
             if (txtLocalidad.Text == "") { MessageBox.Show("Falta completar localidad", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
             if (cboNacionalidad.Text == "Seleccionar") { MessageBox.Show("Falta completar nacionalidad", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
             if (cboPaisDir.Text == "Seleccionar") { MessageBox.Show("Falta completar pais del domicilio", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
-            if (cboRol.Text=="Seleccionar") { MessageBox.Show("Seleccionar rol", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
-            if (cboHotel.Text == "Seleccionar") { MessageBox.Show("Seleccionar hotel", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
+            if (Rol == null) { MessageBox.Show("Seleccionar rol", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
+            if (Hotel == null) { MessageBox.Show("Seleccionar hotel", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
             if (txtUserName.Text == "") { MessageBox.Show("Falta completar username", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
             if (txtPassword.Text == "") { MessageBox.Show("Falta completar password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
 
@@ -81,10 +76,6 @@ namespace FrbaHotel.AbmUsuario
             }
             reader.Close();
             con.Close();
-
-
-
-
         }
 
         private void cargarPaises()
@@ -111,35 +102,6 @@ namespace FrbaHotel.AbmUsuario
             }
             reader.Close();
             con.Close();
-            
-
-        }
-        private void cargarHoteles()
-        {
-
-
-            string consultaBusqueda = String.Format("select distinct * from mmel.Hotel ");
-            string strCo = ConfigurationManager.AppSettings["stringConexion"];
-            SqlConnection con = new SqlConnection(strCo);
-            SqlCommand cmd = new SqlCommand(consultaBusqueda, con);
-            con.Open();
-            if (cmd.Connection.State == ConnectionState.Closed)
-            {
-                cmd.Connection.Open();
-            }
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            while (reader.Read())
-            {
-                string tipo = (reader["Nombre"].ToString());
-                cboHotel.Items.Add(tipo);
-
-            }
-            reader.Close();
-            con.Close();
-            
-
-
         }
 
         private void btnLimpiar_Click(object sender, EventArgs e)
@@ -168,6 +130,8 @@ namespace FrbaHotel.AbmUsuario
 
             func(Controls);
 
+            Hotel = null;
+            Rol = null;
         }
 
         private void btnCrear_Click(object sender, EventArgs e)
@@ -184,17 +148,9 @@ namespace FrbaHotel.AbmUsuario
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@username", SqlDbType.NVarChar, 200).Value = txtUserName.Text;
                 cmd.Parameters.Add("@password", SqlDbType.VarChar, 200).Value = txtPassword.Text;
-                int idRol;
-                if (cboRol.Text == "administrador")
-                    idRol = 1;
-                else
-                    idRol = 2;
+                int idRol = Rol.idRol;
                 cmd.Parameters.Add("@idRol", SqlDbType.Int).Value = idRol;
-                int idHotel;
-                /*if (cboRol.SelectedIndex == 0)
-                    idHotel = 0;
-                else*/
-                idHotel = cboHotel.SelectedIndex + 1;
+                int idHotel = Hotel.IdHotel;
                 cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel; //REVISAR
 
 
@@ -259,28 +215,39 @@ namespace FrbaHotel.AbmUsuario
             }
         }
 
-        private void cboRol_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            /*if (cboRol.SelectedIndex == 0)
-            {
-                
-                cboHotel.Visible = false;
-                lblHotel.Visible = false;
-                cboHotel.Text = "";
-            }
-            else
-            {
-                cboHotel.Visible = true;
-                lblHotel.Visible = true;
-                cboHotel.Text = "Seleccionar";
-            }*/
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             this.Hide();
             MainAbmUsuario m = new MainAbmUsuario();
             m.Show();
+        }
+
+        private void seleccionarHotelBtn_Click(object sender, EventArgs e)
+        {
+            var abmHotel = new AbmHotel.Listado(true);
+
+            abmHotel.ShowDialog();
+
+            if (abmHotel.DialogResult == DialogResult.OK)
+            {
+                Hotel = abmHotel.ObjetoResultado;
+
+                this.hotelInput.Text = Hotel.Nombre;
+            }
+        }
+
+        private void rolInput_TextChanged(object sender, EventArgs e)
+        {
+            var abmRol = new AbmRol.Listado(true);
+
+            abmRol.ShowDialog();
+
+            if (abmRol.DialogResult == DialogResult.OK)
+            {
+                Rol = abmRol.ObjetoResultado;
+
+                this.rolInput.Text = Rol.Nombre;
+            }
         }
     }
 }

@@ -24,6 +24,8 @@ namespace FrbaHotel.AbmHabitacion
         int modo = 1; //1: modificar ; 2:borrar
         DataGridViewButtonColumn bcol = new DataGridViewButtonColumn();
         BindingList<Habitacion> habitaciones = new BindingList<Habitacion>();
+        private Hotel Hotel;
+
         public InicioHabitacion()
         {
             InitializeComponent();
@@ -35,41 +37,8 @@ namespace FrbaHotel.AbmHabitacion
             bcol.Name = "btnClickMe";
             bcol.UseColumnTextForButtonValue = true;
             dataGridView1.Columns.Insert(0,bcol);
-            cargarHoteles();
-            button4.Visible = false;
             optModificar.Checked=true;
-            cargarTipo();
-    
-           
-        }
-        private void cargarHoteles()
-        {
-
-            var connection = ConfigurationManager.ConnectionStrings["GD1C2018ConnectionString"].ConnectionString;
-            
-           string consultaBusqueda = String.Format("select distinct * from mmel.Hotel ");
-           
-            SqlConnection con = new SqlConnection(connection);
-            SqlCommand cmd = new SqlCommand(consultaBusqueda, con);
-            con.Open();
-            if (cmd.Connection.State == ConnectionState.Closed)
-            {
-                cmd.Connection.Open();
-            }
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            while (reader.Read())
-            {
-                string tipo = (reader["Nombre"].ToString());
-                hotelInput.Items.Add(tipo);
-
-            }
-            reader.Close();
-            con.Close();
-
-
-
-
+            cargarTipo();        
         }
 
         private void cargarTipo()
@@ -140,19 +109,7 @@ namespace FrbaHotel.AbmHabitacion
         {
             ControlResetter.ResetAllControls(this);
 
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-           BajaHabitacion baja = new BajaHabitacion();
-            this.Hide();
-
-            baja.ShowDialog();
-
-            this.Show();
-
-            if (baja.Result == DialogResult.OK)
-                RefreshData();
+            Hotel = null;
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -284,6 +241,20 @@ namespace FrbaHotel.AbmHabitacion
             {
                 bcol.Text = "Inhabilitar";
                 modo = 2;
+            }
+        }
+
+        private void seleccionarHotelBtn_Click(object sender, EventArgs e)
+        {
+            var abmHotel = new AbmHotel.Listado(true);
+
+            abmHotel.ShowDialog();
+
+            if (abmHotel.DialogResult == DialogResult.OK)
+            {
+                Hotel = abmHotel.ObjetoResultado;
+
+                this.hotelInput.Text = Hotel.Nombre;
             }
         }
     }

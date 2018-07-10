@@ -213,6 +213,7 @@
             this.hotelInput.ReadOnly = true;
             this.hotelInput.Size = new System.Drawing.Size(181, 20);
             this.hotelInput.TabIndex = 58;
+            this.hotelInput.TextChanged += new System.EventHandler(this.hotelInput_TextChanged);
             // 
             // seleccionarHotelBtn
             // 

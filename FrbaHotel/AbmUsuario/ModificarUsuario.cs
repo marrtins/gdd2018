@@ -17,15 +17,16 @@ namespace FrbaHotel.AbmUsuario
     {
         int idUsuario;
         bool puedeModificar=false;
+
+        int idHotel;
+        int idRol;
+
         public ModificarUsuario(int idUsuario)
         {
             InitializeComponent();
             cargarPaises();
             cargarTipoID();
-            cargarHoteles();
-            
-            cboRol.Items.Add("ADMINISTRADOR");
-            cboRol.Items.Add("RECEPCIONISTA");
+
             this.idUsuario = idUsuario;
             llenarCamposUsuario();
             txtPassword.Visible = false;
@@ -60,6 +61,9 @@ namespace FrbaHotel.AbmUsuario
             cmd.Parameters.Add("@username", SqlDbType.VarChar, 75).Direction = ParameterDirection.Output;
             cmd.Parameters.Add("@rol", SqlDbType.VarChar, 30).Direction = ParameterDirection.Output;
             cmd.Parameters.Add("@hotel", SqlDbType.VarChar, 200).Direction = ParameterDirection.Output;
+            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Direction = ParameterDirection.Output;
+            cmd.Parameters.Add("@idRol", SqlDbType.Int).Direction = ParameterDirection.Output;
+
 
             cmd.Parameters.Add("@idUsuario", SqlDbType.Int).Value = idUsuario;
             if (cmd.Connection.State == ConnectionState.Closed)
@@ -93,6 +97,9 @@ namespace FrbaHotel.AbmUsuario
             string rol = (cmd.Parameters["@rol"].Value.ToString());
             string hotel = (cmd.Parameters["@hotel"].Value.ToString());
 
+            idRol = Int32.Parse(cmd.Parameters["@idRol"].Value.ToString());
+            idHotel = Int32.Parse(cmd.Parameters["@idHotel"].Value.ToString());
+
             txtNombre.Text = nombre;
             txtApellido.Text = apellido;
             cboTipo.Text = tipoid;
@@ -112,18 +119,13 @@ namespace FrbaHotel.AbmUsuario
             else
                 chkHab.Checked = false;
             txtUserName.Text = username;
-            cboRol.Text = rol;
-            cboHotel.Text = hotel;
+            rolInput.Text = rol;
+            hotelInput.Text = hotel;
             if (String.IsNullOrEmpty(LoginData.Hotel.Nombre))
                 puedeModificar = true;
             else if (LoginData.Hotel.Nombre == hotel)
                 puedeModificar = true;
         
-        }
-
-        private void ModificarUsuario_Load(object sender, EventArgs e)
-        {
-           
         }
 
         private void btnLimpiar_Click(object sender, EventArgs e)
@@ -147,18 +149,8 @@ namespace FrbaHotel.AbmUsuario
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@username", SqlDbType.NVarChar, 200).Value = txtUserName.Text;
             cmd.Parameters.Add("@password", SqlDbType.VarChar, 200).Value = txtPassword.Text;
-            int idRol;
-            if (cboRol.Text == "administrador")
-                idRol = 1;
-            else
-                idRol = 2;
             cmd.Parameters.Add("@idRol", SqlDbType.Int).Value = idRol;
-            int idHotel;
-            /*if (cboRol.SelectedIndex == 0)
-                idHotel = 0;
-            else*/
-            idHotel = cboHotel.SelectedIndex + 1;
-            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel; //REVISAR
+            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel;
 
             cmd.Parameters.Add("@idUsuario", SqlDbType.Int).Value = idUsuario; //REVISAR
             cmd.Parameters.Add("@nombre", SqlDbType.VarChar, 50).Value = txtNombre.Text;
@@ -227,14 +219,14 @@ namespace FrbaHotel.AbmUsuario
             if (chkModiPw.Checked)
             {
                 txtPassword.Text = "";
-                txtPassword.Visible = true;
-                label6.Visible = true;
+                txtPassword.Enabled = true;
+                label6.Enabled = true;
             }
             else
             {
-                txtPassword.Text = "nn22";
-                label6.Visible = false;
-                txtPassword.Visible = false;
+                txtPassword.Text = "";
+                label6.Enabled = false;
+                txtPassword.Enabled = false;
             }
         }
         private void cargarTipoID()
@@ -265,33 +257,6 @@ namespace FrbaHotel.AbmUsuario
 
 
         }
-        private void cargarHoteles()
-        {
-
-
-            string consultaBusqueda = String.Format("select distinct * from mmel.Hotel ");
-            string strCo = ConfigurationManager.AppSettings["stringConexion"];
-            SqlConnection con = new SqlConnection(strCo);
-            SqlCommand cmd = new SqlCommand(consultaBusqueda, con);
-            con.Open();
-            if (cmd.Connection.State == ConnectionState.Closed)
-            {
-                cmd.Connection.Open();
-            }
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            while (reader.Read())
-            {
-                string tipo = (reader["Nombre"].ToString());
-                cboHotel.Items.Add(tipo);
-
-            }
-            reader.Close();
-            con.Close();
-
-
-
-        }
 
         private void cargarPaises()
         {
@@ -317,8 +282,6 @@ namespace FrbaHotel.AbmUsuario
             }
             reader.Close();
             con.Close();
-
-
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -353,6 +316,36 @@ namespace FrbaHotel.AbmUsuario
 
 
 
+        }
+
+        private void seleccionarRolBtn_Click(object sender, EventArgs e)
+        {
+            var abmRol = new AbmRol.Listado(true);
+
+            abmRol.ShowDialog();
+
+            if (abmRol.DialogResult == DialogResult.OK)
+            {
+                var Rol = abmRol.ObjetoResultado;
+
+                this.rolInput.Text = Rol.Nombre;
+                this.idRol = Rol.idRol;
+            }
+        }
+
+        private void seleccionarHotelBtn_Click(object sender, EventArgs e)
+        {
+            var abmHotel = new AbmHotel.Listado(true);
+
+            abmHotel.ShowDialog();
+
+            if (abmHotel.DialogResult == DialogResult.OK)
+            {
+                var Hotel = abmHotel.ObjetoResultado;
+
+                this.hotelInput.Text = Hotel.Nombre;
+                this.idHotel = Hotel.IdHotel;
+            }
         }
     }
     

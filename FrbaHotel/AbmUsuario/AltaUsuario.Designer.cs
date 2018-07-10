@@ -60,14 +60,16 @@
             this.lblApellido = new System.Windows.Forms.Label();
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.lblNombre = new System.Windows.Forms.Label();
-            this.cboRol = new System.Windows.Forms.ComboBox();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.txtUserName = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.lblHotel = new System.Windows.Forms.Label();
-            this.cboHotel = new System.Windows.Forms.ComboBox();
+            this.seleccionarHotelBtn = new System.Windows.Forms.Button();
+            this.hotelInput = new System.Windows.Forms.TextBox();
+            this.rolInput = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.seleccionarRolBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -82,9 +84,9 @@
             // 
             // btnLimpiar
             // 
-            this.btnLimpiar.Location = new System.Drawing.Point(247, 448);
+            this.btnLimpiar.Location = new System.Drawing.Point(389, 447);
             this.btnLimpiar.Name = "btnLimpiar";
-            this.btnLimpiar.Size = new System.Drawing.Size(106, 47);
+            this.btnLimpiar.Size = new System.Drawing.Size(137, 50);
             this.btnLimpiar.TabIndex = 64;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.UseVisualStyleBackColor = true;
@@ -174,14 +176,15 @@
             // 
             // dtfn2
             // 
+            this.dtfn2.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtfn2.Location = new System.Drawing.Point(184, 151);
             this.dtfn2.Name = "dtfn2";
-            this.dtfn2.Size = new System.Drawing.Size(194, 20);
+            this.dtfn2.Size = new System.Drawing.Size(91, 20);
             this.dtfn2.TabIndex = 53;
             // 
             // btnCrear
             // 
-            this.btnCrear.Location = new System.Drawing.Point(399, 448);
+            this.btnCrear.Location = new System.Drawing.Point(544, 447);
             this.btnCrear.Name = "btnCrear";
             this.btnCrear.Size = new System.Drawing.Size(137, 50);
             this.btnCrear.TabIndex = 52;
@@ -336,34 +339,24 @@
             this.lblNombre.TabIndex = 34;
             this.lblNombre.Text = "Nombre";
             // 
-            // cboRol
-            // 
-            this.cboRol.FormattingEnabled = true;
-            this.cboRol.Location = new System.Drawing.Point(435, 91);
-            this.cboRol.Name = "cboRol";
-            this.cboRol.Size = new System.Drawing.Size(100, 21);
-            this.cboRol.TabIndex = 71;
-            this.cboRol.Text = "Seleccionar";
-            this.cboRol.SelectedIndexChanged += new System.EventHandler(this.cboRol_SelectedIndexChanged);
-            // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(432, 62);
+            this.txtPassword.Location = new System.Drawing.Point(359, 62);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(103, 20);
+            this.txtPassword.Size = new System.Drawing.Size(180, 20);
             this.txtPassword.TabIndex = 70;
             // 
             // txtUserName
             // 
-            this.txtUserName.Location = new System.Drawing.Point(431, 34);
+            this.txtUserName.Location = new System.Drawing.Point(358, 34);
             this.txtUserName.Name = "txtUserName";
-            this.txtUserName.Size = new System.Drawing.Size(105, 20);
+            this.txtUserName.Size = new System.Drawing.Size(181, 20);
             this.txtUserName.TabIndex = 69;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(370, 95);
+            this.label7.Location = new System.Drawing.Point(297, 95);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(23, 13);
             this.label7.TabIndex = 68;
@@ -372,7 +365,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(370, 65);
+            this.label6.Location = new System.Drawing.Point(297, 65);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(53, 13);
             this.label6.TabIndex = 67;
@@ -381,41 +374,69 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(370, 37);
+            this.label5.Location = new System.Drawing.Point(297, 37);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(55, 13);
             this.label5.TabIndex = 66;
             this.label5.Text = "Username";
             // 
-            // lblHotel
+            // seleccionarHotelBtn
             // 
-            this.lblHotel.AutoSize = true;
-            this.lblHotel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lblHotel.Location = new System.Drawing.Point(337, 185);
-            this.lblHotel.Name = "lblHotel";
-            this.lblHotel.Size = new System.Drawing.Size(41, 17);
-            this.lblHotel.TabIndex = 118;
-            this.lblHotel.Text = "Hotel";
+            this.seleccionarHotelBtn.Location = new System.Drawing.Point(556, 116);
+            this.seleccionarHotelBtn.Name = "seleccionarHotelBtn";
+            this.seleccionarHotelBtn.Size = new System.Drawing.Size(89, 23);
+            this.seleccionarHotelBtn.TabIndex = 120;
+            this.seleccionarHotelBtn.Text = "Seleccionar";
+            this.seleccionarHotelBtn.UseVisualStyleBackColor = true;
+            this.seleccionarHotelBtn.Click += new System.EventHandler(this.seleccionarHotelBtn_Click);
             // 
-            // cboHotel
+            // hotelInput
             // 
-            this.cboHotel.FormattingEnabled = true;
-            this.cboHotel.Location = new System.Drawing.Point(340, 205);
-            this.cboHotel.Name = "cboHotel";
-            this.cboHotel.Size = new System.Drawing.Size(209, 21);
-            this.cboHotel.TabIndex = 117;
-            this.cboHotel.Text = "Seleccionar";
+            this.hotelInput.Location = new System.Drawing.Point(358, 118);
+            this.hotelInput.Name = "hotelInput";
+            this.hotelInput.ReadOnly = true;
+            this.hotelInput.Size = new System.Drawing.Size(181, 20);
+            this.hotelInput.TabIndex = 119;
+            // 
+            // rolInput
+            // 
+            this.rolInput.Location = new System.Drawing.Point(358, 92);
+            this.rolInput.Name = "rolInput";
+            this.rolInput.ReadOnly = true;
+            this.rolInput.Size = new System.Drawing.Size(181, 20);
+            this.rolInput.TabIndex = 121;
+            this.rolInput.TextChanged += new System.EventHandler(this.rolInput_TextChanged);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(297, 121);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(32, 13);
+            this.label8.TabIndex = 68;
+            this.label8.Text = "Hotel";
+            // 
+            // seleccionarRolBtn
+            // 
+            this.seleccionarRolBtn.Location = new System.Drawing.Point(556, 90);
+            this.seleccionarRolBtn.Name = "seleccionarRolBtn";
+            this.seleccionarRolBtn.Size = new System.Drawing.Size(89, 23);
+            this.seleccionarRolBtn.TabIndex = 122;
+            this.seleccionarRolBtn.Text = "Seleccionar";
+            this.seleccionarRolBtn.UseVisualStyleBackColor = true;
             // 
             // AltaUsuario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(586, 509);
-            this.Controls.Add(this.lblHotel);
-            this.Controls.Add(this.cboHotel);
-            this.Controls.Add(this.cboRol);
+            this.ClientSize = new System.Drawing.Size(693, 509);
+            this.Controls.Add(this.seleccionarRolBtn);
+            this.Controls.Add(this.rolInput);
+            this.Controls.Add(this.seleccionarHotelBtn);
+            this.Controls.Add(this.hotelInput);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.txtUserName);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -453,7 +474,6 @@
             this.Controls.Add(this.lblNombre);
             this.Name = "AltaUsuario";
             this.Text = "AltaUsuario";
-            this.Load += new System.EventHandler(this.AltaUsuario_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -493,13 +513,15 @@
         private System.Windows.Forms.Label lblApellido;
         private System.Windows.Forms.TextBox txtNombre;
         private System.Windows.Forms.Label lblNombre;
-        private System.Windows.Forms.ComboBox cboRol;
         private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.TextBox txtUserName;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label lblHotel;
-        private System.Windows.Forms.ComboBox cboHotel;
+        private System.Windows.Forms.Button seleccionarHotelBtn;
+        private System.Windows.Forms.TextBox hotelInput;
+        private System.Windows.Forms.TextBox rolInput;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button seleccionarRolBtn;
     }
 }

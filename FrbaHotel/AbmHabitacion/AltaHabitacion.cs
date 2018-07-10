@@ -168,5 +168,10 @@ namespace FrbaHotel.AbmHabitacion
                 this.hotelInput.Text = Hotel.Nombre;
             } 
         }
+
+        private void hotelInput_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

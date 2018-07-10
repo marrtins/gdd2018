@@ -28,16 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblHotel = new System.Windows.Forms.Label();
-            this.cboHotel = new System.Windows.Forms.ComboBox();
-            this.cboRol = new System.Windows.Forms.ComboBox();
-            this.txtPassword = new System.Windows.Forms.TextBox();
-            this.txtUserName = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.btnLimpiar = new System.Windows.Forms.Button();
             this.chkHab = new System.Windows.Forms.CheckBox();
             this.txtNroCalle = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -49,7 +40,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.cboNacionalidad = new System.Windows.Forms.ComboBox();
             this.dtfn2 = new System.Windows.Forms.DateTimePicker();
-            this.btnCrear = new System.Windows.Forms.Button();
             this.lblFNac = new System.Windows.Forms.Label();
             this.txtLocalidad = new System.Windows.Forms.TextBox();
             this.txtCalle = new System.Windows.Forms.TextBox();
@@ -68,77 +58,20 @@
             this.lblApellido = new System.Windows.Forms.Label();
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.lblNombre = new System.Windows.Forms.Label();
+            this.btnLimpiar = new System.Windows.Forms.Button();
+            this.btnCrear = new System.Windows.Forms.Button();
+            this.seleccionarRolBtn = new System.Windows.Forms.Button();
+            this.rolInput = new System.Windows.Forms.TextBox();
+            this.seleccionarHotelBtn = new System.Windows.Forms.Button();
+            this.hotelInput = new System.Windows.Forms.TextBox();
+            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.txtUserName = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.chkModiPw = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
-            // 
-            // lblHotel
-            // 
-            this.lblHotel.AutoSize = true;
-            this.lblHotel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lblHotel.Location = new System.Drawing.Point(357, 176);
-            this.lblHotel.Name = "lblHotel";
-            this.lblHotel.Size = new System.Drawing.Size(41, 17);
-            this.lblHotel.TabIndex = 158;
-            this.lblHotel.Text = "Hotel";
-            // 
-            // cboHotel
-            // 
-            this.cboHotel.FormattingEnabled = true;
-            this.cboHotel.Location = new System.Drawing.Point(360, 196);
-            this.cboHotel.Name = "cboHotel";
-            this.cboHotel.Size = new System.Drawing.Size(209, 21);
-            this.cboHotel.TabIndex = 157;
-            this.cboHotel.Text = "Seleccionar";
-            // 
-            // cboRol
-            // 
-            this.cboRol.FormattingEnabled = true;
-            this.cboRol.Location = new System.Drawing.Point(456, 111);
-            this.cboRol.Name = "cboRol";
-            this.cboRol.Size = new System.Drawing.Size(100, 21);
-            this.cboRol.TabIndex = 156;
-            this.cboRol.Text = "Seleccionar";
-            // 
-            // txtPassword
-            // 
-            this.txtPassword.Location = new System.Drawing.Point(453, 82);
-            this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(103, 20);
-            this.txtPassword.TabIndex = 155;
-            // 
-            // txtUserName
-            // 
-            this.txtUserName.Location = new System.Drawing.Point(451, 25);
-            this.txtUserName.Name = "txtUserName";
-            this.txtUserName.Size = new System.Drawing.Size(105, 20);
-            this.txtUserName.TabIndex = 154;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(391, 115);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(23, 13);
-            this.label7.TabIndex = 153;
-            this.label7.Text = "Rol";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(391, 85);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(53, 13);
-            this.label6.TabIndex = 152;
-            this.label6.Text = "Password";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(390, 28);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(55, 13);
-            this.label5.TabIndex = 151;
-            this.label5.Text = "Username";
             // 
             // button1
             // 
@@ -149,16 +82,6 @@
             this.button1.Text = "Volver";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // btnLimpiar
-            // 
-            this.btnLimpiar.Location = new System.Drawing.Point(267, 439);
-            this.btnLimpiar.Name = "btnLimpiar";
-            this.btnLimpiar.Size = new System.Drawing.Size(106, 47);
-            this.btnLimpiar.TabIndex = 149;
-            this.btnLimpiar.Text = "Limpiar";
-            this.btnLimpiar.UseVisualStyleBackColor = true;
-            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
             // chkHab
             // 
@@ -245,20 +168,11 @@
             // 
             // dtfn2
             // 
+            this.dtfn2.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtfn2.Location = new System.Drawing.Point(204, 142);
             this.dtfn2.Name = "dtfn2";
-            this.dtfn2.Size = new System.Drawing.Size(194, 20);
+            this.dtfn2.Size = new System.Drawing.Size(92, 20);
             this.dtfn2.TabIndex = 138;
-            // 
-            // btnCrear
-            // 
-            this.btnCrear.Location = new System.Drawing.Point(419, 439);
-            this.btnCrear.Name = "btnCrear";
-            this.btnCrear.Size = new System.Drawing.Size(137, 50);
-            this.btnCrear.TabIndex = 137;
-            this.btnCrear.Text = "Modificar Usuario";
-            this.btnCrear.UseVisualStyleBackColor = true;
-            this.btnCrear.Click += new System.EventHandler(this.btnCrear_Click);
             // 
             // lblFNac
             // 
@@ -407,14 +321,120 @@
             this.lblNombre.TabIndex = 119;
             this.lblNombre.Text = "Nombre";
             // 
+            // btnLimpiar
+            // 
+            this.btnLimpiar.Location = new System.Drawing.Point(389, 445);
+            this.btnLimpiar.Name = "btnLimpiar";
+            this.btnLimpiar.Size = new System.Drawing.Size(137, 50);
+            this.btnLimpiar.TabIndex = 161;
+            this.btnLimpiar.Text = "Limpiar";
+            this.btnLimpiar.UseVisualStyleBackColor = true;
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
+            // 
+            // btnCrear
+            // 
+            this.btnCrear.Location = new System.Drawing.Point(544, 445);
+            this.btnCrear.Name = "btnCrear";
+            this.btnCrear.Size = new System.Drawing.Size(137, 50);
+            this.btnCrear.TabIndex = 160;
+            this.btnCrear.Text = "Modificar Usuario";
+            this.btnCrear.UseVisualStyleBackColor = true;
+            this.btnCrear.Click += new System.EventHandler(this.btnCrear_Click);
+            // 
+            // seleccionarRolBtn
+            // 
+            this.seleccionarRolBtn.Location = new System.Drawing.Point(578, 82);
+            this.seleccionarRolBtn.Name = "seleccionarRolBtn";
+            this.seleccionarRolBtn.Size = new System.Drawing.Size(89, 23);
+            this.seleccionarRolBtn.TabIndex = 171;
+            this.seleccionarRolBtn.Text = "Seleccionar";
+            this.seleccionarRolBtn.UseVisualStyleBackColor = true;
+            this.seleccionarRolBtn.Click += new System.EventHandler(this.seleccionarRolBtn_Click);
+            // 
+            // rolInput
+            // 
+            this.rolInput.Location = new System.Drawing.Point(380, 84);
+            this.rolInput.Name = "rolInput";
+            this.rolInput.ReadOnly = true;
+            this.rolInput.Size = new System.Drawing.Size(181, 20);
+            this.rolInput.TabIndex = 170;
+            // 
+            // seleccionarHotelBtn
+            // 
+            this.seleccionarHotelBtn.Location = new System.Drawing.Point(578, 108);
+            this.seleccionarHotelBtn.Name = "seleccionarHotelBtn";
+            this.seleccionarHotelBtn.Size = new System.Drawing.Size(89, 23);
+            this.seleccionarHotelBtn.TabIndex = 169;
+            this.seleccionarHotelBtn.Text = "Seleccionar";
+            this.seleccionarHotelBtn.UseVisualStyleBackColor = true;
+            this.seleccionarHotelBtn.Click += new System.EventHandler(this.seleccionarHotelBtn_Click);
+            // 
+            // hotelInput
+            // 
+            this.hotelInput.Location = new System.Drawing.Point(380, 110);
+            this.hotelInput.Name = "hotelInput";
+            this.hotelInput.ReadOnly = true;
+            this.hotelInput.Size = new System.Drawing.Size(181, 20);
+            this.hotelInput.TabIndex = 168;
+            // 
+            // txtPassword
+            // 
+            this.txtPassword.Location = new System.Drawing.Point(381, 54);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.Size = new System.Drawing.Size(180, 20);
+            this.txtPassword.TabIndex = 167;
+            // 
+            // txtUserName
+            // 
+            this.txtUserName.Location = new System.Drawing.Point(380, 26);
+            this.txtUserName.Name = "txtUserName";
+            this.txtUserName.Size = new System.Drawing.Size(181, 20);
+            this.txtUserName.TabIndex = 166;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(319, 113);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(32, 13);
+            this.label8.TabIndex = 164;
+            this.label8.Text = "Hotel";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(319, 87);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(23, 13);
+            this.label7.TabIndex = 165;
+            this.label7.Text = "Rol";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(319, 57);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 13);
+            this.label6.TabIndex = 163;
+            this.label6.Text = "Password";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(319, 29);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(55, 13);
+            this.label5.TabIndex = 162;
+            this.label5.Text = "Username";
+            // 
             // chkModiPw
             // 
             this.chkModiPw.AutoSize = true;
-            this.chkModiPw.Location = new System.Drawing.Point(363, 57);
+            this.chkModiPw.Location = new System.Drawing.Point(578, 56);
             this.chkModiPw.Name = "chkModiPw";
-            this.chkModiPw.Size = new System.Drawing.Size(118, 17);
-            this.chkModiPw.TabIndex = 159;
-            this.chkModiPw.Text = "Modificar Password";
+            this.chkModiPw.Size = new System.Drawing.Size(69, 17);
+            this.chkModiPw.TabIndex = 172;
+            this.chkModiPw.Text = "Modificar";
             this.chkModiPw.UseVisualStyleBackColor = true;
             this.chkModiPw.CheckedChanged += new System.EventHandler(this.chkModiPw_CheckedChanged);
             // 
@@ -422,18 +442,21 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(622, 497);
+            this.ClientSize = new System.Drawing.Size(693, 509);
             this.Controls.Add(this.chkModiPw);
-            this.Controls.Add(this.lblHotel);
-            this.Controls.Add(this.cboHotel);
-            this.Controls.Add(this.cboRol);
+            this.Controls.Add(this.seleccionarRolBtn);
+            this.Controls.Add(this.rolInput);
+            this.Controls.Add(this.seleccionarHotelBtn);
+            this.Controls.Add(this.hotelInput);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.txtUserName);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnLimpiar);
+            this.Controls.Add(this.btnCrear);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.chkHab);
             this.Controls.Add(this.txtNroCalle);
             this.Controls.Add(this.label4);
@@ -445,7 +468,6 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cboNacionalidad);
             this.Controls.Add(this.dtfn2);
-            this.Controls.Add(this.btnCrear);
             this.Controls.Add(this.lblFNac);
             this.Controls.Add(this.txtLocalidad);
             this.Controls.Add(this.txtCalle);
@@ -466,24 +488,13 @@
             this.Controls.Add(this.lblNombre);
             this.Name = "ModificarUsuario";
             this.Text = "ModificarUsuario";
-            this.Load += new System.EventHandler(this.ModificarUsuario_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Label lblHotel;
-        private System.Windows.Forms.ComboBox cboHotel;
-        private System.Windows.Forms.ComboBox cboRol;
-        private System.Windows.Forms.TextBox txtPassword;
-        private System.Windows.Forms.TextBox txtUserName;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.CheckBox chkHab;
         private System.Windows.Forms.TextBox txtNroCalle;
         private System.Windows.Forms.Label label4;
@@ -495,7 +506,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cboNacionalidad;
         private System.Windows.Forms.DateTimePicker dtfn2;
-        private System.Windows.Forms.Button btnCrear;
         private System.Windows.Forms.Label lblFNac;
         private System.Windows.Forms.TextBox txtLocalidad;
         private System.Windows.Forms.TextBox txtCalle;
@@ -514,6 +524,18 @@
         private System.Windows.Forms.Label lblApellido;
         private System.Windows.Forms.TextBox txtNombre;
         private System.Windows.Forms.Label lblNombre;
+        private System.Windows.Forms.Button btnLimpiar;
+        private System.Windows.Forms.Button btnCrear;
+        private System.Windows.Forms.Button seleccionarRolBtn;
+        private System.Windows.Forms.TextBox rolInput;
+        private System.Windows.Forms.Button seleccionarHotelBtn;
+        private System.Windows.Forms.TextBox hotelInput;
+        private System.Windows.Forms.TextBox txtPassword;
+        private System.Windows.Forms.TextBox txtUserName;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox chkModiPw;
     }
 }

@@ -96,12 +96,6 @@
     <Compile Include="AbmHabitacion\AltaHabitacion.Designer.cs">
       <DependentUpon>AltaHabitacion.cs</DependentUpon>
     </Compile>
-    <Compile Include="AbmHabitacion\BajaHabitacion.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AbmHabitacion\BajaHabitacion.Designer.cs">
-      <DependentUpon>BajaHabitacion.cs</DependentUpon>
-    </Compile>
     <Compile Include="AbmHabitacion\InicioHabitacion.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -383,9 +377,6 @@
     <EmbeddedResource Include="AbmHabitacion\AltaHabitacion.resx">
       <DependentUpon>AltaHabitacion.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AbmHabitacion\BajaHabitacion.resx">
-      <DependentUpon>BajaHabitacion.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="AbmHabitacion\InicioHabitacion.resx">
       <DependentUpon>InicioHabitacion.cs</DependentUpon>
     </EmbeddedResource>
@@ -519,23 +510,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="ActiveBarLibrary">
-      <Guid>{0F987290-56EE-11D0-9C43-00A0C90F29FC}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="AxActiveBarLibrary">
-      <Guid>{0F987290-56EE-11D0-9C43-00A0C90F29FC}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>aximp</WrapperTool>
-      <Isolated>False</Isolated>
-    </COMReference>
     <COMReference Include="stdole">
       <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
       <VersionMajor>2</VersionMajor>
@@ -551,6 +525,9 @@
       <Project>{6d126e23-b24e-48a5-98a9-c3a006d93df9}</Project>
       <Name>Rubberduck.Winforms</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TextFile1.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

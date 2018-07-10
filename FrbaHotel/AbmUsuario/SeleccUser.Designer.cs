@@ -52,7 +52,7 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(69, 158);
+            this.dataGridView1.Location = new System.Drawing.Point(12, 189);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(687, 270);
             this.dataGridView1.TabIndex = 0;
@@ -74,24 +74,24 @@
             this.groupBox1.Controls.Add(this.lblApellido);
             this.groupBox1.Controls.Add(this.txtNombre);
             this.groupBox1.Controls.Add(this.lblNombre);
-            this.groupBox1.Location = new System.Drawing.Point(82, 12);
+            this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(655, 129);
+            this.groupBox1.Size = new System.Drawing.Size(687, 171);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros de búsqueda";
             // 
             // txtUsername
             // 
-            this.txtUsername.Location = new System.Drawing.Point(514, 29);
+            this.txtUsername.Location = new System.Drawing.Point(391, 26);
             this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(74, 20);
+            this.txtUsername.Size = new System.Drawing.Size(151, 20);
             this.txtUsername.TabIndex = 13;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(435, 31);
+            this.label2.Location = new System.Drawing.Point(320, 29);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(55, 13);
             this.label2.TabIndex = 12;
@@ -99,9 +99,9 @@
             // 
             // btnLimpiar
             // 
-            this.btnLimpiar.Location = new System.Drawing.Point(63, 89);
+            this.btnLimpiar.Location = new System.Drawing.Point(323, 120);
             this.btnLimpiar.Name = "btnLimpiar";
-            this.btnLimpiar.Size = new System.Drawing.Size(131, 28);
+            this.btnLimpiar.Size = new System.Drawing.Size(105, 31);
             this.btnLimpiar.TabIndex = 11;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.UseVisualStyleBackColor = true;
@@ -109,7 +109,7 @@
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(529, 78);
+            this.btnBuscar.Location = new System.Drawing.Point(437, 120);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(105, 31);
             this.btnBuscar.TabIndex = 10;
@@ -119,15 +119,15 @@
             // 
             // txtEmail
             // 
-            this.txtEmail.Location = new System.Drawing.Point(258, 86);
+            this.txtEmail.Location = new System.Drawing.Point(143, 131);
             this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(91, 20);
+            this.txtEmail.Size = new System.Drawing.Size(158, 20);
             this.txtEmail.TabIndex = 9;
             // 
             // lblEmail
             // 
             this.lblEmail.AutoSize = true;
-            this.lblEmail.Location = new System.Drawing.Point(211, 89);
+            this.lblEmail.Location = new System.Drawing.Point(20, 132);
             this.lblEmail.Name = "lblEmail";
             this.lblEmail.Size = new System.Drawing.Size(32, 13);
             this.lblEmail.TabIndex = 8;
@@ -135,15 +135,15 @@
             // 
             // txtNroId
             // 
-            this.txtNroId.Location = new System.Drawing.Point(280, 60);
+            this.txtNroId.Location = new System.Drawing.Point(143, 105);
             this.txtNroId.Name = "txtNroId";
-            this.txtNroId.Size = new System.Drawing.Size(69, 20);
+            this.txtNroId.Size = new System.Drawing.Size(158, 20);
             this.txtNroId.TabIndex = 7;
             // 
             // lblNro
             // 
             this.lblNro.AutoSize = true;
-            this.lblNro.Location = new System.Drawing.Point(166, 64);
+            this.lblNro.Location = new System.Drawing.Point(20, 108);
             this.lblNro.Name = "lblNro";
             this.lblNro.Size = new System.Drawing.Size(105, 13);
             this.lblNro.TabIndex = 6;
@@ -152,7 +152,7 @@
             // cboTipoId
             // 
             this.cboTipoId.FormattingEnabled = true;
-            this.cboTipoId.Location = new System.Drawing.Point(280, 28);
+            this.cboTipoId.Location = new System.Drawing.Point(144, 78);
             this.cboTipoId.Name = "cboTipoId";
             this.cboTipoId.Size = new System.Drawing.Size(104, 21);
             this.cboTipoId.TabIndex = 5;
@@ -161,7 +161,7 @@
             // lblTipo
             // 
             this.lblTipo.AutoSize = true;
-            this.lblTipo.Location = new System.Drawing.Point(160, 29);
+            this.lblTipo.Location = new System.Drawing.Point(16, 84);
             this.lblTipo.Name = "lblTipo";
             this.lblTipo.Size = new System.Drawing.Size(109, 13);
             this.lblTipo.TabIndex = 4;
@@ -169,15 +169,15 @@
             // 
             // txtApellido
             // 
-            this.txtApellido.Location = new System.Drawing.Point(64, 63);
+            this.txtApellido.Location = new System.Drawing.Point(144, 52);
             this.txtApellido.Name = "txtApellido";
-            this.txtApellido.Size = new System.Drawing.Size(68, 20);
+            this.txtApellido.Size = new System.Drawing.Size(157, 20);
             this.txtApellido.TabIndex = 3;
             // 
             // lblApellido
             // 
             this.lblApellido.AutoSize = true;
-            this.lblApellido.Location = new System.Drawing.Point(17, 64);
+            this.lblApellido.Location = new System.Drawing.Point(16, 55);
             this.lblApellido.Name = "lblApellido";
             this.lblApellido.Size = new System.Drawing.Size(44, 13);
             this.lblApellido.TabIndex = 2;
@@ -185,9 +185,9 @@
             // 
             // txtNombre
             // 
-            this.txtNombre.Location = new System.Drawing.Point(63, 26);
+            this.txtNombre.Location = new System.Drawing.Point(143, 26);
             this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(69, 20);
+            this.txtNombre.Size = new System.Drawing.Size(158, 20);
             this.txtNombre.TabIndex = 1;
             // 
             // lblNombre
@@ -201,7 +201,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(30, 451);
+            this.button1.Location = new System.Drawing.Point(12, 465);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(72, 25);
             this.button1.TabIndex = 6;
@@ -213,7 +213,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 485);
+            this.ClientSize = new System.Drawing.Size(718, 498);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dataGridView1);
