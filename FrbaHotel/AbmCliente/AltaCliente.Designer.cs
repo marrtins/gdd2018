@@ -223,9 +223,10 @@ namespace FrbaHotel.AbmCliente
             // 
             // dtfn2
             // 
+            this.dtfn2.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtfn2.Location = new System.Drawing.Point(174, 192);
             this.dtfn2.Name = "dtfn2";
-            this.dtfn2.Size = new System.Drawing.Size(194, 20);
+            this.dtfn2.Size = new System.Drawing.Size(91, 20);
             this.dtfn2.TabIndex = 21;
             // 
             // cboNacionalidad
@@ -252,7 +253,6 @@ namespace FrbaHotel.AbmCliente
             this.cboPaisDir.Name = "cboPaisDir";
             this.cboPaisDir.Size = new System.Drawing.Size(145, 21);
             this.cboPaisDir.TabIndex = 24;
-            this.cboPaisDir.SelectedIndexChanged += new System.EventHandler(this.cboPaisDir_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -371,7 +371,6 @@ namespace FrbaHotel.AbmCliente
             this.Controls.Add(this.lblNombre);
             this.Name = "AltaCliente";
             this.Text = "Alta de Cliente";
-            this.Load += new System.EventHandler(this.AltaCliente_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

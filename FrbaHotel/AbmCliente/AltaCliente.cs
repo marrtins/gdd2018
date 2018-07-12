@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrbaHotel.Utilities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -18,34 +19,17 @@ namespace FrbaHotel.AbmCliente
         {
             InitializeComponent();
 
-           
-
             cargarTipoID();
             cargarPaises();
             cboTipo.Text="Seleccionar";
             cboPaisDir.Text = "Seleccionar";
             cboNacionalidad.Text = "Seleccionar";
 
-
-        }
-
-        private void btnCrear_Click(object sender, EventArgs e)
-        {
-
-
-
-
-        }
-
-        private void AltaCliente_Load(object sender, EventArgs e)
-        {
-
+            dtfn2.Value = LoginData.SystemDate;
         }
 
         private void btnCrear_Click_1(object sender, EventArgs e)
         {
-
-
             if (datosValidos())
             {
                 
@@ -107,11 +91,9 @@ namespace FrbaHotel.AbmCliente
                     MessageBox.Show("Cliente no creado. El mail ya existe", "X", MessageBoxButtons.OK);
 
                 }
-
             }
-
-            
         }
+
         public bool datosValidos()
         {
             int i;
@@ -131,10 +113,9 @@ namespace FrbaHotel.AbmCliente
 
             return true;
         }
+
         private void cargarTipoID()
         {
-
-
             string consultaBusqueda = String.Format("select distinct * from mmel.TipoDocumento ");
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
@@ -154,16 +135,10 @@ namespace FrbaHotel.AbmCliente
             }
             reader.Close();
             con.Close();
-            
-
-
-
         }
 
         private void cargarPaises()
         {
-
-
             string consultaBusqueda = String.Format("select distinct * from mmel.Pais ");
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
@@ -180,12 +155,9 @@ namespace FrbaHotel.AbmCliente
                 string tipo = (reader["Nombre"].ToString());
                 cboPaisDir.Items.Add(tipo);
                 cboNacionalidad.Items.Add(tipo);
-
             }
             reader.Close();
             con.Close();
-            
-
         }
 
         private void btnLimpiar_Click(object sender, EventArgs e)
@@ -213,11 +185,6 @@ namespace FrbaHotel.AbmCliente
             };
 
             func(Controls);
-
-        }
-
-        private void cboPaisDir_SelectedIndexChanged(object sender, EventArgs e)
-        {
 
         }
 
