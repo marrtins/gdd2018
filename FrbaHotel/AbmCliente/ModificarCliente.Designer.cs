@@ -76,7 +76,6 @@ namespace FrbaHotel.AbmCliente
             this.lblNombre.Size = new System.Drawing.Size(44, 13);
             this.lblNombre.TabIndex = 0;
             this.lblNombre.Text = "Nombre";
-            this.lblNombre.Click += new System.EventHandler(this.label1_Click);
             // 
             // lblApellido
             // 
@@ -161,9 +160,10 @@ namespace FrbaHotel.AbmCliente
             // 
             // dateTimePicker1
             // 
+            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dateTimePicker1.Location = new System.Drawing.Point(225, 203);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
+            this.dateTimePicker1.Size = new System.Drawing.Size(112, 20);
             this.dateTimePicker1.TabIndex = 10;
             // 
             // lblFechaNac
@@ -408,7 +408,6 @@ namespace FrbaHotel.AbmCliente
             this.Controls.Add(this.lblNombre);
             this.Name = "ModificarCliente";
             this.Text = "ModificarCliente";
-            this.Load += new System.EventHandler(this.ModificarCliente_Load);
             this.groupClienteNoHabilitado.ResumeLayout(false);
             this.groupClienteNoHabilitado.PerformLayout();
             this.ResumeLayout(false);

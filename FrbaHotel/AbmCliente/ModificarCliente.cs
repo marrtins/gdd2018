@@ -37,8 +37,6 @@ namespace FrbaHotel.AbmCliente
 
         public ModificarCliente(DatosCliente datos)
         {
-
-            
             this.idPersona = datos.idPersona;
             this.nombre = datos.nombre;
             this.apellido = datos.apellido;
@@ -90,10 +88,8 @@ namespace FrbaHotel.AbmCliente
 
             llenarCampos();
 
-
+            dateTimePicker1.Value = LoginData.SystemDate;
         }
-
-
         
        private void llenarCampos()
         {
@@ -119,21 +115,6 @@ namespace FrbaHotel.AbmCliente
             txtPiso.Text = this.dirpiso.ToString();
             txtDepto2.Text = this.dirdepto;
             txtLocalidad.Text = this.dirloc;
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void ModificarCliente_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblClienteHabilitado_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void Limpiar_Click(object sender, EventArgs e)
@@ -224,9 +205,6 @@ namespace FrbaHotel.AbmCliente
             if (cboPais.Text == "Seleccionar") { MessageBox.Show("Falta completar pais del domicilio", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
 
             return true;
-
-
-
         }
 
 
@@ -234,8 +212,6 @@ namespace FrbaHotel.AbmCliente
 
         private void cargarTipoID()
         {
-
-
             string consultaBusqueda = String.Format("select distinct * from mmel.TipoDocumento ");
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
@@ -256,15 +232,10 @@ namespace FrbaHotel.AbmCliente
             reader.Close();
             con.Close();
             cboTipoId.Items.Add("Otro");
-
-
-
         }
 
         private void cargarPaises()
         {
-
-
             string consultaBusqueda = String.Format("select distinct * from mmel.Pais ");
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
@@ -287,8 +258,6 @@ namespace FrbaHotel.AbmCliente
             con.Close();
             cboPais.Items.Add("Otro");
             cboNacionalidad.Items.Add("Otro");
-
-
         }
 
         private void button1_Click(object sender, EventArgs e)

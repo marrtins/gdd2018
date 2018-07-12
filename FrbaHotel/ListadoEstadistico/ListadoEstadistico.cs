@@ -36,6 +36,7 @@ namespace FrbaHotel.ListadoEstadistico
 
             RegistrarInputs();
 
+            dateTimePicker1.Value = LoginData.SystemDate;
             dateTimePicker1.Format = DateTimePickerFormat.Custom;
             dateTimePicker1.CustomFormat = "yyyy";
             dateTimePicker1.ShowUpDown = true;

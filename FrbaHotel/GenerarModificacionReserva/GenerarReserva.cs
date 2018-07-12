@@ -36,23 +36,16 @@ namespace FrbaHotel.GenerarModificacionReserva
             txtC4.Text = "0";
             txtC5.Text = "0";
 
-
-
-
+            dtDesde.Value = LoginData.SystemDate;
+            dtHasta.Value = LoginData.SystemDate;
         }
+
         public GenerarReserva()
         {
-            
-        }
+            InitializeComponent();
 
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void GenerarReserva_Load(object sender, EventArgs e)
-        {
-
+            dtDesde.Value = LoginData.SystemDate;
+            dtHasta.Value = LoginData.SystemDate;
         }
 
         private void cargarRegimenes()
@@ -83,10 +76,7 @@ namespace FrbaHotel.GenerarModificacionReserva
                 
             }
             reader.Close();
-            con.Close();
-
-
-            
+            con.Close();  
         }
        
 
@@ -197,15 +187,10 @@ namespace FrbaHotel.GenerarModificacionReserva
                 txtC4.Enabled = false;
                 txtC5.Enabled = false;
             }
-
-
-
         }
 
         private bool haydispo(string tipoHabDesc,int cant)
         {
-
-
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
 
@@ -247,20 +232,11 @@ namespace FrbaHotel.GenerarModificacionReserva
                 button1.Enabled = false;
                 btnReservar.Enabled = true;*/
                 return true;
-
-
-
             }
-
-
-
-            
         }
 
         private void llenarDataGridDePrecios()
         {
-
-
             int cantPersonas = getCantPersonas();
 
             string consultaBusqueda = String.Format("select (r.precio * {0} + ho.RecargaEstrellas * ho.CantidadEstrellas) \"Precio por Noche\", Descripcion \"Tipo de Regimen\" from mmel.Regimen r, mmel.hotel ho where ho.idHotel={1}", cantPersonas,idHotel);
@@ -274,15 +250,6 @@ namespace FrbaHotel.GenerarModificacionReserva
            
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void dgPrecios_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
         private int getTipoCant(ComboBox cbo)
         {
             if (cbo.Text == "Base Simple") return 1;
@@ -292,6 +259,7 @@ namespace FrbaHotel.GenerarModificacionReserva
             if (cbo.Text == "King") return 5;
             return 0;
         }
+
         private int getCantPersonas()
         {
 
@@ -308,8 +276,6 @@ namespace FrbaHotel.GenerarModificacionReserva
 
 
             return cant;
-            
-
         }
 
         private void btnReservar_Click(object sender, EventArgs e)
@@ -360,14 +326,12 @@ namespace FrbaHotel.GenerarModificacionReserva
                 tcs.Add(tc);
             }
 
-
-
+            this.Hide();
             ConfirmarReserva cr = new ConfirmarReserva(idHotel,dtDesde.Value,dtHasta.Value,cboHotel.Text,cboRegimen.Text,precio,tcs);
             cr.Show();
-            this.Hide();
-              
-
+            this.Show();
         }
+
         private float getPrecio()
         {
             string consultaBusqueda = String.Format("select (r.precio * {0} + ho.RecargaEstrellas * ho.CantidadEstrellas) \"Precio por Noche\", Descripcion \"Tipo de Regimen\" from mmel.Regimen r, mmel.hotel ho where ho.idHotel={1} and r.descripcion='{2}'", getCantPersonas(), idHotel,cboRegimen.Text);

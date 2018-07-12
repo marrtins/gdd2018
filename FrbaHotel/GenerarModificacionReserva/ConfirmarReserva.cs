@@ -28,8 +28,6 @@ namespace FrbaHotel.GenerarModificacionReserva
         private int codigoRes;
         private List<TipoCant> tcs;
 
-
-
         public ConfirmarReserva(int idHotel,DateTime dtDesde, DateTime dtHasta, string hotel, string regimen, float precio,List<TipoCant>tcs)
         {
             this.dtDesde = dtDesde;
@@ -58,35 +56,18 @@ namespace FrbaHotel.GenerarModificacionReserva
             cboPaisDirNuevo.Text = "Seleccionar";
             cboNacionalidadNuevo.Text = "Seleccionar";
 
-
-
             cboidtipo.Items.Add("Seleccionar");
             cboTipoIdNuevo.Items.Add("Seleccionar");
             cboPaisDirNuevo.Items.Add("Seleccionar");
             cboNacionalidadNuevo.Items.Add("Seleccionar");
             cargarPaises();
             cargarTipoID();
-
-
-
-
-
         }
 
         public ConfirmarReserva(int idPersona)
         {
             this.idPersona = idPersona;
             if (idPersona != -1) idCliente = idPersona;
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void ConfirmarReserva_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void btnConfirmar_Click(object sender, EventArgs e)
@@ -263,8 +244,6 @@ namespace FrbaHotel.GenerarModificacionReserva
             cmd.Parameters.Add("@tipoRegimenDesc", SqlDbType.VarChar, 100).Value = regimen;
             cmd.Parameters.Add("@idPersona", SqlDbType.Int).Value = idPersona;
             
-            
-            
 
             if (cmd.Connection.State == ConnectionState.Closed)
             {
@@ -362,16 +341,6 @@ namespace FrbaHotel.GenerarModificacionReserva
             }
         }
 
-        private void lblHab_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void optRegis_CheckedChanged(object sender, EventArgs e)
         {
             if (optRegis.Checked)
@@ -394,12 +363,6 @@ namespace FrbaHotel.GenerarModificacionReserva
                 }
             }
         }
-
-        private void btnCrear_Click(object sender, EventArgs e)
-        {
-            
-        }
-
 
         private bool crearCliente()
         {
@@ -487,24 +450,8 @@ namespace FrbaHotel.GenerarModificacionReserva
             return true;
         }
 
-        /*public bool datosValidosIdent()
-        {
-            if((cboTipoIdIden.Text=="Seleccionar") && (txtNroIdentiIden.Text=="") && (txtMailIden.Text == ""))
-            {
-                MessageBox.Show("Faltan datos en la identificacion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }else if(cboTipoIdIden)
-        }
-        }*/
-
-        private void btnIdeMail_Click(object sender, EventArgs e)
-        {
-
-        }
         private void cargarTipoID()
         {
-
-
             string consultaBusqueda = String.Format("select distinct * from mmel.TipoDocumento ");
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
@@ -526,9 +473,6 @@ namespace FrbaHotel.GenerarModificacionReserva
             con.Close();
             cboTipoIdNuevo.Items.Add("Otro");
             cboidtipo.Items.Add("Otro");
-
-
-
         }
 
         private void cargarPaises()
@@ -557,15 +501,11 @@ namespace FrbaHotel.GenerarModificacionReserva
             con.Close();
             cboPaisDirNuevo.Items.Add("Otro");
             cboNacionalidadNuevo.Items.Add("Otro");
-
-
         }
 
         private void btnVolver_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            GenerarReserva gr = new GenerarReserva();
-            gr.Show();
+            this.Close();
         }
     }
 }

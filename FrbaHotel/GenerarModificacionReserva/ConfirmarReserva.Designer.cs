@@ -125,7 +125,6 @@
             this.lblHab.Size = new System.Drawing.Size(88, 13);
             this.lblHab.TabIndex = 3;
             this.lblHab.Text = "Tipo Habitacion: ";
-            this.lblHab.Click += new System.EventHandler(this.lblHab_Click);
             // 
             // lblHotel
             // 
@@ -153,7 +152,6 @@
             this.lblDesde.Size = new System.Drawing.Size(41, 13);
             this.lblDesde.TabIndex = 0;
             this.lblDesde.Text = "Desde:";
-            this.lblDesde.Click += new System.EventHandler(this.label2_Click);
             // 
             // optNuevo
             // 
@@ -286,6 +284,7 @@
             // 
             // cboPaisDirNuevo
             // 
+            this.cboPaisDirNuevo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboPaisDirNuevo.FormattingEnabled = true;
             this.cboPaisDirNuevo.Location = new System.Drawing.Point(64, 386);
             this.cboPaisDirNuevo.Name = "cboPaisDirNuevo";
@@ -469,7 +468,7 @@
             this.grpIdentificarse.Controls.Add(this.groupBox2);
             this.grpIdentificarse.Location = new System.Drawing.Point(430, 31);
             this.grpIdentificarse.Name = "grpIdentificarse";
-            this.grpIdentificarse.Size = new System.Drawing.Size(311, 283);
+            this.grpIdentificarse.Size = new System.Drawing.Size(311, 276);
             this.grpIdentificarse.TabIndex = 7;
             this.grpIdentificarse.TabStop = false;
             this.grpIdentificarse.Text = "Identificarse";
@@ -495,6 +494,7 @@
             // 
             // cboidtipo
             // 
+            this.cboidtipo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboidtipo.FormattingEnabled = true;
             this.cboidtipo.Location = new System.Drawing.Point(56, 24);
             this.cboidtipo.Name = "cboidtipo";
@@ -559,7 +559,6 @@
             this.Controls.Add(this.optNuevo);
             this.Name = "ConfirmarReserva";
             this.Text = "ConfirmarReserva";
-            this.Load += new System.EventHandler(this.ConfirmarReserva_Load);
             this.grMain.ResumeLayout(false);
             this.grMain.PerformLayout();
             this.grNuevoCliente.ResumeLayout(false);

@@ -33,6 +33,9 @@ namespace FrbaHotel.GenerarModificacionReserva
             llenarCampos();
             groupBox1.Visible = false;
             chkModificar.Checked = false;
+
+            dtDesde.Value = LoginData.SystemDate;
+            dtHasta.Value = LoginData.SystemDate;
         }
 
 
