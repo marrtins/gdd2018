@@ -125,7 +125,6 @@
             this.label5.Size = new System.Drawing.Size(32, 13);
             this.label5.TabIndex = 8;
             this.label5.Text = "Hotel";
-            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // cboHotel
             // 
@@ -152,7 +151,6 @@
             this.dgPrecios.Name = "dgPrecios";
             this.dgPrecios.Size = new System.Drawing.Size(287, 159);
             this.dgPrecios.TabIndex = 11;
-            this.dgPrecios.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgPrecios_CellContentClick);
             // 
             // btnReservar
             // 
@@ -334,7 +332,6 @@
             this.Controls.Add(this.dtDesde);
             this.Name = "GenerarReserva";
             this.Text = "GenerarReserva";
-            this.Load += new System.EventHandler(this.GenerarReserva_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgPrecios)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
