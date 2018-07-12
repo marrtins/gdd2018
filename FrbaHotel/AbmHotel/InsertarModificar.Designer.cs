@@ -1,4 +1,6 @@
-﻿namespace FrbaHotel.AbmHotel
+﻿using FrbaHotel.Utilities;
+
+namespace FrbaHotel.AbmHotel
 {
     partial class InsertarModificar
     {
@@ -254,7 +256,6 @@
             this.FechaCreacionDtp.Name = "FechaCreacionDtp";
             this.FechaCreacionDtp.Size = new System.Drawing.Size(85, 20);
             this.FechaCreacionDtp.TabIndex = 24;
-            this.FechaCreacionDtp.Value = new System.DateTime(2018, 6, 28, 0, 0, 0, 0);
             // 
             // label9
             // 

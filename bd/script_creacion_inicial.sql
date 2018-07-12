@@ -914,15 +914,15 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[getI
 	DROP PROCEDURE [MMEL].getInfoUsuario
 GO
 
-create procedure mmel.getInfoUsuario(@nombre varchar(50) output,@apellido varchar(50) output,@tipoid varchar(50) output,@nroDoc varchar(25) output,@fechanac datetime output,@nacionalidad varchar(50) output,@email varchar(200) output,
+create procedure [MMEL].[getInfoUsuario](@nombre varchar(50) output,@apellido varchar(50) output,@tipoid varchar(50) output,@nroDoc varchar(25) output,@fechanac datetime output,@nacionalidad varchar(50) output,@email varchar(200) output,
 	@telefono varchar(30) output,@calle varchar(150)output,@nro int output,@piso int output,@dpto char(2)output,@localidad varchar(150)output,@pais varchar(150)output,@activo char(1) output,
-	@username varchar(75) output,@rol varchar(30)output,@hotel varchar(200)output,@idUsuario int)
+	@username varchar(75) output,@rol varchar(30)output,@hotel varchar(200)output,@idUsuario int,@idRol int output, @idHotel int output)
 as
 begin
 
 	select @nombre = pe.nombre,@apellido=pe.Apellido,@tipoid=td.detalle,@nroDoc=pe.NroDocumento,@fechanac=pe.FechaDeNacimiento,@nacionalidad=p1.Nombre,@email=pe.Mail,
 	@telefono=pe.Telefono,@calle=pe.dirCalle,@nro=pe.dirNroCalle,@piso=pe.dirPiso,@dpto=pe.dirDepto,@localidad=pe.dirLocalidad,@pais=p2.Nombre,@activo=us.Activo,@username=us.Username,@rol=ro.Nombre,
-	@hotel=ho.Nombre
+	@hotel=ho.Nombre, @idRol = upr.idRol, @idHotel = hpu.idHotel
 	 from mmel.Persona pe,mmel.Usuarios us,mmel.Hotel ho,mmel.TipoDocumento td,mmel.Pais p1,mmel.Pais p2,mmel.Rol ro,mmel.UsuariosPorRoles upr,mmel.HotelesPorUsuarios hpu where
 	 pe.idPersona=us.idPersona and pe.idTipoDocumento=td.idTipoDocumento and p1.idPais=pe.idNacionalidad and p2.idPais=pe.dirIdPais and upr.idRol=ro.idRol and upr.idUsuario=us.idUsuario and
 	 hpu.idHotel=ho.idHotel and hpu.idUsuario=us.idUsuario and us.idUsuario=@idUsuario

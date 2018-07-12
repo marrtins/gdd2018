@@ -1,4 +1,6 @@
-﻿namespace FrbaHotel.AbmCliente
+﻿using FrbaHotel.Utilities;
+
+namespace FrbaHotel.AbmCliente
 {
     partial class ModificarCliente
     {

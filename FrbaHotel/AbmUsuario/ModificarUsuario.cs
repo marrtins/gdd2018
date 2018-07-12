@@ -32,6 +32,8 @@ namespace FrbaHotel.AbmUsuario
             txtPassword.Visible = false;
             label6.Visible = false;
 
+            dtfn2.Value = LoginData.SystemDate;
+
         }
 
         private void llenarCamposUsuario()

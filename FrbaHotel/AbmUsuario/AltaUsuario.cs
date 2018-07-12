@@ -27,6 +27,8 @@ namespace FrbaHotel.AbmUsuario
             cboTipo.Text = "Seleccionar";
             cboPaisDir.Text = "Seleccionar";
             cboNacionalidad.Text = "Seleccionar";
+
+            dtfn2.Value = LoginData.SystemDate;
         }
 
         public bool datosValidos()
