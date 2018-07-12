@@ -20,12 +20,10 @@ namespace FrbaHotel.AbmRol
         BindingList<Funcionalidad> funcionalidades = new BindingList<Funcionalidad>();
 
         public Rol ObjetoResultado { get; private set; }
-        public TipoSeleccion TipoSeleccion { get; set; }
-        public List<Rol> ObjetosResultado { get; private set; }
 
-        public Listado(TipoSeleccion tipoSeleccion)
+
+        public Listado(bool seleccionar)
         {
-            TipoSeleccion = tipoSeleccion;
             InitializeComponent();
 
             this.rolesGridView.AutoGenerateColumns = false;
@@ -38,12 +36,11 @@ namespace FrbaHotel.AbmRol
 
             this.rolesGridView.MultiSelect = false;
 
-            this.seleccionarBtn.Visible = tipoSeleccion != TipoSeleccion.No;
-            this.rolesGridView.MultiSelect = tipoSeleccion == TipoSeleccion.Multi;
+            this.seleccionarBtn.Visible = seleccionar;
         }
 
         public Listado()
-            : this(TipoSeleccion.No)
+            : this(false)
         {
 
         }
@@ -165,11 +162,7 @@ namespace FrbaHotel.AbmRol
             if (hasObj)
             {
                 this.DialogResult = DialogResult.OK;
-
-                if (this.TipoSeleccion == TipoSeleccion.Single)
-                    this.ObjetoResultado = (Rol)this.rolesGridView.SelectedRows[0].DataBoundItem;
-                else
-                    this.ObjetosResultado = rolesGridView.SelectedRows.Cast<DataGridViewRow>().Select(dr => dr.DataBoundItem as Rol).ToList();
+                this.ObjetoResultado = (Rol)this.rolesGridView.SelectedRows[0].DataBoundItem;
 
                 this.Close();
             }

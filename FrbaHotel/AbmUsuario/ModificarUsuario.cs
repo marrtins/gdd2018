@@ -320,7 +320,7 @@ namespace FrbaHotel.AbmUsuario
 
         private void seleccionarRolBtn_Click(object sender, EventArgs e)
         {
-            var abmRol = new AbmRol.Listado(TipoSeleccion.Multi);
+            var abmRol = new AbmRol.Listado(true);
 
             abmRol.ShowDialog();
 
@@ -335,7 +335,7 @@ namespace FrbaHotel.AbmUsuario
 
         private void seleccionarHotelBtn_Click(object sender, EventArgs e)
         {
-            var abmHotel = new AbmHotel.Listado(TipoSeleccion.Multi);
+            var abmHotel = new AbmHotel.Listado(true);
 
             abmHotel.ShowDialog();
 

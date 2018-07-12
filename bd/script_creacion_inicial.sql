@@ -898,10 +898,7 @@ begin
 		
 		insert into mmel.Usuarios(idPersona,Activo,IngresosFallidos,Password,Username) values(@idNuevo,@habilitado,0,HASHBYTES('SHA2_256',@Password),UPPER(@Username))
 		set @idNuevo=SCOPE_IDENTITY() 
-		if(@idRol=1)
-			insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(1,@idNuevo)
-		else
-			insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(2,@idNuevo)
+		insert into mmel.UsuariosPorRoles(idRol,idUsuario) values(@idRol,@idNuevo)
 		set @codigoRet = 0 --se creo ok el cliente
 
 		if(@idHotel > 0)

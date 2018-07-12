@@ -2,12 +2,10 @@
 using FrbaHotel.Utilities;
 using Rubberduck.Winforms;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace FrbaHotel.AbmHotel
@@ -17,17 +15,11 @@ namespace FrbaHotel.AbmHotel
         BindingList<Hotel> hoteles = new BindingList<Hotel>();
 
         public DialogResult Resultado { get; set; } //utilizado en seleccion
-
         public Hotel ObjetoResultado { get; set; }
-        public List<Hotel> ObjetosResultado { get; set; }
 
-        public TipoSeleccion TipoSeleccion { get; set; }
-
-        public Listado(TipoSeleccion tipoSeleccion)
+        public Listado(bool seleccionar)
             : base(new HotelFiltros())
         {
-            TipoSeleccion = tipoSeleccion;
-
             InitializeComponent();
 
             this.hotelesGridView.AutoGenerateColumns = false;
@@ -35,16 +27,10 @@ namespace FrbaHotel.AbmHotel
             this.hotelesGridView.DataSource = hoteles;
 
             RegistrarInputs();
-
-
-            this.seleccionarBtn.Visible = tipoSeleccion != TipoSeleccion.No;
-            this.hotelesGridView.MultiSelect = tipoSeleccion == TipoSeleccion.Multi;
-
-            RefreshData();
         }
 
         public Listado()
-            : this(TipoSeleccion.No)
+            : this(false)
         {
 
         }
@@ -169,12 +155,8 @@ namespace FrbaHotel.AbmHotel
             var hasObj = this.hotelesGridView.SelectedRows.Count > 0;
 
             if (hasObj) {
-                this.DialogResult = DialogResult.OK;   
-                
-                if(this.TipoSeleccion == TipoSeleccion.Single)
-                    this.ObjetoResultado = (Hotel)this.hotelesGridView.SelectedRows[0].DataBoundItem;
-                else
-                    this.ObjetosResultado = hotelesGridView.SelectedRows.Cast<DataGridViewRow>().Select(dr => dr.DataBoundItem as Hotel).ToList();
+                this.DialogResult = DialogResult.OK;    
+                this.ObjetoResultado = (Hotel)this.hotelesGridView.SelectedRows[0].DataBoundItem;
 
                 this.Close();
             }
