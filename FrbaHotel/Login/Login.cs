@@ -51,13 +51,13 @@ namespace FrbaHotel.Login
                 bool debeAbrirSeleccionar = roles.Count > 1 || hoteles.Count > 1;
 
                 if (debeAbrirSeleccionar)
-             
-                        Seleccionar();
-                else
-                    LoginData.Rol = roles.First();
 
-                if (LoginData.Rol.idRol == 2)
+                    Seleccionar();
+                else
+                {
+                    LoginData.Rol = roles.First();
                     LoginData.Hotel = hoteles.First();
+                }
 
                 this.Hide();
               

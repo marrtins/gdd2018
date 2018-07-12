@@ -29,11 +29,12 @@ namespace FrbaHotel.AbmUsuario
 
             this.idUsuario = idUsuario;
             llenarCamposUsuario();
-            txtPassword.Visible = false;
-            label6.Visible = false;
 
             dtfn2.Value = LoginData.SystemDate;
 
+            txtPassword.Text = "";
+            label6.Enabled = false;
+            txtPassword.Enabled = false;
         }
 
         private void llenarCamposUsuario()
@@ -138,7 +139,7 @@ namespace FrbaHotel.AbmUsuario
         private void btnCrear_Click(object sender, EventArgs e)
         {
             //modif
-            if (!puedeModificar) { 
+            if (!puedeModificar) {
                 MessageBox.Show("Usuario no modificado. Solo puede modificar a empleados del mismo hotel", "X", MessageBoxButtons.OK);
                 return;
             }
@@ -150,7 +151,16 @@ namespace FrbaHotel.AbmUsuario
 
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@username", SqlDbType.NVarChar, 200).Value = txtUserName.Text;
-            cmd.Parameters.Add("@password", SqlDbType.VarChar, 200).Value = txtPassword.Text;
+
+            if (chkModiPw.Checked)
+            {
+                cmd.Parameters.Add("@password", SqlDbType.VarChar, 200).Value = txtPassword.Text;
+            }
+            else {
+                cmd.Parameters.Add("@password", SqlDbType.VarChar, 200).Value = "nn22";
+
+            }
+
             cmd.Parameters.Add("@idRol", SqlDbType.Int).Value = idRol;
             cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel;
 
@@ -315,9 +325,6 @@ namespace FrbaHotel.AbmUsuario
                 if (txtPassword.Text == "") { MessageBox.Show("Falta completar el password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
             }
             return true;
-
-
-
         }
 
         private void seleccionarRolBtn_Click(object sender, EventArgs e)

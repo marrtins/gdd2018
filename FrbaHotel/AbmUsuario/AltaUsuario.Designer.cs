@@ -151,6 +151,7 @@
             // 
             // cboPaisDir
             // 
+            this.cboPaisDir.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboPaisDir.FormattingEnabled = true;
             this.cboPaisDir.Location = new System.Drawing.Point(131, 383);
             this.cboPaisDir.Name = "cboPaisDir";
@@ -168,6 +169,7 @@
             // 
             // cboNacionalidad
             // 
+            this.cboNacionalidad.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboNacionalidad.FormattingEnabled = true;
             this.cboNacionalidad.Location = new System.Drawing.Point(144, 191);
             this.cboNacionalidad.Name = "cboNacionalidad";
@@ -292,6 +294,7 @@
             // 
             // cboTipo
             // 
+            this.cboTipo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboTipo.FormattingEnabled = true;
             this.cboTipo.Location = new System.Drawing.Point(184, 88);
             this.cboTipo.Name = "cboTipo";
@@ -405,7 +408,6 @@
             this.rolInput.ReadOnly = true;
             this.rolInput.Size = new System.Drawing.Size(181, 20);
             this.rolInput.TabIndex = 121;
-            this.rolInput.TextChanged += new System.EventHandler(this.rolInput_TextChanged);
             // 
             // label8
             // 
@@ -424,6 +426,7 @@
             this.seleccionarRolBtn.TabIndex = 122;
             this.seleccionarRolBtn.Text = "Seleccionar";
             this.seleccionarRolBtn.UseVisualStyleBackColor = true;
+            this.seleccionarRolBtn.Click += new System.EventHandler(this.seleccionarRolBtn_Click);
             // 
             // AltaUsuario
             // 

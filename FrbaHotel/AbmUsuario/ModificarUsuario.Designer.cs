@@ -143,6 +143,7 @@
             // 
             // cboPaisDir
             // 
+            this.cboPaisDir.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboPaisDir.FormattingEnabled = true;
             this.cboPaisDir.Location = new System.Drawing.Point(151, 374);
             this.cboPaisDir.Name = "cboPaisDir";
@@ -160,6 +161,7 @@
             // 
             // cboNacionalidad
             // 
+            this.cboNacionalidad.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboNacionalidad.FormattingEnabled = true;
             this.cboNacionalidad.Location = new System.Drawing.Point(164, 182);
             this.cboNacionalidad.Name = "cboNacionalidad";
@@ -274,6 +276,7 @@
             // 
             // cboTipo
             // 
+            this.cboTipo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboTipo.FormattingEnabled = true;
             this.cboTipo.Location = new System.Drawing.Point(204, 79);
             this.cboTipo.Name = "cboTipo";

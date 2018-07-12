@@ -238,7 +238,7 @@ namespace FrbaHotel.AbmUsuario
             }
         }
 
-        private void rolInput_TextChanged(object sender, EventArgs e)
+        private void seleccionarRolBtn_Click(object sender, EventArgs e)
         {
             var abmRol = new AbmRol.Listado(true);
 

@@ -161,10 +161,16 @@ namespace FrbaHotel.AbmRol
 
             if (hasObj)
             {
-                this.DialogResult = DialogResult.OK;
+                
                 this.ObjetoResultado = (Rol)this.rolesGridView.SelectedRows[0].DataBoundItem;
 
-                this.Close();
+                if (ObjetoResultado.Nombre.ToLower() == "guest")
+                    MessageBox.Show("Por favor seleccione un rol distinto de guest");
+                else
+                {
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
             }
             else
             {
