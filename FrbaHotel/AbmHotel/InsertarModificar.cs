@@ -43,7 +43,7 @@ namespace FrbaHotel.AbmHotel
         {
             hotel.CantidadEstrellas = 1; //si fuera cero romperia
             hotel.IdPais = 1;
-            hotel.FechaDeCreacion = DateTime.Today;
+            hotel.FechaDeCreacion = LoginData.SystemDate;
         }
 
         public InsertarModificar(int idUsuario, Hotel hotel)

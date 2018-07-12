@@ -330,7 +330,7 @@
             this.Controls.Add(this.limpiarBtn);
             this.Controls.Add(this.filtrosGroup);
             this.Name = "Listado";
-            this.Text = "+";
+            this.Text = "ABM de Hoteles";
             this.filtrosGroup.ResumeLayout(false);
             this.filtrosGroup.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cantidadEstrellasInput)).EndInit();

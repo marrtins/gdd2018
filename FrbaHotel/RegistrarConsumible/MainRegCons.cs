@@ -96,7 +96,7 @@ namespace FrbaHotel.RegistrarConsumible
                 cmd.Parameters.Add("@codigoReserva", SqlDbType.VarChar,50).Value = txtCodRes.Text;
                 cmd.Parameters.Add("@idConsumible", SqlDbType.Int).Value = getIdConsumible();
                 cmd.Parameters.Add("@cantidad", SqlDbType.Int).Value = Int32.Parse(textBox1.Text);
-                cmd.Parameters.Add("@fechaCheckOut", SqlDbType.Date).Value = DateTime.Today; ///ARREGLARRR
+                cmd.Parameters.Add("@fechaCheckOut", SqlDbType.Date).Value = LoginData.SystemDate; ///ARREGLARRR
                 cmd.Parameters.Add("@codigoRet", SqlDbType.Int).Direction = ParameterDirection.Output; //0->no existe la habitacion en esta fecha ; 1 -> ok
                 cmd.Parameters.Add("@idEstadia", SqlDbType.Int).Direction = ParameterDirection.Output;
                 

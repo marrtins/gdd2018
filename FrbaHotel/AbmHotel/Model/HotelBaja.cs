@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrbaHotel.Utilities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -15,8 +16,8 @@ namespace FrbaHotel.AbmHotel.Model
 
         public HotelBaja()
         {
-            FechaDesde = DateTime.Today;
-            FechaHasta = DateTime.Today;
+            FechaDesde = LoginData.SystemDate;
+            FechaHasta = LoginData.SystemDate;
         }
 
         [CustomRequired]
@@ -29,8 +30,8 @@ namespace FrbaHotel.AbmHotel.Model
 
             set
             {
-                if (value < DateTime.Today)
-                    value = DateTime.Today;
+                if (value < LoginData.SystemDate)
+                    value = LoginData.SystemDate;
 
                 fechaDesde = value;
                 InvokePropertyChanged("");

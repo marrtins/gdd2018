@@ -39,6 +39,8 @@ namespace FrbaHotel.AbmHotel
 
             this.seleccionarBtn.Visible = tipoSeleccion != TipoSeleccion.No;
             this.hotelesGridView.MultiSelect = tipoSeleccion == TipoSeleccion.Multi;
+
+            RefreshData();
         }
 
         public Listado()
