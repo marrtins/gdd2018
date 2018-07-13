@@ -51,6 +51,8 @@ namespace FrbaHotel.ListadoEstadistico
             top5Input.DataBindings.Add(new TextBinding(this.Model, "Top5De"));
             Register(ErrorLabel.For(top5Input, Alignment.Bottom, 2));
 
+            (this.Model as Top5Filtros).Anio = LoginData.SystemDate.Year.ToString();
+            
 
             dateTimePicker1.DataBindings.Add(new TextBinding(this.Model, "Anio"));
             Register(ErrorLabel.For(dateTimePicker1, Alignment.Bottom, 2));
