@@ -193,6 +193,9 @@ namespace FrbaHotel.AbmRol
 
         private void funcionalidadesGrid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex == -1)
+                return;
+
             var selectedItem = this.funcionalidadesGrid.Rows[e.RowIndex].DataBoundItem as Funcionalidad;
 
 
