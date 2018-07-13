@@ -49,7 +49,8 @@ namespace FrbaHotel.AbmHotel
         public InsertarModificar(int idUsuario, Hotel hotel)
             :base(hotel)
         {
-            InitializeComponent();
+            InitializeComponent();        
+
             this.idUsuario = idUsuario;
             this.paises = Paises.GetAll();
             this.Text = "Modificar";
