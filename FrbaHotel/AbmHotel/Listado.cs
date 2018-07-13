@@ -128,7 +128,17 @@ namespace FrbaHotel.AbmHotel
 
         private void AbrirModificar(Hotel hotel)
         {
-            InsertarModificar ins = new InsertarModificar(1,ObjectCloner.DeepCopy(hotel));
+            var hotelCopy = ObjectCloner.DeepCopy(hotel);
+
+            if (hotelCopy.FechaDeCreacion == DateTime.MinValue)
+            {
+                MessageBox.Show("El hotel seleccionado no tiene una fecha de creacion. " +
+                    "Es posible que esto suceda porque fue creado al realizar una migracion. Se utilizara la fecha de hoy por defecto","Advertencia");
+
+                hotelCopy.FechaDeCreacion = LoginData.SystemDate;
+            }
+
+            InsertarModificar ins = new InsertarModificar(1, hotelCopy);
             this.Hide();
 
             ins.ShowDialog();
