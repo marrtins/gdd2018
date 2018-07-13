@@ -281,6 +281,12 @@
     <Compile Include="RegistrarConsumible\VerConsumibles.Designer.cs">
       <DependentUpon>VerConsumibles.cs</DependentUpon>
     </Compile>
+    <Compile Include="RegistrarEstadia\IngresarCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegistrarEstadia\IngresarCliente.Designer.cs">
+      <DependentUpon>IngresarCliente.cs</DependentUpon>
+    </Compile>
     <Compile Include="RegistrarEstadia\MainRegEstadia.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -472,6 +478,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RegistrarConsumible\VerConsumibles.resx">
       <DependentUpon>VerConsumibles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegistrarEstadia\IngresarCliente.resx">
+      <DependentUpon>IngresarCliente.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RegistrarEstadia\MainRegEstadia.resx">
       <DependentUpon>MainRegEstadia.cs</DependentUpon>

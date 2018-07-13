@@ -1972,17 +1972,36 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[canc
 	DROP procedure [MMEL].cancelNoShow
 go
 
-create procedure mmel.cancelNoShow(@fechaHoy datetime)
+create procedure mmel.cancelNoShow(@fechaHoy datetime,@rta int output)
 as
 begin
-	update mmel.Reserva 
-	set EstadoReserva = 'CXNS'
+	set @rta=0
+	/*update mmel.Reserva 
+	set 
+	EstadoReserva = case when	FechaDesde < @fechaHoy and idReserva not in(select idReserva from mmel.Estadia) then 'CXNS' END
+	*/
 	
-	where FechaDesde < @fechaHoy and idReserva not in(select idReserva from mmel.Estadia)
+	update mmel.reserva 
+	set EstadoReserva = 'CXNS' 
+	where FechaDesde < @fechaHoy and (EstadoReserva='RINCF' or EstadoReserva='CO' or EstadoReserva = 'MO') --and idReserva not in(select es.idReserva from mmel.Estadia es)
 
 	delete mmel.ReservaPorHabitacion from mmel.Reserva re
-	where mmel.ReservaPorHabitacion.idReserva=re.idReserva and re.idReserva not in(select idReserva from mmel.Estadia) and (re.EstadoReserva='CXNS' or re.EstadoReserva='CPR' or re.EstadoReserva='CPC') 
+	where mmel.ReservaPorHabitacion.idReserva=re.idReserva and re.idReserva not in(select es.idReserva from mmel.Estadia es) and re.EstadoReserva='CXNS' 
+	set @rta=2
 end
+go
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[borrarHabs]'))
+	DROP procedure [MMEL].borrarHabs
+go
+
+create procedure mmel.borrarHabs
+as
+begin
+delete mmel.ReservaPorHabitacion 
+from mmel.Reserva re
+where mmel.ReservaPorHabitacion.idReserva=re.idReserva and re.EstadoReserva='CXNS'  and re.idReserva not in(select idReserva from mmel.Estadia) 
+end 
 go
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[existeUsuarioMod]'))
 	DROP function [MMEL].existeUsuarioMod
@@ -2207,6 +2226,29 @@ begin
 end
 go
 
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[getNombreHotel]'))
+	DROP procedure [MMEL].getNombreHotel
+go
+create procedure mmel.getNombreHotel(@idHotel int,@nombreHotel varchar(100) output)
+as
+begin
+	select @nombreHotel=Nombre from mmel.Hotel where idHotel=@idHotel
+end
+go
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[getCantHuespedes]'))
+	DROP procedure [MMEL].getCantHuespedes
+go
+create procedure mmel.getCantHuespedes(@codigoReserva int,@cantPersonas int output)
+as
+begin
+	declare @idReserva int
+	select @idReserva = idReserva from mmel.Reserva where CodigoReserva=@codigoReserva
+	set @cantPersonas=mmel.getCantPersonas(@idReserva)
+end
+go
+
+
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[modificarReserva]'))
 	DROP procedure [MMEL].modificarReserva
 go
@@ -2224,7 +2266,7 @@ begin
 	FechaDesde=@fechaDesde,
 	FechaHasta=@fechaHasta,
 	idRegimen=@idRegimen,
-	EstadoReserva='M'
+	EstadoReserva='MO'
 	where idReserva=@idReserva
 	
 	
@@ -2454,7 +2496,7 @@ begin
 	set @idHuesped=(select top 1 idHuesped from mmel.Huesped where idPersona=@idPersona)
 	
 	insert into mmel.Reserva(idUsuarioQueProcesoReserva,idHotel,FechaDeReserva,FechaDesde,FechaHasta,idRegimen,idHuesped,CodigoReserva,EstadoReserva)
-	values(@idUsuarioQueReserva,@idHotel,@fechaDeReserva,@fechaDesde,@fechaHasta,@idRegimen,@idHuesped,@codReserva2,'C')
+	values(@idUsuarioQueReserva,@idHotel,@fechaDeReserva,@fechaDesde,@fechaHasta,@idRegimen,@idHuesped,@codReserva2,'CO')
 	
 	
 	
@@ -2583,7 +2625,7 @@ create procedure mmel.existeReserva(@codigoRes int, @ret int output,@fechaDesde 
 as
 begin
 
-	if exists(select * from mmel.Reserva where CodigoReserva=@codigoRes and (EstadoReserva='CO' or EstadoReserva='RINCF'))
+	if exists(select * from mmel.Reserva where CodigoReserva=@codigoRes and (EstadoReserva='CO' or EstadoReserva='RINCF' or EstadoReserva='MO'))
 		begin
 		set @ret=1
 		select @fechaDesde=FechaDesde,@idHotel=idHotel from MMEL.Reserva where CodigoReserva=@codigoRes
@@ -2630,6 +2672,25 @@ begin
 	where idEstadia=@idEstadia
 end
 go
+
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[modificarFactura2]'))
+	DROP PROCEDURE [MMEL].modificarFactura2
+go
+create procedure mmel.modificarFactura2(@idEstadia int,@FactTotal int,@FacturaFecha datetime,@formaDePago int)
+as
+begin
+	
+	declare @idFormaDePago int
+	set @idFormaDePago=@formaDePago
+	update  mmel.Facturacion
+	set FactTotal=@FactTotal,
+	idFormaDePago=@idFormaDePago,
+	FacturaFecha=@FacturaFecha
+	where idEstadia=@idEstadia
+end
+go
+
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[modificarFormaDePago]'))
 	DROP PROCEDURE [MMEL].modificarFormaDePago
 go
@@ -2644,6 +2705,21 @@ begin
 	
 	where idEstadia=@idEstadia
 end
+
+go
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[cancelarNoShow]'))
+	DROP PROCEDURE [MMEL].cancelarNoShow
+go
+/*create procedure mmel.cancelarNoShow(@fechaHoy datetime)
+as
+begin
+	
+	update mmel.reserva 
+	set EstadoReserva = 'CXNS' 
+	where FechaDesde < @fechaHoy and (EstadoReserva='RINCF' or EstadoReserva='CO' or EstadoReserva = 'MO')
+
+
+end*/
 
 
 go
@@ -2692,8 +2768,14 @@ as
 begin
 
 	select @valorBase=itemFacturaMonto from mmel.ItemFactura where idEstadia = @idEstadia and itemDescripcion='VALOR BASE HABITACION'
+	if(@valorBase is null) set @valorBase=0
 	select @cantidadConsumibles = sum(itemFacturaCantidad),@valorConsumibles=sum(itemFacturaMonto) from mmel.ItemFactura where idEstadia=@idEstadia and itemDescripcion='VALOR CONSUMIBLE'
+	if(@cantidadConsumibles is null) set @cantidadConsumibles=0
+	if(@valorConsumibles is null) set @valorConsumibles=0
 	select @factTotal=FactTotal,@NroFactura=NroFactura,@FactFecha=FacturaFecha from mmel.Facturacion where idEstadia=@idEstadia
+	if(@factTotal is null) set @factTotal=0
+	if(@NroFactura is null) set @NroFactura=0
+	if(@FactFecha is null) set @FactFecha=0
 
 end
 
@@ -2775,13 +2857,14 @@ begin
 
 	select @rPrecio = convert(int,r.Precio),@hrEst =ho.RecargaEstrellas ,@hcantEst= ho.CantidadEstrellas
 	from mmel.Regimen r, mmel.hotel ho where ho.idHotel=@idHotel and r.idRegimen=@idRegimen
-
+	
 	select @valorConsumibles = sum(c.costo) from mmel.ConsumiblePorEstadia ce,mmel.consumible c where idEstadia=@idEstadia and ce.idConsumible=c.idConsumible
-
+	if (@valorConsumibles is null)
+	set @valorConsumibles=0
 	--set @valorBaseHab = @valorBaseHab * @cantDias*@cantPersonas
 
 	set @dtoRegimen = case
-		when @idRegimen=4 then @valorConsumibles else 0
+		when @idRegimen=3 then @valorConsumibles else 0
 		end
 	 
 
@@ -2798,10 +2881,12 @@ as
 begin
 	declare @nroFactura int
 	declare @idFormaDePago int
+	
 	select @nroFactura = max(NroFactura)+1 from mmel.Facturacion	
 	select @idFormaDePago = idFormaDePago from mmel.FormaDePago where Descripcion=@formaDePago
 	insert into mmel.Facturacion(idEstadia,FactTotal,NroFactura,FacturaFecha,idFormaDePago)
 	values(@idEstadia,@FactTotal,@nroFactura,@FacturaFecha,@idFormaDePago)
+	
 end
 go
 
@@ -2819,8 +2904,8 @@ begin
 	declare @idRes int
 	set @idRecepQueModifica=@iduserQueModifica
 	select @reschin = re.FechaDesde,@idRes=re.idReserva  from mmel.Reserva re,mmel.Estadia e where e.idReserva=re.idReserva
-	if(@reschin=@fechaCheckIn)
-		begin
+	--if(@reschin=@fechaCheckIn)
+		--begin
 		update mmel.Estadia
 		set FechaCheckIN = @fechaCheckIn,
 		idRecepcionistaCheckIN=@idRecepQueModifica,
@@ -2830,9 +2915,9 @@ begin
 		Consistente='S'
 		where idEstadia=@idEstadia
 		set @rta=1
-		end
-	else
-		set @rta=0
+		--end
+	--else
+		--set @rta=0
 
 	update mmel.Reserva set EstadoReserva='RCI' where idReserva=@idRes
 end
@@ -2873,8 +2958,9 @@ begin
 
 	
 	declare @idReserva int
-
-	if exists (select * from mmel.Reserva re where @codigoReserva=re.CodigoReserva and idHotel=@idHotel)
+	select @idReserva=idReserva from mmel.Reserva where CodigoReserva=@codigoReserva
+	select @idEstadia=idEstadia from mmel.Estadia where idReserva=@idReserva
+	if exists (select * from mmel.Reserva re where @codigoReserva=re.CodigoReserva and idHotel=@idHotel and @idEstadia not in (select idEstadia from mmel.Facturacion))
 
 
 		if exists(select idEstadia from mmel.Estadia es,mmel.Reserva re 
@@ -2882,7 +2968,7 @@ begin
 		begin
 
 			select @idEstadia = es.idEstadia from mmel.Estadia es,mmel.Reserva re 
-		where re.idReserva=es.idReserva and re.CodigoReserva=@codigoReserva
+				where re.idReserva=es.idReserva and re.CodigoReserva=@codigoReserva
 
 
 			DECLARE @cnt INT = 0;

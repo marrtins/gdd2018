@@ -96,10 +96,10 @@ namespace FrbaHotel.Facturar
             nuevoValorVB = valorBaseHab;
 
             valorActual=valorBaseHab + valorConsumibles;
-            if (dtoRegimen == 100)
+            if (dtoRegimen != 0)
             {
                 valorActual = valorActual - valorConsumibles;
-                lblTotalAct.Text = lblTotalAct.Text + String.Format(" $-{0}", valorConsumibles);
+                lblTotalAct.Text = lblTotalAct.Text + String.Format(" ${0}", valorActual);
                 dtoRegimenbool = true;
                 nuevoDtoRegimen = valorConsumibles;
             }
@@ -165,8 +165,9 @@ namespace FrbaHotel.Facturar
         private void button2_Click(object sender, EventArgs e)
         {
             //factual
-            if (cboFormaDePago.Text == "Seleccionar")
+            if (cboFormaDePago.Text == "" )
             {
+                MessageBox.Show("Completar forma de pago");
                 return;
             }
 
@@ -202,8 +203,8 @@ namespace FrbaHotel.Facturar
 
 
             this.Hide();
-            Inicio f = new Inicio();
-            f.Show();
+            //Inicio f = new Inicio();
+            //f.Show();
         }
         private void actualizarVBAse()
         {

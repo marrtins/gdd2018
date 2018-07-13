@@ -37,7 +37,7 @@ namespace FrbaHotel.GenerarModificacionReserva
                 cboHoteles.Text = "not";
             }
 
-            cancelPorNoShow();
+            //cancelPorNoShow();
         }
 
         private void cancelPorNoShow()
@@ -50,12 +50,8 @@ namespace FrbaHotel.GenerarModificacionReserva
             DateTime value = Convert.ToDateTime(ConfigurationManager.AppSettings["DateKey"]);
 
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add("@fechaHoy", SqlDbType.Date).Value = value;
+            cmd.Parameters.Add("@fechaHoy", SqlDbType.DateTime).Value = value;
           
-            
-            
-
-
 
             if (cmd.Connection.State == ConnectionState.Closed)
             {
@@ -141,7 +137,7 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         private void button3_Click(object sender, EventArgs e)
         {
-            this.Close();
+            this.Hide();
         }
     }
 }

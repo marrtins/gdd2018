@@ -55,7 +55,7 @@ namespace FrbaHotel.RegistrarEstadia
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@idEstadia", SqlDbType.Int).Value = idest;
             DateTime value = Convert.ToDateTime(ConfigurationManager.AppSettings["DateKey"]);
-            cmd.Parameters.Add("@fechaCheckIn", SqlDbType.DateTime).Value = value; 
+            cmd.Parameters.Add("@fechaCheckIn", SqlDbType.DateTime).Value = LoginData.SystemDate; 
             cmd.Parameters.Add("@iduserQueModifica", SqlDbType.Int).Value = LoginData.IdUsuario;
             cmd.Parameters.Add("@rta", SqlDbType.Int).Direction = ParameterDirection.Output;
             if (cmd.Connection.State == ConnectionState.Closed)
@@ -74,6 +74,9 @@ namespace FrbaHotel.RegistrarEstadia
             else
             {
                 MessageBox.Show("Solo puede realizarse check in el día que fue reservado", "X", MessageBoxButtons.OK);
+                //MessageBox.Show("Fecha check in modificada exitosamente", "X", MessageBoxButtons.OK);
+                //this.Hide();
+                //ftr.Show();
             }
         }
     }

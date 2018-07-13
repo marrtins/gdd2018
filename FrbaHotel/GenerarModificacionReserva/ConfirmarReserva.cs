@@ -72,6 +72,7 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         private void btnConfirmar_Click(object sender, EventArgs e)
         {
+            int i;
             if (optNuevo.Checked)
             {
                 if (crearCliente())
@@ -81,13 +82,13 @@ namespace FrbaHotel.GenerarModificacionReserva
             }
             else
             {
-                if(txtidnro.Text=="" && txtidmail.Text == "")
+                if(txtidnro.Text=="" && txtidmail.Text == "" )
                 {
                     MessageBox.Show("Faltan completar datos para identificar", "Error", MessageBoxButtons.OK);
                 }
-                else if((txtidnro.Text != "" && cboidtipo.Text!="")||(txtidmail.Text!=""))                 
+                else if((txtidnro.Text != "" && cboidtipo.Text!="" || !int.TryParse(txtidnro.Text, out i)) ||(txtidmail.Text!=""))                 
                 {
-                    if(txtidnro.Text!="" && cboidtipo.Text != "")
+                    if(txtidnro.Text!="" && cboidtipo.Text != ""  )
                     {
 
                         if (consultarUsuarioExistenteIdentificacion())
@@ -121,7 +122,7 @@ namespace FrbaHotel.GenerarModificacionReserva
         }
         private bool consultarUsuarioExistenteIdentificacion()
         {
-            string consultaBusqueda = String.Format("select p.idPersona,p.Nombre,p.Apellido,p.Mail,p.NroDocumento,hu.idHuesped from mmel.Persona p,mmel.Huesped, mmel.TipoDocumento td where p.idPersona=idPersona and p.NroDocumento={0} and td.idTipoDocumento=p.idTipoDocumento and td.detalle='{1}'", txtidnro.Text, cboidtipo.Text);
+            string consultaBusqueda = String.Format("select p.idPersona,p.Nombre,p.Apellido,p.Mail,p.NroDocumento,hu.idHuesped from mmel.Persona p,mmel.Huesped hu, mmel.TipoDocumento td where p.idPersona=hu.idPersona and p.NroDocumento={0} and td.idTipoDocumento=p.idTipoDocumento and td.detalle='{1}'", txtidnro.Text, cboidtipo.Text);
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
             SqlCommand cmd = new SqlCommand(consultaBusqueda, con);
@@ -506,6 +507,16 @@ namespace FrbaHotel.GenerarModificacionReserva
         private void btnVolver_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void txtidnro_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ConfirmarReserva_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

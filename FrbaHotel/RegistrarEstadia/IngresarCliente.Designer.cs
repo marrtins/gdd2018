@@ -1,6 +1,6 @@
-﻿namespace FrbaHotel.GenerarModificacionReserva
+﻿namespace FrbaHotel.RegistrarEstadia
 {
-    partial class ConfirmarReserva
+    partial class IngresarCliente
     {
         /// <summary>
         /// Required designer variable.
@@ -28,17 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblTot = new System.Windows.Forms.Label();
-            this.grMain = new System.Windows.Forms.GroupBox();
-            this.lblReg = new System.Windows.Forms.Label();
-            this.lblHab = new System.Windows.Forms.Label();
-            this.lblHotel = new System.Windows.Forms.Label();
-            this.lblHasta = new System.Windows.Forms.Label();
-            this.lblDesde = new System.Windows.Forms.Label();
-            this.optNuevo = new System.Windows.Forms.RadioButton();
-            this.optRegis = new System.Windows.Forms.RadioButton();
-            this.btnConfirmar = new System.Windows.Forms.Button();
-            this.btnVolver = new System.Windows.Forms.Button();
             this.grNuevoCliente = new System.Windows.Forms.GroupBox();
             this.txtNroCalle = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -77,125 +66,17 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.txtidmail = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.grMain.SuspendLayout();
+            this.optRegis = new System.Windows.Forms.RadioButton();
+            this.optNuevo = new System.Windows.Forms.RadioButton();
+            this.btnOk = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.lstHuespedes = new System.Windows.Forms.ListBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.grNuevoCliente.SuspendLayout();
             this.grpIdentificarse.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // lblTot
-            // 
-            this.lblTot.AutoSize = true;
-            this.lblTot.Location = new System.Drawing.Point(26, 175);
-            this.lblTot.Name = "lblTot";
-            this.lblTot.Size = new System.Drawing.Size(127, 13);
-            this.lblTot.TabIndex = 0;
-            this.lblTot.Text = "Costo total de la reserva: ";
-            // 
-            // grMain
-            // 
-            this.grMain.Controls.Add(this.lblReg);
-            this.grMain.Controls.Add(this.lblTot);
-            this.grMain.Controls.Add(this.lblHab);
-            this.grMain.Controls.Add(this.lblHotel);
-            this.grMain.Controls.Add(this.lblHasta);
-            this.grMain.Controls.Add(this.lblDesde);
-            this.grMain.Location = new System.Drawing.Point(53, 31);
-            this.grMain.Name = "grMain";
-            this.grMain.Size = new System.Drawing.Size(308, 215);
-            this.grMain.TabIndex = 1;
-            this.grMain.TabStop = false;
-            this.grMain.Text = "Su reserva: ";
-            // 
-            // lblReg
-            // 
-            this.lblReg.AutoSize = true;
-            this.lblReg.Location = new System.Drawing.Point(26, 141);
-            this.lblReg.Name = "lblReg";
-            this.lblReg.Size = new System.Drawing.Size(55, 13);
-            this.lblReg.TabIndex = 4;
-            this.lblReg.Text = "Regimen: ";
-            // 
-            // lblHab
-            // 
-            this.lblHab.AutoSize = true;
-            this.lblHab.Location = new System.Drawing.Point(26, 116);
-            this.lblHab.Name = "lblHab";
-            this.lblHab.Size = new System.Drawing.Size(88, 13);
-            this.lblHab.TabIndex = 3;
-            this.lblHab.Text = "Tipo Habitacion: ";
-            // 
-            // lblHotel
-            // 
-            this.lblHotel.AutoSize = true;
-            this.lblHotel.Location = new System.Drawing.Point(26, 43);
-            this.lblHotel.Name = "lblHotel";
-            this.lblHotel.Size = new System.Drawing.Size(38, 13);
-            this.lblHotel.TabIndex = 2;
-            this.lblHotel.Text = "Hotel: ";
-            // 
-            // lblHasta
-            // 
-            this.lblHasta.AutoSize = true;
-            this.lblHasta.Location = new System.Drawing.Point(26, 93);
-            this.lblHasta.Name = "lblHasta";
-            this.lblHasta.Size = new System.Drawing.Size(38, 13);
-            this.lblHasta.TabIndex = 1;
-            this.lblHasta.Text = "Hasta:";
-            // 
-            // lblDesde
-            // 
-            this.lblDesde.AutoSize = true;
-            this.lblDesde.Location = new System.Drawing.Point(26, 68);
-            this.lblDesde.Name = "lblDesde";
-            this.lblDesde.Size = new System.Drawing.Size(41, 13);
-            this.lblDesde.TabIndex = 0;
-            this.lblDesde.Text = "Desde:";
-            // 
-            // optNuevo
-            // 
-            this.optNuevo.AutoSize = true;
-            this.optNuevo.Location = new System.Drawing.Point(82, 268);
-            this.optNuevo.Name = "optNuevo";
-            this.optNuevo.Size = new System.Drawing.Size(92, 17);
-            this.optNuevo.TabIndex = 2;
-            this.optNuevo.TabStop = true;
-            this.optNuevo.Text = "Nuevo Cliente";
-            this.optNuevo.UseVisualStyleBackColor = true;
-            this.optNuevo.CheckedChanged += new System.EventHandler(this.optNuevo_CheckedChanged);
-            // 
-            // optRegis
-            // 
-            this.optRegis.AutoSize = true;
-            this.optRegis.Location = new System.Drawing.Point(186, 267);
-            this.optRegis.Name = "optRegis";
-            this.optRegis.Size = new System.Drawing.Size(111, 17);
-            this.optRegis.TabIndex = 3;
-            this.optRegis.TabStop = true;
-            this.optRegis.Text = "Cliente Registrado";
-            this.optRegis.UseVisualStyleBackColor = true;
-            this.optRegis.CheckedChanged += new System.EventHandler(this.optRegis_CheckedChanged);
-            // 
-            // btnConfirmar
-            // 
-            this.btnConfirmar.Location = new System.Drawing.Point(417, 480);
-            this.btnConfirmar.Name = "btnConfirmar";
-            this.btnConfirmar.Size = new System.Drawing.Size(99, 35);
-            this.btnConfirmar.TabIndex = 4;
-            this.btnConfirmar.Text = "Confirmar Reserva";
-            this.btnConfirmar.UseVisualStyleBackColor = true;
-            this.btnConfirmar.Click += new System.EventHandler(this.btnConfirmar_Click);
-            // 
-            // btnVolver
-            // 
-            this.btnVolver.Location = new System.Drawing.Point(82, 480);
-            this.btnVolver.Name = "btnVolver";
-            this.btnVolver.Size = new System.Drawing.Size(99, 34);
-            this.btnVolver.TabIndex = 5;
-            this.btnVolver.Text = "Volver";
-            this.btnVolver.UseVisualStyleBackColor = true;
-            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
             // grNuevoCliente
             // 
@@ -227,10 +108,10 @@
             this.grNuevoCliente.Controls.Add(this.lblApellido);
             this.grNuevoCliente.Controls.Add(this.txtNombre);
             this.grNuevoCliente.Controls.Add(this.lblNombre);
-            this.grNuevoCliente.Location = new System.Drawing.Point(430, 31);
+            this.grNuevoCliente.Location = new System.Drawing.Point(58, 105);
             this.grNuevoCliente.Name = "grNuevoCliente";
             this.grNuevoCliente.Size = new System.Drawing.Size(311, 425);
-            this.grNuevoCliente.TabIndex = 6;
+            this.grNuevoCliente.TabIndex = 7;
             this.grNuevoCliente.TabStop = false;
             this.grNuevoCliente.Text = "Nuevo Cliente";
             // 
@@ -466,10 +347,10 @@
             // 
             this.grpIdentificarse.Controls.Add(this.groupBox3);
             this.grpIdentificarse.Controls.Add(this.groupBox2);
-            this.grpIdentificarse.Location = new System.Drawing.Point(430, 31);
+            this.grpIdentificarse.Location = new System.Drawing.Point(33, 96);
             this.grpIdentificarse.Name = "grpIdentificarse";
-            this.grpIdentificarse.Size = new System.Drawing.Size(311, 276);
-            this.grpIdentificarse.TabIndex = 7;
+            this.grpIdentificarse.Size = new System.Drawing.Size(336, 281);
+            this.grpIdentificarse.TabIndex = 8;
             this.grpIdentificarse.TabStop = false;
             this.grpIdentificarse.Text = "Identificarse";
             // 
@@ -491,7 +372,6 @@
             this.txtidnro.Name = "txtidnro";
             this.txtidnro.Size = new System.Drawing.Size(200, 20);
             this.txtidnro.TabIndex = 3;
-            this.txtidnro.TextChanged += new System.EventHandler(this.txtidnro_TextChanged);
             // 
             // cboidtipo
             // 
@@ -546,23 +426,80 @@
             this.label7.TabIndex = 0;
             this.label7.Text = "Mail";
             // 
-            // ConfirmarReserva
+            // optRegis
+            // 
+            this.optRegis.AutoSize = true;
+            this.optRegis.Location = new System.Drawing.Point(162, 73);
+            this.optRegis.Name = "optRegis";
+            this.optRegis.Size = new System.Drawing.Size(111, 17);
+            this.optRegis.TabIndex = 9;
+            this.optRegis.TabStop = true;
+            this.optRegis.Text = "Cliente Registrado";
+            this.optRegis.UseVisualStyleBackColor = true;
+            this.optRegis.CheckedChanged += new System.EventHandler(this.optRegis_CheckedChanged);
+            // 
+            // optNuevo
+            // 
+            this.optNuevo.AutoSize = true;
+            this.optNuevo.Location = new System.Drawing.Point(58, 73);
+            this.optNuevo.Name = "optNuevo";
+            this.optNuevo.Size = new System.Drawing.Size(92, 17);
+            this.optNuevo.TabIndex = 8;
+            this.optNuevo.TabStop = true;
+            this.optNuevo.Text = "Nuevo Cliente";
+            this.optNuevo.UseVisualStyleBackColor = true;
+            // 
+            // btnOk
+            // 
+            this.btnOk.Location = new System.Drawing.Point(497, 417);
+            this.btnOk.Name = "btnOk";
+            this.btnOk.Size = new System.Drawing.Size(100, 36);
+            this.btnOk.TabIndex = 10;
+            this.btnOk.Text = "Agregar";
+            this.btnOk.UseVisualStyleBackColor = true;
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(45, 25);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(0, 13);
+            this.label8.TabIndex = 11;
+            // 
+            // lstHuespedes
+            // 
+            this.lstHuespedes.FormattingEnabled = true;
+            this.lstHuespedes.Location = new System.Drawing.Point(441, 147);
+            this.lstHuespedes.Name = "lstHuespedes";
+            this.lstHuespedes.Size = new System.Drawing.Size(218, 173);
+            this.lstHuespedes.TabIndex = 12;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(438, 131);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(64, 13);
+            this.label9.TabIndex = 13;
+            this.label9.Text = "Huespedes:";
+            // 
+            // IngresarCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(766, 548);
+            this.ClientSize = new System.Drawing.Size(710, 550);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.lstHuespedes);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.grpIdentificarse);
-            this.Controls.Add(this.grNuevoCliente);
-            this.Controls.Add(this.btnVolver);
-            this.Controls.Add(this.btnConfirmar);
+            this.Controls.Add(this.btnOk);
             this.Controls.Add(this.optRegis);
-            this.Controls.Add(this.grMain);
             this.Controls.Add(this.optNuevo);
-            this.Name = "ConfirmarReserva";
-            this.Text = "ConfirmarReserva";
-            this.Load += new System.EventHandler(this.ConfirmarReserva_Load);
-            this.grMain.ResumeLayout(false);
-            this.grMain.PerformLayout();
+            this.Controls.Add(this.grNuevoCliente);
+            this.Name = "IngresarCliente";
+            this.Text = "IngresarCliente";
+            this.Load += new System.EventHandler(this.IngresarCliente_Load);
             this.grNuevoCliente.ResumeLayout(false);
             this.grNuevoCliente.PerformLayout();
             this.grpIdentificarse.ResumeLayout(false);
@@ -577,17 +514,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Label lblTot;
-        private System.Windows.Forms.GroupBox grMain;
-        private System.Windows.Forms.Label lblHasta;
-        private System.Windows.Forms.Label lblDesde;
-        private System.Windows.Forms.Label lblHotel;
-        private System.Windows.Forms.Label lblHab;
-        private System.Windows.Forms.Label lblReg;
-        private System.Windows.Forms.RadioButton optNuevo;
-        private System.Windows.Forms.RadioButton optRegis;
-        private System.Windows.Forms.Button btnConfirmar;
-        private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.GroupBox grNuevoCliente;
         private System.Windows.Forms.TextBox txtNroCalle;
         private System.Windows.Forms.Label label4;
@@ -618,13 +544,19 @@
         private System.Windows.Forms.TextBox txtNombre;
         private System.Windows.Forms.Label lblNombre;
         private System.Windows.Forms.GroupBox grpIdentificarse;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TextBox txtidnro;
         private System.Windows.Forms.ComboBox cboidtipo;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TextBox txtidmail;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.RadioButton optRegis;
+        private System.Windows.Forms.RadioButton optNuevo;
+        private System.Windows.Forms.Button btnOk;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ListBox lstHuespedes;
+        private System.Windows.Forms.Label label9;
     }
 }

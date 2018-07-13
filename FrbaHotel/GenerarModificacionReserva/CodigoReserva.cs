@@ -79,12 +79,11 @@ namespace FrbaHotel.GenerarModificacionReserva
                 reader.Close();
                 con.Close();
                 res=llenarHabitaciones(res);
-                this.Hide();
+                
 
                 
 
-                ModificarReserva mr = new ModificarReserva(res);
-                mr.Show();
+                
             }
             else
             {
@@ -118,9 +117,11 @@ namespace FrbaHotel.GenerarModificacionReserva
                 }
                 reader.Close();
                 con.Close();
-                
-                
-                
+                ModificarReserva mr = new ModificarReserva(res);
+                mr.Show();
+                this.Hide();
+
+
             }
             else
             {

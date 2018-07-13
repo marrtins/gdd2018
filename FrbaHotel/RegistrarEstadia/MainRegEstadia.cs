@@ -21,6 +21,7 @@ namespace FrbaHotel.RegistrarEstadia
         public MainRegEstadia()
         {
             InitializeComponent();
+            
         }
 
         private void btnCheckIn_Click(object sender, EventArgs e)
@@ -29,12 +30,47 @@ namespace FrbaHotel.RegistrarEstadia
             {
                 if (existeReserva())
                 {
+                    
                     registrarCheckIn();
+                    registrarHuespedes();
+
                 }
             }
             
             //chequeo q la estadia no este inconsistente(si la estadia ya existe, mando a modificar. no existe-> la creo)
             //registro el check in
+        }
+
+        private void registrarHuespedes()
+        {
+            string strCo = ConfigurationManager.AppSettings["stringConexion"];
+            SqlConnection con = new SqlConnection(strCo);
+
+            SqlCommand cmd;
+            cmd = new SqlCommand("MMEL.getCantHuespedes", con);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@codigoReserva", SqlDbType.Int).Value = Int32.Parse(txtCodigoRes.Text);
+            cmd.Parameters.Add("@cantPersonas", SqlDbType.Int).Direction = ParameterDirection.Output;
+            if (cmd.Connection.State == ConnectionState.Closed)
+            {
+                cmd.Connection.Open();
+            }
+            cmd.ExecuteNonQuery();
+
+            int cantPersonas = int.Parse(cmd.Parameters["@cantPersonas"].Value.ToString());
+
+            if (cantPersonas > 1)
+            {
+                IngresarCliente ic = new IngresarCliente(this, cantPersonas-1);
+                this.Hide();
+                ic.Show();
+            }
+            else
+            {
+                MessageBox.Show("Fecha check in ingresada exitosamente", "X", MessageBoxButtons.OK);
+            }
+            
         }
 
         private void btnCheckOut_Click(object sender, EventArgs e)
@@ -130,7 +166,24 @@ namespace FrbaHotel.RegistrarEstadia
                     
                     consistente = Char.Parse(reader["consistente"].ToString());
                     idEst = idEstadia;
-                    if (consistente == 'S')
+
+
+                    actualizar(idEstadia,codRes);
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    /* if (consistente == 'S')
                     {
                         ModificarCheckinConsistente mcc = new ModificarCheckinConsistente(fechaCheckIn, idEstadia, this);
                         mcc.Show();
@@ -144,7 +197,7 @@ namespace FrbaHotel.RegistrarEstadia
                         mic.Show();
                         this.Hide();
                         return;
-                    }
+                    }*/
 
                 }
                 
@@ -167,10 +220,44 @@ namespace FrbaHotel.RegistrarEstadia
                     cmd.Connection.Open();
                 }
                 cmd.ExecuteNonQuery();
-                MessageBox.Show("Fecha check in ingresada exitosamente", "X", MessageBoxButtons.OK);           
+                //MessageBox.Show("Fecha check in ingresada exitosamente", "X", MessageBoxButtons.OK);           
                 
             }
 
+        }private void actualizar(int idest,int codRes)
+        {
+            string strCo = ConfigurationManager.AppSettings["stringConexion"];
+            SqlConnection con = new SqlConnection(strCo);
+
+            SqlCommand cmd;
+            cmd = new SqlCommand("MMEL.actualizarCheckIn", con);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@idEstadia", SqlDbType.Int).Value = idest;
+            DateTime value = Convert.ToDateTime(ConfigurationManager.AppSettings["DateKey"]);
+            cmd.Parameters.Add("@fechaCheckIn", SqlDbType.DateTime).Value = LoginData.SystemDate;
+            cmd.Parameters.Add("@iduserQueModifica", SqlDbType.Int).Value = LoginData.IdUsuario;
+            cmd.Parameters.Add("@rta", SqlDbType.Int).Direction = ParameterDirection.Output;
+            if (cmd.Connection.State == ConnectionState.Closed)
+            {
+                cmd.Connection.Open();
+            }
+            cmd.ExecuteNonQuery();
+
+            int rta = int.Parse(cmd.Parameters["@rta"].Value.ToString());
+            if (rta == 1)
+            {
+                MessageBox.Show("Fecha check in modificada exitosamente", "X", MessageBoxButtons.OK);
+                this.Hide();
+                //ftr.Show();
+            }
+            else
+            {
+                MessageBox.Show("Solo puede realizarse check in el día que fue reservado", "X", MessageBoxButtons.OK);
+                //MessageBox.Show("Fecha check in modificada exitosamente", "X", MessageBoxButtons.OK);
+                //this.Hide();
+                //ftr.Show();
+            }
         }
         private void realizarCheckOut()
         {
@@ -200,7 +287,7 @@ namespace FrbaHotel.RegistrarEstadia
         }
         private void registrarCheckOut()
         {
-            string consultaBusqueda = String.Format("select top 1 idHotel,idEstadia,CodigoReserva,FechaCheckIN,FechaCheckOUT,Consistente from mmel.Estadia e,mmel.Reserva r where  CodigoReserva={0} and e.idReserva=r.idReserva and (r.EstadoReserva='RCICF' or r.EstadoReserva='RCI') ", txtCodigoRes.Text);
+            string consultaBusqueda = String.Format("select top 1 idHotel,idEstadia,CodigoReserva,FechaCheckIN,FechaCheckOUT,Consistente from mmel.Estadia e,mmel.Reserva r where  CodigoReserva={0} and e.idReserva=r.idReserva and (r.EstadoReserva='RCICF' or r.EstadoReserva='RCI' or r.EstadoReserva='RINCF') ", txtCodigoRes.Text);
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
             SqlCommand cmd = new SqlCommand(consultaBusqueda, con);
@@ -270,8 +357,8 @@ namespace FrbaHotel.RegistrarEstadia
         private void btnVolver_Click(object sender, EventArgs e)
         {
             this.Hide();
-            Inicio f1 = new Inicio();
-            f1.Show();
+            //Inicio f1 = new Inicio();
+            //f1.Show();
         }
     }
 }

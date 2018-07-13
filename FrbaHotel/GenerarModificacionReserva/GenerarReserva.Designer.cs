@@ -332,6 +332,7 @@
             this.Controls.Add(this.dtDesde);
             this.Name = "GenerarReserva";
             this.Text = "GenerarReserva";
+            this.Load += new System.EventHandler(this.GenerarReserva_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgPrecios)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

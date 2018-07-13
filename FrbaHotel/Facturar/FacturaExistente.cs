@@ -84,6 +84,15 @@ namespace FrbaHotel.Facturar
             lblTotal.Text= lblTotal.Text + String.Format(" ${0}", factTotal);
             lblFechaAnt.Text= lblFechaAnt.Text + String.Format(" {0}", FactFecha);
             lblNroAnt.Text = lblNroAnt.Text + String.Format(" {0}", NroFactura);
+
+            if (valorBase == 0)
+            {
+                groupFactAnt.Visible = false;
+                button1.Visible = false;
+                label1.Visible = false;
+                label2.Visible = false;
+
+            }
         }
         private void cargarFacturaNueva()
         {
@@ -234,7 +243,7 @@ namespace FrbaHotel.Facturar
                    
            
             //factual
-            if (cboFormaDePago.Text == "Seleccionar")
+            if (cboFormaDePago.Text == "Seleccionar" || cboFormaDePago.Text == "")
             {
                 MessageBox.Show("Seleccione forma de pago");
                 return;
@@ -245,7 +254,7 @@ namespace FrbaHotel.Facturar
             SqlConnection con = new SqlConnection(strCo);
 
             SqlCommand cmd;
-            cmd = new SqlCommand("MMEL.modificarFactura", con);
+            cmd = new SqlCommand("MMEL.modificarFactura2", con);
             DateTime value = Convert.ToDateTime(ConfigurationManager.AppSettings["DateKey"]);
 
             cmd.CommandType = CommandType.StoredProcedure;
@@ -355,8 +364,8 @@ namespace FrbaHotel.Facturar
 
             MessageBox.Show("Facturacion realizada exitosamente");
             this.Hide();
-            Inicio f = new Inicio();
-            f.Show();
+            //Inicio f = new Inicio();
+            //f.Show();
 
 
         }
