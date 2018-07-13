@@ -165,8 +165,9 @@ namespace FrbaHotel.Facturar
         private void button2_Click(object sender, EventArgs e)
         {
             //factual
-            if (cboFormaDePago.Text == "Seleccionar")
+            if (cboFormaDePago.Text == "" )
             {
+                MessageBox.Show("Completar forma de pago");
                 return;
             }
 

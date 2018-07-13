@@ -21,6 +21,7 @@ namespace FrbaHotel.RegistrarEstadia
         public MainRegEstadia()
         {
             InitializeComponent();
+            
         }
 
         private void btnCheckIn_Click(object sender, EventArgs e)
@@ -29,12 +30,43 @@ namespace FrbaHotel.RegistrarEstadia
             {
                 if (existeReserva())
                 {
+                    
                     registrarCheckIn();
+                    registrarHuespedes();
+
                 }
             }
             
             //chequeo q la estadia no este inconsistente(si la estadia ya existe, mando a modificar. no existe-> la creo)
             //registro el check in
+        }
+
+        private void registrarHuespedes()
+        {
+            string strCo = ConfigurationManager.AppSettings["stringConexion"];
+            SqlConnection con = new SqlConnection(strCo);
+
+            SqlCommand cmd;
+            cmd = new SqlCommand("MMEL.getCantHuespedes", con);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@codigoReserva", SqlDbType.Int).Value = Int32.Parse(txtCodigoRes.Text);
+            cmd.Parameters.Add("@cantPersonas", SqlDbType.Int).Direction = ParameterDirection.Output;
+            if (cmd.Connection.State == ConnectionState.Closed)
+            {
+                cmd.Connection.Open();
+            }
+            cmd.ExecuteNonQuery();
+
+            int cantPersonas = int.Parse(cmd.Parameters["@cantPersonas"].Value.ToString());
+
+            if (cantPersonas > 1)
+            {
+                IngresarCliente ic = new IngresarCliente(this, cantPersonas);
+                this.Hide();
+                ic.Show();
+            }
+            
         }
 
         private void btnCheckOut_Click(object sender, EventArgs e)
@@ -270,8 +302,8 @@ namespace FrbaHotel.RegistrarEstadia
         private void btnVolver_Click(object sender, EventArgs e)
         {
             this.Hide();
-            Inicio f1 = new Inicio();
-            f1.Show();
+            //Inicio f1 = new Inicio();
+            //f1.Show();
         }
     }
 }

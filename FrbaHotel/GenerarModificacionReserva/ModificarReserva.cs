@@ -17,10 +17,10 @@ namespace FrbaHotel.GenerarModificacionReserva
 {
     public partial class ModificarReserva : Form
     {
-        private int idHotel;
+        
         private Reserva res;
         List<TipoCant> tcs = new List<TipoCant>();
-
+        
 
 
         public ModificarReserva(Reserva res)
@@ -29,13 +29,16 @@ namespace FrbaHotel.GenerarModificacionReserva
             InitializeComponent();
             btnModificar.Enabled = false;
             cargarRegimenes();
-            
+                
             llenarCampos();
             groupBox1.Visible = false;
             chkModificar.Checked = false;
 
-            dtDesde.Value = LoginData.SystemDate;
-            dtHasta.Value = LoginData.SystemDate;
+            /*dtDesde.Value = LoginData.SystemDate;
+            dtHasta.Value = LoginData.SystemDate;*/
+            dtDesde.Value = res.FechaDesde;
+            dtHasta.Value = res.FechaHasta;
+
         }
 
 
@@ -108,7 +111,27 @@ namespace FrbaHotel.GenerarModificacionReserva
         private string getNombreHotel()
         {
 
-            return "asd";//todo
+            string strCo = ConfigurationManager.AppSettings["stringConexion"];
+            SqlConnection con = new SqlConnection(strCo);
+
+            SqlCommand cmd;
+            cmd = new SqlCommand("MMEL.getNombreHotel", con);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = res.idHotel;
+           
+
+            cmd.Parameters.Add("@nombreHotel", SqlDbType.VarChar,100).Direction = ParameterDirection.Output; 
+
+            if (cmd.Connection.State == ConnectionState.Closed)
+            {
+                cmd.Connection.Open();
+            }
+            cmd.ExecuteNonQuery();
+
+            string nh = (cmd.Parameters["@nombreHotel"].Value.ToString());
+            return nh;
 
 
 
@@ -277,7 +300,7 @@ namespace FrbaHotel.GenerarModificacionReserva
                 cmd.Parameters.Add("@tipoHabDesc", SqlDbType.VarChar, 100).Value = tcs[i].desc;
                 cmd.Parameters.Add("@fechaDesde", SqlDbType.DateTime).Value = dtDesde.Value;
                 cmd.Parameters.Add("@fechaHasta", SqlDbType.DateTime).Value = dtHasta.Value;
-                cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel;
+                cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = res.idHotel;
 
 
                 if (cmd.Connection.State == ConnectionState.Closed)
@@ -564,7 +587,7 @@ namespace FrbaHotel.GenerarModificacionReserva
         }
         private float getPrecio()
         {
-            string consultaBusqueda = String.Format("select (r.precio * {0} + ho.RecargaEstrellas * ho.CantidadEstrellas) \"Precio por Noche\", Descripcion \"Tipo de Regimen\" from mmel.Regimen r, mmel.hotel ho where ho.idHotel={1} and r.descripcion='{2}'", getCantPersonas(), idHotel, cboRegimen.Text);
+            string consultaBusqueda = String.Format("select (r.precio * {0} + ho.RecargaEstrellas * ho.CantidadEstrellas) \"Precio por Noche\", Descripcion \"Tipo de Regimen\" from mmel.Regimen r, mmel.hotel ho where ho.idHotel={1} and r.descripcion='{2}'", getCantPersonas(), res.idHotel, cboRegimen.Text);
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
             SqlCommand cmd = new SqlCommand(consultaBusqueda, con);

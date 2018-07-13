@@ -234,7 +234,7 @@ namespace FrbaHotel.Facturar
                    
            
             //factual
-            if (cboFormaDePago.Text == "Seleccionar")
+            if (cboFormaDePago.Text == "Seleccionar" || cboFormaDePago.Text == "")
             {
                 MessageBox.Show("Seleccione forma de pago");
                 return;

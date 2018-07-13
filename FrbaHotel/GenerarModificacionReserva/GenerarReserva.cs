@@ -18,7 +18,8 @@ namespace FrbaHotel.GenerarModificacionReserva
         {
             this.idHotel = idHotel;
             InitializeComponent();
-            
+
+            cancelarNoShow();
            
             cboRegimen.Text = "Seleccionar";
             cargarRegimenes();
@@ -40,13 +41,34 @@ namespace FrbaHotel.GenerarModificacionReserva
             dtHasta.Value = LoginData.SystemDate;
         }
 
-        public GenerarReserva()
+
+
+        private void cancelarNoShow()
+        {
+            string strCo = ConfigurationManager.AppSettings["stringConexion"];
+            SqlConnection con = new SqlConnection(strCo);
+
+            SqlCommand cmd;
+            cmd = new SqlCommand("MMEL.cancelarNoShow", con);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@fechaHoy", SqlDbType.DateTime).Value = LoginData.SystemDate.AddDays(-1);
+            
+
+            if (cmd.Connection.State == ConnectionState.Closed)
+            {
+                cmd.Connection.Open();
+            }
+            cmd.ExecuteNonQuery();
+
+        }
+        /*public GenerarReserva()
         {
             InitializeComponent();
 
             dtDesde.Value = LoginData.SystemDate;
             dtHasta.Value = LoginData.SystemDate;
-        }
+        }*/
 
         private void cargarRegimenes()
         {
@@ -109,12 +131,32 @@ namespace FrbaHotel.GenerarModificacionReserva
                 return false;
             }
 
-           /* if(cboTipo.Text=="Seleccionar" || txtC1.Text=="0" || !int.TryParse(txtC1.Text, out i))
+            /* if(cboTipo.Text=="Seleccionar" || txtC1.Text=="0" || !int.TryParse(txtC1.Text, out i))
+             {
+                 MessageBox.Show("Seleccione el primer campo de tipo habitacion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                 return false;
+             }*/
+            if (txtC1.Text =="")
             {
-                MessageBox.Show("Seleccione el primer campo de tipo habitacion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }*/
-            if(!int.TryParse(txtC1.Text, out i) || !int.TryParse(txtC2.Text, out i) || !int.TryParse(txtC3.Text, out i) || !int.TryParse(txtC4.Text, out i) || !int.TryParse(txtC5.Text, out i))
+                txtC1.Text = "0";
+            }
+            if (txtC2.Text == "")
+            {
+                txtC2.Text = "0";
+            }
+            if (txtC3.Text == "")
+            {
+                txtC3.Text = "0";
+            }
+            if (txtC4.Text == "")
+            {
+                txtC4.Text = "0";
+            }
+            if (txtC5.Text == "")
+            {
+                txtC5.Text = "0";
+            }
+            if (!int.TryParse(txtC1.Text, out i) || !int.TryParse(txtC2.Text, out i) || !int.TryParse(txtC3.Text, out i) || !int.TryParse(txtC4.Text, out i) || !int.TryParse(txtC5.Text, out i))
             {
                 MessageBox.Show("Ingrese cantidad valida de habitaciones", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
@@ -272,7 +314,7 @@ namespace FrbaHotel.GenerarModificacionReserva
                 cant += 3 * Int32.Parse(txtC3.Text);
             
                 cant += 4 * Int32.Parse(txtC4.Text);
-            cant += 5 * Int32.Parse(txtC4.Text);
+                cant += 5 * Int32.Parse(txtC5.Text);
 
 
             return cant;
@@ -321,7 +363,7 @@ namespace FrbaHotel.GenerarModificacionReserva
             if (Int32.Parse(txtC5.Text) > 0)
             {
                 TipoCant tc = new TipoCant();
-                tc.cant = Int32.Parse(txtC4.Text);
+                tc.cant = Int32.Parse(txtC5.Text);
                 tc.desc = "KING";
                 tcs.Add(tc);
             }
@@ -329,7 +371,7 @@ namespace FrbaHotel.GenerarModificacionReserva
             this.Hide();
             ConfirmarReserva cr = new ConfirmarReserva(idHotel,dtDesde.Value,dtHasta.Value,cboHotel.Text,cboRegimen.Text,precio,tcs);
             cr.Show();
-            this.Show();
+            //this.Show();
         }
 
         private float getPrecio()
@@ -359,6 +401,11 @@ namespace FrbaHotel.GenerarModificacionReserva
             this.Hide();
             GenModReserva gm = new GenModReserva();
             gm.Show();
+        }
+
+        private void GenerarReserva_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

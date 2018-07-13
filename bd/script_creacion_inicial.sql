@@ -2207,6 +2207,29 @@ begin
 end
 go
 
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[getNombreHotel]'))
+	DROP procedure [MMEL].getNombreHotel
+go
+create procedure mmel.getNombreHotel(@idHotel int,@nombreHotel varchar(100) output)
+as
+begin
+	select @nombreHotel=Nombre from mmel.Hotel where idHotel=@idHotel
+end
+go
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[getCantHuespedes]'))
+	DROP procedure [MMEL].getCantHuespedes
+go
+create procedure mmel.getCantHuespedes(@codigoReserva int,@cantPersonas int output)
+as
+begin
+	declare @idReserva int
+	select @idReserva = idReserva from mmel.Reserva where CodigoReserva=@codigoReserva
+	set @cantPersonas=mmel.getCantPersonas(@idReserva)
+end
+go
+
+
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[modificarReserva]'))
 	DROP procedure [MMEL].modificarReserva
 go
@@ -2224,7 +2247,7 @@ begin
 	FechaDesde=@fechaDesde,
 	FechaHasta=@fechaHasta,
 	idRegimen=@idRegimen,
-	EstadoReserva='M'
+	EstadoReserva='MO'
 	where idReserva=@idReserva
 	
 	
@@ -2454,7 +2477,7 @@ begin
 	set @idHuesped=(select top 1 idHuesped from mmel.Huesped where idPersona=@idPersona)
 	
 	insert into mmel.Reserva(idUsuarioQueProcesoReserva,idHotel,FechaDeReserva,FechaDesde,FechaHasta,idRegimen,idHuesped,CodigoReserva,EstadoReserva)
-	values(@idUsuarioQueReserva,@idHotel,@fechaDeReserva,@fechaDesde,@fechaHasta,@idRegimen,@idHuesped,@codReserva2,'C')
+	values(@idUsuarioQueReserva,@idHotel,@fechaDeReserva,@fechaDesde,@fechaHasta,@idRegimen,@idHuesped,@codReserva2,'CO')
 	
 	
 	
@@ -2583,7 +2606,7 @@ create procedure mmel.existeReserva(@codigoRes int, @ret int output,@fechaDesde 
 as
 begin
 
-	if exists(select * from mmel.Reserva where CodigoReserva=@codigoRes and (EstadoReserva='CO' or EstadoReserva='RINCF'))
+	if exists(select * from mmel.Reserva where CodigoReserva=@codigoRes and (EstadoReserva='CO' or EstadoReserva='RINCF' or EstadoReserva='MO'))
 		begin
 		set @ret=1
 		select @fechaDesde=FechaDesde,@idHotel=idHotel from MMEL.Reserva where CodigoReserva=@codigoRes
@@ -2775,9 +2798,10 @@ begin
 
 	select @rPrecio = convert(int,r.Precio),@hrEst =ho.RecargaEstrellas ,@hcantEst= ho.CantidadEstrellas
 	from mmel.Regimen r, mmel.hotel ho where ho.idHotel=@idHotel and r.idRegimen=@idRegimen
-
+	
 	select @valorConsumibles = sum(c.costo) from mmel.ConsumiblePorEstadia ce,mmel.consumible c where idEstadia=@idEstadia and ce.idConsumible=c.idConsumible
-
+	if (@valorConsumibles is null)
+	set @valorConsumibles=0
 	--set @valorBaseHab = @valorBaseHab * @cantDias*@cantPersonas
 
 	set @dtoRegimen = case
@@ -2798,10 +2822,12 @@ as
 begin
 	declare @nroFactura int
 	declare @idFormaDePago int
+	
 	select @nroFactura = max(NroFactura)+1 from mmel.Facturacion	
 	select @idFormaDePago = idFormaDePago from mmel.FormaDePago where Descripcion=@formaDePago
 	insert into mmel.Facturacion(idEstadia,FactTotal,NroFactura,FacturaFecha,idFormaDePago)
 	values(@idEstadia,@FactTotal,@nroFactura,@FacturaFecha,@idFormaDePago)
+	
 end
 go
 

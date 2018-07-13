@@ -194,6 +194,7 @@ namespace FrbaHotel.RegistrarConsumible
             }
             if (idEstadia == -2)
             {
+                MessageBox.Show("Seleccionar codigo de reserva valido", "X", MessageBoxButtons.OK);
                 return;
             }
             VerConsumibles vc = new VerConsumibles(idEstadia,this,int.Parse(txtCodRes.Text));
@@ -204,12 +205,12 @@ namespace FrbaHotel.RegistrarConsumible
         private void btnVolver_Click(object sender, EventArgs e)
         {
             this.Hide();
-            Inicio f1 = new Inicio();
-            f1.Show();
+            //Inicio f1 = new Inicio();
+            //f1.Show();
         }
         private int getEstadia()
         {
-            string consultaBusqueda = String.Format("select idEstadia,EstadoReserva, r.idHotel from mmel.Estadia e,mmel.Reserva r where r.idReserva=e.idReserva and r.CodigoReserva={0} and EstadoReserva ='RF' ",txtCodRes.Text);
+            string consultaBusqueda = String.Format("select idEstadia,EstadoReserva, r.idHotel from mmel.Estadia e,mmel.Reserva r where r.idReserva=e.idReserva and r.CodigoReserva={0} and EstadoReserva ='RF' and idEstadia not in (select idEstadia from mmel.Facturacion) ",txtCodRes.Text);
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
             SqlCommand cmd = new SqlCommand(consultaBusqueda, con);
@@ -238,7 +239,7 @@ namespace FrbaHotel.RegistrarConsumible
 
             if(idHotel!= LoginData.Hotel.IdHotel)
             {
-                MessageBox.Show("No se puede facturar una estadía de otro hotel", "X", MessageBoxButtons.OK);
+                MessageBox.Show("No se puede facturar una estadía de otro hotel/ya facturada", "X", MessageBoxButtons.OK);
                 idEstadia = -2;
             }
 
