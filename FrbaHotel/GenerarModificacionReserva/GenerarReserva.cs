@@ -53,13 +53,33 @@ namespace FrbaHotel.GenerarModificacionReserva
 
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@fechaHoy", SqlDbType.DateTime).Value = LoginData.SystemDate.AddDays(-1);
-            
+            cmd.Parameters.Add("@rta", SqlDbType.Int).Direction = ParameterDirection.Output; //1->hay dispo. 0>no hay dispo
 
             if (cmd.Connection.State == ConnectionState.Closed)
             {
                 cmd.Connection.Open();
             }
-            cmd.ExecuteNonQuery();
+            int aux = cmd.ExecuteNonQuery();
+            
+
+            int codigoRet = int.Parse(cmd.Parameters["@rta"].Value.ToString());
+            //borrarHabis();
+        }
+        private void borrarHabis()
+        {
+            string strCo = ConfigurationManager.AppSettings["stringConexion"];
+            SqlConnection con = new SqlConnection(strCo);
+
+            SqlCommand cmd;
+            cmd = new SqlCommand("MMEL.borrarHabs", con);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+           
+            if (cmd.Connection.State == ConnectionState.Closed)
+            {
+                cmd.Connection.Open();
+            }
+            int aux = cmd.ExecuteNonQuery();
 
         }
         /*public GenerarReserva()

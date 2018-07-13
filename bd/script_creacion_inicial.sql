@@ -1967,23 +1967,42 @@ begin
 end
 
 
---go
---IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[cancelNoShow]'))
---	DROP procedure [MMEL].cancelNoShow
---go
+go
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[cancelNoShow]'))
+	DROP procedure [MMEL].cancelNoShow
+go
 
---create procedure mmel.cancelNoShow(@fechaHoy datetime)
---as
---begin
---	update mmel.Reserva 
---	set EstadoReserva = 'CXNS'
+create procedure mmel.cancelNoShow(@fechaHoy datetime,@rta int output)
+as
+begin
+	set @rta=0
+	/*update mmel.Reserva 
+	set 
+	EstadoReserva = case when	FechaDesde < @fechaHoy and idReserva not in(select idReserva from mmel.Estadia) then 'CXNS' END
+	*/
 	
---	where FechaDesde < @fechaHoy and idReserva not in(select idReserva from mmel.Estadia)
+	update mmel.reserva 
+	set EstadoReserva = 'CXNS' 
+	where FechaDesde < @fechaHoy and (EstadoReserva='RINCF' or EstadoReserva='CO' or EstadoReserva = 'MO') --and idReserva not in(select es.idReserva from mmel.Estadia es)
 
---	delete mmel.ReservaPorHabitacion from mmel.Reserva re
---	where mmel.ReservaPorHabitacion.idReserva=re.idReserva and re.idReserva not in(select idReserva from mmel.Estadia) and (re.EstadoReserva='CXNS' or re.EstadoReserva='CPR' or re.EstadoReserva='CPC') 
---end
---go
+	delete mmel.ReservaPorHabitacion from mmel.Reserva re
+	where mmel.ReservaPorHabitacion.idReserva=re.idReserva and re.idReserva not in(select es.idReserva from mmel.Estadia es) and re.EstadoReserva='CXNS' 
+	set @rta=2
+end
+go
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[borrarHabs]'))
+	DROP procedure [MMEL].borrarHabs
+go
+
+create procedure mmel.borrarHabs
+as
+begin
+delete mmel.ReservaPorHabitacion 
+from mmel.Reserva re
+where mmel.ReservaPorHabitacion.idReserva=re.idReserva and re.EstadoReserva='CXNS'  and re.idReserva not in(select idReserva from mmel.Estadia) 
+end 
+go
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[existeUsuarioMod]'))
 	DROP function [MMEL].existeUsuarioMod
 go
@@ -2672,7 +2691,7 @@ go
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[cancelarNoShow]'))
 	DROP PROCEDURE [MMEL].cancelarNoShow
 go
-create procedure mmel.cancelarNoShow(@fechaHoy datetime)
+/*create procedure mmel.cancelarNoShow(@fechaHoy datetime)
 as
 begin
 	
@@ -2681,7 +2700,7 @@ begin
 	where FechaDesde < @fechaHoy and (EstadoReserva='RINCF' or EstadoReserva='CO' or EstadoReserva = 'MO')
 
 
-end
+end*/
 
 
 go
