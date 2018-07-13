@@ -2746,7 +2746,19 @@ go
 create procedure mmel.actualizarItems(@idEstadia int, @nuevoValorVB int ,@nuevoValorCons int,@cantCons int )
 as
 begin
-	update mmel.ItemFactura
+	
+	delete from mmel.ItemFactura where idEstadia=@idEstadia and itemDescripcion='VALOR BASE HABITACION'
+	delete from mmel.ItemFactura where idEstadia=@idEstadia and itemDescripcion='VALOR CONSUMIBLES'
+	declare @idFactura int
+	select @idFactura=idFactura from mmel.Facturacion where idEstadia=@idEstadia
+
+	insert into mmel.ItemFactura(idFactura,idEstadia,itemDescripcion,itemFacturaCantidad,itemFacturaMonto)
+	values(@idFactura,@idEstadia,'VALOR BASE HABITACION',1,@nuevoValorVB)
+
+	insert into mmel.ItemFactura(idFactura,idEstadia,itemDescripcion,itemFacturaCantidad,itemFacturaMonto)
+	values(@idFactura,@idEstadia,'VALOR CONSUMIBLES',@cantCons,@nuevoValorCons)
+	
+	/*update mmel.ItemFactura
 	set itemFacturaMonto=@nuevoValorVB
 	where idEstadia=@idEstadia and itemDescripcion='VALOR BASE HABITACION'
 
@@ -2754,10 +2766,86 @@ begin
 	update mmel.ItemFactura
 	set itemFacturaMonto=@nuevoValorCons,
 	itemFacturaCantidad=@cantCons
-	where idEstadia=@idEstadia and itemDescripcion='VALOR CONSUMIBLES'
+	where idEstadia=@idEstadia and itemDescripcion='VALOR CONSUMIBLES'*/
 end
 
 go
+
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[getFormaDePago]'))
+	DROP PROCEDURE [MMEL].getFormaDePago
+go
+create procedure mmel.getFormaDePago(@idFactura int, @forma varchar(150) output)
+as
+begin
+	
+	declare @idFdp int
+	select  @idFdp  =isnull(idFormaDePago,-1) from mmel.Facturacion where idFactura=@idFactura
+
+	if(@idFdp>0)
+		select @forma = Descripcion from mmel.FormaDePago where idFormaDePago=@idFdp
+	else
+		set @forma ='No seleccionada'
+	
+end
+
+go
+
+
+
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[actualizarItemVB]'))
+	DROP PROCEDURE [MMEL].actualizarItemVB
+go
+create procedure mmel.actualizarItemVB(@idEstadia int, @nuevoValorVB int )
+as
+begin
+	
+	delete from mmel.ItemFactura where idEstadia=@idEstadia and itemDescripcion='VALOR BASE HABITACION'
+	declare @idFactura int
+	select @idFactura=idFactura from mmel.Facturacion where idEstadia=@idEstadia
+
+	insert into mmel.ItemFactura(idFactura,idEstadia,itemDescripcion,itemFacturaCantidad,itemFacturaMonto)
+	values(@idFactura,@idEstadia,'VALOR BASE HABITACION',1,@nuevoValorVB)
+
+	
+end
+
+go
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[deleteItemCons]'))
+	DROP PROCEDURE [MMEL].deleteItemCons
+go
+create procedure mmel.deleteItemCons(@idEstadia int)
+as
+begin
+	
+	delete from mmel.ItemFactura where idEstadia=@idEstadia and (itemDescripcion='VALOR CONSUMIBLE') 
+end
+
+go
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[actualizarItemCons]'))
+	DROP PROCEDURE [MMEL].actualizarItemCons
+go
+create procedure mmel.actualizarItemCons(@idEstadia int, @valorCons int,@idCons int)
+as
+begin
+	
+	
+	declare @idFactura int
+	select @idFactura=idFactura from mmel.Facturacion where idEstadia=@idEstadia
+
+	
+	insert into mmel.ItemFactura(idFactura,idEstadia,itemDescripcion,idConsumible,itemFacturaCantidad,itemFacturaMonto)
+	values(@idFactura,@idEstadia,'VALOR CONSUMIBLE',@idCons,1,@valorCons)
+	
+
+end
+
+go
+
+
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[getFacturaVieja]'))
 	DROP PROCEDURE [MMEL].getFacturaVieja
