@@ -39,13 +39,14 @@ namespace FrbaHotel.GenerarModificacionReserva
             this.precio = precio;
 
             InitializeComponent();
-            lblDesde.Text = dtDesde.ToString();
-            lblHasta.Text = dtHasta.ToString();
-            lblHotel.Text = hotel;
+            lblDesde.Text = "Desde: "+dtDesde.ToString();
+            lblHasta.Text = "Hasta: "+dtHasta.ToString();
+            lblHotel.Text = "Hotel: "+hotel;
             //lblHab.Text = tipohab;
-            lblReg.Text = regimen;
+            lblHab.Visible = false;
+            lblReg.Text = "Regimen: "+ regimen;
             float total = (precio * ((dtHasta- dtDesde)).Days);
-            lblTot.Text = total.ToString();
+            lblTot.Text = "Costo Total: "+total.ToString();
             optNuevo.Checked = true;
             grpIdentificarse.Visible = false;
             grMain.Visible = true;

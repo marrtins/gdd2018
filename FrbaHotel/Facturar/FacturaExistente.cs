@@ -141,7 +141,7 @@ namespace FrbaHotel.Facturar
             DateTime chINEstadia = DateTime.Parse(cmd.Parameters["@chINEstadia"].Value.ToString());
             DateTime chOUTEstadia = DateTime.Parse(cmd.Parameters["@chOUTEstadia"].Value.ToString());
             TimeSpan cdaux = chOUTEstadia.Date - chINEstadia.Date;
-            int cantDiasUtilizados = Convert.ToInt32(cdaux.TotalDays);
+            int cantDiasUtilizados = Convert.ToInt32(cdaux.TotalDays) +1 ;
 
             int cantDiasNoUtilizados = cantDias - cantDiasUtilizados;
 
