@@ -2864,7 +2864,7 @@ begin
 	--set @valorBaseHab = @valorBaseHab * @cantDias*@cantPersonas
 
 	set @dtoRegimen = case
-		when @idRegimen=4 then @valorConsumibles else 0
+		when @idRegimen=3 then @valorConsumibles else 0
 		end
 	 
 
