@@ -84,6 +84,15 @@ namespace FrbaHotel.Facturar
             lblTotal.Text= lblTotal.Text + String.Format(" ${0}", factTotal);
             lblFechaAnt.Text= lblFechaAnt.Text + String.Format(" {0}", FactFecha);
             lblNroAnt.Text = lblNroAnt.Text + String.Format(" {0}", NroFactura);
+
+            if (valorBase == 0)
+            {
+                groupFactAnt.Visible = false;
+                button1.Visible = false;
+                label1.Visible = false;
+                label2.Visible = false;
+
+            }
         }
         private void cargarFacturaNueva()
         {
@@ -245,7 +254,7 @@ namespace FrbaHotel.Facturar
             SqlConnection con = new SqlConnection(strCo);
 
             SqlCommand cmd;
-            cmd = new SqlCommand("MMEL.modificarFactura", con);
+            cmd = new SqlCommand("MMEL.modificarFactura2", con);
             DateTime value = Convert.ToDateTime(ConfigurationManager.AppSettings["DateKey"]);
 
             cmd.CommandType = CommandType.StoredProcedure;

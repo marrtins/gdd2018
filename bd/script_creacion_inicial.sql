@@ -2672,6 +2672,25 @@ begin
 	where idEstadia=@idEstadia
 end
 go
+
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[modificarFactura2]'))
+	DROP PROCEDURE [MMEL].modificarFactura2
+go
+create procedure mmel.modificarFactura2(@idEstadia int,@FactTotal int,@FacturaFecha datetime,@formaDePago int)
+as
+begin
+	
+	declare @idFormaDePago int
+	set @idFormaDePago=@formaDePago
+	update  mmel.Facturacion
+	set FactTotal=@FactTotal,
+	idFormaDePago=@idFormaDePago,
+	FacturaFecha=@FacturaFecha
+	where idEstadia=@idEstadia
+end
+go
+
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[modificarFormaDePago]'))
 	DROP PROCEDURE [MMEL].modificarFormaDePago
 go
@@ -2749,8 +2768,14 @@ as
 begin
 
 	select @valorBase=itemFacturaMonto from mmel.ItemFactura where idEstadia = @idEstadia and itemDescripcion='VALOR BASE HABITACION'
+	if(@valorBase is null) set @valorBase=0
 	select @cantidadConsumibles = sum(itemFacturaCantidad),@valorConsumibles=sum(itemFacturaMonto) from mmel.ItemFactura where idEstadia=@idEstadia and itemDescripcion='VALOR CONSUMIBLE'
+	if(@cantidadConsumibles is null) set @cantidadConsumibles=0
+	if(@valorConsumibles is null) set @valorConsumibles=0
 	select @factTotal=FactTotal,@NroFactura=NroFactura,@FactFecha=FacturaFecha from mmel.Facturacion where idEstadia=@idEstadia
+	if(@factTotal is null) set @factTotal=0
+	if(@NroFactura is null) set @NroFactura=0
+	if(@FactFecha is null) set @FactFecha=0
 
 end
 
