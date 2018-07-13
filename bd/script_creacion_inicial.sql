@@ -2892,7 +2892,7 @@ begin
 		set @rta=1
 		--end
 	--else
-		set @rta=0
+		--set @rta=0
 
 	update mmel.Reserva set EstadoReserva='RCI' where idReserva=@idRes
 end
