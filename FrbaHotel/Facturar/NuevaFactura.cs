@@ -99,7 +99,7 @@ namespace FrbaHotel.Facturar
             if (dtoRegimen != 0)
             {
                 valorActual = valorActual - valorConsumibles;
-                lblTotalAct.Text = lblTotalAct.Text + String.Format(" $-{0}", valorActual);
+                lblTotalAct.Text = lblTotalAct.Text + String.Format(" ${0}", valorActual);
                 dtoRegimenbool = true;
                 nuevoDtoRegimen = valorConsumibles;
             }
