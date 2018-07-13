@@ -27,12 +27,13 @@ namespace FrbaHotel.AbmHotel
             this.hotelesGridView.DataSource = hoteles;
 
             RegistrarInputs();
+
+            this.seleccionarBtn.Visible = seleccionar;
         }
 
         public Listado()
             : this(false)
         {
-
         }
 
         private void RegistrarInputs()
