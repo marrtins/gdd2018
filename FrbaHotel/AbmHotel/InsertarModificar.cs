@@ -89,7 +89,6 @@ namespace FrbaHotel.AbmHotel
             Register(ErrorLabel.For(recEstrellasInput, Alignment.Bottom, 2));
 
             FechaCreacionDtp.DataBindings.Add(new Binding("Value", this.Model, "FechaDeCreacion"));
-            Register(ErrorLabel.For(FechaCreacionDtp, Alignment.Bottom, 2));
         }
 
         private void button3_Click(object sender, EventArgs e)
