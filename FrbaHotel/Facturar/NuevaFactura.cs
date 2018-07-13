@@ -96,10 +96,10 @@ namespace FrbaHotel.Facturar
             nuevoValorVB = valorBaseHab;
 
             valorActual=valorBaseHab + valorConsumibles;
-            if (dtoRegimen == 100)
+            if (dtoRegimen != 0)
             {
                 valorActual = valorActual - valorConsumibles;
-                lblTotalAct.Text = lblTotalAct.Text + String.Format(" $-{0}", valorConsumibles);
+                lblTotalAct.Text = lblTotalAct.Text + String.Format(" $-{0}", valorActual);
                 dtoRegimenbool = true;
                 nuevoDtoRegimen = valorConsumibles;
             }
@@ -203,8 +203,8 @@ namespace FrbaHotel.Facturar
 
 
             this.Hide();
-            Inicio f = new Inicio();
-            f.Show();
+            //Inicio f = new Inicio();
+            //f.Show();
         }
         private void actualizarVBAse()
         {

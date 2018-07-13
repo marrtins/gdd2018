@@ -2879,8 +2879,8 @@ begin
 	declare @idRes int
 	set @idRecepQueModifica=@iduserQueModifica
 	select @reschin = re.FechaDesde,@idRes=re.idReserva  from mmel.Reserva re,mmel.Estadia e where e.idReserva=re.idReserva
-	if(@reschin=@fechaCheckIn)
-		begin
+	--if(@reschin=@fechaCheckIn)
+		--begin
 		update mmel.Estadia
 		set FechaCheckIN = @fechaCheckIn,
 		idRecepcionistaCheckIN=@idRecepQueModifica,
@@ -2890,8 +2890,8 @@ begin
 		Consistente='S'
 		where idEstadia=@idEstadia
 		set @rta=1
-		end
-	else
+		--end
+	--else
 		set @rta=0
 
 	update mmel.Reserva set EstadoReserva='RCI' where idReserva=@idRes

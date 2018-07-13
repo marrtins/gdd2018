@@ -142,7 +142,7 @@ namespace FrbaHotel.RegistrarConsumible
                 MessageBox.Show("Seleccionar consumible", "X", MessageBoxButtons.OK);
                 return false;
             }
-            if (txtCodRes.Text == "")
+            if (txtCodRes.Text == "" || !int.TryParse(txtCodRes.Text, out i))
             {
                 MessageBox.Show("Seleccionar Coigo Reserva", "X", MessageBoxButtons.OK);
                 return false;
@@ -210,7 +210,8 @@ namespace FrbaHotel.RegistrarConsumible
         }
         private int getEstadia()
         {
-            string consultaBusqueda = String.Format("select idEstadia,EstadoReserva, r.idHotel from mmel.Estadia e,mmel.Reserva r where r.idReserva=e.idReserva and r.CodigoReserva={0} and EstadoReserva ='RF' and idEstadia not in (select idEstadia from mmel.Facturacion) ",txtCodRes.Text);
+            //string consultaBusqueda = String.Format("select idEstadia,EstadoReserva, r.idHotel from mmel.Estadia e,mmel.Reserva r where r.idReserva=e.idReserva and r.CodigoReserva={0} and EstadoReserva ='RF' and idEstadia not in (select idEstadia from mmel.Facturacion) ",txtCodRes.Text);
+            string consultaBusqueda = String.Format("select idEstadia,EstadoReserva, r.idHotel from mmel.Estadia e,mmel.Reserva r where r.idReserva=e.idReserva and r.CodigoReserva={0} and EstadoReserva ='RF' ", txtCodRes.Text);
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
             SqlCommand cmd = new SqlCommand(consultaBusqueda, con);

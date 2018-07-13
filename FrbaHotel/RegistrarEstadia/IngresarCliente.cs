@@ -23,7 +23,7 @@ namespace FrbaHotel.RegistrarEstadia
         {
             this.ftr = ftr;
             
-            this.cant = cant-1;
+            this.cant = cant;
             InitializeComponent();
             optRegis.Checked = true;
             grNuevoCliente.Visible = false;
@@ -205,6 +205,7 @@ namespace FrbaHotel.RegistrarEstadia
             {
                 this.Hide();
                 ftr.Show();
+                MessageBox.Show("Fecha check in ingresada exitosamente", "X", MessageBoxButtons.OK);
             }
         }
         private bool consultarUsuarioExistenteMail()
