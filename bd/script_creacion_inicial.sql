@@ -1766,26 +1766,19 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
--- =============================================
--- Author:		<Author,,Name>
--- Create date: <Create Date,,>
--- Description:	<Description,,>
--- =============================================
 CREATE PROCEDURE [MMEL].[RolesDeUsuario]
-	-- Add the parameters for the stored procedure here
 	@idUsuario int
 AS
 BEGIN
-	-- SET NOCOUNT ON added to prevent extra result sets from
-	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
 
-    -- Insert statements for procedure here
 	SELECT [idUsuario]
       ,[Username]
-      ,[idRol]
-      ,[Nombre]
-	 FROM [MMEL].[RolesPorUsuario]
+      ,r.idRol
+      ,r.Nombre
+	  ,r.Activo
+	 FROM [MMEL].[RolesPorUsuario] rpu
+	 join MMEL.Rol r on rpu.idRol = r.idRol
 	 WHERE idUsuario = @idUsuario
 END
 GO
@@ -1799,7 +1792,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROC [MMEL].[RolesListar]
+CREATE PROCEDURE [MMEL].[RolesListar]
 AS
 	SET NOCOUNT ON
 	SET XACT_ABORT ON
