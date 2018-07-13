@@ -53,8 +53,8 @@ namespace FrbaHotel.CancelarReserva
 
             MessageBox.Show("Reserva cancelada con exito", "", MessageBoxButtons.OK);
             this.Hide();
-            Inicio f = new Inicio();
-            f.Show();
+            //Inicio f = new Inicio();
+            //f.Show();
             
         }
 

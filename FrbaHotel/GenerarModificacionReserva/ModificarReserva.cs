@@ -402,7 +402,7 @@ namespace FrbaHotel.GenerarModificacionReserva
                 }
                 if (txtC4.Text != "0" )
                 {
-                    if (!haydispo("BASE CUADRUPLE", Int32.Parse(txtC2.Text)))
+                    if (!haydispo("BASE CUADRUPLE", Int32.Parse(txtC4.Text)))
                     {
                         MessageBox.Show(string.Format("No hay disponibilidad para las fechas indicadas"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
@@ -410,7 +410,7 @@ namespace FrbaHotel.GenerarModificacionReserva
                 }
                 if (txtC5.Text != "0" )
                 {
-                    if (!haydispo("KING", Int32.Parse(txtC2.Text)))
+                    if (!haydispo("KING", Int32.Parse(txtC5.Text)))
                     {
                         MessageBox.Show(string.Format("No hay disponibilidad para las fechas indicadas"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;

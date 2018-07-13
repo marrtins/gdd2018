@@ -18,16 +18,18 @@ namespace FrbaHotel.RegistrarEstadia
         Form ftr;
         int cant;
         int o = 0;
+        
         public IngresarCliente(Form ftr,int cant)
         {
             this.ftr = ftr;
-            this.cant = cant;
+            
+            this.cant = cant-1;
             InitializeComponent();
             optRegis.Checked = true;
             grNuevoCliente.Visible = false;
             cargarPaises();
             cargarTipoID();
-            label8.Text = String.Format("Ingrese los datos de los {0} huespedes que se alojarán", cant);
+            label8.Text = String.Format("Ingrese los datos de los {0} huespedes restantes", cant);
         }
 
         private void IngresarCliente_Load(object sender, EventArgs e)
@@ -56,8 +58,8 @@ namespace FrbaHotel.RegistrarEstadia
             }
             reader.Close();
             con.Close();
-            cboTipoIdNuevo.Items.Add("Otro");
-            cboidtipo.Items.Add("Otro");
+            //cboTipoIdNuevo.Items.Add("Otro");
+            //cboidtipo.Items.Add("Otro");
         }
 
         private void cargarPaises()
@@ -84,8 +86,8 @@ namespace FrbaHotel.RegistrarEstadia
             }
             reader.Close();
             con.Close();
-            cboPaisDirNuevo.Items.Add("Otro");
-            cboNacionalidadNuevo.Items.Add("Otro");
+            //cboPaisDirNuevo.Items.Add("Otro");
+            //cboNacionalidadNuevo.Items.Add("Otro");
         }
 
         private void optRegis_CheckedChanged(object sender, EventArgs e)
@@ -112,7 +114,22 @@ namespace FrbaHotel.RegistrarEstadia
                     {
                         o++;
                         lstHuespedes.Items.Add(String.Format("{0} {1}", txtNombre.Text, txtApellido.Text));
-                    }
+                    txtidmail.Text = "";
+                    txtidnro.Text = "";
+                    txtNombre.Text = "";
+                    txtApellido.Text = "";
+                    cboTipoIdNuevo.Text = "Seleccionar";
+                    txtNroId.Text = "";
+                    txtEmail.Text = "";
+                    txtTel.Text = "";
+                    txtCalle.Text = "";
+                    txtNroCalle.Text = "";
+                    txtPiso.Text = "";
+                    txtDepto.Text = "";
+                    txtLocalidad.Text = "";
+                    cboNacionalidadNuevo.Text = "Seleccionar";
+                    cboPaisDirNuevo.Text = "Seleccionar";
+                }
                 }
                 else
                 {
@@ -128,7 +145,22 @@ namespace FrbaHotel.RegistrarEstadia
                             if (consultarUsuarioExistenteIdentificacion())
                             {
                                 o++;
-                            }
+                            txtidmail.Text = "";
+                            txtidnro.Text = "";
+                            txtNombre.Text = "";
+                            txtApellido.Text = "";
+                            cboTipoIdNuevo.Text = "Seleccionar";
+                            txtNroId.Text = "";
+                            txtEmail.Text = "";
+                            txtTel.Text = "";
+                            txtCalle.Text = "";
+                            txtNroCalle.Text = "";
+                            txtPiso.Text = "";
+                            txtDepto.Text = "";
+                            txtLocalidad.Text = "";
+                            cboNacionalidadNuevo.Text = "Seleccionar";
+                            cboPaisDirNuevo.Text = "Seleccionar";
+                        }
                             else
                             {
                                 
@@ -140,7 +172,22 @@ namespace FrbaHotel.RegistrarEstadia
                             if (consultarUsuarioExistenteMail())
                             {
                                 o++;
-                            }
+                            txtidmail.Text = "";
+                            txtidnro.Text = "";
+                            txtNombre.Text = "";
+                            txtApellido.Text = "";
+                            cboTipoIdNuevo.Text = "Seleccionar";
+                            txtNroId.Text = "";
+                            txtEmail.Text = "";
+                            txtTel.Text = "";
+                            txtCalle.Text = "";
+                            txtNroCalle.Text = "";
+                            txtPiso.Text = "";
+                            txtDepto.Text = "";
+                            txtLocalidad.Text = "";
+                            cboNacionalidadNuevo.Text = "Seleccionar";
+                            cboPaisDirNuevo.Text = "Seleccionar";
+                        }
                             else
                             {
                                 
@@ -152,21 +199,7 @@ namespace FrbaHotel.RegistrarEstadia
                         }
                     }
                 }
-            txtidmail.Text = "";
-            txtidnro.Text = "";
-            txtNombre.Text = "";
-            txtApellido.Text = "";
-            cboTipoIdNuevo.Text = "Seleccionar";
-            txtNroId.Text = "" ;
-            txtEmail.Text = "";
-            txtTel.Text = "" ;
-            txtCalle.Text = "";
-            txtNroCalle.Text = "" ;
-            txtPiso.Text = "";
-            txtDepto.Text = "";
-            txtLocalidad.Text = "";
-            cboNacionalidadNuevo.Text = "Seleccionar";
-            cboPaisDirNuevo.Text = "Seleccionar";
+            
 
             if (o == cant)
             {

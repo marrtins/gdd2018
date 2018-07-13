@@ -49,7 +49,7 @@ namespace FrbaHotel.GenerarModificacionReserva
             SqlConnection con = new SqlConnection(strCo);
 
             SqlCommand cmd;
-            cmd = new SqlCommand("MMEL.cancelarNoShow", con);
+            cmd = new SqlCommand("MMEL.cancelNoShow", con);
 
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@fechaHoy", SqlDbType.DateTime).Value = LoginData.SystemDate.AddDays(-1);
