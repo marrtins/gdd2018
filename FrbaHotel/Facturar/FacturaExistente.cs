@@ -37,7 +37,8 @@ namespace FrbaHotel.Facturar
             InitializeComponent();
             cargarFacturaVieja();
             cboFormaDePago.Text = "Seleccionar";
-            cboFDPAnt.Text = "No especificada";
+            //cboFDPAnt.Text = "No especificada";
+            
             cargarFormaDePago();
             cargarFormaDePagoAnt();
             cargarFacturaNueva();
@@ -197,10 +198,35 @@ namespace FrbaHotel.Facturar
         private void cargarFormaDePagoAnt()
         {
 
-            cboFDPAnt.Items.Add("TARJETA DE CREDITO");
+            /*cboFDPAnt.Items.Add("TARJETA DE CREDITO");
             cboFDPAnt.Items.Add("TARJETA DE DEBITO");
             cboFDPAnt.Items.Add("EFECTIVO");
-            cboFDPAnt.Items.Add("CHEQUE");
+            cboFDPAnt.Items.Add("CHEQUE");*/
+
+
+
+            string strCo = ConfigurationManager.AppSettings["stringConexion"];
+            SqlConnection con = new SqlConnection(strCo);
+
+            SqlCommand cmd;
+            cmd = new SqlCommand("MMEL.getFormaDePago", con);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@idFactura", SqlDbType.Int).Value =idFactura;
+            cmd.Parameters.Add("@forma", SqlDbType.VarChar,150).Direction = ParameterDirection.Output; //0->no existe la habitacion en esta fecha ; 1 -> ok
+
+            if (cmd.Connection.State == ConnectionState.Closed)
+            {
+                cmd.Connection.Open();
+            }
+            cmd.ExecuteNonQuery();
+
+            string forma = (cmd.Parameters["@forma"].Value.ToString());
+
+            cboFDPAnt.Text = forma;
+            if (forma != "No seleccionada")
+                cboFDPAnt.Enabled = false;
+
 
         }
 
@@ -282,8 +308,8 @@ namespace FrbaHotel.Facturar
                 actualizardtoReg();
             }
             this.Hide();
-            Inicio f = new Inicio();
-            f.Show();
+            //Inicio f = new Inicio();
+            //f.Show();
         }
 
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrbaHotel.RegistrarConsumible;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -21,6 +22,7 @@ namespace FrbaHotel.Facturar
         int nuevoCantCons;
         int nuevoDtoRegimen;
         float valorActual;
+        List<Consumible> consumibles = new List<Consumible>();
         public NuevaFactura(int idest)
         {
             InitializeComponent();
@@ -136,7 +138,7 @@ namespace FrbaHotel.Facturar
         }
         private void listarConsumiblesAct()
         {
-            string consultaBusqueda = String.Format("select Nombre,Costo from mmel.Consumible co,mmel.ConsumiblePorEstadia ce where ce.idEstadia={0} and ce.idConsumible=co.idConsumible",idEstadia);
+            string consultaBusqueda = String.Format("select co.Nombre,co.Costo,co.idConsumible from mmel.Consumible co,mmel.ConsumiblePorEstadia ce where ce.idEstadia={0} and ce.idConsumible=co.idConsumible",idEstadia);
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
             SqlCommand cmd = new SqlCommand(consultaBusqueda, con);
@@ -150,11 +152,23 @@ namespace FrbaHotel.Facturar
             if (reader.HasRows)
             {
                 string aux="";
+                
                 while (reader.Read())
                 {
 
                     aux = (reader["Nombre"].ToString()) + " " + (reader["Costo"].ToString());
+
+                    string nombre = (reader["Nombre"].ToString());
+                    int costo = Int32.Parse(reader["Costo"].ToString());
+                    int idConsumible = Int32.Parse(reader["idConsumible"].ToString());
+
                     lstConsAct.Items.Add(aux);
+                    Consumible newcons = new Consumible();
+                    newcons.Nombre = nombre;
+                    newcons.Costo = costo;
+                    newcons.IdConsumible = idConsumible;
+
+                    consumibles.Add(newcons);
                 }
                 reader.Close();
                 con.Close();
@@ -206,9 +220,82 @@ namespace FrbaHotel.Facturar
             //Inicio f = new Inicio();
             //f.Show();
         }
-        private void actualizarVBAse()
+
+        private void actualizarItemVB()
         {
             string strCo = ConfigurationManager.AppSettings["stringConexion"];
+            SqlConnection con = new SqlConnection(strCo);
+
+            SqlCommand cmd;
+            cmd = new SqlCommand("MMEL.actualizarItemVB", con);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@idEstadia", SqlDbType.Int).Value = idEstadia;
+            cmd.Parameters.Add("@nuevoValorVB", SqlDbType.Int).Value = nuevoValorVB;
+           
+
+            if (cmd.Connection.State == ConnectionState.Closed)
+            {
+                cmd.Connection.Open();
+            }
+            cmd.ExecuteNonQuery();
+        }
+
+        private void deleteItemCons()
+        {
+            string strCo = ConfigurationManager.AppSettings["stringConexion"];
+            SqlConnection con = new SqlConnection(strCo);
+
+            SqlCommand cmd;
+            cmd = new SqlCommand("MMEL.deleteItemCons", con);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@idEstadia", SqlDbType.Int).Value = idEstadia;
+          
+
+            if (cmd.Connection.State == ConnectionState.Closed)
+            {
+                cmd.Connection.Open();
+            }
+            cmd.ExecuteNonQuery();
+        }
+
+        private void agregarConsumible(int valorC,int idC)
+        {
+            string strCo = ConfigurationManager.AppSettings["stringConexion"];
+            SqlConnection con = new SqlConnection(strCo);
+
+            SqlCommand cmd;
+            cmd = new SqlCommand("MMEL.actualizarItemCons", con);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@idEstadia", SqlDbType.Int).Value = idEstadia;
+            cmd.Parameters.Add("@valorCons", SqlDbType.Int).Value = valorC;
+            cmd.Parameters.Add("@idCons", SqlDbType.Int).Value = idC;
+
+
+
+
+            if (cmd.Connection.State == ConnectionState.Closed)
+            {
+                cmd.Connection.Open();
+            }
+            cmd.ExecuteNonQuery();
+        }
+
+        private void actualizarVBAse()
+        {
+
+            actualizarItemVB();
+            deleteItemCons();
+
+            for(int i = 0; i < consumibles.Count; i++)
+            {
+                agregarConsumible(consumibles[i].Costo,consumibles[i].IdConsumible);
+            }
+
+            
+            /*string strCo = ConfigurationManager.AppSettings["stringConexion"];
             SqlConnection con = new SqlConnection(strCo);
 
             SqlCommand cmd;
@@ -227,7 +314,7 @@ namespace FrbaHotel.Facturar
             {
                 cmd.Connection.Open();
             }
-            cmd.ExecuteNonQuery();
+            cmd.ExecuteNonQuery();*/
         }
         private void actualizardtoReg()
         {
