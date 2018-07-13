@@ -1967,23 +1967,23 @@ begin
 end
 
 
-go
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[cancelNoShow]'))
-	DROP procedure [MMEL].cancelNoShow
-go
+--go
+--IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[cancelNoShow]'))
+--	DROP procedure [MMEL].cancelNoShow
+--go
 
-create procedure mmel.cancelNoShow(@fechaHoy datetime)
-as
-begin
-	update mmel.Reserva 
-	set EstadoReserva = 'CXNS'
+--create procedure mmel.cancelNoShow(@fechaHoy datetime)
+--as
+--begin
+--	update mmel.Reserva 
+--	set EstadoReserva = 'CXNS'
 	
-	where FechaDesde < @fechaHoy and idReserva not in(select idReserva from mmel.Estadia)
+--	where FechaDesde < @fechaHoy and idReserva not in(select idReserva from mmel.Estadia)
 
-	delete mmel.ReservaPorHabitacion from mmel.Reserva re
-	where mmel.ReservaPorHabitacion.idReserva=re.idReserva and re.idReserva not in(select idReserva from mmel.Estadia) and (re.EstadoReserva='CXNS' or re.EstadoReserva='CPR' or re.EstadoReserva='CPC') 
-end
-go
+--	delete mmel.ReservaPorHabitacion from mmel.Reserva re
+--	where mmel.ReservaPorHabitacion.idReserva=re.idReserva and re.idReserva not in(select idReserva from mmel.Estadia) and (re.EstadoReserva='CXNS' or re.EstadoReserva='CPR' or re.EstadoReserva='CPC') 
+--end
+--go
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[existeUsuarioMod]'))
 	DROP function [MMEL].existeUsuarioMod
 go
@@ -2668,6 +2668,21 @@ begin
 	where idEstadia=@idEstadia
 end
 
+go
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[cancelarNoShow]'))
+	DROP PROCEDURE [MMEL].cancelarNoShow
+go
+create procedure mmel.cancelarNoShow(@fechaHoy datetime)
+as
+begin
+	
+	update mmel.reserva 
+	set EstadoReserva = 'CXNS' 
+	where FechaDesde < @fechaHoy and (EstadoReserva='RINCF' or EstadoReserva='CO' or EstadoReserva = 'MO')
+
+
+end
+
 
 go
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MMEL].[agregarItemDto]'))
@@ -2899,8 +2914,9 @@ begin
 
 	
 	declare @idReserva int
-
-	if exists (select * from mmel.Reserva re where @codigoReserva=re.CodigoReserva and idHotel=@idHotel)
+	select @idReserva=idReserva from mmel.Reserva where CodigoReserva=@codigoReserva
+	select @idEstadia=idEstadia from mmel.Estadia where idReserva=@idReserva
+	if exists (select * from mmel.Reserva re where @codigoReserva=re.CodigoReserva and idHotel=@idHotel and @idEstadia not in (select idEstadia from mmel.Facturacion))
 
 
 		if exists(select idEstadia from mmel.Estadia es,mmel.Reserva re 
@@ -2908,7 +2924,7 @@ begin
 		begin
 
 			select @idEstadia = es.idEstadia from mmel.Estadia es,mmel.Reserva re 
-		where re.idReserva=es.idReserva and re.CodigoReserva=@codigoReserva
+				where re.idReserva=es.idReserva and re.CodigoReserva=@codigoReserva
 
 
 			DECLARE @cnt INT = 0;
