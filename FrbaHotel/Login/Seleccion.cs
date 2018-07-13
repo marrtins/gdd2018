@@ -17,6 +17,8 @@ namespace FrbaHotel.Login
         List<Rol> roles;
         List<HotelLogin> hoteles;
 
+        public DialogResult dialogResult { get; private set; }
+
         public Seleccion()
         {
             InitializeComponent();
@@ -36,15 +38,32 @@ namespace FrbaHotel.Login
 
         private void btnCerrar_Click(object sender, EventArgs e)
         {
+            dialogResult = DialogResult.None;
+
+
             this.Close();
+
         }
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            LoginData.Rol = (Rol)this.rolesCombo.SelectedValue;
-            LoginData.Hotel = hoteles.First(r => r.IdHotel == (int)this.hotelesCombo.SelectedValue);
+            var rol = (Rol)this.rolesCombo.SelectedValue;
 
-            this.Close();
+            if(rol.Activo == "N")
+            {
+                MessageBox.Show("El rol esta inhabilitado, por favor seleccione otro rol");
+            } else
+            {
+                LoginData.Rol = rol;
+
+                LoginData.Hotel = hoteles.First(r => r.IdHotel == (int)this.hotelesCombo.SelectedValue);
+
+                dialogResult = DialogResult.OK;
+
+                this.Close();
+            }
+
+            
         }
     }
 }

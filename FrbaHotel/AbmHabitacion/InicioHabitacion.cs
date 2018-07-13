@@ -107,7 +107,7 @@ namespace FrbaHotel.AbmHabitacion
 
         private void button3_Click(object sender, EventArgs e)
         {
-            ControlResetter.ResetAllControls(this);
+            ControlResetter.ResetAllControls(this.groupBox1);
 
             Hotel = null;
         }

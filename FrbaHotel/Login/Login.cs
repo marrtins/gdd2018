@@ -47,31 +47,47 @@ namespace FrbaHotel.Login
             {
                 var roles = Roles.GetAllFor(LoginData.IdUsuario);
                 var hoteles = HotelesLogin.GetAllFor(LoginData.IdUsuario);
-               
+
+                bool noOk = false;
                 bool debeAbrirSeleccionar = roles.Count > 1 || hoteles.Count > 1;
 
                 if (debeAbrirSeleccionar)
-
-                    Seleccionar();
+                    noOk = Seleccionar();
                 else
                 {
-                    LoginData.Rol = roles.First();
-                    LoginData.Hotel = hoteles.First();
+                    var rol = roles.First();
+
+                    if (rol.Activo == "N")
+                    {
+                        MessageBox.Show("Su rol esta inhabilitado, por favor contacte a un administrador");
+
+                        noOk = true;
+                    }
+                    else
+                    {
+                        LoginData.Rol = rol;
+                        LoginData.Hotel = hoteles.First();
+                    }
                 }
 
-                this.Hide();
-              
-                Inicio form = new Inicio();
+                if (!noOk)
+                {
+                    this.Hide();
 
-                form.Show();
+                    Inicio form = new Inicio();
+
+                    form.Show();
+                }
             }
         }
 
-        private void Seleccionar()
+        private bool Seleccionar()
         {
             var rolSelec = new Seleccion();
 
             rolSelec.ShowDialog();
+
+            return (rolSelec.dialogResult == DialogResult.None);
         }
 
         private bool Log()
