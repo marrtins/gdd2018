@@ -64,8 +64,6 @@ namespace FrbaHotel.ListadoEstadistico
             if (!this.ValidateChildren())
                 return;
 
-            dataGridView1.DataSource = new BindingList<object>();
-
             var filtros = (Top5Filtros)this.Model;
 
 
