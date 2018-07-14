@@ -106,10 +106,20 @@ namespace FrbaHotel.AbmHotel
 
             var hotel = (Hotel)this.Model;
 
+            if (!esNumerico(hotel.Telefono) || !esNumerico(hotel.RecargaEstrellas) || !esNumerico(hotel.NroCalle))
+                return;
+
             accion(hotel);
 
             result = DialogResult.OK;
             this.Close();
+        }
+
+        private bool esNumerico(string input)
+        {
+            int n;
+
+            return int.TryParse(input, out n);
         }
 
         private void Insertar(Hotel hotel)
